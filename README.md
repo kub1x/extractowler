@@ -1,4 +1,4 @@
-extractowler
+eXtractOWLer
 ============
 
 My diploma thesis. 
