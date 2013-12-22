@@ -6,5 +6,27 @@
 \Xpage{-5}
 \Xpage{-6}
 \Xpage{1}
-\Xchap{1}{Úvod }{1}
-\Xsec{1.1}{Myšlenka }{1}
+\Xchap{1}{Zadání SW Projektu }{1}
+\Xpage{2}
+\Xchap{2}{Task 1 }{2}
+\Xsec{2.1}{RDF and RDFS }{2}
+\Xsec{2.2}{OWL }{2}
+\Xsec{2.3}{Linked Data }{2}
+\Xsec{2.4}{Ontology repositories }{2}
+\Xsec{2.5}{RDFa }{2}
+\Xsec{2.6}{dalsi }{2}
+\Xpage{3}
+\Xchap{3}{Task 2 }{3}
+\Xfnote
+\Xsec{3.1}{research - existující řešení }{3}
+\Xsecc{3.1.1}{InfoCram 2000 - Jirka }{3}
+\Xfnote
+\Xsecc{3.1.2}{iMacros }{3}
+\Xsecc{3.1.3}{Sahi }{3}
+\Xsecc{3.1.4}{Selenium IDE }{3}
+\Xsec{3.2}{crOWLer }{3}
+\Xsecc{3.2.1}{zavislosti }{3}
+\Xpage{4}
+\Xpage{5}
+\Xchap{4}{Data }{5}
+\Xsec{4.1}{Pamatky }{5}

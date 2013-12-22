@@ -1,22 +1,169 @@
 \input ctustyle
-\worktype [B/CZ]
+\worktype [M/CZ]
 \faculty {F3}
-\department {Katedra permoníků}
+\department {Katedra kybernetiky}
 \title {Minimální dokument}
-\author {Pepa z Depa}
-\date {Leden 2013}
+\author {Jakub Podlaha}
+\date {November 2013}
 \abstractEN {This document is for testing purpose only.}
 \abstractCZ {Tento dokument je pouze pro potřeby testování.}
 \declaration {Prohlašuji, že jsem se neflákal.}
 \makefront
 
-\chap Úvod
+\chap Zadání SW Projektu
 
-Text úvodu.
+\begitems \style n
+  * Seznamte se technologiemi pro automatickou extrakci dat z webových stránek
+    a s jazyky sémantického webu RDF, RDFS a OWL.
+  * Navrhněte a implementujte vhodný datový formát pro popis scénářů extrakce
+    dat, které bude možné zpracovat vhodným open-source crawlerem (např.  [1]).
+    Vytvořte jednoduché uživatelské rozhraní ve vhodném webovém prohlížeči,
+    sloužící k tvorbě scénářů ve vámi navrženém datovém formátu pro následnou
+    extrakci sémantických data z webových stránek. 
+\enditems
 
-\sec Myšlenka
 
-Další text.
+\chap Task 1
+
+Seznamte se technologiemi pro automatickou extrakci dat z webových stránek a s
+jazyky sémantického webu RDF, RDFS a OWL.
+
+%\sec automatická extrakce dat
+
+\sec RDF and RDFS
+
+\begitems
+ * \url{https://en.wikipedia.org/wiki/Resource_Description_Framework}
+\enditems
+
+
+\sec OWL
+
+\begitems
+ * \url{http://www.w3.org/TR/owl2-primer/}
+ * \url{https://en.wikipedia.org/wiki/Web_Ontology_Language}
+ * \url{http://www.w3.org/TR/2012/REC-owl2-quick-reference-20121211/}
+\enditems
+
+
+\sec Linked Data
+
+\begitems
+ * \url{http://linkeddata.org/guides-and-tutorials}
+ * \url{http://linkeddatabook.com/editions/1.0/}
+ * \url{http://lov.okfn.org/dataset/lov/}
+\enditems
+
+
+\sec Ontology repositories
+
+\begitems
+ * \url{http://www.w3.org/wiki/Ontology_repositories}
+\enditems
+
+
+\sec RDFa
+
+\begitems
+ * \url{https://www.sio2.cz/web/psiotwo/publications}
+ * \url{http://rdfa.info/play/}
+\enditems
+
+
+\sec dalsi
+
+\begitems
+ * \url{https://en.wikipedia.org/wiki/SPARQL}
+ * \url{https://en.wikipedia.org/wiki/Turtle_(syntax)}
+\enditems
+
+
+\chap Task 2
+
+Navrhněte a implementujte vhodný datový formát pro popis scénářů extrakce dat,
+které bude možné zpracovat vhodným open-source crawlerem (např.
+crOWLer\urlnote{https://github.com/psiotwo/crowler}).  Vytvořte jednoduché
+uživatelské rozhraní ve vhodném webovém prohlížeči, sloužící k tvorbě scénářů
+ve vámi navrženém datovém formátu pro následnou extrakci sémantických data z
+webových stránek. 
+
+
+\sec research - existující řešení
+
+
+\secc InfoCram 2000 - Jirka
+
+\begitems
+  * zalozeny na Aardwark \urlnote{https://addons.mozilla.org/en-US/firefox/addon/aardvark/}
+\enditems
+
+
+\secc iMacros
+
+\begitems
+  * \url{http://wiki.imacros.net/Command_Reference}
+  * \url{http://wiki.imacros.net/iMacros_for_Firefox}
+  * \url{http://wiki.imacros.net/iMacros_for_Chrome}
+\enditems
+
+
+\secc Sahi
+
+Yet another web automation project. \url{http://sourceforge.net/projects/sahi/}
+
+
+\secc Selenium IDE
+
+\begitems
+  * IDE - \url{http://www.seleniumhq.org/projects/ide/}
+  * plugins - \url{http://www.seleniumhq.org/projects/ide/plugins.jsp}
+\enditems
+
+
+
+
+
+
+\sec crOWLer
+
+\secc zavislosti
+
+\begitems \style O
+  * maven - apache project managing tool
+  \begitems \style o
+    * \url{https://maven.apache.org}
+    * \url{https://maven.apache.org/run-maven/index.html}
+    * \url{https://maven.apache.org/guides/mini/guide-ide-eclipse.html}
+  \enditems
+  * sesame
+  \begitems \style o
+    * \url{http://www.openrdf.org/download.jsp} ??
+  \enditems
+  * jena
+  \begitems \style o
+    * \url{https://github.com/ansell/JenaSesame} !!
+    * or \url{https://github.com/afs/JenaSesame} ??
+    * or \url{http://jena.apache.org/} ???
+    * or \url{http://sjadapter.sourceforge.net/} ????
+    * or \url{http://sourceforge.net/projects/jenasesamemodel/}
+    * might help \url{http://www.iandickinson.me.uk/articles/jena-eclipse-helloworld/}
+    * little hint \url{http://spqr.cerch.kcl.ac.uk/?page_id=130}
+    * another hit \url{http://answers.semanticweb.com/questions/20865/how-to-get-the-jena-sesame-adapter}
+    * wiki \url{https://en.wikipedia.org/wiki/Jena_(framework)}
+    * jena vs. sesame flame \url{http://answers.semanticweb.com/questions/1638/jena-vs-sesame-is-there-a-serious-complete-up-to-date-unbiased-well-informed-side-by-side-comparison-between-the-two}
+  \enditems
+\enditems
+
+
+
+\chap Data
+
+\sec Pamatky
+
+\begitems
+  * \url{http://monumnet.npu.cz/pamfond/list.php?hledani=1&KrOk=&HiZe=&VybUzemi=1&sNazSidOb=&Adresa=&Cdom=&Pamatka=&CiRejst=&Uz=B&PrirUbytOd=3.5.1958&PrirUbytDo=10.12.2013}
+  * \url{http://dominanty.cz/pamatky-cihana.php}
+\enditems
+
 
 \bye
-

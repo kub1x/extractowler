@@ -7,7 +7,7 @@ compile:
 	#pdflatex *.tex
 
 edit:
-	vim *.tex
+	vim minimal.tex
 
 run:
 	cygstart minimal.pdf
