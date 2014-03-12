@@ -8,7 +8,7 @@
 \Xpage{1}
 \Xchap{1}{Zadání SW Projektu }{1}
 \Xpage{2}
-\Xchap{2}{Task 1 }{2}
+\Xchap{2}{Knowledge base, principles and technologies }{2}
 \Xsec{2.1}{RDF and RDFS }{2}
 \Xsec{2.2}{OWL }{2}
 \Xsec{2.3}{Linked Data }{2}
@@ -16,17 +16,24 @@
 \Xsec{2.5}{RDFa }{2}
 \Xsec{2.6}{dalsi }{2}
 \Xpage{3}
-\Xchap{3}{Task 2 }{3}
+\Xchap{3}{research - existující řešení }{3}
+\Xsec{3.1}{InfoCram 2000 - Jirka }{3}
 \Xfnote
-\Xsec{3.1}{research - existující řešení }{3}
-\Xsecc{3.1.1}{InfoCram 2000 - Jirka }{3}
-\Xfnote
-\Xsecc{3.1.2}{iMacros }{3}
-\Xsecc{3.1.3}{Sahi }{3}
-\Xsecc{3.1.4}{Selenium IDE }{3}
-\Xsec{3.2}{crOWLer }{3}
-\Xsecc{3.2.1}{zavislosti }{3}
+\Xsec{3.2}{iMacros }{3}
+\Xsec{3.3}{Sahi }{3}
+\Xsec{3.4}{Selenium IDE }{3}
 \Xpage{4}
+\Xchap{4}{crOWLer }{4}
+\Xsec{4.1}{zavislosti }{4}
+\Xsec{4.2}{Implementation }{4}
+\Xsecc{4.2.1}{Classes }{4}
 \Xpage{5}
-\Xchap{4}{Data }{5}
-\Xsec{4.1}{Pamatky }{5}
+\Xsec{4.3}{notes }{5}
+\Xsecc{4.3.1}{Run configuration }{5}
+\Xpage{6}
+\Xchap{5}{Data }{6}
+\Xsec{5.1}{Pamatky }{6}
+\Xpage{7}
+\Xchap{6}{Implementace }{7}
+\Xsec{6.1}{SelectOWL - Plugin pro Selenium IDE - Firefox }{7}
+\Xsec{6.2}{Snippets }{7}

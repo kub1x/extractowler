@@ -23,7 +23,7 @@
 \enditems
 
 
-\chap Task 1
+\chap Knowledge base, principles and technologies
 
 Seznamte se technologiemi pro automatickou extrakci dat z webových stránek a s
 jazyky sémantického webu RDF, RDFS a OWL.
@@ -78,27 +78,17 @@ jazyky sémantického webu RDF, RDFS a OWL.
 \enditems
 
 
-\chap Task 2
-
-Navrhněte a implementujte vhodný datový formát pro popis scénářů extrakce dat,
-které bude možné zpracovat vhodným open-source crawlerem (např.
-crOWLer\urlnote{https://github.com/psiotwo/crowler}).  Vytvořte jednoduché
-uživatelské rozhraní ve vhodném webovém prohlížeči, sloužící k tvorbě scénářů
-ve vámi navrženém datovém formátu pro následnou extrakci sémantických data z
-webových stránek. 
+\chap research - existující řešení
 
 
-\sec research - existující řešení
-
-
-\secc InfoCram 2000 - Jirka
+\sec InfoCram 2000 - Jirka
 
 \begitems
   * zalozeny na Aardwark \urlnote{https://addons.mozilla.org/en-US/firefox/addon/aardvark/}
 \enditems
 
 
-\secc iMacros
+\sec iMacros
 
 \begitems
   * \url{http://wiki.imacros.net/Command_Reference}
@@ -107,16 +97,18 @@ webových stránek.
 \enditems
 
 
-\secc Sahi
+\sec Sahi
 
 Yet another web automation project. \url{http://sourceforge.net/projects/sahi/}
 
 
-\secc Selenium IDE
+\sec Selenium IDE
 
 \begitems
   * IDE - \url{http://www.seleniumhq.org/projects/ide/}
   * plugins - \url{http://www.seleniumhq.org/projects/ide/plugins.jsp}
+  * current commands - \url{http://release.seleniumhq.org/selenium-core/1.0.1/reference.html}
+  * documentation - \url{http://docs.seleniumhq.org/docs/index.jsp}
 \enditems
 
 
@@ -124,9 +116,9 @@ Yet another web automation project. \url{http://sourceforge.net/projects/sahi/}
 
 
 
-\sec crOWLer
+\chap crOWLer
 
-\secc zavislosti
+\sec zavislosti
 
 \begitems \style O
   * maven - apache project managing tool
@@ -154,6 +146,39 @@ Yet another web automation project. \url{http://sourceforge.net/projects/sahi/}
   \enditems
 \enditems
 
+\sec Implementation
+
+\secc Classes
+
+\begitems
+  * ImmovableHeritageConfiguration extends MonumnetConfiguration implements ConfigurationFactory 
+  \begitems
+    * implements Configuration, which is parameter for FullCrawler.run() method
+  \enditems
+  * FullCrawler
+  \begitems
+    * implements the whole crawling algorithm
+    * 
+  \enditems
+\enditems
+
+
+\sec notes
+
+\begitems
+  * \url{http://onto.mondis.cz/resource/page/npu/}
+\enditems
+
+\secc Run configuration 
+
+\begtt
+crowler cz.sio2.crowler.configurations.npu.ImmovableHeritageConfiguration file jena_con
+crowler cz.sio2.crowler.configurations.kub1x.KbxConfiguration file jena_con-kub1x
+\endtt
+\begitems
+  * Class ImmovableHeritageConfiguration implements Configuration class. 
+  * Folder jena\_con will be created and all the rdf's will be stored in int with names derived from ontology uri
+\enditems
 
 
 \chap Data
@@ -164,6 +189,22 @@ Yet another web automation project. \url{http://sourceforge.net/projects/sahi/}
   * \url{http://monumnet.npu.cz/pamfond/list.php?hledani=1&KrOk=&HiZe=&VybUzemi=1&sNazSidOb=&Adresa=&Cdom=&Pamatka=&CiRejst=&Uz=B&PrirUbytOd=3.5.1958&PrirUbytDo=10.12.2013}
   * \url{http://dominanty.cz/pamatky-cihana.php}
 \enditems
+
+
+\chap Implementace
+
+\sec SelectOWL - Plugin pro Selenium IDE - Firefox
+
+\begitems
+  * \url{https://developer.mozilla.org/en-US/Add-ons/Setting_up_extension_development_environment}
+  * \url{http://kb.mozillazine.org/Getting_started_with_extension_development}
+  * \url{http://code.google.com/p/selenium/source/browse/}
+  * \url{http://docs.seleniumhq.org/download/maven.jsp}
+  * \url{http://repo1.maven.org/maven2/org/seleniumhq/selenium/ide/selenium-ide/1.0.2/}
+\enditems
+
+\sec Snippets
+
 
 
 \bye
