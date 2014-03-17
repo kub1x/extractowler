@@ -48,7 +48,8 @@ var selectowlObserver = {
         }
     },
     register : function() {
-        var observerService = Components.classes["@mozilla.org/observer-service;1"].     getService(Components.interfaces.nsIObserverService);
+        var observerService = Components.classes["@mozilla.org/observer-service;1"].
+          getService(Components.interfaces.nsIObserverService);
         observerService.addObserver(this, "em-action-requested", false);
         observerService.addObserver(this, "quit-application-granted", false);
     },

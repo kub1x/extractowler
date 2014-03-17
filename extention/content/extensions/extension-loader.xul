@@ -7,7 +7,9 @@
     <script type="application/x-javascript" src="chrome://selenium-ide/content/api.js"/>
     <script type="application/x-javascript" src="chrome://selectowl/content/selectowl.js"/>
     <html:script type="application/javascript">
-        ide_api = new API();
+        var ide_api = new API();
+        //console.log("registering: " + ide_api);
+        ide_api.addPlugin("selectowl@kub1x.org");
         ide_api.addPluginProvidedUserExtension("chrome://selectowl/content/extensions/extension-random.js");
     </html:script>
 </overlay>

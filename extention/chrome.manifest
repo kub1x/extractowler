@@ -3,12 +3,12 @@ content selectowl  chrome/content/
 locale  selectowl  en-US chrome/locale/en-US/
  
 # add options to options menu
-#overlay chrome://selenium-ide/content/selenium-ide-common.xul chrome://selectowl/content/view/optionsOverlay.xul
+overlay chrome://selenium-ide/content/selenium-ide-common.xul chrome://selectowl/content/view/optionsOverlay.xul
 # add button onto toolbar
-#overlay chrome://selenium-ide/content/selenium-ide.xul chrome://selectowl/content/view/toolbarOverlay.xul
+overlay chrome://selenium-ide/content/selenium-ide.xul chrome://selectowl/content/view/toolbarOverlay.xul
 # register plugin
-overlay chrome://selenium-ide/content/selenium-ide-overlay.xul chrome://selectowl/content/selectowl-reg.xul
+#overlay chrome://selenium-ide/content/selenium-ide-overlay.xul chrome://selectowl/content/selectowl-reg.xul
 # extend api
-#overlay chrome://selenium-ide/content/selenium-ide-overlay.xul chrome://selectowl/content/extensions/extension-loader.xul
+overlay chrome://selenium-ide/content/selenium-ide-overlay.xul chrome://selectowl/content/extensions/extension-loader.xul
 # add formater
 overlay chrome://selenium-ide/content/selenium-ide-overlay.xul chrome://selectowl/content/formats/format-loader.xul

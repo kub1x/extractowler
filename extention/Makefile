@@ -14,7 +14,7 @@ APP_NAME=selectowl@kub1x.org
 ROOT_DIR=$(shell pwd)
 TMP_DIR=tmp
 
-all: kill clean pack install
+all: pack
 
 clean: 
 	# remove any left-over files from previous build
@@ -43,8 +43,8 @@ install:
 	#cp $(APP_NAME).xpi /cygdrive/c/Users/kub1x/AppData/Roaming/Mozilla/Firefox/Profiles/d859hbtr.selectowl/extensions/
 	#rm -f /cygdrive/c/Users/kub1x/AppData/Roaming/Mozilla/Firefox/Profiles/d859hbtr.selectowl/extensions.*
 
-#run: 
-#	 $(FIREFOX) -no-remote -P selectowl >/dev/null 2>&1 &
+run: 
+	 $(FIREFOX) -no-remote -P selectowl >/dev/null 2>&1 &
 
 kill:
 	taskkill.exe /IM firefox.exe && taskkill.exe /IM firefox.exe || echo "no firefox running"
