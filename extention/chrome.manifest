@@ -7,8 +7,8 @@ overlay chrome://selenium-ide/content/selenium-ide-common.xul chrome://selectowl
 # add button onto toolbar
 overlay chrome://selenium-ide/content/selenium-ide.xul chrome://selectowl/content/view/toolbarOverlay.xul
 # register plugin
-#overlay chrome://selenium-ide/content/selenium-ide-overlay.xul chrome://selectowl/content/selectowl-reg.xul
-# extend api
-overlay chrome://selenium-ide/content/selenium-ide-overlay.xul chrome://selectowl/content/extensions/extension-loader.xul
-# add formater
-overlay chrome://selenium-ide/content/selenium-ide-overlay.xul chrome://selectowl/content/formats/format-loader.xul
+overlay chrome://selenium-ide/content/selenium-ide-overlay.xul chrome://selectowl/content/selectowl-reg.xul
+# extend api - moved into register plugin
+#overlay chrome://selenium-ide/content/selenium-ide-overlay.xul chrome://selectowl/content/extensions/extension-loader.xul
+# add formater - moved into register plugin
+#overlay chrome://selenium-ide/content/selenium-ide-overlay.xul chrome://selectowl/content/formats/format-loader.xul
