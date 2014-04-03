@@ -10,6 +10,7 @@
         var ide_api = new API();
         ide_api.addPlugin("selectowl@kub1x.org");
         ide_api.addPluginProvidedUserExtension("chrome://selectowl/content/extensions/extension-random.js");
+        ide_api.addPluginProvidedUserExtension("chrome://selectowl/content/extensions/extension-owl.js");
         ide_api.addPluginProvidedFormatter("selectowl-formatter", "Selectowl Formatter", "chrome://selectowl/content/formats/selectowl-formatter.js");
     </html:script>
 </overlay>

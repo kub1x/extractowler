@@ -48,3 +48,6 @@ run:
 
 kill:
 	taskkill.exe /IM firefox.exe && taskkill.exe /IM firefox.exe || echo "no firefox running"
+
+server:
+	cd ../testserver ; make run >/dev/null 2>&1 &

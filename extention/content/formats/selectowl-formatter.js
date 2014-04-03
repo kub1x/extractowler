@@ -328,12 +328,12 @@ this.options = {
   "comment.comment = result[1];\n",
 
   testTemplate:
-    '<?xml version="1.0" encoding="${encoding}"?>\n' +
-    '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">\n' +
+  '<?xml version="1.0" encoding="${encoding}"?>\n' +
+  //'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">\n' +
   '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">\n' +
   '<head profile="http://selenium-ide.openqa.org/profiles/test-case">\n' +
   '<meta http-equiv="Content-Type" content="text/html; charset=${encoding}" />\n' +
-    '<link rel="selenium.base" href="${baseURL}" />\n' +
+  '<link rel="selenium.base" href="${baseURL}" />\n' +
   "<title>${name}</title>\n" +
   "</head>\n" +
   "<body>\n" +
