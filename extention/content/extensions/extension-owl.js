@@ -10,8 +10,16 @@
 //Selenium.prototype.doOwl = function( options, varName ) {
 //}
 
-Selenium.prototype.doOwlSetSchemas = function( options, varName ) {
-}
+Selenium.prototype.doOwlSetSchemas          = function( options, varName ) { }
+Selenium.prototype.doOwlSetPublisher        = function( options, varName ) { }
+Selenium.prototype.doOwlSetNextPageResolver = function( options, varName ) { }
+Selenium.prototype.doOwlSetEncoding         = function( options, varName ) { }
+Selenium.prototype.doOwlSetLang             = function( options, varName ) { }
+
+Selenium.prototype.doOwlSetId          = function( options, varName ) { }
+Selenium.prototype.doOwlCreateChObject = function( options, varName ) { }
+Selenium.prototype.doOwlAddSpec        = function( options, varName ) { }
+//Selenium.prototype.doOwlSet = function( options, varName ) { }
 
 
 //Selenium.prototype.doRandomString = function( options, varName ) {
