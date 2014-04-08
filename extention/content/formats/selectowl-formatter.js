@@ -273,6 +273,24 @@ function format(testCase, name) {
   var commandsText = "";
   var testText;
   var i;
+
+  // Handling storedVars
+  if (storedVars) {
+    var storedVarsText = '<table id="stored-variables">\n';
+    var template = "<tr>\n" +
+    "\t<td>${key}</td>\n" +
+    "\t<td>${storedVars[key]}</td>\n" +
+    "</tr>\n";
+    for ( key in storedVars ) {
+      text = template.replace(/\$\{([a-zA-Z0-9_\.]+)\}/g, 
+        function(str, p1, offset, s) {
+            result = eval(p1);
+            return result != null ? result : '';
+        });
+      storedVarsText = storedVarsText + text;
+    } 
+    storedVarsText = storedVarsText + '</table>';
+  }
   
   for (i = 0; i < testCase.commands.length; i++) {
     var text = getSourceForCommand(testCase.commands[i]);
@@ -291,10 +309,10 @@ function format(testCase, name) {
     if (commandsIndex >= 0) {
       var header = testText.substr(0, commandsIndex);
       var footer = testText.substr(commandsIndex + "${commands}".length);
-      testText = header + commandsText + footer;
+      testText = header + storedVarsText + commandsText + footer;
     }
   } else {
-    testText = testCase.header + commandsText + testCase.footer;
+    testText = testCase.header + storedVarsText + commandsText + testCase.footer;
   }
   
   return testText;
