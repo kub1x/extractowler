@@ -7,40 +7,14 @@
 //
 //   length|type pipe delimited option list
 
-//Selenium.prototype.doOwl = function( options, varName ) {
-//}
+// Setting enviroment variables
+Selenium.prototype.owlSetSchemas          = function( options, varName ) { }
+Selenium.prototype.owlSetPublisher        = function( options, varName ) { }
+Selenium.prototype.owlSetNextPageResolver = function( options, varName ) { }
+Selenium.prototype.owlSetEncoding         = function( options, varName ) { }
+Selenium.prototype.owlSetLang             = function( options, varName ) { }
 
-Selenium.prototype.doOwlSetSchemas          = function( options, varName ) { }
-Selenium.prototype.doOwlSetPublisher        = function( options, varName ) { }
-Selenium.prototype.doOwlSetNextPageResolver = function( options, varName ) { }
-Selenium.prototype.doOwlSetEncoding         = function( options, varName ) { }
-Selenium.prototype.doOwlSetLang             = function( options, varName ) { }
-
-Selenium.prototype.doOwlSetId          = function( options, varName ) { }
-Selenium.prototype.doOwlCreateChObject = function( options, varName ) { }
-Selenium.prototype.doOwlAddSpec        = function( options, varName ) { }
-//Selenium.prototype.doOwlSet = function( options, varName ) { }
-
-
-//Selenium.prototype.doRandomString = function( options, varName ) {
-//    var length = 8;
-//    var type   = 'alphanumeric';
-//
-//    var o = options.split( '|' );
-//
-//    for ( var i = 0 ; i < 2 ; i ++ ) {
-//        if ( o[i] && o[i].match( /^\d+$/ ) )
-//            length = o[i];
-//
-//        if ( o[i] && o[i].match( /^(?:alpha)?(?:numeric)?$/ ) )
-//            type = o[i];
-//    }
-//
-//    switch( type ) {
-//        case 'alpha'        : storedVars[ varName ] = randomAlpha( length ); break;
-//        case 'numeric'      : storedVars[ varName ] = randomNumeric( length ); break;
-//        case 'alphanumeric' : storedVars[ varName ] = randomAlphaNumeric( length ); break;
-//        default             : storedVars[ varName ] = randomAlphaNumeric( length );
-//    };
-//};
-
+// Setting ontology specific data
+Selenium.prototype.owlSetId          = function( options, varName ) { }
+Selenium.prototype.owlCreateChObject = function( options, varName ) { }
+Selenium.prototype.owlAddSpec        = function( options, varName ) { }
