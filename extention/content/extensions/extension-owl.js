@@ -8,13 +8,11 @@
 //   length|type pipe delimited option list
 
 // Setting enviroment variables
-Selenium.prototype.owlSetSchemas          = function( options, varName ) { }
-Selenium.prototype.owlSetPublisher        = function( options, varName ) { }
-Selenium.prototype.owlSetNextPageResolver = function( options, varName ) { }
-Selenium.prototype.owlSetEncoding         = function( options, varName ) { }
-Selenium.prototype.owlSetLang             = function( options, varName ) { }
-
-// Setting ontology specific data
-Selenium.prototype.owlSetId          = function( options, varName ) { }
-Selenium.prototype.owlCreateChObject = function( options, varName ) { }
-Selenium.prototype.owlAddSpec        = function( options, varName ) { }
+Selenium.prototype.doOwlSetSchemas          = function( options, varName ) { }
+Selenium.prototype.doOwlSetPublisher        = function( options, varName ) { }
+Selenium.prototype.doOwlSetNextPageResolver = function( options, varName ) { }
+Selenium.prototype.doOwlSetEncoding         = function( options, varName ) { }
+Selenium.prototype.doOwlSetLang             = function( options, varName ) { }
+Selenium.prototype.doOwlSetId               = function( options, varName ) { }
+Selenium.prototype.doOwlCreateChObject      = function( options, varName ) { }
+Selenium.prototype.doOwlAddSpec             = function( options, varName ) { }
