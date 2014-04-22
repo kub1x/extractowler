@@ -26,7 +26,7 @@
 \Xchap{4}{crOWLer }{4}
 \Xsec{4.1}{zavislosti }{4}
 \Xsec{4.2}{Implementation }{4}
-\Xsecc{4.2.1}{Classes }{4}
+\Xsecc{4.2.1}{Classes of CrOWLer }{4}
 \Xpage{5}
 \Xsec{4.3}{notes }{5}
 \Xsecc{4.3.1}{Run configuration }{5}
@@ -35,7 +35,13 @@
 \Xsec{5.1}{Pamatky }{6}
 \Xpage{7}
 \Xchap{6}{Implementace }{7}
-\Xsec{6.1}{SelectOWL - Plugin pro Selenium IDE - Firefox }{7}
-\Xsec{6.2}{Snippets }{7}
-\Xsec{6.3}{Ideas }{7}
-\Xsecc{6.3.1}{Overlay on webpage }{7}
+\Xsec{6.1}{Ideas }{7}
+\Xsecc{6.1.1}{Overlay on webpage }{7}
+\Xsecc{6.1.2}{Selenium Builder - new technology }{7}
+\Xsec{6.2}{SelectOWL - Plugin pro Selenium IDE - Firefox }{7}
+\Xsec{6.3}{Snippets }{7}
+\Xsecc{6.3.1}{Embeding selenium-commandhandlers.js }{7}
+\Xpage{8}
+\Xpage{9}
+\Xchap{7}{Bookmarklet prototype }{9}
+\Xsec{7.1}{step by step }{9}

@@ -150,9 +150,11 @@ Yet another web automation project. \url{http://sourceforge.net/projects/sahi/}
   \enditems
 \enditems
 
+
 \sec Implementation
 
-\secc Classes
+
+\secc Classes of CrOWLer
 
 \begitems
   * ImmovableHeritageConfiguration extends MonumnetConfiguration implements ConfigurationFactory 
@@ -173,19 +175,25 @@ Yet another web automation project. \url{http://sourceforge.net/projects/sahi/}
   * \url{http://onto.mondis.cz/resource/page/npu/}
 \enditems
 
+
 \secc Run configuration 
 
 \begtt
-crowler cz.sio2.crowler.configurations.npu.ImmovableHeritageConfiguration file jena_con
-crowler cz.sio2.crowler.configurations.kub1x.KbxConfiguration file jena_con-kub1x
+crowler cz.sio2.crowler.configurations.npu.ImmovableHeritageConfiguration file results
+crowler cz.sio2.crowler.configurations.kub1x.KbxConfiguration file results
+crowler cz.sio2.crowler.configurations.parser.SeleniumConfiguration\
+         file results generated.html
 \endtt
+
 \begitems
   * Class ImmovableHeritageConfiguration implements Configuration class. 
   * Folder jena\_con will be created and all the rdf's will be stored in int with names derived from ontology uri
 \enditems
 
 
+
 \chap Data
+
 
 \sec Pamatky
 
@@ -195,23 +203,12 @@ crowler cz.sio2.crowler.configurations.kub1x.KbxConfiguration file jena_con-kub1
 \enditems
 
 
+
 \chap Implementace
 
-\sec SelectOWL - Plugin pro Selenium IDE - Firefox
-
-\begitems
-  * \url{https://developer.mozilla.org/en-US/Add-ons/Setting_up_extension_development_environment}
-  * \url{http://kb.mozillazine.org/Getting_started_with_extension_development}
-  * \url{http://code.google.com/p/selenium/source/browse/}
-  * \url{http://docs.seleniumhq.org/download/maven.jsp}
-  * \url{http://repo1.maven.org/maven2/org/seleniumhq/selenium/ide/selenium-ide/1.0.2/}
-\enditems
-
-\sec Snippets
-
-~
 
 \sec Ideas
+
 
 \secc Overlay on webpage
 
@@ -223,6 +220,84 @@ crowler cz.sio2.crowler.configurations.kub1x.KbxConfiguration file jena_con-kub1
   * will show current context in a table view aswell
 \enditems
 
+
+\secc Selenium Builder - new technology
+
+\url{https://github.com/sebuilder/se-builder/wiki/Getting-Started}
+
+
+\sec SelectOWL - Plugin pro Selenium IDE - Firefox
+
+\begitems
+  * \url{https://developer.mozilla.org/en-US/Add-ons/Setting_up_extension_development_environment}
+  * \url{http://kb.mozillazine.org/Getting_started_with_extension_development}
+  * \url{http://code.google.com/p/selenium/source/browse/}
+  * \url{http://docs.seleniumhq.org/download/maven.jsp}
+  * \url{http://repo1.maven.org/maven2/org/seleniumhq/selenium/ide/selenium-ide/1.0.2/}
+\enditems
+
+
+
+\sec Snippets
+
+\begitems
+  * \url{https://code.google.com/p/selenium/source/browse/ide/main/src/content/testCase.js} - definition of TestCase and Command (!!!)
+  * selenium/chrome/content/selenium/scripts/selenium-commandhandlers.js - registrace prikazu (vytvari se tam "AndWait" postfixy etc.)
+\enditems
+
+
+\secc Embeding selenium-commandhandlers.js
+
+I need to embed the selenium core itself in order to add new TYPE of commands. 
+
+The original selenium commands are: 
+
+\begitems
+  * accessors (i.e. getSometing or isSomething -> getFoo, assertFoo, verifyFoo, assertNotFoo, verifyNotFoo, storeFoo, waitForFoo, and waitForNotFoo.
+  * asserts (i.e. assertSomething -> assertSomething)
+  * actions (i.e. doSomeAction -> someAction, someActionAndWait)
+\enditems
+
+none of which applies for owl commands that are more
+
+\begtt
+vim selenium/chrome/content/selenium/scripts/selenium-commandhandlers.js
+\endtt
+
+\begtt
+vim selenium/chrome/content/selenium/scripts/htmlutils.js
+21: function classCreate()
+  - constructor that calls initialize on self with arguments passed
+27: function objectExtend(destination, source)
+\endtt
+
+\begtt
+vim selenium/chrome/content/selenium/scripts/selenium-executionloop.js
+ 94: _executeCurrentCommand - calls:
+104: var handler = this.commandFactory.getCommandHandler(command.command);
+112: this.result = handler.execute(selenium, command);
+\endtt
+
+HANDLER HAS TO IMPLEMENT execute(seleniumApi, commandObj);
+
+
+
+\chap Bookmarklet prototype
+
+
+\sec step by step
+
+\begitems
+  * create bookmarklet to alert from external script
+  * fill it with simple \<div\> containing an external html
+  * insert form to load a file or url with ontology
+  * add jOWL to load the ontology
+  * add jOWLBrowser-ish functionality to visualize the ontology
+  * add aardwark.js to select items
+  * create the json expressing scripts for crowler
+  * visualise anotated data
+  * export and run in crowler
+\enditems
 
 
 \bye

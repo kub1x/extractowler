@@ -1,4 +1,4 @@
-all: acro_kill compile run
+all: compile run
 
 compile:
 	# dvakrat, kvuli referencovani
