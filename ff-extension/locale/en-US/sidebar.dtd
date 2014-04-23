@@ -1,0 +1,28 @@
+<!ENTITY sidebar.title "selectowl">
+
+<!ENTITY selectowl.url.current "Use Current Page">
+<!ENTITY selectowl.url.edit "Edit">
+
+<!ENTITY selectowl.aardvark.start "Start Selection">
+<!ENTITY selectowl.aardvark.helpbox "Helpbox">
+
+<!ENTITY selectowl.editor.id "ID">
+<!ENTITY selectowl.editor.hard "hard">
+<!ENTITY selectowl.editor.soft "soft">
+<!ENTITY selectowl.editor.classes "Classes">
+<!ENTITY selectowl.editor.position "Position">
+<!ENTITY selectowl.editor.contains "Contains">
+<!ENTITY selectowl.editor.remove "Remove Edited Sequence">
+
+<!ENTITY selectowl.breadcrumbs.back "Back">
+
+<!ENTITY selectowl.tree.add "Add Child">
+<!ENTITY selectowl.tree.remove "Remove Child">
+<!ENTITY selectowl.tree.def "Edit Definitions">
+<!ENTITY selectowl.tree.sel "Edit Select">
+
+<!ENTITY selectowl.file.new "New File">
+<!ENTITY selectowl.file.load "Load File">
+<!ENTITY selectowl.file.save "Save File">
+
+<!ENTITY selectowl.extractor.run "Run Extraction">

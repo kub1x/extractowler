@@ -1,0 +1,269 @@
+<?xml version="1.0"?>
+<!--
+<?xml-stylesheet href="chrome://global/skin/" type="text/css" ?>
+<?xml-stylesheet href="chrome://browser/skin/browser.css" type="text/css" ?>
+<?xml-stylesheet href="chrome://selectowl/skin/selectowl-editor.css" type="text/css" ?>
+-->
+<!DOCTYPE page SYSTEM "chrome://selectowl/locale/sidebar.dtd">
+<page id="selectowl-sidebar" title="&sidebar.title;"
+      xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+      onload="selectowl.init();">
+
+    <script src="jquery-2.1.0.js" />
+    <script src="jOWL.js" />
+
+    <script src="selectowl/selectowl.js" />
+
+    <!--
+    <script src="aardvark.js" />
+    <script src="sizzle.js" />
+    <script src="json2.js" />
+    <script src="extractor.js" />
+    
+    <script src="selectowl/selectowl.aardvark.js" />
+    <script src="selectowl/selectowl.editor.js" />
+    <script src="selectowl/selectowl.editor.area.js" />
+    <script src="selectowl/selectowl.editor.attach.js" />
+    <script src="selectowl/selectowl.editor.name.js" />
+    <script src="selectowl/selectowl.editor.read.js" />
+    <script src="selectowl/selectowl.editor.url.js" />
+    <script src="selectowl/selectowl.editor.widgetClass.js" />
+    <script src="selectowl/selectowl.editor.widgetContent.js" />
+    <script src="selectowl/selectowl.editor.widgetId.js" />
+    <script src="selectowl/selectowl.editor.widgetPos.js" />
+    <script src="selectowl/selectowl.editor.widgetTagName.js" />
+    <script src="selectowl/selectowl.editor.widgetUse.js" />
+    <script src="selectowl/selectowl.extractor.js" />
+    <script src="selectowl/selectowl.file.js" />
+    <script src="selectowl/selectowl.gui.js" />
+    <script src="selectowl/selectowl.misc.js" />
+    <script src="selectowl/selectowl.tree.js" />
+    -->
+
+
+    <script>
+      function _log(text) {
+        var logtxt = document.getElementById('log');
+        logtxt.value = text;
+      }
+    </script>
+
+    <vbox>
+      <label control="your-name" value="Ontology URL:"/>
+      <hbox>
+        <textbox id="ontology-url" value=""/>
+        <button label="Load" oncommand="selectowl.load();"/>
+        <button label="Refresh" oncommand="selectowl.refreshList();"/>
+      </hbox>
+      <textbox id="jscon" value="" onkeypress="if(event.keyCode == 13)_log(eval(event.target.value));"/>
+      <textbox id="log" value="" multiline="true" height="260" style="font-size: 10px; font-family: courier; "/>
+      <listbox id="ontology-resources-list"></listbox>
+    </vbox>
+
+
+
+    <!--
+    <popupset id="aardvark-popupset">
+        <tooltip id="aardvark-helpbox" noautohide="true" orient="vertical">
+            <description id="aardvark-helpbox-title" value="&selectowl.aardvark.helpbox;"/>
+
+            <grid flex="1">
+                <columns>
+                    <column/>
+                    <column flex="1"/>
+                </columns>
+                <rows id="aardvark-helpbox-rows"/>
+            </grid>
+        </tooltip>
+    </popupset>
+
+    <panel id="selectowl-editor" onpopupshown="selectowl.editor.onPopUpShown(event);">
+        <hbox>
+            <vbox>
+                <hbox>
+                    <textbox id="selectowl-name" onkeyup="selectowl.editor.name.onKeyUp(event);" style="max-width: 80px;"></textbox>
+                    <textbox id="selectowl-area" onfocus="selectowl.editor.area.onFocus(event);" onclick="selectowl.editor.area.onClick(event);" onkeyup="selectowl.editor.area.onKeyUp(event);" flex="1"></textbox>
+                </hbox>
+
+                <hbox>
+                    <listbox id="selectowl-tagname" onclick="selectowl.editor.widgetTagName.onClick(this);" onkeyup="selectowl.editor.widgetTagName.onKeyUp(this);" flex="1"></listbox>
+
+                    <vbox style="max-width: 500px;">
+                        <groupbox id="selectowl-id" style="max-height:85px">
+                            <caption label="&selectowl.editor.id;"/>
+
+                            <radiogroup id="selectowl-idtype" oncommand="selectowl.editor.widgetId.onCommand();">
+                                <hbox>
+                                    <radio label="&selectowl.editor.hard;" value="hard" accesskey="H" />
+                                    <radio label="&selectowl.editor.soft;" value="soft" accesskey="S" selected="true" />
+                                </hbox>
+                            </radiogroup>
+
+                            <vbox flex="1" style="overflow: auto"></vbox>
+                        </groupbox>
+
+                        <groupbox id="selectowl-classes" style="max-height:66px">
+                            <caption label="&selectowl.editor.classes;"/>
+
+                            <vbox flex="1" style="overflow: auto"></vbox>
+                        </groupbox>
+
+                        <groupbox id="selectowl-position">
+                            <caption label="&selectowl.editor.position;"/>
+
+                            <hbox>
+                                <checkbox id="selectowl-first" label=":first" checked="false" oncommand="selectowl.editor.widgetPos.onCommand(this);" />
+
+                                <checkbox id="selectowl-last" label=":last" checked="false" oncommand="selectowl.editor.widgetPos.onCommand(this);" />
+
+                                <checkbox id="selectowl-even" label=":even" checked="false" oncommand="selectowl.editor.widgetPos.onCommand(this);" />
+
+                                <checkbox id="selectowl-odd" label=":odd" checked="false" oncommand="selectowl.editor.widgetPos.onCommand(this);" />
+                            </hbox>
+
+                            <hbox>
+                                <hbox class="pos">
+                                    <checkbox id="selectowl-gt" label=":gt" checked="false" oncommand="selectowl.editor.widgetPos.onCommand(this);" />
+                                    <label value="(" />
+                                    <textbox id="selectowl-gtval" value="0" onkeyup="selectowl.editor.widgetPos.onKeyUp(event, 'gt');" />
+                                    <label value=")" />
+                                </hbox>
+
+                                <hbox class="pos">
+                                    <checkbox id="selectowl-lt" label=":lt" checked="false" oncommand="selectowl.editor.widgetPos.onCommand(this);" />
+                                    <label value="(" />
+                                    <textbox id="selectowl-ltval" value="0" onkeyup="selectowl.editor.widgetPos.onKeyUp(event, 'lt');" />
+                                    <label value=")" />
+                                </hbox>
+
+                                <hbox class="pos">
+                                    <checkbox id="selectowl-eq" label=":eq" checked="false" oncommand="selectowl.editor.widgetPos.onCommand(this);" />
+                                    <label value="(" />
+                                    <textbox id="selectowl-eqval" value="0" onkeyup="selectowl.editor.widgetPos.onKeyUp(event, 'eq');" />
+                                    <label value=")" />
+                                </hbox>
+                            </hbox>
+                        </groupbox>
+
+                        <groupbox id="selectowl-contains" style="max-height:66px">
+                            <caption label="&selectowl.editor.contains;"/>
+
+                            <vbox flex="1" style="overflow: auto"></vbox>
+                        </groupbox>
+
+                        <button id="selectowl-remove" label="&selectowl.editor.remove;" onclick="selectowl.editor.area.removeSequence();" />
+                    </vbox>
+                </hbox>
+            </vbox>
+            <vbox>
+                <groupbox>
+                    <caption label="url"/>
+
+                    <hbox>
+                        <textbox id="selectowl-url" readonly="true" onkeyup="selectowl.editor.url.onKeyUp(event);" />
+                        <button id="selectowl-url-use" label="&selectowl.url.current;" hidden="true" onclick="selectowl.editor.url.onClick();" />
+                        <button id="selectowl-url-edit" label="&selectowl.url.edit;" oncommand="selectowl.gui.editURL(selectowl.gui.getPath());" />
+                    </hbox>
+                </groupbox>
+
+                <groupbox>
+                    <caption label="read"/>
+
+                    <menulist id="selectowl-read" oncommand="selectowl.editor.read.onCommand(this);">
+                        <menupopup>
+                            <menuitem label="" value="" selected="true"  />
+                        </menupopup>
+                    </menulist>
+                </groupbox>
+
+                <groupbox>
+                    <caption label="use"/>
+
+                    <menulist id="selectowl-use" oncommand="selectowl.editor.widgetUse.onCommand(this);">
+                        <menupopup>
+                            <menuitem label="" value="" selected="true" />
+                        </menupopup>
+                    </menulist>
+                </groupbox>
+
+                <groupbox>
+                    <caption label="attach"/>
+
+                    <menulist id="selectowl-attach" oncommand="selectowl.editor.attach.onCommand(this);">
+                        <menupopup>
+                            <menuitem label="" value="" selected="true"  />
+                        </menupopup>
+                    </menulist>
+                </groupbox>
+            </vbox>
+        </hbox>
+    </panel>
+
+    <hbox id="selectowl-breadcrumbs" hidden="true">
+        <textbox id="selectowl-path" flex="1" readonly="true" />
+        <button label="&selectowl.breadcrumbs.back;" oncommand="selectowl.gui.urlBack();" />
+    </hbox>
+
+    <tree id="selectowl-tree" flex="1" hidecolumnpicker="false" seltype="single" class="tree" rows="5" onselect="selectowl.gui.onSelect();" onclick="selectowl.gui.onClick(event);">
+        <treecols id="selectowl-tree-cols">
+            <treecol id="selectowl-tree-col-name" primary="true" flex="0" label="name" persist="width" ordinal="1"/>
+
+            <splitter class="tree-splitter" ordinal="2"/>
+
+            <treecol id="selectowl-tree-col-area" flex="1" label="area" ordinal="3" />
+
+            <splitter class="tree-splitter" ordinal="4"/>
+
+            <treecol id="selectowl-tree-col-url" label="url" ordinal="5" hidden="true"/>
+
+            <splitter class="tree-splitter" ordinal="6"/>
+
+            <treecol id="selectowl-tree-col-read" label="read" ordinal="7" hidden="true"/>
+
+            <splitter class="tree-splitter" ordinal="8"/>
+
+            <treecol id="selectowl-tree-col-use" label="use" ordinal="9" hidden="true"/>
+
+            <splitter class="tree-splitter" ordinal="10"/>
+
+            <treecol id="selectowl-tree-col-attach" label="attach" ordinal="11" hidden="true"/>
+        </treecols>
+
+        <treechildren>
+            <treeitem>
+                <treerow>
+                    <treecell label="select" />
+                    <treecell />
+                    <treecell />
+                    <treecell />
+                    <treecell />
+                    <treecell />
+                </treerow>
+            </treeitem>
+        </treechildren>
+    </tree>
+
+    <button label="&selectowl.aardvark.start;" oncommand="selectowl.aardvark.start();" />
+
+    <hbox>
+        <button flex="1" label="&selectowl.tree.add;" oncommand="selectowl.gui.addNode();" />
+        <button flex="1" label="&selectowl.tree.remove;" oncommand="selectowl.gui.removeNode();" />
+    </hbox>
+
+    <button id="selectowl-switch" label="&selectowl.tree.def;" oncommand="selectowl.gui.onToggle();" />
+
+    <hbox>
+        <button flex="1" label="&selectowl.file.new;" oncommand="selectowl.file.blank();" />
+        <button flex="1" label="&selectowl.file.load;" oncommand="selectowl.file.load();" />
+        <button flex="1" label="&selectowl.file.save;" oncommand="selectowl.file.save();" />
+    </hbox>
+    
+    <button label="&selectowl.extractor.run;" oncommand="selectowl.extractor.exec();" />
+    
+    <hbox>
+        <textbox id="selectowl-log" multiline="true" />
+
+        <textbox id="selectowl-ret" multiline="true" />
+    </hbox>
+    -->
+</page>

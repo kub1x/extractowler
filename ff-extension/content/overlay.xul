@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://selectowl/skin/overlay.css" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://selectowl/locale/overlay.dtd">
+<overlay id="selectowl-overlay"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+    <script src="overlay.js"/>
+
+    <menupopup id="menu_ToolsPopup">
+        <menuitem id="menu_selectowl" label="&selectowl;"
+                  oncommand="onMenuItemCommand(event);"/>
+    </menupopup>
+
+    <menupopup id="viewSidebarMenu">
+        <menuitem key="key_openSidebar" observes="viewSidebar"  />
+    </menupopup>
+
+    <keyset id="mainKeyset">
+        <key id="key_openSidebar" command="viewSidebar"
+             key="&openSidebar.commandkey;"
+             modifiers="&openSidebar.modifierskey;" />
+    </keyset>
+
+    <broadcasterset id="mainBroadcasterSet">
+        <broadcaster id="viewSidebar"
+                     label="&sidebar.title;"
+                     autoCheck="false"
+                     type="checkbox"
+                     group="sidebar"
+                     sidebarurl="chrome://selectowl/content/sidebar.xul"
+                     sidebartitle="&sidebar.title;"
+                     oncommand="toggleSidebar('viewSidebar');" />
+    </broadcasterset>
+</overlay>
+
