@@ -10,17 +10,19 @@
       onload="selectowl.init();">
 
     <script src="jquery-2.1.0.js" />
+    <script src="jquery-ui-1.10.4.js" />
     <script src="jOWL.js" />
+    <script src="aardvark.js" />
 
     <script src="selectowl/selectowl.js" />
+    <script src="selectowl/selectowl.aardvark.js" />
+    <script src="selectowl/selectowl.gui.js" />
 
     <!--
-    <script src="aardvark.js" />
     <script src="sizzle.js" />
     <script src="json2.js" />
     <script src="extractor.js" />
     
-    <script src="selectowl/selectowl.aardvark.js" />
     <script src="selectowl/selectowl.editor.js" />
     <script src="selectowl/selectowl.editor.area.js" />
     <script src="selectowl/selectowl.editor.attach.js" />
@@ -35,7 +37,6 @@
     <script src="selectowl/selectowl.editor.widgetUse.js" />
     <script src="selectowl/selectowl.extractor.js" />
     <script src="selectowl/selectowl.file.js" />
-    <script src="selectowl/selectowl.gui.js" />
     <script src="selectowl/selectowl.misc.js" />
     <script src="selectowl/selectowl.tree.js" />
     -->
@@ -48,15 +49,54 @@
       }
     </script-->
 
-    <vbox>
-      <hbox flex="0">
-        <textbox id="ontology-url" value=""/>
-        <button label="Load" oncommand="selectowl.load();"/>
-        <button label="Refresh" oncommand="selectowl.refreshList();"/>
+    <!--
+workflow: 
+    * load ontology
+    * select action (what to do)
+      * add object
+      * add property
+    * select resource (depending on action)
+    * aardvark - selector
+    * edit the result
+    * back to action
+
+further: 
+    * more actions: 
+      * edit settings of ontology.. (if selected)
+      * safe script
+      * start crowler
+    -->
+
+    <vbox flex="1">
+      <hbox>
+        <script>
+          function onStepLinkClick( event ) {
+            var $l = $(event.target);
+            var id = $l.attr('id');
+            var group_id = id.replace('step-link-', '');
+            selectowl.gui.showStep(group_id);
+          }
+        </script>
+        <label id="step-link-load-ontology"   value="Load Ontology"   onclick="onStepLinkClick(event);" />
+        <label id="step-link-select-resource" value="Select Resource" onclick="onStepLinkClick(event);" />
       </hbox>
-      <!--textbox id="jscon" value="" onkeypress="if(event.keyCode == 13)_log(eval(event.target.value));"/>
-      <textbox id="log" value="" multiline="true" height="260" style="font-size: 10px; font-family: courier; "/-->
-      <listbox id="ontology-resources-list" flex="1"></listbox>
+
+      <groupbox id="load-ontology" class="current-step">
+        <hbox flex="0">
+          <textbox id="ontology-url" value="" flex="1"/>
+          <button label="Load" oncommand="selectowl.load();" flex="0" width="50"/>
+          <button label="Refresh" oncommand="selectowl.refreshList();" flex="0" width="50"/>
+        </hbox>
+      </groupbox>
+
+      <groupbox id="select-resource" style="display: none;">
+        <hbox flex="0"> 
+          <button label="Select" oncommand="selectowl.aardvark.start();" flex="0"/>
+        </hbox>
+        <!--textbox id="jscon" value="" onkeypress="if(event.keyCode == 13)_log(eval(event.target.value));"/>
+        <textbox id="log" value="" multiline="true" height="260" style="font-size: 10px; font-family: courier; "/-->
+        <listbox id="ontology-resources-list" flex="1"></listbox>
+      </groupbox>
     </vbox>
 
 

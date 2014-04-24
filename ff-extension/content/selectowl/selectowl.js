@@ -1,6 +1,13 @@
 
 
-var selectowl = { }
+var selectowl = {
+  aardvark : {
+  }, 
+
+  gui : {
+    CURRENT_STEP_CLASS : "current-step"
+  }
+}
 
 
 selectowl.init = function () {
@@ -17,6 +24,7 @@ selectowl.load = function () {
 
   var callback = function () {
     selectowl.refreshList();
+    selectowl.gui.showStep('select-resource');
   };
 
   this.jOWL.load(url, callback, {reason: true, locale: 'en'});
@@ -34,6 +42,8 @@ selectowl.refreshList = function() {
   var idx = this.jOWL.index('ID');
   var $listitem;
   var p, q;
+
+  list.empty();
 
   for ( p in idx ) {
     q = idx[p];
