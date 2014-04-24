@@ -41,23 +41,22 @@
     -->
 
 
-    <script>
+    <!--script>
       function _log(text) {
         var logtxt = document.getElementById('log');
         logtxt.value = text;
       }
-    </script>
+    </script-->
 
     <vbox>
-      <label control="your-name" value="Ontology URL:"/>
-      <hbox>
+      <hbox flex="0">
         <textbox id="ontology-url" value=""/>
         <button label="Load" oncommand="selectowl.load();"/>
         <button label="Refresh" oncommand="selectowl.refreshList();"/>
       </hbox>
-      <textbox id="jscon" value="" onkeypress="if(event.keyCode == 13)_log(eval(event.target.value));"/>
-      <textbox id="log" value="" multiline="true" height="260" style="font-size: 10px; font-family: courier; "/>
-      <listbox id="ontology-resources-list"></listbox>
+      <!--textbox id="jscon" value="" onkeypress="if(event.keyCode == 13)_log(eval(event.target.value));"/>
+      <textbox id="log" value="" multiline="true" height="260" style="font-size: 10px; font-family: courier; "/-->
+      <listbox id="ontology-resources-list" flex="1"></listbox>
     </vbox>
 
 

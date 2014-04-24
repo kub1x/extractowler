@@ -15,10 +15,7 @@ selectowl.load = function () {
 
   if (!url) throw "empty url, nothing to load";
 
-  alert('loading: ' + url);
-
   var callback = function () {
-    alert('loaded');
     selectowl.refreshList();
   };
 
