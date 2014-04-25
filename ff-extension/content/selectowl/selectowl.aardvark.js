@@ -43,8 +43,9 @@ selectowl.aardvark.start = function() {
  */
 selectowl.aardvark.onSelect = function(elem) {
   //XXX
-  alert("element:\t" + elem + "\n" +
-        "nodeName:\t" + elem.nodeName);
+  var owlObj = selectowl.workflow['select-object'].selected; 
+  $(elem).css('background-color', 'green');
+  $(elem).attr('data-asdf', owlObj.name + '[' + owlObj.type + ']');
   return;
   //XXX
         
