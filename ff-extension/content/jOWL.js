@@ -1429,11 +1429,11 @@ jOWL.type = function(node){
   var type = jOWL.resolveURI($(xmlNode.selectSingleNode(__.rdf('type'))).RDF_Resource(), false, true);
   //var type = null;// $(xmlNode.selectSingleNode(__.rdf('type'))).RDF_Resource();
   type = type ? type : xmlNode.nodeName;
-  console.log('fn_type debug' +
-    ' type: ' + type +
-    ' about: ' + $(xmlNode).RDF_About() +
-    ' resource: ' + $(xmlNode).RDF_Resource() + 
-    ' subnode<rdf:type>: ' + jOWL.resolveURI($(xmlNode.selectSingleNode(__.rdf('type'))).RDF_Resource(), false, true) ); //XXX
+  //console.log('fn_type debug' +
+  //  ' type: ' + type +
+  //  ' about: ' + $(xmlNode).RDF_About() +
+  //  ' resource: ' + $(xmlNode).RDF_Resource() + 
+  //  ' subnode<rdf:type>: ' + jOWL.resolveURI($(xmlNode.selectSingleNode(__.rdf('type'))).RDF_Resource(), false, true) ); //XXX
 	switch(type){
 		case __.owl("Class") : return jOWL.Ontology.Class;
 		case __.rdfs("Class") : return jOWL.Ontology.Class; //test

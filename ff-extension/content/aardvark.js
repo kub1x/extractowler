@@ -772,16 +772,17 @@ aardvarkSelector.getOuterHtmlFormatted = function (node, container)
 //-------------------------------------------------
 aardvarkSelector.showMenu = function ()
 {
-    var helpBox = document.getElementById("aardvark-helpbox");
-    
-    if (helpBox.getAttribute("_moz-menuactive") == "true") {
-        helpBox.hidePopup();
-        return true;
-    }
+  //XXX hidden
+    //var helpBox = document.getElementById("aardvark-helpbox");
+    //
+    //if (helpBox.getAttribute("_moz-menuactive") == "true") {
+    //    helpBox.hidePopup();
+    //    return true;
+    //}
 
-    // Show help box
-    helpBox.showPopup(this.browser, -1, -1, "tooltip", "topleft", "topleft");
-    return true;
+    //// Show help box
+    //helpBox.showPopup(this.browser, -1, -1, "tooltip", "topleft", "topleft");
+    //return true;
 }
 
 const aardvarkUtils = {
