@@ -7,7 +7,7 @@
 <!DOCTYPE page SYSTEM "chrome://selectowl/locale/sidebar.dtd">
 <page id="selectowl-sidebar" title="&sidebar.title;"
       xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-      onload="selectowl.load();">
+      onload="selectowl.init();">
 
     <script src="jquery-2.1.0.js" />
     <script src="jquery-ui-1.10.4.js" />
@@ -67,25 +67,13 @@ further:
       * start crowler
     -->
 
-    <vbox flex="1">
-      <hbox>
-        <script>
-          function onStepLinkClick( event ) {
-            var $l = $(event.target);
-            var id = $l.attr('id');
-            var group_id = id.replace('step-link-', '');
-            selectowl.gui.showStep(group_id);
-          }
-        </script>
-        <label id="step-link-load-ontology"  value="Load Ontology" onclick="onStepLinkClick(event);" />
-        <splitter />
-        <label id="step-link-select-action"  value="Select Action" onclick="onStepLinkClick(event);" />
-        <splitter />
-        <vbox>
-          <label id="step-link-select-object"  value="Select Object"          onclick="onStepLinkClick(event);" />
-          <label id="step-link-select-objprop" value="Select Object Property" onclick="onStepLinkClick(event);" />
-        </vbox>
-      </hbox>
+    <vbox id="main" flex="1">
+      <!-- trying to make workflow kinda "movable" in a smaller box -->
+      <box flex="0" style="width: 100%;">
+        <box flex="1" style="flex-direction: row;">
+          <hbox id="workflow"><!-- populated with selectowl.gui.populateWorkflow(); --></hbox>
+        </box>
+      </box>
 
       <groupbox id="load-ontology" class="current-step" flex="1">
         <caption label="Load Ontology" />
