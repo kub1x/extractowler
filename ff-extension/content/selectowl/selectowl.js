@@ -38,7 +38,7 @@ selectowl.load = function (url) {
   // Call load on jOWL and refresh after
   var callback = function () {
     //TODO load to selectowl and delete jOWL
-    selectowl.feedMee(jOWL.index('ID'));
+    selectowl.feedMee();
     selectowl.refreshList();
     selectowl.gui.showStep('select-action');
   };
@@ -48,17 +48,20 @@ selectowl.load = function (url) {
 
 
 selectowl.model = {}; //XXX !!!
+selectowl.prefixes = {};
 
-selectowl.feedMee = function( index ) {
+selectowl.feedMee = function () {
   // index is a hashmap from URI to jOWL Ontology object representing the resource
   // sometimes the URI is shortened when base-namespace is present
   // 
   // we use full URI to reference everything here.. in our inner repre this.model
+  var index = jOWL.index('ID');
   var m = selectowl.model;
   var r, el, my;
   for ( r in index ) {
     el = index[r];
     my = {};
+    my.baseURI = el.baseURI
     my.URI = el.URI;
     my.type = el.type;
     my.name = el.name;
@@ -67,9 +70,16 @@ selectowl.feedMee = function( index ) {
       my.domain = el.domain;
       my.range = el.range;
     }
-    //TODO FINISH THIS
     m[my.URI] = my;
   } 
+
+  var ns = jOWL.NS;
+  for ( p in ns ) {
+    p = ns[p];
+    if (p.URI && p.prefix) {
+      selectowl.prefixes[p.URI] = p.prefix;
+    }
+  }
 }
 
 
@@ -87,7 +97,7 @@ selectowl.refreshList = function() {
   //var list = $('#ontology-resources-list');
   var idx = selectowl.model;
   var $listitem;
-  var p, q;
+  var p, q, prefix;
 
   list.empty();
 
@@ -96,7 +106,9 @@ selectowl.refreshList = function() {
     if ( !q.isProperty ) {
       // create listitem tag with all the functionality ;)
       $listitem = $('<listitem />');
-      $listitem.attr('label', q.name + '[' + q.type + ']');
+      prefix = selectowl.prefixes[q.baseURI];
+      if (!prefix) prefix = "";
+      $listitem.attr('label', prefix + ':' + q.name + '[' + q.type + ']');
       //$listitem.val(q.name + '[' + q.type + ']');
       $listitem.get(0).owlObj = q;
       $listitem.click(onClick_listItem);
@@ -117,7 +129,7 @@ selectowl.refreshList = function() {
   var list = $('#ontology-objprops-list');
   var idx = selectowl.model;
   var $listitem;
-  var p, q;
+  var p, q, prefix;
 
   list.empty();
 
@@ -126,7 +138,9 @@ selectowl.refreshList = function() {
     if (q.isProperty) { // && q.domain && q.domain == domenaTohoVybranehoObjektu ) {
       // create listitem tag with all the functionality ;)
       $listitem = $('<listitem />');
-      $listitem.attr('label', q.name + '[' + q.type + ']');
+      prefix = selectowl.prefixes[q.baseURI];
+      if (!prefix) prefix = "";
+      $listitem.attr('label', prefix + ':' + q.name + '[' + q.type + ']');
       //$listitem.val(q.name + '[' + q.type + ']');
       $listitem.get(0).owlObj = q;
       $listitem.click(onClick_listItem);
