@@ -254,8 +254,12 @@ jOWL.Ontology.Thing.prototype = {
 		}
 		identifier = jOWL.resolveURI(identifier);
 		this.isExternal = jOWL.isExternal(identifier);
+    //XXX vvv COMMENTED OUT!!! we will treat all identifiers the same way!!!
+		//if(this.isExternal){this.baseURI = this.isExternal[0]; this.name = this.isExternal[1]; this.URI = this.baseURI+this.name;}
+		//else { this.baseURI = jOWL.namespace; this.name = identifier; this.URI = this.name;}
 		if(this.isExternal){this.baseURI = this.isExternal[0]; this.name = this.isExternal[1]; this.URI = this.baseURI+this.name;}
-		else { this.baseURI = jOWL.namespace; this.name = identifier; this.URI = this.name;}
+		else { this.baseURI = jOWL.namespace; this.name = identifier; this.URI = this.baseURI+this.name;}
+    //XXX ^^^
 		this.jnode = jnode;
 		this.type = jnode.get(0).nodeName;
 	},

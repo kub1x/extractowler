@@ -38,13 +38,41 @@ selectowl.load = function (url) {
   // Call load on jOWL and refresh after
   var callback = function () {
     //TODO load to selectowl and delete jOWL
-    //selectowl.feedMee(jOWL.index('ID'));
+    selectowl.feedMee(jOWL.index('ID'));
     selectowl.refreshList();
     selectowl.gui.showStep('select-action');
   };
 
   jOWL.load(url, callback, {reason: true, locale: 'en'});
 }
+
+
+selectowl.model = {}; //XXX !!!
+
+selectowl.feedMee = function( index ) {
+  // index is a hashmap from URI to jOWL Ontology object representing the resource
+  // sometimes the URI is shortened when base-namespace is present
+  // 
+  // we use full URI to reference everything here.. in our inner repre this.model
+  var m = selectowl.model;
+  var r, el, my;
+  for ( r in index ) {
+    el = index[r];
+    my = {};
+    my.URI = el.URI;
+    my.type = el.type;
+    my.name = el.name;
+    my.isProperty = el.isProperty;
+    if ( el.isProperty ) {
+      my.domain = el.domain;
+      my.range = el.range;
+    }
+    //TODO FINISH THIS
+    m[my.URI] = my;
+  } 
+}
+
+
 
 
 selectowl.refreshList = function() {
@@ -57,7 +85,7 @@ selectowl.refreshList = function() {
   
   var list = $('#ontology-objects-list');
   //var list = $('#ontology-resources-list');
-  var idx = jOWL.index('ID');
+  var idx = selectowl.model;
   var $listitem;
   var p, q;
 
@@ -65,7 +93,7 @@ selectowl.refreshList = function() {
 
   for ( p in idx ) {
     q = idx[p];
-    if ("rdfs:Class" == q.type || "owl:Class" == q.type) {
+    if ( !q.isProperty ) {
       // create listitem tag with all the functionality ;)
       $listitem = $('<listitem />');
       $listitem.attr('label', q.name + '[' + q.type + ']');
@@ -87,7 +115,7 @@ selectowl.refreshList = function() {
   }
   
   var list = $('#ontology-objprops-list');
-  var idx = jOWL.index('ID');
+  var idx = selectowl.model;
   var $listitem;
   var p, q;
 
