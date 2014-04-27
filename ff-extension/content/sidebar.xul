@@ -41,14 +41,6 @@
     <script src="selectowl/selectowl.tree.js" />
     -->
 
-
-    <!--script>
-      function _log(text) {
-        var logtxt = document.getElementById('log');
-        logtxt.value = text;
-      }
-    </script-->
-
     <!--
 workflow: 
     * load ontology
@@ -80,49 +72,30 @@ further:
         <hbox flex="0">
           <textbox id="ontology-url" flex="1"/>
           <button label="Load" oncommand="selectowl.load();" flex="0" width="50"/>
-          <!--button label="Refresh" oncommand="selectowl.refreshList();" flex="0" width="50"/-->
         </hbox>
       </groupbox>
 
       <groupbox id="select-action" style="display: none;" flex="1">
         <caption label="Select Action" />
         <vbox flex="1"> 
-          <button label="Select Object"             oncommand="selectowl.gui.showStep('select-object');"  flex="1"/>
-          <button label="Select Object Property"    oncommand="selectowl.gui.showStep('select-objprop');" flex="1" />
-          <button label="Select Data Property"      disabled="true" oncommand="" flex="1" />
+          <button label="Load Ontology"             oncommand="selectowl.gui.showStep('load-ontology');"  flex="1"/>
+          <button label="Select Object"             oncommand="selectowl.gui.showStep('select-class');"  flex="1"/>
+          <button label="Select Object Property"    oncommand="selectowl.gui.showStep('select-property');" flex="1" />
+          <button label="Edit Script"               disabled="true" oncommand="" flex="1" />
           <button label="Save Script"               disabled="true" oncommand="" flex="1" />
           <button label="Edit Ontology Preferences" disabled="true" oncommand="" flex="1" />
         </vbox>
       </groupbox>
 
-      <groupbox id="select-object" style="display: none;" flex="1">
-        <caption label="Select Resource" />
-        <hbox flex="0"> 
-          <button label="Select" oncommand="selectowl.aardvark.start();" flex="0"/>
-        </hbox>
-        <listbox id="ontology-objects-list" flex="1"></listbox>
+      <groupbox id="select-class" style="display: none;" flex="1">
+        <caption label="Select Class" />
+        <listbox id="ontology-classes-list" flex="1"></listbox>
       </groupbox>
 
-      <groupbox id="select-objprop" style="display: none;" flex="1">
-        <caption label="Select Object Property" />
-        <hbox flex="0"> 
-          <button label="Select" oncommand="selectowl.aardvark.start();" flex="0"/>
-        </hbox>
-        <listbox id="ontology-objprops-list" flex="1"></listbox>
+      <groupbox id="select-property" style="display: none;" flex="1">
+        <caption label="Select Property" />
+        <listbox id="ontology-properties-list" flex="1"></listbox>
       </groupbox>
-
-      <!--groupbox id="select-resource" style="display: none;" flex="1">
-        <caption label="Select Resource" />
-        <hbox flex="0"> 
-          <button label="Select" oncommand="selectowl.aardvark.start();" flex="0"/>
-        </hbox>
-        <listbox id="ontology-resources-list" flex="1"></listbox>
-      </groupbox-->
-
-
-      <!--temporary javascript console-->
-      <!--textbox id="jscon" value="" onkeypress="if(event.keyCode == 13)_log(eval(event.target.value));"/>
-      <textbox id="log" value="" multiline="true" height="260" style="font-size: 10px; font-family: courier; "/-->
 
     </vbox>
 

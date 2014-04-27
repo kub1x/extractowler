@@ -88,10 +88,10 @@ selectowl.refreshAllLists = function() {
   var lists = [
     // List of all Classes in ontology
     { 
-      id : '#ontology-objects-list',
+      id : '#ontology-classes-list',
       item_onClick : function( event ) {
         var owlObj = event.target.owlObj;
-        selectowl.workflow['select-object'].selected = owlObj;    //TODO change it to right (correct) step selection in scenario view
+        //selectowl.workflow['select-object'].selected = owlObj;  //TODO change it to right (correct) step selection in scenario view
         //selectowl.gui.showStep(selectowl.gui.SCENARIO_STEP_ID); //TODO show the scenario step with the right object selected
         selectowl.aardvark.start();                               //TODO blink the document on aardwar start
       }, 
@@ -103,14 +103,16 @@ selectowl.refreshAllLists = function() {
       //TODO column IDs
 
       //TODO function that will return column values for each column ID, XXX NOPE will do wit createListItemFor( item )
+      
+      //TODO target_onSelected : function(element)  XXX function that aardwark.onSelect will call back to handle the item !!! where should this be???
     }, 
 
     // List of all Properties in ontology
     {
-      id : '#ontology-objprops-list',
+      id : '#ontology-properties-list',
       item_onClick : function( event ) {
         var owlObj = event.target.owlObj;
-        selectowl.workflow['select-objprop'].selected = owlObj;
+        //selectowl.workflow['select-objprop'].selected = owlObj;
         selectowl.aardvark.start();
       }, 
       accepts : function( item ) {
