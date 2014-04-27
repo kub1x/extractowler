@@ -75,7 +75,8 @@ selectowl.feedMee = function () {
     my.type = el.type;
     my.name = el.name;
     my.isProperty = el.isProperty;
-    my.prefix = selectowl.prefixes[el.URI] ? selectowl.prefixes[el.URI] : ""; //TODO better unknow prefix handling - move this to function
+    //TODO better unknow prefix handling - move this to function
+    my.prefix = selectowl.prefixes[el.baseURI] ? selectowl.prefixes[el.baseURI] : "";
     if ( el.isProperty ) {
       my.domain = el.domain;
       my.range = el.range;
@@ -104,20 +105,24 @@ selectowl.refreshAllLists = function() {
       }, 
 
       createListItemFor: function( item ) {
-        var $item = $('<listitem />');
+        var $item = $('<treeitem />')
+        var $row  = $('<treerow />');
+
+        $item.append($row);
+
         var $cell;
 
-        $cell = $('<listcell />');
+        $cell = $('<treecell />');
         $cell.attr('label', item.prefix);
-        $item.append($cell);
+        $row.append($cell);
 
-        $cell = $('<listcell />');
+        $cell = $('<treecell />');
         $cell.attr('label', item.name);
-        $item.append($cell);
+        $row.append($cell);
 
-        $cell = $('<listcell />');
+        $cell = $('<treecell />');
         $cell.attr('label', item.type);
-        $item.append($cell);
+        $row.append($cell);
 
         return $item;
       }, 
@@ -140,28 +145,32 @@ selectowl.refreshAllLists = function() {
       }, 
 
       createListItemFor: function( item ) {
-        var $item = $('<listitem />');
+        var $item = $('<treeitem />');
+        var $row  = $('<treerow />');
+
+        $item.append($row);
+
         var $cell;
 
-        $cell = $('<listcell />');
+        $cell = $('<treecell />');
         $cell.attr('label', item.prefix);
-        $item.append($cell);
+        $row.append($cell);
 
-        $cell = $('<listcell />');
+        $cell = $('<treecell />');
         $cell.attr('label', item.name);
-        $item.append($cell);
+        $row.append($cell);
 
-        $cell = $('<listcell />');
+        $cell = $('<treecell />');
         $cell.attr('label', item.domain);
-        $item.append($cell);
+        $row.append($cell);
 
-        $cell = $('<listcell />');
+        $cell = $('<treecell />');
         $cell.attr('label', item.range);
-        $item.append($cell);
+        $row.append($cell);
 
-        $cell = $('<listcell />');
+        $cell = $('<treecell />');
         $cell.attr('label', item.type);
-        $item.append($cell);
+        $row.append($cell);
 
         return $item;
       }, 
@@ -178,12 +187,12 @@ selectowl.refreshAllLists = function() {
 
 
 selectowl.refreshList = function( list ) {
-  var $list = $(list.id);
+  var $list = $(list.id).children('treechildren');
   var idx = selectowl.model;
   var $listitem;
   var p, q, prefix;
 
-  $list.remove('listitem');
+  $list.remove('treeitem');
 
   for ( p in idx ) {
     q = idx[p];
@@ -200,6 +209,7 @@ selectowl.refreshList = function( list ) {
       // - we will then edit the selector so that it matches our needs
       // - this should also show the "scenario" view of selectowl
       $listitem.click(list.item_onClick);
+      //TODO replace this with tree onSelected method !!!
 
       $list.append($listitem);
     }

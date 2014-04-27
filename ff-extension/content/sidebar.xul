@@ -87,42 +87,67 @@ further:
         </vbox>
       </groupbox>
 
+
+      <!-- TODO learn to sort trees by column values -->
+
       <groupbox id="select-class" style="display: none;" flex="1">
         <caption label="Select Class" />
-        <listbox id="ontology-classes-list" flex="1">
-          <listhead>
-            <listheader label="prefix" />
-            <listheader label="name" />
-            <listheader label="type" />
-          </listhead>
-          <listcols>
-            <listcol flex="1"/>
-            <listcol flex="2"/>
-            <listcol flex="1"/>
-          </listcols>
-          <!-- list items -->
-        </listbox>
+        <tree id="ontology-classes-list" flex="1">
+          <treecols>
+            <treecol flex="1" label="prefix"/>
+            <splitter class="tree-splitter" />
+            <treecol flex="2" label="name"/>
+            <splitter class="tree-splitter" />
+            <treecol flex="1" label="type"/>
+          </treecols>
+          <treechildren>
+            <!-- tree items -->
+            <!--
+              <treeitem>
+                  <treerow>
+                      <treecell label="select" />
+                      <treecell />
+                      <treecell />
+                      <treecell />
+                      <treecell />
+                      <treecell />
+                  </treerow>
+              </treeitem>
+            -->
+          </treechildren>
+        </tree>
       </groupbox>
 
       <groupbox id="select-property" style="display: none;" flex="1">
         <caption label="Select Property" />
-        <listbox id="ontology-properties-list" flex="1">
-          <listhead>
-            <listheader label="prefix" />
-            <listheader label="name" />
-            <listheader label="domain" />
-            <listheader label="range" />
-            <listheader label="type" />
-          </listhead>
-          <listcols>
-            <listcol flex="1"/>
-            <listcol flex="2"/>
-            <listcol flex="1"/>
-            <listcol flex="1"/>
-            <listcol flex="1"/>
-          </listcols>
-          <!-- list items -->
-        </listbox>
+        <tree id="ontology-properties-list" flex="1">
+          <treecols>
+            <treecol flex="1" label="prefix" />
+            <splitter class="tree-splitter" />
+            <treecol flex="2" label="name"   />
+            <splitter class="tree-splitter" />
+            <treecol flex="1" label="domain" />
+            <splitter class="tree-splitter" />
+            <treecol flex="1" label="range"  />
+            <splitter class="tree-splitter" />
+            <treecol flex="1" label="type"   />
+          </treecols>
+          <treechildren>
+            <!-- tree items -->
+            <!--
+              <treeitem>
+                  <treerow>
+                      <treecell label="select" />
+                      <treecell />
+                      <treecell />
+                      <treecell />
+                      <treecell />
+                      <treecell />
+                  </treerow>
+              </treeitem>
+            -->
+          </treechildren>
+        </tree>
       </groupbox>
 
 
