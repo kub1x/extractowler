@@ -48,7 +48,30 @@ selectowl.load = function (url) {
 
 
 selectowl.model = {}; //XXX !!!
-selectowl.prefixes = {};
+selectowl.prefixes = [];
+selectowl.prefix2uri = function ( prefix ) {
+  var p;
+  var idx = selectowl.prefixes;
+  for ( p in idx ) {
+    p = idx[p];
+    if (prefix == p.prefix) {
+      return p.URI;
+    }
+  }
+  return null;
+}
+
+selectowl.uri2prefix = function ( URI ) {
+  var p;
+  var idx = selectowl.prefixes;
+  for ( p in idx ) {
+    p = idx[p];
+    if (URI == p.URI) {
+      return p.prefix;
+    }
+  }
+  return URI; //XXX if not found, return the URI back
+}
 
 selectowl.feedMee = function () {
   // index is a hashmap from URI to jOWL Ontology object representing the resource
@@ -59,14 +82,20 @@ selectowl.feedMee = function () {
   var m = selectowl.model;
   var r, el, my;
 
+  // Fill prefixes
   var ns = jOWL.NS;
   for ( p in ns ) {
     p = ns[p];
-    if (p.URI && p.prefix) {
-      selectowl.prefixes[p.URI] = p.prefix;
+    // Check if it's valid prefix and if we don't have it already
+    if (p.URI && p.prefix && selectowl.uri2prefix(p.URI) == p.URI) {
+      np = {};
+      np.prefix = p.prefix;
+      np.URI    = p.URI;
+      selectowl.prefixes.push(np);
     }
   }
 
+  // Fill Resources
   for ( r in index ) {
     el = index[r];
     my = {};
@@ -76,7 +105,7 @@ selectowl.feedMee = function () {
     my.name = el.name;
     my.isProperty = el.isProperty;
     //TODO better unknow prefix handling - move this to function
-    my.prefix = selectowl.prefixes[el.baseURI] ? selectowl.prefixes[el.baseURI] : "";
+    my.prefix = selectowl.uri2prefix(el.baseURI);
     if ( el.isProperty ) {
       my.domain = el.domain;
       my.range = el.range;
@@ -180,22 +209,76 @@ selectowl.refreshAllLists = function() {
   // go, go, go!
   var l;
   for ( l in lists ) {
-    selectowl.refreshList(lists[l]);
+    selectowl.refreshList(lists[l], selectowl.model);
   }
 
+  // go for prefixes too
+  var prefixes_list = { 
+      id : '#ontology-prefixes-list',
+      item_onClick : null, 
+      accepts : function( item ) { return true; }, 
+      createListItemFor: function( item ) {
+        var $item = $('<treeitem />')
+        var $row  = $('<treerow />');
+
+        $item.append($row);
+
+        var $cell;
+
+        $cell = $('<treecell />');
+        $cell.attr('label', item.prefix);
+        $row.append($cell);
+
+        $cell = $('<treecell />');
+        $cell.attr('label', item.URI);
+        $row.append($cell);
+
+        return $item;
+      } 
+    };
+  selectowl.refreshList(prefixes_list , selectowl.prefixes); 
+
+  //// set the prefixes tree to editable !!!
+  //var tree = $('#ontology-prefixes-list').get(0);
+  //var treeView = {
+  //    rowCount : selectowl.prefixes.length,
+  //    getCellText : function(row,column){
+  //      if (column.index == 0) return selectowl.prefixes[raw].prefix;
+  //      if (column.index == 1) return selectowl.prefixes[raw].URI;
+  //      return null;
+  //    },
+  //    setTree: function(treebox){ this.treebox = treebox; },
+  //    isContainer: function(row){ return false; },
+  //    isSeparator: function(row){ return false; },
+  //    isSorted: function(){ return false; },
+  //    getLevel: function(row){ return 0; },
+  //    getImageSrc: function(row,col){ return null; },
+  //    getRowProperties: function(row,props){},
+  //    getCellProperties: function(row,col,props){},
+  //    getColumnProperties: function(colid,col,props){}, 
+  //    setCellText : function(row, col, value) {
+  //      if (!col.index == 0) return;
+  //      var URI = this.getCellValue(row, col.getNext()); // Get uri
+  //      alert("[" + row + ", " + col + "]" + 
+  //            "Changing prefix for: " + URI + "\n" +
+  //            "from: " + selectowl.prefixes[URI].prefix + " to: " + value);
+  //      selectowl.prefixes[URI].prefix = value;
+  //    }
+  //};
+  //tree.view = treeView;
+  //$(tree).attr('editable', 'true');
 }
 
 
-selectowl.refreshList = function( list ) {
+selectowl.refreshList = function( list, items ) {
   var $list = $(list.id).children('treechildren');
-  var idx = selectowl.model;
   var $listitem;
   var p, q, prefix;
 
   $list.remove('treeitem');
 
-  for ( p in idx ) {
-    q = idx[p];
+  for ( p in items ) {
+    q = items[p];
     if ( list.accepts(q) ) {
       // Create the list item
       $listitem = list.createListItemFor( q );

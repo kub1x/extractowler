@@ -73,6 +73,28 @@ further:
           <textbox id="ontology-url" flex="1"/>
           <button label="Load" oncommand="selectowl.load();" flex="0" width="50"/>
         </hbox>
+        <tree id="ontology-prefixes-list" flex="1" seltype="cell" editable="true">
+          <treecols>
+            <treecol flex="1" label="prefix" persist="width"/>
+            <splitter class="tree-splitter" />
+            <treecol flex="5" label="URI"/>
+          </treecols>
+          <treechildren>
+            <!-- tree items -->
+            <!--
+              <treeitem>
+                  <treerow>
+                      <treecell label="select" />
+                      <treecell />
+                      <treecell />
+                      <treecell />
+                      <treecell />
+                      <treecell />
+                  </treerow>
+              </treeitem>
+            -->
+          </treechildren>
+        </tree>
       </groupbox>
 
       <groupbox id="select-action" style="display: none;" flex="1">
@@ -92,13 +114,13 @@ further:
 
       <groupbox id="select-class" style="display: none;" flex="1">
         <caption label="Select Class" />
-        <tree id="ontology-classes-list" flex="1">
+        <tree id="ontology-classes-list" enableColumnDrag="true" flex="1">
           <treecols>
-            <treecol flex="1" label="prefix"/>
+            <treecol flex="1" label="prefix" persist="width ordinal hidden" />
             <splitter class="tree-splitter" />
-            <treecol flex="2" label="name"/>
+            <treecol flex="2" label="name"   persist="width ordinal hidden" />
             <splitter class="tree-splitter" />
-            <treecol flex="1" label="type"/>
+            <treecol flex="1" label="type"   persist="width ordinal hidden" />
           </treecols>
           <treechildren>
             <!-- tree items -->
@@ -120,17 +142,17 @@ further:
 
       <groupbox id="select-property" style="display: none;" flex="1">
         <caption label="Select Property" />
-        <tree id="ontology-properties-list" flex="1">
+        <tree id="ontology-properties-list" enableColumnDrag="true" flex="1">
           <treecols>
-            <treecol flex="1" label="prefix" />
+            <treecol flex="1" label="prefix" persist="width ordinal hidden" />
             <splitter class="tree-splitter" />
-            <treecol flex="2" label="name"   />
+            <treecol flex="2" label="name"   persist="width ordinal hidden" />
             <splitter class="tree-splitter" />
-            <treecol flex="1" label="domain" />
+            <treecol flex="1" label="domain" persist="width ordinal hidden" />
             <splitter class="tree-splitter" />
-            <treecol flex="1" label="range"  />
+            <treecol flex="1" label="range"  persist="width ordinal hidden" />
             <splitter class="tree-splitter" />
-            <treecol flex="1" label="type"   />
+            <treecol flex="1" label="type"   persist="width ordinal hidden" />
           </treecols>
           <treechildren>
             <!-- tree items -->
