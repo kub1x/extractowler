@@ -89,19 +89,100 @@ further:
 
       <groupbox id="select-class" style="display: none;" flex="1">
         <caption label="Select Class" />
-        <listbox id="ontology-classes-list" flex="1"></listbox>
+        <listbox id="ontology-classes-list" flex="1">
+          <listhead>
+            <listheader label="prefix" />
+            <listheader label="name" />
+            <listheader label="type" />
+          </listhead>
+          <listcols>
+            <listcol flex="1"/>
+            <listcol flex="2"/>
+            <listcol flex="1"/>
+          </listcols>
+          <!-- list items -->
+        </listbox>
       </groupbox>
 
       <groupbox id="select-property" style="display: none;" flex="1">
         <caption label="Select Property" />
-        <listbox id="ontology-properties-list" flex="1"></listbox>
+        <listbox id="ontology-properties-list" flex="1">
+          <listhead>
+            <listheader label="prefix" />
+            <listheader label="name" />
+            <listheader label="domain" />
+            <listheader label="range" />
+            <listheader label="type" />
+          </listhead>
+          <listcols>
+            <listcol flex="1"/>
+            <listcol flex="2"/>
+            <listcol flex="1"/>
+            <listcol flex="1"/>
+            <listcol flex="1"/>
+          </listcols>
+          <!-- list items -->
+        </listbox>
       </groupbox>
 
+
+      <groupbox id="scenario-editor" style="display: none;" flex="1">
+        <tree id="selectowl-scenario-tree"
+          flex="1"
+          hidecolumnpicker="false"
+          seltype="single">
+<!--
+class="tree"
+rows="5"
+onselect="selectowl.gui.onSelect();"
+onclick="selectowl.gui.onClick(event);"
+-->
+            <treecols id="selectowl-tree-cols">
+                <treecol id="selectowl-tree-col-name" primary="true" flex="0" label="name" persist="width" ordinal="1"/>
+                <!--
+                <splitter class="tree-splitter" ordinal="2"/>
+
+                <treecol id="selectowl-tree-col-area" flex="1" label="area" ordinal="3" />
+
+                <splitter class="tree-splitter" ordinal="4"/>
+
+                <treecol id="selectowl-tree-col-url" label="url" ordinal="5" hidden="true"/>
+
+                <splitter class="tree-splitter" ordinal="6"/>
+
+                <treecol id="selectowl-tree-col-read" label="read" ordinal="7" hidden="true"/>
+
+                <splitter class="tree-splitter" ordinal="8"/>
+
+                <treecol id="selectowl-tree-col-use" label="use" ordinal="9" hidden="true"/>
+
+                <splitter class="tree-splitter" ordinal="10"/>
+
+                <treecol id="selectowl-tree-col-attach" label="attach" ordinal="11" hidden="true"/>
+-->
+            </treecols>
+
+            <treechildren>
+                <treeitem>
+                    <treerow>
+                        <treecell />
+                      <!--
+                        <treecell label="select" />
+                        <treecell />
+                        <treecell />
+                        <treecell />
+                        <treecell />
+                        <treecell />
+                      -->
+                    </treerow>
+                </treeitem>
+            </treechildren>
+        </tree>
+      </groupbox>
     </vbox>
 
 
 
-    <!--
     <popupset id="aardvark-popupset">
         <tooltip id="aardvark-helpbox" noautohide="true" orient="vertical">
             <description id="aardvark-helpbox-title" value="&selectowl.aardvark.helpbox;"/>
@@ -116,6 +197,10 @@ further:
         </tooltip>
     </popupset>
 
+
+
+
+    <!--
     <panel id="selectowl-editor" onpopupshown="selectowl.editor.onPopUpShown(event);">
         <hbox>
             <vbox>

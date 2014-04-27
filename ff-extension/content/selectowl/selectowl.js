@@ -58,20 +58,6 @@ selectowl.feedMee = function () {
   var index = jOWL.index('ID');
   var m = selectowl.model;
   var r, el, my;
-  for ( r in index ) {
-    el = index[r];
-    my = {};
-    my.baseURI = el.baseURI
-    my.URI = el.URI;
-    my.type = el.type;
-    my.name = el.name;
-    my.isProperty = el.isProperty;
-    if ( el.isProperty ) {
-      my.domain = el.domain;
-      my.range = el.range;
-    }
-    m[my.URI] = my;
-  } 
 
   var ns = jOWL.NS;
   for ( p in ns ) {
@@ -80,6 +66,22 @@ selectowl.feedMee = function () {
       selectowl.prefixes[p.URI] = p.prefix;
     }
   }
+
+  for ( r in index ) {
+    el = index[r];
+    my = {};
+    my.baseURI = el.baseURI
+    my.URI = el.URI;
+    my.type = el.type;
+    my.name = el.name;
+    my.isProperty = el.isProperty;
+    my.prefix = selectowl.prefixes[el.URI] ? selectowl.prefixes[el.URI] : ""; //TODO better unknow prefix handling - move this to function
+    if ( el.isProperty ) {
+      my.domain = el.domain;
+      my.range = el.range;
+    }
+    m[my.URI] = my;
+  } 
 }
 
 
@@ -89,20 +91,36 @@ selectowl.refreshAllLists = function() {
     // List of all Classes in ontology
     { 
       id : '#ontology-classes-list',
+
       item_onClick : function( event ) {
         var owlObj = event.target.owlObj;
         //selectowl.workflow['select-object'].selected = owlObj;  //TODO change it to right (correct) step selection in scenario view
         //selectowl.gui.showStep(selectowl.gui.SCENARIO_STEP_ID); //TODO show the scenario step with the right object selected
         selectowl.aardvark.start();                               //TODO blink the document on aardwar start
       }, 
+
       accepts : function( item ) {
         return !item.isProperty;
-      }
-      //TODO createListItemFor: function( item ) {}, 
-      
-      //TODO column IDs
+      }, 
 
-      //TODO function that will return column values for each column ID, XXX NOPE will do wit createListItemFor( item )
+      createListItemFor: function( item ) {
+        var $item = $('<listitem />');
+        var $cell;
+
+        $cell = $('<listcell />');
+        $cell.attr('label', item.prefix);
+        $item.append($cell);
+
+        $cell = $('<listcell />');
+        $cell.attr('label', item.name);
+        $item.append($cell);
+
+        $cell = $('<listcell />');
+        $cell.attr('label', item.type);
+        $item.append($cell);
+
+        return $item;
+      }, 
       
       //TODO target_onSelected : function(element)  XXX function that aardwark.onSelect will call back to handle the item !!! where should this be???
     }, 
@@ -110,14 +128,43 @@ selectowl.refreshAllLists = function() {
     // List of all Properties in ontology
     {
       id : '#ontology-properties-list',
+
       item_onClick : function( event ) {
         var owlObj = event.target.owlObj;
         //selectowl.workflow['select-objprop'].selected = owlObj;
         selectowl.aardvark.start();
       }, 
+
       accepts : function( item ) {
         return item.isProperty;
-      }
+      }, 
+
+      createListItemFor: function( item ) {
+        var $item = $('<listitem />');
+        var $cell;
+
+        $cell = $('<listcell />');
+        $cell.attr('label', item.prefix);
+        $item.append($cell);
+
+        $cell = $('<listcell />');
+        $cell.attr('label', item.name);
+        $item.append($cell);
+
+        $cell = $('<listcell />');
+        $cell.attr('label', item.domain);
+        $item.append($cell);
+
+        $cell = $('<listcell />');
+        $cell.attr('label', item.range);
+        $item.append($cell);
+
+        $cell = $('<listcell />');
+        $cell.attr('label', item.type);
+        $item.append($cell);
+
+        return $item;
+      }, 
     }
   ];
 
@@ -136,21 +183,15 @@ selectowl.refreshList = function( list ) {
   var $listitem;
   var p, q, prefix;
 
-  $list.empty();
+  $list.remove('listitem');
 
   for ( p in idx ) {
     q = idx[p];
     if ( list.accepts(q) ) {
-      //TODO change this to list-specific method XXX !!!
-      // create listitem tag with all the functionality ;)
-      $listitem = $('<listitem />');
-      prefix = selectowl.prefixes[q.baseURI]; //TODO wrap in function
-      if (!prefix) prefix = "some_uri";       //TODO guess prefix
-      $listitem.attr('label', prefix + ':' + q.name + '[' + q.type + ']');
-      //TODO prefix and type will be other coumns of this list
-      //     see refreshAllLists()
+      // Create the list item
+      $listitem = list.createListItemFor( q );
       
-      // Item holds it object in owlObj!!!
+      // Item holds it's object in owlObj!!!
       $listitem.get(0).owlObj = q;
 
       // Specify, what to do when accessing the resource
