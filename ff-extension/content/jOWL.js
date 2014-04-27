@@ -254,6 +254,8 @@ jOWL.Ontology.Thing.prototype = {
 		}
 		identifier = jOWL.resolveURI(identifier);
 		this.isExternal = jOWL.isExternal(identifier);
+    //strip off namespace for the "name" attribute ;)
+    if (!this.isExternal) identifier = identifier.replace(jOWL.namespace, '');
     //XXX vvv COMMENTED OUT!!! we will treat all identifiers the same way!!!
 		//if(this.isExternal){this.baseURI = this.isExternal[0]; this.name = this.isExternal[1]; this.URI = this.baseURI+this.name;}
 		//else { this.baseURI = jOWL.namespace; this.name = identifier; this.URI = this.name;}
@@ -1343,7 +1345,7 @@ jOWL.isExternal = function(resource){
 };
 
 /** 
-if a URI belongs to the loaded namespace, then strips the prefix url off, else preserves URI 
+if a URI belongs to the loaded namespace, then strips the prefix url off (it doesn't now, muhehe), else preserves URI 
 also able to parse and reference html (or jquery) elements for their URI.
 XXX also minimizes uri to prefix if prefix is loaded
 */
@@ -1364,7 +1366,9 @@ jOWL.resolveURI = function(URI, array, prefix){
 			ns = URI.substring(0, tr+1);
 			rs = URI.substring(tr+1);
 		}
-	} else if(URI.charAt(0) == '#'){ return URI.substring(1);}
+	} else { //XXX I need the full URI
+    URI = jOWL.namespace + URI;
+  } // else if(URI.charAt(0) == '#'){ return URI.substring(1);} //XXX nonsence
   //XXX vvv   replace prefix url with prefix if available
   if(prefix) {
   var pr = jOWL.NS.uri2prefix(ns);
@@ -1374,7 +1378,7 @@ jOWL.resolveURI = function(URI, array, prefix){
   }
   //XXX ^^^
 	if(array){ return [ns, rs];}
-	if(ns == jOWL.namespace){ return rs;}
+	//if(ns == jOWL.namespace){ return rs;}
 	return URI;
 };
 
