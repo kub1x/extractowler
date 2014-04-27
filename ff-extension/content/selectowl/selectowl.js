@@ -39,7 +39,7 @@ selectowl.load = function (url) {
   var callback = function () {
     //TODO load to selectowl and delete jOWL
     selectowl.feedMee();
-    selectowl.refreshList();
+    selectowl.refreshAllLists();
     selectowl.gui.showStep('select-action');
   };
 
@@ -84,69 +84,81 @@ selectowl.feedMee = function () {
 
 
 
+selectowl.refreshAllLists = function() {
+  var lists = [
+    // List of all Classes in ontology
+    { 
+      id : '#ontology-objects-list',
+      item_onClick : function( event ) {
+        var owlObj = event.target.owlObj;
+        selectowl.workflow['select-object'].selected = owlObj;    //TODO change it to right (correct) step selection in scenario view
+        //selectowl.gui.showStep(selectowl.gui.SCENARIO_STEP_ID); //TODO show the scenario step with the right object selected
+        selectowl.aardvark.start();                               //TODO blink the document on aardwar start
+      }, 
+      accepts : function( item ) {
+        return !item.isProperty;
+      }
+      //TODO createListItemFor: function( item ) {}, 
+      
+      //TODO column IDs
 
-selectowl.refreshList = function() {
+      //TODO function that will return column values for each column ID, XXX NOPE will do wit createListItemFor( item )
+    }, 
 
-  var onClick_listItem = function ( event ) {
-    var owlObj = event.target.owlObj;
-    selectowl.workflow['select-object'].selected = owlObj;
-    selectowl.aardvark.start();
-  }
-  
-  var list = $('#ontology-objects-list');
-  //var list = $('#ontology-resources-list');
-  var idx = selectowl.model;
-  var $listitem;
-  var p, q, prefix;
-
-  list.empty();
-
-  for ( p in idx ) {
-    q = idx[p];
-    if ( !q.isProperty ) {
-      // create listitem tag with all the functionality ;)
-      $listitem = $('<listitem />');
-      prefix = selectowl.prefixes[q.baseURI];
-      if (!prefix) prefix = "";
-      $listitem.attr('label', prefix + ':' + q.name + '[' + q.type + ']');
-      //$listitem.val(q.name + '[' + q.type + ']');
-      $listitem.get(0).owlObj = q;
-      $listitem.click(onClick_listItem);
-      // crate a list for it
-      list.append($listitem);
-      //t += p + ": " + idx[p] + '\n';
+    // List of all Properties in ontology
+    {
+      id : '#ontology-objprops-list',
+      item_onClick : function( event ) {
+        var owlObj = event.target.owlObj;
+        selectowl.workflow['select-objprop'].selected = owlObj;
+        selectowl.aardvark.start();
+      }, 
+      accepts : function( item ) {
+        return item.isProperty;
+      }
     }
-  } 
+  ];
 
-  //-------------------------------------------------------
-
-  var onClick_listItem = function ( event ) {
-    var owlObj = event.target.owlObj;
-    selectowl.workflow['select-objprop'].selected = owlObj;
-    selectowl.aardvark.start();
+  // go, go, go!
+  var l;
+  for ( l in lists ) {
+    selectowl.refreshList(lists[l]);
   }
-  
-  var list = $('#ontology-objprops-list');
+
+}
+
+
+selectowl.refreshList = function( list ) {
+  var $list = $(list.id);
   var idx = selectowl.model;
   var $listitem;
   var p, q, prefix;
 
-  list.empty();
+  $list.empty();
 
   for ( p in idx ) {
     q = idx[p];
-    if (q.isProperty) { // && q.domain && q.domain == domenaTohoVybranehoObjektu ) {
+    if ( list.accepts(q) ) {
+      //TODO change this to list-specific method XXX !!!
       // create listitem tag with all the functionality ;)
       $listitem = $('<listitem />');
-      prefix = selectowl.prefixes[q.baseURI];
-      if (!prefix) prefix = "";
+      prefix = selectowl.prefixes[q.baseURI]; //TODO wrap in function
+      if (!prefix) prefix = "some_uri";       //TODO guess prefix
       $listitem.attr('label', prefix + ':' + q.name + '[' + q.type + ']');
-      //$listitem.val(q.name + '[' + q.type + ']');
+      //TODO prefix and type will be other coumns of this list
+      //     see refreshAllLists()
+      
+      // Item holds it object in owlObj!!!
       $listitem.get(0).owlObj = q;
-      $listitem.click(onClick_listItem);
-      // crate a list for it
-      list.append($listitem);
-      //t += p + ": " + idx[p] + '\n';
+
+      // Specify, what to do when accessing the resource
+      // - this method should make us aware, what we're doing
+      // - we will create selector for selected Resource by using aardwark
+      // - we will then edit the selector so that it matches our needs
+      // - this should also show the "scenario" view of selectowl
+      $listitem.click(list.item_onClick);
+
+      $list.append($listitem);
     }
   } 
 }
