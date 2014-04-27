@@ -19,7 +19,7 @@ XPI_NAME=$(APP_NAME).xpi
 ROOT_DIR=$(shell pwd)
 TMP_DIR=tmp
 
-all: pack
+all: pack install
 
 #clean: 
 #	# remove any left-over files from previous build
