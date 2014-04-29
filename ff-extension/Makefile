@@ -19,7 +19,7 @@ XPI_NAME=$(APP_NAME).xpi
 ROOT_DIR=$(shell pwd)
 TMP_DIR=tmp
 
-all: pack install
+all: pack install wait run
 
 #clean: 
 #	# remove any left-over files from previous build
@@ -61,6 +61,9 @@ run:
 	cygstart.exe $(FIREFOX_LNK)
 	#$(FIREFOX) -no-remote -P selectowl >/dev/null 2>&1 &
 	#cd $(FIREFOX_DIR) ; $(FIREFOX) -no-remote -P selectowl >/dev/null 2>&1 &
+
+wait:
+	read;
 
 #kill:
 #	taskkill.exe /IM firefox.exe && taskkill.exe /IM firefox.exe || echo "no firefox running"
