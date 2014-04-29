@@ -59,173 +59,178 @@ further:
       * start crowler
     -->
 
-    <vbox id="main" flex="1">
-      <!-- trying to make workflow kinda "movable" in a smaller box -->
-      <box flex="0" style="width: 100%;">
-        <box flex="1" style="flex-direction: row;">
-          <hbox id="workflow"><!-- populated with selectowl.gui.populateWorkflow(); --></hbox>
+    <vbox flex="1">
+      <vbox id="main" flex="1">
+        <!-- trying to make workflow kinda "movable" in a smaller box -->
+        <box flex="0" style="width: 100%;">
+          <box flex="1" style="flex-direction: row;">
+            <hbox id="workflow"><!-- populated with selectowl.gui.populateWorkflow(); --></hbox>
+          </box>
         </box>
-      </box>
 
-      <groupbox id="load-ontology" class="current-step" flex="1">
-        <caption label="Load Ontology" />
-        <hbox flex="0">
-          <textbox id="ontology-url" flex="1"/>
-          <button label="Load" oncommand="selectowl.load();" flex="0" width="50"/>
-        </hbox>
-        <tree id="ontology-prefixes-list" flex="1" seltype="cell" editable="true">
-          <treecols>
-            <treecol flex="1" label="prefix" persist="width"/>
-            <splitter class="tree-splitter" />
-            <treecol flex="5" label="URI"/>
-          </treecols>
-          <treechildren>
-            <!-- tree items -->
-            <!--
-              <treeitem>
-                  <treerow>
-                      <treecell label="select" />
-                      <treecell />
-                      <treecell />
-                      <treecell />
-                      <treecell />
-                      <treecell />
-                  </treerow>
-              </treeitem>
-            -->
-          </treechildren>
-        </tree>
-      </groupbox>
-
-      <groupbox id="select-action" style="display: none;" flex="1">
-        <caption label="Select Action" />
-        <vbox flex="1"> 
-          <button label="Load Ontology"             oncommand="selectowl.gui.showStep('load-ontology');"  flex="1"/>
-          <button label="Select Object"             oncommand="selectowl.gui.showStep('select-class');"  flex="1"/>
-          <button label="Select Object Property"    oncommand="selectowl.gui.showStep('select-property');" flex="1" />
-          <button label="Edit Script"               disabled="true" oncommand="" flex="1" />
-          <button label="Save Script"               disabled="true" oncommand="" flex="1" />
-          <button label="Edit Ontology Preferences" disabled="true" oncommand="" flex="1" />
-        </vbox>
-      </groupbox>
-
-
-      <!-- TODO learn to sort trees by column values -->
-
-      <groupbox id="select-class" style="display: none;" flex="1">
-        <caption label="Select Class" />
-        <tree id="ontology-classes-list" enableColumnDrag="true" flex="1">
-          <treecols>
-            <treecol flex="1" label="prefix" persist="width ordinal hidden" />
-            <splitter class="tree-splitter" />
-            <treecol flex="2" label="name"   persist="width ordinal hidden" />
-            <splitter class="tree-splitter" />
-            <treecol flex="1" label="type"   persist="width ordinal hidden" />
-          </treecols>
-          <treechildren>
-            <!-- tree items -->
-            <!--
-              <treeitem>
-                  <treerow>
-                      <treecell label="select" />
-                      <treecell />
-                      <treecell />
-                      <treecell />
-                      <treecell />
-                      <treecell />
-                  </treerow>
-              </treeitem>
-            -->
-          </treechildren>
-        </tree>
-      </groupbox>
-
-      <groupbox id="select-property" style="display: none;" flex="1">
-        <caption label="Select Property" />
-        <tree id="ontology-properties-list" enableColumnDrag="true" flex="1">
-          <treecols>
-            <treecol flex="1" label="prefix" persist="width ordinal hidden" />
-            <splitter class="tree-splitter" />
-            <treecol flex="2" label="name"   persist="width ordinal hidden" />
-            <splitter class="tree-splitter" />
-            <treecol flex="1" label="domain" persist="width ordinal hidden" />
-            <splitter class="tree-splitter" />
-            <treecol flex="1" label="range"  persist="width ordinal hidden" />
-            <splitter class="tree-splitter" />
-            <treecol flex="1" label="type"   persist="width ordinal hidden" />
-          </treecols>
-          <treechildren>
-            <!-- tree items -->
-            <!--
-              <treeitem>
-                  <treerow>
-                      <treecell label="select" />
-                      <treecell />
-                      <treecell />
-                      <treecell />
-                      <treecell />
-                      <treecell />
-                  </treerow>
-              </treeitem>
-            -->
-          </treechildren>
-        </tree>
-      </groupbox>
-
-
-      <groupbox id="scenario-editor" style="display: none;" flex="1">
-        <tree id="selectowl-scenario-tree"
-          flex="1"
-          hidecolumnpicker="false"
-          seltype="single">
-<!--
-class="tree"
-rows="5"
-onselect="selectowl.gui.onSelect();"
-onclick="selectowl.gui.onClick(event);"
--->
-            <treecols id="selectowl-tree-cols">
-                <treecol id="selectowl-tree-col-name" primary="true" flex="0" label="name" persist="width" ordinal="1"/>
-                <!--
-                <splitter class="tree-splitter" ordinal="2"/>
-
-                <treecol id="selectowl-tree-col-area" flex="1" label="area" ordinal="3" />
-
-                <splitter class="tree-splitter" ordinal="4"/>
-
-                <treecol id="selectowl-tree-col-url" label="url" ordinal="5" hidden="true"/>
-
-                <splitter class="tree-splitter" ordinal="6"/>
-
-                <treecol id="selectowl-tree-col-read" label="read" ordinal="7" hidden="true"/>
-
-                <splitter class="tree-splitter" ordinal="8"/>
-
-                <treecol id="selectowl-tree-col-use" label="use" ordinal="9" hidden="true"/>
-
-                <splitter class="tree-splitter" ordinal="10"/>
-
-                <treecol id="selectowl-tree-col-attach" label="attach" ordinal="11" hidden="true"/>
--->
+        <groupbox id="load-ontology" class="current-step" flex="1">
+          <caption label="Load Ontology" />
+          <hbox flex="0">
+            <textbox id="ontology-url" flex="1"/>
+            <button label="Load" oncommand="selectowl.load();" flex="0" width="50"/>
+          </hbox>
+          <tree id="ontology-prefixes-list" flex="1" seltype="cell" editable="true">
+            <treecols>
+              <treecol flex="1" label="prefix" persist="width"/>
+              <splitter class="tree-splitter" />
+              <treecol flex="5" label="URI"/>
             </treecols>
-
             <treechildren>
+              <!-- tree items -->
+              <!--
                 <treeitem>
                     <treerow>
-                        <treecell />
-                      <!--
                         <treecell label="select" />
                         <treecell />
                         <treecell />
                         <treecell />
                         <treecell />
                         <treecell />
-                      -->
                     </treerow>
                 </treeitem>
+              -->
             </treechildren>
-        </tree>
-      </groupbox>
+          </tree>
+        </groupbox>
+
+        <groupbox id="select-action" style="display: none;" flex="1">
+          <caption label="Select Action" />
+          <vbox flex="1"> 
+            <button label="Load Ontology"             oncommand="selectowl.gui.showStep('load-ontology');"  flex="1"/>
+            <button label="Select Object"             oncommand="selectowl.gui.showStep('select-class');"  flex="1"/>
+            <button label="Select Object Property"    oncommand="selectowl.gui.showStep('select-property');" flex="1" />
+            <button label="Edit Script"               disabled="true" oncommand="" flex="1" />
+            <button label="Save Script"               disabled="true" oncommand="" flex="1" />
+            <button label="Edit Ontology Preferences" disabled="true" oncommand="" flex="1" />
+          </vbox>
+        </groupbox>
+
+
+        <!-- TODO learn to sort trees by column values -->
+
+        <groupbox id="select-class" style="display: none;" flex="1">
+          <caption label="Select Class" />
+          <tree id="ontology-classes-list" enableColumnDrag="true" flex="1">
+            <treecols>
+              <treecol flex="1" label="prefix" persist="width ordinal hidden" />
+              <splitter class="tree-splitter" />
+              <treecol flex="2" label="name"   persist="width ordinal hidden" />
+              <splitter class="tree-splitter" />
+              <treecol flex="1" label="type"   persist="width ordinal hidden" />
+            </treecols>
+            <treechildren>
+              <!-- tree items -->
+              <!--
+                <treeitem>
+                    <treerow>
+                        <treecell label="select" />
+                        <treecell />
+                        <treecell />
+                        <treecell />
+                        <treecell />
+                        <treecell />
+                    </treerow>
+                </treeitem>
+              -->
+            </treechildren>
+          </tree>
+        </groupbox>
+
+        <groupbox id="select-property" style="display: none;" flex="1">
+          <caption label="Select Property" />
+          <tree id="ontology-properties-list" enableColumnDrag="true" flex="1">
+            <treecols>
+              <treecol flex="1" label="prefix" persist="width ordinal hidden" />
+              <splitter class="tree-splitter" />
+              <treecol flex="2" label="name"   persist="width ordinal hidden" />
+              <splitter class="tree-splitter" />
+              <treecol flex="1" label="domain" persist="width ordinal hidden" />
+              <splitter class="tree-splitter" />
+              <treecol flex="1" label="range"  persist="width ordinal hidden" />
+              <splitter class="tree-splitter" />
+              <treecol flex="1" label="type"   persist="width ordinal hidden" />
+            </treecols>
+            <treechildren>
+              <!-- tree items -->
+              <!--
+                <treeitem>
+                    <treerow>
+                        <treecell label="select" />
+                        <treecell />
+                        <treecell />
+                        <treecell />
+                        <treecell />
+                        <treecell />
+                    </treerow>
+                </treeitem>
+              -->
+            </treechildren>
+          </tree>
+        </groupbox>
+      </vbox>
+
+      <!-- SCENARIO EDITOR - common for all -->
+
+      <vbox id="scenario-vbox" flex="1">
+        <groupbox id="scenario-editor" flex="1">
+          <tree id="selectowl-scenario-tree"
+            flex="1"
+            hidecolumnpicker="false"
+            seltype="single">
+            <!--
+            class="tree"
+            rows="5"
+            onselect="selectowl.gui.onSelect();"
+            onclick="selectowl.gui.onClick(event);"
+            -->
+              <treecols id="selectowl-tree-cols">
+                  <treecol id="selectowl-tree-col-name" primary="true" flex="0" label="name" persist="width" ordinal="1"/>
+                  <!--
+                  <splitter class="tree-splitter" ordinal="2"/>
+
+                  <treecol id="selectowl-tree-col-area" flex="1" label="area" ordinal="3" />
+
+                  <splitter class="tree-splitter" ordinal="4"/>
+
+                  <treecol id="selectowl-tree-col-url" label="url" ordinal="5" hidden="true"/>
+
+                  <splitter class="tree-splitter" ordinal="6"/>
+
+                  <treecol id="selectowl-tree-col-read" label="read" ordinal="7" hidden="true"/>
+
+                  <splitter class="tree-splitter" ordinal="8"/>
+
+                  <treecol id="selectowl-tree-col-use" label="use" ordinal="9" hidden="true"/>
+
+                  <splitter class="tree-splitter" ordinal="10"/>
+
+                  <treecol id="selectowl-tree-col-attach" label="attach" ordinal="11" hidden="true"/>
+                  -->
+              </treecols>
+
+              <treechildren>
+                  <treeitem>
+                      <treerow>
+                          <treecell />
+                        <!--
+                          <treecell label="select" />
+                          <treecell />
+                          <treecell />
+                          <treecell />
+                          <treecell />
+                          <treecell />
+                        -->
+                      </treerow>
+                  </treeitem>
+              </treechildren>
+          </tree>
+        </groupbox>
+      </vbox>
     </vbox>
 
 
