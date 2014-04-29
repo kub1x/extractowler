@@ -80,3 +80,225 @@ selectowl.gui.showStep = function (step_id ) {
   //});
 
 }
+
+
+selectowl.gui.lists = [
+    // List of all Classes in ontology
+    { 
+      id : '#ontology-classes-list',
+
+      item_onClick : function( event ) {
+        var owlObj = event.target.owlObj;
+        //selectowl.workflow['select-object'].selected = owlObj;  //TODO change it to right (correct) step selection in scenario view
+        //selectowl.gui.showStep(selectowl.gui.SCENARIO_STEP_ID); //TODO show the scenario step with the right object selected
+        selectowl.aardvark.start();                               //TODO blink the document on aardwar start
+      }, 
+
+      accepts : function( item ) {
+        return !item.isProperty;
+      }, 
+
+      createListItemFor: function( item ) {
+        var $item = $('<treeitem />')
+        var $row  = $('<treerow />');
+
+        $item.append($row);
+
+        var $cell;
+
+        $cell = $('<treecell />');
+        $cell.attr('label', item.prefix);
+        $row.append($cell);
+
+        $cell = $('<treecell />');
+        $cell.attr('label', item.name);
+        $row.append($cell);
+
+        $cell = $('<treecell />');
+        $cell.attr('label', item.type);
+        $row.append($cell);
+
+        return $item;
+      }, 
+      
+      //TODO target_onSelected : function(element)  XXX function that aardwark.onSelect will call back to handle the item !!! where should this be???
+    }, 
+
+    // List of all Properties in ontology
+    {
+      id : '#ontology-properties-list',
+
+      item_onClick : function( event ) {
+        var owlObj = event.target.owlObj;
+        //selectowl.workflow['select-objprop'].selected = owlObj;
+        selectowl.aardvark.start();
+      }, 
+
+      accepts : function( item ) {
+        return item.isProperty;
+      }, 
+
+      createListItemFor: function( item ) {
+        var $item = $('<treeitem />');
+        var $row  = $('<treerow />');
+
+        $item.append($row);
+
+        var $cell;
+
+        $cell = $('<treecell />');
+        $cell.attr('label', item.prefix);
+        $row.append($cell);
+
+        $cell = $('<treecell />');
+        $cell.attr('label', item.name);
+        $row.append($cell);
+
+        $cell = $('<treecell />');
+        $cell.attr('label', item.domain);
+        $row.append($cell);
+
+        $cell = $('<treecell />');
+        $cell.attr('label', item.range);
+        $row.append($cell);
+
+        $cell = $('<treecell />');
+        $cell.attr('label', item.type);
+        $row.append($cell);
+
+        return $item;
+      }, 
+    }
+  ];
+
+
+selectowl.gui.refreshAllLists = function() {
+
+  // go, go, go!
+  var l;
+  var lists = selectowl.gui.lists;
+  for ( l in  lists ) {
+    selectowl.gui.refreshList(lists[l], selectowl.model);
+  }
+
+  // go for prefixes too
+  selectowl.gui.refreshPrefixesList();
+  //
+  // --- OR ---
+  //
+  //var prefixes_list = { 
+  //    id : '#ontology-prefixes-list',
+  //    item_onClick : null, 
+  //    accepts : function( item ) { return true; }, 
+  //    createListItemFor: function( item ) {
+  //      var $item = $('<treeitem />')
+  //      var $row  = $('<treerow />');
+
+  //      $item.append($row);
+
+  //      var $cell;
+
+  //      $cell = $('<treecell />');
+  //      $cell.attr('label', item.prefix);
+  //      $row.append($cell);
+
+  //      $cell = $('<treecell />');
+  //      $cell.attr('label', item.URI);
+  //      $row.append($cell);
+
+  //      return $item;
+  //    } 
+  //  };
+  //selectowl.gui.refreshList(prefixes_list , selectowl.prefixes); 
+}
+
+selectowl.gui.getPrefixesTreeView = function() {
+  return {
+    rowCount : selectowl.prefixes.length,
+    getCellText : function(row, column){
+      console.log('getCellText('+row+', '+column.index+')' + '\n' +
+                  'showing: ' + selectowl.prefixes[row].prefix + ' ' + selectowl.prefixes[row].URI);
+      if (column.index == 0) return selectowl.prefixes[row].prefix;
+      if (column.index == 1) return selectowl.prefixes[row].URI;
+      return null;
+    },
+    setTree : function(treebox){
+      this.treebox = treebox;
+    },
+    isContainer : function(row){
+      return false;
+    },
+    isSeparator : function(row){
+      return false;
+    },
+    isSorted : function(){
+       return false; 
+    },
+    isSelectable : function(){
+       return false; 
+    },
+    getLevel : function(row){
+       return 0; 
+    },
+    getImageSrc : function(row, col){
+       return null; 
+    },
+    getRowProperties : function(row, props){ },
+    getCellProperties : function(row, col, props){ },
+    getColumnProperties : function(colid, col, props){ }, 
+    setCellText : function(row, col, value) {
+      console.log('setCellText('+row+', '+column.index+', '+value+')' + '\n' + 
+                  'overwriting: ' + selectowl.prefixes[row].prefix + ' ' + selectowl.prefixes[row].URI);
+      if (!col.index == 0) return;
+      var URI = this.getCellText(row, col.getNext());
+      alert("[" + row + ", " + col + "]" + 
+            "Changing prefix for: " + URI + "\n" +
+            "from: " + selectowl.prefixes[row].prefix + " to: " + value);
+      selectowl.prefixes[row].prefix = value;
+    }, 
+    toString: function() {
+      return "yep. that's me. your view with " + this.rowCount() + " rows. " ;
+    },
+  }
+};
+
+
+selectowl.gui.refreshPrefixesList = function() {
+  var tree = $('#ontology-prefixes-list').get(0);
+
+  tree.view = selectowl.gui.getPrefixesTreeView();
+
+  console.log('the tree view was set to: ' + tree.view.toString()); //DEBUG
+
+  $(tree).attr('editable', 'true');
+}
+
+
+selectowl.gui.refreshList = function( list_conf, items ) {
+  var $list = $(list_conf.id).children('treechildren');
+  var $listitem;
+  var p, q, prefix;
+
+  $list.remove('treeitem');
+
+  for ( p in items ) {
+    q = items[p];
+    if ( list_conf.accepts(q) ) {
+      // Create the listitem
+      $listitem = list_conf.createListItemFor( q );
+      
+      // Item holds it's object in owlObj!!!
+      $listitem.get(0).owlObj = q;
+
+      // Specify, what to do when accessing the resource
+      // - this method should make us aware, what we're doing
+      // - we will create selector for selected Resource by using aardwark
+      // - we will then edit the selector so that it matches our needs
+      // - this should also show the "scenario" view of selectowl
+      $listitem.click(list_conf.item_onClick);
+      //TODO replace this with tree onSelected method !!!
+
+      $list.append($listitem);
+    }
+  } 
+}
