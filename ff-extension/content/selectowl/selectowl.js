@@ -60,13 +60,24 @@ selectowl.prefix2uri = function ( prefix ) {
   return null;
 }
 
-selectowl.uri2prefix = function ( URI ) {
+selectowl.uri2prefix = function ( URI, guess ) {
   var p;
   var idx = selectowl.prefixes;
   for ( p in idx ) {
     p = idx[p];
     if (URI == p.URI) {
       return p.prefix;
+    }
+  }
+  if (guess) {
+    rg_last_word = /\w+(?=[^\w]*$)/g;
+    prefix = URI.match(rg_last_word);
+    if(prefix) {
+      res = {};
+      res.prefix = prefix;
+      res.URI = URI;
+      selectowl.prefixes.push(res); //TODO add method for pushing. 
+      return prefix;
     }
   }
   return URI; //XXX if not found, return the URI back

@@ -74,7 +74,7 @@ further:
             <textbox id="ontology-url" flex="1"/>
             <button label="Load" oncommand="selectowl.load();" flex="0" width="50"/>
           </hbox>
-          <tree id="ontology-prefixes-list" flex="1" seltype="cell" editable="true">
+          <tree id="ontology-prefixes-list" flex="1" seltype="single" editable="true">
             <treecols>
               <treecol flex="1" label="prefix" persist="width"/>
               <splitter class="tree-splitter" />

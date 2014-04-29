@@ -67,11 +67,15 @@ selectowl.gui.showStep = function (step_id ) {
   $currgrp.removeClass(selectowl.gui.CURRENT_STEP_CLASS);
   $nextgrp.addClass(selectowl.gui.CURRENT_STEP_CLASS);
 
+  //// Start animation - hide current
+  //$currgrp.hide({ effect: "slide", "direction": "left" }, 500, function() {
+  //  // Followed by - show next
+  //  $nextgrp.show({ effect: "fade" }, 500);
+  //});
   // Start animation - hide current
-  $currgrp.hide({ effect: "slide", "direction": "left" }, 500, function() {
-    // Followed by - show next
-    $nextgrp.show({ effect: "fade" }, 500);
-  });
+  $currgrp.hide();
+  // Followed by - show next
+  $nextgrp.show();
 
   //// hide current
   //$curr.effect("slide", { "direction": "left", "mode": "hide" }, 500, function() {
@@ -79,6 +83,7 @@ selectowl.gui.showStep = function (step_id ) {
   //  $next.effect("slide", { "direction": "right", "mode": "show" }, 500);
   //});
 
+  //selectowl.gui.refreshAllLists(); //TODO CHECKME TESTING XXX
 }
 
 
@@ -183,45 +188,23 @@ selectowl.gui.refreshAllLists = function() {
 
   // go for prefixes too
   selectowl.gui.refreshPrefixesList();
-  //
-  // --- OR ---
-  //
-  //var prefixes_list = { 
-  //    id : '#ontology-prefixes-list',
-  //    item_onClick : null, 
-  //    accepts : function( item ) { return true; }, 
-  //    createListItemFor: function( item ) {
-  //      var $item = $('<treeitem />')
-  //      var $row  = $('<treerow />');
-
-  //      $item.append($row);
-
-  //      var $cell;
-
-  //      $cell = $('<treecell />');
-  //      $cell.attr('label', item.prefix);
-  //      $row.append($cell);
-
-  //      $cell = $('<treecell />');
-  //      $cell.attr('label', item.URI);
-  //      $row.append($cell);
-
-  //      return $item;
-  //    } 
-  //  };
-  //selectowl.gui.refreshList(prefixes_list , selectowl.prefixes); 
 }
 
 selectowl.gui.getPrefixesTreeView = function() {
   return {
+    prefixes : selectowl.prefixes,
+
     rowCount : selectowl.prefixes.length,
+
     getCellText : function(row, column){
-      console.log('getCellText('+row+', '+column.index+')' + '\n' +
-                  'showing: ' + selectowl.prefixes[row].prefix + ' ' + selectowl.prefixes[row].URI);
-      if (column.index == 0) return selectowl.prefixes[row].prefix;
-      if (column.index == 1) return selectowl.prefixes[row].URI;
+      if (column.index == 0) return this.prefixes[row].prefix;
+      if (column.index == 1) return this.prefixes[row].URI;
       return null;
     },
+    getCellValue : function(row, col) {
+      console.log('getCellValue called!');
+      return null;
+    }, 
     setTree : function(treebox){
       this.treebox = treebox;
     },
@@ -234,8 +217,13 @@ selectowl.gui.getPrefixesTreeView = function() {
     isSorted : function(){
        return false; 
     },
-    isSelectable : function(){
-       return false; 
+    isEditable : function(row, col){
+      //TODO see setCellText
+      return true;
+      //if(col.index === 0)
+      //  return true; 
+      //else
+      //  return false; 
     },
     getLevel : function(row){
        return 0; 
@@ -247,17 +235,20 @@ selectowl.gui.getPrefixesTreeView = function() {
     getCellProperties : function(row, col, props){ },
     getColumnProperties : function(colid, col, props){ }, 
     setCellText : function(row, col, value) {
-      console.log('setCellText('+row+', '+column.index+', '+value+')' + '\n' + 
-                  'overwriting: ' + selectowl.prefixes[row].prefix + ' ' + selectowl.prefixes[row].URI);
-      if (!col.index == 0) return;
-      var URI = this.getCellText(row, col.getNext());
-      alert("[" + row + ", " + col + "]" + 
-            "Changing prefix for: " + URI + "\n" +
-            "from: " + selectowl.prefixes[row].prefix + " to: " + value);
-      selectowl.prefixes[row].prefix = value;
+      if (col.index == 0) {
+        var URI = this.getCellText(row, col.getNext());
+        this.prefixes[row].prefix = value;
+      }
+      //TODO do we want to allow this?
+      if (col.index == 1) {
+        this.prefixes[row].URI = value;
+      }
+    }, 
+    setCellValue : function(row, col, value) {
+      console.log('setCellValue called!');
     }, 
     toString: function() {
-      return "yep. that's me. your view with " + this.rowCount() + " rows. " ;
+      return "yep. that's me. your view with " + this.rowCount + " rows. " ;
     },
   }
 };
