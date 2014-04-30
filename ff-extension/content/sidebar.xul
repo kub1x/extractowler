@@ -14,6 +14,7 @@
     <script src="aardvark.js" />
 
     <script src="selectowl/selectowl.js" />
+    <script src="selectowl/selectowl.ontology.js" />
     <script src="selectowl/selectowl.aardvark.js" />
     <script src="selectowl/selectowl.gui.js" />
 

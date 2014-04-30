@@ -87,104 +87,104 @@ selectowl.gui.showStep = function (step_id ) {
 }
 
 
-selectowl.gui.lists = [
-    // List of all Classes in ontology
-    { 
-      id : '#ontology-classes-list',
-
-      item_onClick : function( event ) {
-        var owlObj = event.target.owlObj;
-        //selectowl.workflow['select-object'].selected = owlObj;  //TODO change it to right (correct) step selection in scenario view
-        //selectowl.gui.showStep(selectowl.gui.SCENARIO_STEP_ID); //TODO show the scenario step with the right object selected
-        selectowl.aardvark.start();                               //TODO blink the document on aardwar start
-      }, 
-
-      accepts : function( item ) {
-        return !item.isProperty;
-      }, 
-
-      createListItemFor: function( item ) {
-        var $item = $('<treeitem />')
-        var $row  = $('<treerow />');
-
-        $item.append($row);
-
-        var $cell;
-
-        $cell = $('<treecell />');
-        $cell.attr('label', item.prefix);
-        $row.append($cell);
-
-        $cell = $('<treecell />');
-        $cell.attr('label', item.name);
-        $row.append($cell);
-
-        $cell = $('<treecell />');
-        $cell.attr('label', item.type);
-        $row.append($cell);
-
-        return $item;
-      }, 
-      
-      //TODO target_onSelected : function(element)  XXX function that aardwark.onSelect will call back to handle the item !!! where should this be???
-    }, 
-
-    // List of all Properties in ontology
-    {
-      id : '#ontology-properties-list',
-
-      item_onClick : function( event ) {
-        var owlObj = event.target.owlObj;
-        //selectowl.workflow['select-objprop'].selected = owlObj;
-        selectowl.aardvark.start();
-      }, 
-
-      accepts : function( item ) {
-        return item.isProperty;
-      }, 
-
-      createListItemFor: function( item ) {
-        var $item = $('<treeitem />');
-        var $row  = $('<treerow />');
-
-        $item.append($row);
-
-        var $cell;
-
-        $cell = $('<treecell />');
-        $cell.attr('label', item.prefix);
-        $row.append($cell);
-
-        $cell = $('<treecell />');
-        $cell.attr('label', item.name);
-        $row.append($cell);
-
-        $cell = $('<treecell />');
-        $cell.attr('label', item.domain);
-        $row.append($cell);
-
-        $cell = $('<treecell />');
-        $cell.attr('label', item.range);
-        $row.append($cell);
-
-        $cell = $('<treecell />');
-        $cell.attr('label', item.type);
-        $row.append($cell);
-
-        return $item;
-      }, 
-    }
-  ];
+//selectowl.gui.lists = [
+//    // List of all Classes in ontology
+//    { 
+//      id : '#ontology-classes-list',
+//
+//      item_onClick : function( event ) {
+//        var owlObj = event.target.owlObj;
+//        //selectowl.workflow['select-object'].selected = owlObj;  //TODO change it to right (correct) step selection in scenario view
+//        //selectowl.gui.showStep(selectowl.gui.SCENARIO_STEP_ID); //TODO show the scenario step with the right object selected
+//        selectowl.aardvark.start();                               //TODO blink the document on aardwar start
+//      }, 
+//
+//      accepts : function( item ) {
+//        return !item.isProperty;
+//      }, 
+//
+//      createListItemFor: function( item ) {
+//        var $item = $('<treeitem />')
+//        var $row  = $('<treerow />');
+//
+//        $item.append($row);
+//
+//        var $cell;
+//
+//        $cell = $('<treecell />');
+//        $cell.attr('label', item.prefix);
+//        $row.append($cell);
+//
+//        $cell = $('<treecell />');
+//        $cell.attr('label', item.name);
+//        $row.append($cell);
+//
+//        $cell = $('<treecell />');
+//        $cell.attr('label', item.type);
+//        $row.append($cell);
+//
+//        return $item;
+//      }, 
+//      
+//      //TODO target_onSelected : function(element)  XXX function that aardwark.onSelect will call back to handle the item !!! where should this be???
+//    }, 
+//
+//    // List of all Properties in ontology
+//    {
+//      id : '#ontology-properties-list',
+//
+//      item_onClick : function( event ) {
+//        var owlObj = event.target.owlObj;
+//        //selectowl.workflow['select-objprop'].selected = owlObj;
+//        selectowl.aardvark.start();
+//      }, 
+//
+//      accepts : function( item ) {
+//        return item.isProperty;
+//      }, 
+//
+//      createListItemFor: function( item ) {
+//        var $item = $('<treeitem />');
+//        var $row  = $('<treerow />');
+//
+//        $item.append($row);
+//
+//        var $cell;
+//
+//        $cell = $('<treecell />');
+//        $cell.attr('label', item.prefix);
+//        $row.append($cell);
+//
+//        $cell = $('<treecell />');
+//        $cell.attr('label', item.name);
+//        $row.append($cell);
+//
+//        $cell = $('<treecell />');
+//        $cell.attr('label', item.domain);
+//        $row.append($cell);
+//
+//        $cell = $('<treecell />');
+//        $cell.attr('label', item.range);
+//        $row.append($cell);
+//
+//        $cell = $('<treecell />');
+//        $cell.attr('label', item.type);
+//        $row.append($cell);
+//
+//        return $item;
+//      }, 
+//    }
+//  ];
 
 
 selectowl.gui.refreshAllLists = function() {
 
   // go, go, go!
-  var l;
-  var lists = selectowl.gui.lists;
-  for ( l in  lists ) {
-    selectowl.gui.refreshList(lists[l], selectowl.model);
-  }
+  //var l;
+  //var lists = selectowl.gui.lists;
+  //for ( l in  lists ) {
+  //  selectowl.gui.refreshList(lists[l], selectowl.ontology.);
+  //}
 
   // go for prefixes too
   selectowl.gui.refreshPrefixesList();
@@ -192,20 +192,20 @@ selectowl.gui.refreshAllLists = function() {
 
 
 selectowl.gui.basicTreeView = {
-  //rowCount : "SET THIS", 
+  // Set this!
+  rowCount : -1,  
 
   // Implement this for text cells
-  //getCellText : function(row, column){
-  //  if (column.index == 0) return this.prefixes[row].prefix;
-  //  if (column.index == 1) return this.prefixes[row].URI;
-  //  return null;
-  //},
+  getCellText : function(row, col){ throw "NOT IMPLEMENTED!"; },
+
+  // Implement this for text cells
+  setCellText : function(row, col, value) { throw "NOT IMPLEMENTED!"; }, 
 
   // Implement this for non-text cells
-  //getCellValue : function(row, col) {
-  //  console.log('getCellValue called on row: ' + row + 'col.index: ' + col.index + '. ');
-  //  return null;
-  //}, 
+  getCellValue : function(row, col) { throw "NOT IMPLEMENTED!"; }, 
+
+  // Implement this for non-text cells
+  setCellValue : function(row, col, value) { throw "NOT IMPLEMENTED!"; }, 
 
   setTree : function(treebox){
     this.treebox = treebox;
@@ -220,12 +220,7 @@ selectowl.gui.basicTreeView = {
      return false; 
   },
   isEditable : function(row, col){
-    //TODO see setCellText
-    return true;
-    //if(col.index === 0)
-    //  return true; 
-    //else
-    //  return false; 
+    return false;
   },
   getLevel : function(row){
      return 0; 
@@ -236,53 +231,34 @@ selectowl.gui.basicTreeView = {
   getRowProperties : function(row, props){ },
   getCellProperties : function(row, col, props){ },
   getColumnProperties : function(colid, col, props){ }, 
-
-  // Implement this for text cells
-  //setCellText : function(row, col, value) {
-  //  if (col.index == 0) {
-  //    var URI = this.getCellText(row, col.getNext());
-  //    this.prefixes[row].prefix = value;
-  //  }
-  //  //TODO do we want to allow this?
-  //  if (col.index == 1) {
-  //    this.prefixes[row].URI = value;
-  //  }
-  //}, 
-
-  // Implement this for non-text cells
-  //setCellValue : function(row, col, value) {
-  //  console.log('setCellValue called!');
-  //}, 
-
-  toString: function() {
-    return "yep. that's me. your view with " + this.rowCount + " rows. " ;
-  },
 };
 
 
 selectowl.gui.getPrefixesTreeView = function() {
   // Merge basic tree structure with it's "specific" implementation and return
-  return $.extend({}, selectowl.gui.basicTreeView, {
-    prefixes : selectowl.prefixes,
+  return $.extend({}, selectowl.gui.basicTreeView,
+    {
+      prefixes : selectowl.ontology.prefixes,
 
-    rowCount : selectowl.prefixes.length,
+      rowCount : selectowl.ontology.prefixes.getLength(),
 
-    getCellText : function(row, column){
-      if (column.index == 0) return this.prefixes[row].prefix;
-      if (column.index == 1) return this.prefixes[row].URI;
-      return null;
-    },
-    setCellText : function(row, col, value) {
-      if (col.index == 0) {
-        var URI = this.getCellText(row, col.getNext());
-        this.prefixes[row].prefix = value;
-      }
-      //TODO do we want to allow this?
-      if (col.index == 1) {
-        this.prefixes[row].URI = value;
-      }
-    }, 
-  });
+      getCellText : function(row, column){
+        if (column.index == 0) return this.prefixes.get(row).prefix;
+        if (column.index == 1) return this.prefixes.get(row).uri;
+        return null;
+      },
+
+      setCellText : function(row, col, value) {
+        if (col.index == 0) { this.prefixes.get(row).prefix = value; }
+        if (col.index == 1) { this.prefixes.get(row).uri = value; }
+        //TODO do we want to allow URI editing? ^^^ 
+      }, 
+
+      isEditable : function(row, col){
+        return true;
+        //TODO do we want to allow URI editing? ^^^ 
+      },
+    });
 };
 
 
