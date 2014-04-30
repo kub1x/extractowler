@@ -74,6 +74,10 @@ further:
             <textbox id="ontology-url" flex="1"/>
             <button label="Load" oncommand="selectowl.load();" flex="0" width="50"/>
           </hbox>
+        </groupbox>
+
+        <groupbox id="edit-prefixes" style="display: none;" flex="1">
+          <caption label="Edit Prefixes" />
           <tree id="ontology-prefixes-list" flex="1" seltype="single" editable="true">
             <treecols>
               <treecol id="prefixes-prefix-col" flex="1" label="prefix" persist="width"/>
