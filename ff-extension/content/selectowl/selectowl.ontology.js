@@ -47,28 +47,36 @@ selectowl.ontology.feedMee = function () {
  ************************************************************/
 
 selectowl.ontology.prefixes._byIdx = [];
-selectowl.ontology.prefixes._byPrefix = {};
+selectowl.ontology.prefixes._byPfx = {};
 selectowl.ontology.prefixes._byUri = {};
 
 selectowl.ontology.prefixes.add = function ( prefix, uri ) {
   var o = {};
   o.prefix = prefix;
   o.uri = uri;
-  this._byPrefix[prefix] = o;
-  this._byUri[uri] = o;
   this._byIdx.push(o);
+  this._byUri[uri] = o;
+  this._byPfx[prefix] = o;
 }
 
 selectowl.ontology.prefixes.get = function ( idx ) {
   return this._byIdx[idx];
 }
 
+selectowl.ontology.prefixes.getByPrefix = function ( prefix ) {
+  return this._byPfx[prefix];
+}
+
+selectowl.ontology.prefixes.getByUri = function ( uri ) {
+  return this._byUri[uri];
+}
+
 selectowl.ontology.prefixes.prefix2uri = function ( prefix ) {
-  return this._byPrefix[prefix];
+  return this._byPfx[prefix].uri;
 }
 
 selectowl.ontology.prefixes.uri2prefix = function ( uri ) {
-  return this._byUri[uri];
+  return this._byUri[uri].prefix;
 }
 
 selectowl.ontology.prefixes.findIndex = function ( str ) {
@@ -81,7 +89,7 @@ selectowl.ontology.prefixes.findIndex = function ( str ) {
 }
 
 selectowl.ontology.prefixes.contains = function ( str ) {
-  return (this._byUri[str] != null || this._byPrefix[str] != null);
+  return (this._byUri[str] != null || this._byPfx[str] != null);
 }
 
 selectowl.ontology.prefixes.guessPrefix = function ( uri ) {
@@ -99,9 +107,11 @@ selectowl.ontology.prefixes.getLength = function () {
 }
 
 selectowl.ontology.prefixes.delete = function ( prefix ) {
-  uri = prefix2uri(prefix);
+  uri = this.prefix2uri(prefix);
+  idx = this.findIndex(prefix);
+  delete this._byIdx[idx]; 
   delete this._byUri[uri];
-  delete this._byPrefix[prefix];
+  delete this._byPfx[prefix];
 }
 
 
@@ -116,6 +126,14 @@ selectowl.ontology.classes.add = function ( obj ) {
   this._byUri[obj.baseURI] = obj;
 }
 
+selectowl.ontology.classes.getLength = function () {
+  return this._byIdx.length;
+}
+
+selectowl.ontology.classes.get = function ( idx ) {
+  return this._byIdx[idx];
+}
+
 /************************************************************
  *                                                          *
  ************************************************************/
@@ -125,6 +143,14 @@ selectowl.ontology.properties._byUri = {};
 selectowl.ontology.properties.add = function ( obj ) {
   this._byIdx.push(obj);
   this._byUri[obj.baseURI] = obj;
+}
+
+selectowl.ontology.properties.getLength = function () {
+  return this._byIdx.length;
+}
+
+selectowl.ontology.properties.get = function ( idx ) {
+  return this._byIdx[idx];
 }
 
 

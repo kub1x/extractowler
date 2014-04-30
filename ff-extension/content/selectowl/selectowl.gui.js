@@ -86,110 +86,29 @@ selectowl.gui.showStep = function (step_id ) {
   //selectowl.gui.refreshAllLists(); //TODO CHECKME TESTING XXX
 }
 
-
-//selectowl.gui.lists = [
-//    // List of all Classes in ontology
-//    { 
-//      id : '#ontology-classes-list',
-//
-//      item_onClick : function( event ) {
-//        var owlObj = event.target.owlObj;
-//        //selectowl.workflow['select-object'].selected = owlObj;  //TODO change it to right (correct) step selection in scenario view
-//        //selectowl.gui.showStep(selectowl.gui.SCENARIO_STEP_ID); //TODO show the scenario step with the right object selected
-//        selectowl.aardvark.start();                               //TODO blink the document on aardwar start
-//      }, 
-//
-//      accepts : function( item ) {
-//        return !item.isProperty;
-//      }, 
-//
-//      createListItemFor: function( item ) {
-//        var $item = $('<treeitem />')
-//        var $row  = $('<treerow />');
-//
-//        $item.append($row);
-//
-//        var $cell;
-//
-//        $cell = $('<treecell />');
-//        $cell.attr('label', item.prefix);
-//        $row.append($cell);
-//
-//        $cell = $('<treecell />');
-//        $cell.attr('label', item.name);
-//        $row.append($cell);
-//
-//        $cell = $('<treecell />');
-//        $cell.attr('label', item.type);
-//        $row.append($cell);
-//
-//        return $item;
-//      }, 
-//      
-//      //TODO target_onSelected : function(element)  XXX function that aardwark.onSelect will call back to handle the item !!! where should this be???
-//    }, 
-//
-//    // List of all Properties in ontology
-//    {
-//      id : '#ontology-properties-list',
-//
-//      item_onClick : function( event ) {
-//        var owlObj = event.target.owlObj;
-//        //selectowl.workflow['select-objprop'].selected = owlObj;
-//        selectowl.aardvark.start();
-//      }, 
-//
-//      accepts : function( item ) {
-//        return item.isProperty;
-//      }, 
-//
-//      createListItemFor: function( item ) {
-//        var $item = $('<treeitem />');
-//        var $row  = $('<treerow />');
-//
-//        $item.append($row);
-//
-//        var $cell;
-//
-//        $cell = $('<treecell />');
-//        $cell.attr('label', item.prefix);
-//        $row.append($cell);
-//
-//        $cell = $('<treecell />');
-//        $cell.attr('label', item.name);
-//        $row.append($cell);
-//
-//        $cell = $('<treecell />');
-//        $cell.attr('label', item.domain);
-//        $row.append($cell);
-//
-//        $cell = $('<treecell />');
-//        $cell.attr('label', item.range);
-//        $row.append($cell);
-//
-//        $cell = $('<treecell />');
-//        $cell.attr('label', item.type);
-//        $row.append($cell);
-//
-//        return $item;
-//      }, 
-//    }
-//  ];
-
-
 selectowl.gui.refreshAllLists = function() {
-
-  // go, go, go!
-  //var l;
-  //var lists = selectowl.gui.lists;
-  //for ( l in  lists ) {
-  //  selectowl.gui.refreshList(lists[l], selectowl.ontology.);
-  //}
-
-  // go for prefixes too
   selectowl.gui.refreshPrefixesList();
+  selectowl.gui.refreshClassesList();
+  selectowl.gui.refreshPropertiesList();
 }
 
+selectowl.gui.refreshPrefixesList = function() {
+  var tree = $('#ontology-prefixes-list').get(0);
+  tree.view = selectowl.gui.getPrefixesTreeView();
+  $(tree).attr('editable', 'true');
+}
+
+selectowl.gui.refreshClassesList = function() {
+  var tree = $('#ontology-classes-list').get(0);
+  tree.view = selectowl.gui.getClassesTreeView();
+  $(tree).attr('editable', 'true');
+}
+
+selectowl.gui.refreshPropertiesList = function() {
+  var tree = $('#ontology-properties-list').get(0);
+  tree.view = selectowl.gui.getPropertiesTreeView();
+  $(tree).attr('editable', 'true');
+}
 
 selectowl.gui.basicTreeView = {
   // Set this!
@@ -233,24 +152,21 @@ selectowl.gui.basicTreeView = {
   getColumnProperties : function(colid, col, props){ }, 
 };
 
-
 selectowl.gui.getPrefixesTreeView = function() {
   // Merge basic tree structure with it's "specific" implementation and return
-  return $.extend({}, selectowl.gui.basicTreeView,
-    {
+  return $.extend({}, selectowl.gui.basicTreeView, {
       prefixes : selectowl.ontology.prefixes,
 
       rowCount : selectowl.ontology.prefixes.getLength(),
 
-      getCellText : function(row, column){
-        if (column.index == 0) return this.prefixes.get(row).prefix;
-        if (column.index == 1) return this.prefixes.get(row).uri;
-        return null;
+      getCellText : function(row, col){
+        if (col.id == 'prefixes-prefix-col') { return this.prefixes.get(row).prefix; }
+        if (col.id == 'prefixes-uri-col'   ) { return this.prefixes.get(row).uri;    }
       },
 
       setCellText : function(row, col, value) {
-        if (col.index == 0) { this.prefixes.get(row).prefix = value; }
-        if (col.index == 1) { this.prefixes.get(row).uri = value; }
+        if (col.id == 'prefixes-prefix-col') { this.prefixes.get(row).prefix = value; }
+        if (col.id == 'prefixes-uri-col'   ) { this.prefixes.get(row).uri    = value; }
         //TODO do we want to allow URI editing? ^^^ 
       }, 
 
@@ -261,43 +177,51 @@ selectowl.gui.getPrefixesTreeView = function() {
     });
 };
 
+selectowl.gui.getClassesTreeView = function() {
+  // Merge basic tree structure with it's "specific" implementation and return
+  return $.extend({}, selectowl.gui.basicTreeView, {
+      classes : selectowl.ontology.classes,
 
-selectowl.gui.refreshPrefixesList = function() {
-  var tree = $('#ontology-prefixes-list').get(0);
+      rowCount : selectowl.ontology.classes.getLength(),
 
-  tree.view = selectowl.gui.getPrefixesTreeView();
+      getCellText : function(row, column){
+        if (column.id == 'classes-prefix-col') { return this.classes.get(row).prefix; } 
+        if (column.id == 'classes-name-col'  ) { return this.classes.get(row).name;   } 
+        if (column.id == 'classes-type-col'  ) { return this.classes.get(row).type;   } 
+      },
 
-  console.log('the tree view was set to: ' + tree.view.toString()); //DEBUG
+      setCellText : function(row, col, value) {
+        if (column.id == 'classes-prefix-col') { this.classes.get(row).prefix = value; } 
+        if (column.id == 'classes-name-col'  ) { this.classes.get(row).name   = value; } 
+        if (column.id == 'classes-type-col'  ) { this.classes.get(row).type   = value; } 
+      }, 
 
-  $(tree).attr('editable', 'true');
-}
+    });
+};
 
+selectowl.gui.getPropertiesTreeView = function() {
+  // Merge basic tree structure with it's "specific" implementation and return
+  return $.extend({}, selectowl.gui.basicTreeView, {
+      properties : selectowl.ontology.properties,
 
-selectowl.gui.refreshList = function( list_conf, items ) {
-  var $list = $(list_conf.id).children('treechildren');
-  var $listitem;
-  var p, q, prefix;
+      rowCount : selectowl.ontology.properties.getLength(),
 
-  $list.remove('treeitem');
+      getCellText : function(row, column){
+        if (column.id == 'properties-prefix-col') { return this.properties.get(row).prefix; } 
+        if (column.id == 'properties-name-col'  ) { return this.properties.get(row).name;   } 
+        if (column.id == 'properties-domain-col') { return this.properties.get(row).domain; } 
+        if (column.id == 'properties-range-col' ) { return this.properties.get(row).range;  } 
+        if (column.id == 'properties-type-col'  ) { return this.properties.get(row).type;   } 
+      },
 
-  for ( p in items ) {
-    q = items[p];
-    if ( list_conf.accepts(q) ) {
-      // Create the listitem
-      $listitem = list_conf.createListItemFor( q );
-      
-      // Item holds it's object in owlObj!!!
-      $listitem.get(0).owlObj = q;
+      setCellText : function(row, col, value) {
+        if (column.id == 'properties-prefix-col') { this.properties.get(row).prefix = value; } 
+        if (column.id == 'properties-name-col'  ) { this.properties.get(row).name   = value; } 
+        if (column.id == 'properties-domain-col') { this.properties.get(row).domain = value; } 
+        if (column.id == 'properties-range-col' ) { this.properties.get(row).range  = value; } 
+        if (column.id == 'properties-type-col'  ) { this.properties.get(row).type   = value; } 
+      }, 
 
-      // Specify, what to do when accessing the resource
-      // - this method should make us aware, what we're doing
-      // - we will create selector for selected Resource by using aardwark
-      // - we will then edit the selector so that it matches our needs
-      // - this should also show the "scenario" view of selectowl
-      $listitem.click(list_conf.item_onClick);
-      //TODO replace this with tree onSelected method !!!
+    });
+};
 
-      $list.append($listitem);
-    }
-  } 
-}
