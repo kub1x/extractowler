@@ -10,7 +10,6 @@
       onload="selectowl.init();">
 
     <script src="jquery-2.1.0.js" />
-    <script src="jquery-ui-1.10.4.js" />
     <script src="jOWL.js" />
     <script src="aardvark.js" />
 
@@ -80,21 +79,7 @@ further:
               <splitter class="tree-splitter" />
               <treecol flex="5" label="URI"/>
             </treecols>
-            <treechildren>
-              <!-- tree items -->
-              <!--
-                <treeitem>
-                    <treerow>
-                        <treecell label="select" />
-                        <treecell />
-                        <treecell />
-                        <treecell />
-                        <treecell />
-                        <treecell />
-                    </treerow>
-                </treeitem>
-              -->
-            </treechildren>
+            <treechildren />
           </tree>
         </groupbox>
 
