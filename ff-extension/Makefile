@@ -27,7 +27,8 @@ all: pack install wait run
 #	rm -rf $(TMP_DIR)
 
 edit: 
-	vim content/sidebar.xul
+	vim content
+	#vim content/sidebar.xul
  
 pack: 
 	rm -rf $(TMP_DIR)
