@@ -190,8 +190,79 @@ selectowl.gui.refreshAllLists = function() {
   selectowl.gui.refreshPrefixesList();
 }
 
+
+selectowl.gui.basicTreeView = {
+  //rowCount : "SET THIS", 
+
+  // Implement this for text cells
+  //getCellText : function(row, column){
+  //  if (column.index == 0) return this.prefixes[row].prefix;
+  //  if (column.index == 1) return this.prefixes[row].URI;
+  //  return null;
+  //},
+
+  // Implement this for non-text cells
+  //getCellValue : function(row, col) {
+  //  console.log('getCellValue called on row: ' + row + 'col.index: ' + col.index + '. ');
+  //  return null;
+  //}, 
+
+  setTree : function(treebox){
+    this.treebox = treebox;
+  },
+  isContainer : function(row){
+    return false;
+  },
+  isSeparator : function(row){
+    return false;
+  },
+  isSorted : function(){
+     return false; 
+  },
+  isEditable : function(row, col){
+    //TODO see setCellText
+    return true;
+    //if(col.index === 0)
+    //  return true; 
+    //else
+    //  return false; 
+  },
+  getLevel : function(row){
+     return 0; 
+  },
+  getImageSrc : function(row, col){
+     return null; 
+  },
+  getRowProperties : function(row, props){ },
+  getCellProperties : function(row, col, props){ },
+  getColumnProperties : function(colid, col, props){ }, 
+
+  // Implement this for text cells
+  //setCellText : function(row, col, value) {
+  //  if (col.index == 0) {
+  //    var URI = this.getCellText(row, col.getNext());
+  //    this.prefixes[row].prefix = value;
+  //  }
+  //  //TODO do we want to allow this?
+  //  if (col.index == 1) {
+  //    this.prefixes[row].URI = value;
+  //  }
+  //}, 
+
+  // Implement this for non-text cells
+  //setCellValue : function(row, col, value) {
+  //  console.log('setCellValue called!');
+  //}, 
+
+  toString: function() {
+    return "yep. that's me. your view with " + this.rowCount + " rows. " ;
+  },
+};
+
+
 selectowl.gui.getPrefixesTreeView = function() {
-  return {
+  // Merge basic tree structure with it's "specific" implementation and return
+  return $.extend({}, selectowl.gui.basicTreeView, {
     prefixes : selectowl.prefixes,
 
     rowCount : selectowl.prefixes.length,
@@ -201,39 +272,6 @@ selectowl.gui.getPrefixesTreeView = function() {
       if (column.index == 1) return this.prefixes[row].URI;
       return null;
     },
-    getCellValue : function(row, col) {
-      console.log('getCellValue called!');
-      return null;
-    }, 
-    setTree : function(treebox){
-      this.treebox = treebox;
-    },
-    isContainer : function(row){
-      return false;
-    },
-    isSeparator : function(row){
-      return false;
-    },
-    isSorted : function(){
-       return false; 
-    },
-    isEditable : function(row, col){
-      //TODO see setCellText
-      return true;
-      //if(col.index === 0)
-      //  return true; 
-      //else
-      //  return false; 
-    },
-    getLevel : function(row){
-       return 0; 
-    },
-    getImageSrc : function(row, col){
-       return null; 
-    },
-    getRowProperties : function(row, props){ },
-    getCellProperties : function(row, col, props){ },
-    getColumnProperties : function(colid, col, props){ }, 
     setCellText : function(row, col, value) {
       if (col.index == 0) {
         var URI = this.getCellText(row, col.getNext());
@@ -244,13 +282,7 @@ selectowl.gui.getPrefixesTreeView = function() {
         this.prefixes[row].URI = value;
       }
     }, 
-    setCellValue : function(row, col, value) {
-      console.log('setCellValue called!');
-    }, 
-    toString: function() {
-      return "yep. that's me. your view with " + this.rowCount + " rows. " ;
-    },
-  }
+  });
 };
 
 
