@@ -76,15 +76,15 @@ further:
           </hbox>
           <tree id="ontology-prefixes-list" flex="1" seltype="single" editable="true">
             <treecols>
-              <treecol flex="1" label="prefix" persist="width"/>
+              <treecol id="prefixes-prefix-col" flex="1" label="prefix" persist="width"/>
               <splitter class="tree-splitter" />
-              <treecol flex="5" label="URI"/>
+              <treecol id="previxes-uri-col"    flex="5" label="URI"/>
             </treecols>
             <treechildren />
           </tree>
         </groupbox>
 
-        <groupbox id="select-action" style="display: none;" flex="1">
+        <!--groupbox id="select-action" style="display: none;" flex="1">
           <caption label="Select Action" />
           <vbox flex="1"> 
             <button label="Load Ontology"             oncommand="selectowl.gui.showStep('load-ontology');"  flex="1"/>
@@ -94,7 +94,7 @@ further:
             <button label="Save Script"               disabled="true" oncommand="" flex="1" />
             <button label="Edit Ontology Preferences" disabled="true" oncommand="" flex="1" />
           </vbox>
-        </groupbox>
+        </groupbox-->
 
 
         <!-- TODO learn to sort trees by column values -->
@@ -103,27 +103,13 @@ further:
           <caption label="Select Class" />
           <tree id="ontology-classes-list" enableColumnDrag="true" flex="1">
             <treecols>
-              <treecol flex="1" label="prefix" persist="width ordinal hidden" />
+              <treecol id="classes-prefix-col" flex="1" label="prefix" persist="width ordinal hidden" />
               <splitter class="tree-splitter" />
-              <treecol flex="2" label="name"   persist="width ordinal hidden" />
+              <treecol id="classes-name-col"   flex="2" label="name"   persist="width ordinal hidden" />
               <splitter class="tree-splitter" />
-              <treecol flex="1" label="type"   persist="width ordinal hidden" />
+              <treecol id="classes-type-col"   flex="1" label="type"   persist="width ordinal hidden" />
             </treecols>
-            <treechildren>
-              <!-- tree items -->
-              <!--
-                <treeitem>
-                    <treerow>
-                        <treecell label="select" />
-                        <treecell />
-                        <treecell />
-                        <treecell />
-                        <treecell />
-                        <treecell />
-                    </treerow>
-                </treeitem>
-              -->
-            </treechildren>
+            <treechildren />
           </tree>
         </groupbox>
 
@@ -131,31 +117,17 @@ further:
           <caption label="Select Property" />
           <tree id="ontology-properties-list" enableColumnDrag="true" flex="1">
             <treecols>
-              <treecol flex="1" label="prefix" persist="width ordinal hidden" />
+              <treecol id="properties-prefix-col" flex="1" label="prefix" persist="width ordinal hidden" />
               <splitter class="tree-splitter" />
-              <treecol flex="2" label="name"   persist="width ordinal hidden" />
+              <treecol id="properties-name-col"   flex="3" label="name"   persist="width ordinal hidden" />
               <splitter class="tree-splitter" />
-              <treecol flex="1" label="domain" persist="width ordinal hidden" />
+              <treecol id="properties-domain-col" flex="3" label="domain" persist="width ordinal hidden" />
               <splitter class="tree-splitter" />
-              <treecol flex="1" label="range"  persist="width ordinal hidden" />
+              <treecol id="properties-range-col"  flex="3" label="range"  persist="width ordinal hidden" />
               <splitter class="tree-splitter" />
-              <treecol flex="1" label="type"   persist="width ordinal hidden" />
+              <treecol id="properties-type-col"   flex="3" label="type"   persist="width ordinal hidden" />
             </treecols>
-            <treechildren>
-              <!-- tree items -->
-              <!--
-                <treeitem>
-                    <treerow>
-                        <treecell label="select" />
-                        <treecell />
-                        <treecell />
-                        <treecell />
-                        <treecell />
-                        <treecell />
-                    </treerow>
-                </treeitem>
-              -->
-            </treechildren>
+            <treechildren />
           </tree>
         </groupbox>
       </vbox>
@@ -174,8 +146,8 @@ further:
             onselect="selectowl.gui.onSelect();"
             onclick="selectowl.gui.onClick(event);"
             -->
-              <treecols id="selectowl-tree-cols">
-                  <treecol id="selectowl-tree-col-name" primary="true" flex="0" label="name" persist="width" ordinal="1"/>
+              <treecols>
+                  <treecol id="scenario-name-col" primary="true" flex="0" label="name" persist="width" ordinal="1"/>
                   <!--
                   <splitter class="tree-splitter" ordinal="2"/>
 
