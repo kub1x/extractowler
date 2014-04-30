@@ -78,7 +78,7 @@ further:
             <treecols>
               <treecol id="prefixes-prefix-col" flex="1" label="prefix" persist="width"/>
               <splitter class="tree-splitter" />
-              <treecol id="previxes-uri-col"    flex="5" label="URI"/>
+              <treecol id="prefixes-uri-col"    flex="5" label="URI"/>
             </treecols>
             <treechildren />
           </tree>
