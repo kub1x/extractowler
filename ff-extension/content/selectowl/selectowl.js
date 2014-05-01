@@ -54,7 +54,7 @@ selectowl.load = function (url) {
   // Call load on jOWL and refresh after
   var callback = function () {
     selectowl.ontology.feedMee();
-    selectowl.gui.refreshAllLists();
+    selectowl.gui.refreshAllTrees();
     //selectowl.gui.showStep('select-action');
   };
 

@@ -80,7 +80,7 @@ further:
 
         <groupbox id="edit-prefixes" style="display: none;" flex="1">
           <caption label="Edit Prefixes" />
-          <tree id="ontology-prefixes-list" flex="1" seltype="single" editable="true">
+          <tree id="selectowl-prefixes-tree" flex="1" seltype="single" editable="true">
             <treecols>
               <treecol id="prefixes-prefix-col" flex="1" label="prefix" persist="width"/>
               <splitter class="tree-splitter" />
@@ -107,7 +107,7 @@ further:
 
         <groupbox id="select-class" style="display: none;" flex="1">
           <caption label="Select Class" />
-          <tree id="ontology-classes-list" enableColumnDrag="true" flex="1">
+          <tree id="selectowl-classes-tree" enableColumnDrag="true" flex="1">
             <treecols>
               <treecol id="classes-prefix-col" flex="1" label="prefix" persist="width ordinal hidden" />
               <splitter class="tree-splitter" />
@@ -121,7 +121,7 @@ further:
 
         <groupbox id="select-property" style="display: none;" flex="1">
           <caption label="Select Property" />
-          <tree id="ontology-properties-list" enableColumnDrag="true" flex="1">
+          <tree id="selectowl-properties-tree" enableColumnDrag="true" flex="1">
             <treecols>
               <treecol id="properties-prefix-col" flex="1" label="prefix" persist="width ordinal hidden" />
               <splitter class="tree-splitter" />

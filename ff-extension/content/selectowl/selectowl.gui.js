@@ -83,7 +83,7 @@ selectowl.gui.showStep = function (step_id ) {
   //  $next.effect("slide", { "direction": "right", "mode": "show" }, 500);
   //});
 
-  //selectowl.gui.refreshAllLists(); //TODO CHECKME TESTING XXX
+  //selectowl.gui.refreshAllTrees(); //TODO CHECKME TESTING XXX
 }
 
 
@@ -91,27 +91,27 @@ selectowl.gui.showStep = function (step_id ) {
  *                                                          *
  ************************************************************/
 
-selectowl.gui.refreshAllLists = function() {
-  selectowl.gui.refreshPrefixesList();
-  selectowl.gui.refreshClassesList();
-  selectowl.gui.refreshPropertiesList();
+selectowl.gui.refreshAllTrees = function() {
+  selectowl.gui.refreshPrefixesTree();
+  selectowl.gui.refreshClassesTree();
+  selectowl.gui.refreshPropertiesTree();
   selectowl.gui.refreshScenarionTree();
 }
 
-selectowl.gui.refreshPrefixesList = function() {
-  var tree = $('#ontology-prefixes-list').get(0);
+selectowl.gui.refreshPrefixesTree = function() {
+  var tree = $('#selectowl-prefixes-tree').get(0);
   tree.view = selectowl.gui.getPrefixesTreeView();
   $(tree).attr('editable', 'true');
 }
 
-selectowl.gui.refreshClassesList = function() {
-  var tree = $('#ontology-classes-list').get(0);
+selectowl.gui.refreshClassesTree = function() {
+  var tree = $('#selectowl-classes-tree').get(0);
   tree.view = selectowl.gui.getClassesTreeView();
   $(tree).attr('editable', 'true');
 }
 
-selectowl.gui.refreshPropertiesList = function() {
-  var tree = $('#ontology-properties-list').get(0);
+selectowl.gui.refreshPropertiesTree = function() {
+  var tree = $('#selectowl-properties-tree').get(0);
   tree.view = selectowl.gui.getPropertiesTreeView();
   $(tree).attr('editable', 'true');
 }
