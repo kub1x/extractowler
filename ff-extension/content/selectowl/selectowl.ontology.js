@@ -19,7 +19,7 @@ selectowl.ontology.feedMee = function () {
     p = ns[p];
     // Check if it's valid prefix and if we don't have it already
     if (p.URI && p.prefix &&
-          !this.prefixes.contains(p.uri) &&
+          !this.prefixes.contains(p.URI) &&
           !this.prefixes.contains(p.prefix)) {
       this.prefixes.add(p.prefix, p.URI);
     }
@@ -30,7 +30,7 @@ selectowl.ontology.feedMee = function () {
     el = index[r];
     my = {};
     my.baseURI = el.baseURI
-    my.URI = el.URI;
+    my.uri = el.URI; //XXX EVEN FOR URI, I USE ALL LOWERCASE IF I CAN...
     my.type = el.type;
     my.name = el.name;
     my.prefix = this.prefixes.uri2prefix(el.baseURI) || this.prefixes.guessPrefix(el.baseURI);
