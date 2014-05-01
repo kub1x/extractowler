@@ -13,11 +13,12 @@
     <script src="jOWL.js" />
     <script src="aardvark.js" />
 
-    <script src="selectowl/selectowl.js" />
-    <script src="selectowl/selectowl.ontology.js" />
-    <script src="selectowl/selectowl.aardvark.js" />
-    <script src="selectowl/selectowl.gui.js" />
-    <script src="selectowl/selectowl.scenario.js" />
+    <script src="selectowl/selectowl.js"               />
+    <script src="selectowl/selectowl.misc.js"          /> <!-- for: gui -->
+    <script src="selectowl/selectowl.ontology.js"      /> <!-- for: gui -->
+    <script src="selectowl/selectowl.aardvark.js"      />
+    <script src="selectowl/selectowl.gui.js"           />
+    <script src="selectowl/selectowl.scenario.js"      />
     <script src="selectowl/selectowl.scenario.tree.js" />
 
     <!--
@@ -144,12 +145,12 @@ further:
         <groupbox id="scenario-editor" flex="1">
           <tree id="selectowl-scenario-tree"
             flex="1"
-            seltype="single">
+            seltype="single"
+            onselect="selectowl.gui.onScenarioSelect();" >
             <!--
             hidecolumnpicker="false"
             class="tree"
             rows="5"
-            onselect="selectowl.gui.onSelect();"
             onclick="selectowl.gui.onClick(event);"
             -->
               <treecols>

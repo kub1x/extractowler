@@ -260,3 +260,219 @@ selectowl.gui.onClassSelect = function ( event ) {
   selectowl.aardvark.start( resource, context );
 }; 
 
+/* we will show selected item in webpage document and set current context on select */
+selectowl.gui.onScenarioSelect = function ( event ) {
+  //var target = event.target;
+  //var idx = target.currentIndex;
+  //var ts = selectowl.scenario.tree.get(idx);
+  //var ss = ts.step;
+
+  // juveej
+  var currentBrowser  = aardvarkUtils.currentBrowser();
+  currentBrowser.addEventListener("resize", this.onResize, false);
+  this.refreshHighlight();
+};
+
+/**
+ * Obslouží událost <code>onResize</code> webového prohlížeče.
+ */
+selectowl.gui.onResize = function() {
+  selectowl.gui.refreshHighlight();
+}
+
+
+/* ************************************************************************** *
+ *                                  HIGHLIGHT                                 *
+ * ************************************************************************** */
+
+/**
+ * Zobrazí box zvýrazňující kontext.
+ *
+ * @param elem  element, kolemž něho bude box vytvořen
+ */
+selectowl.gui.showContextBox = function(elem) {
+    this.hideContextBox();
+
+    this.borderElems = [];
+
+    var d, i;
+
+    for (i = 0; i < 4; i++)
+    {
+        d = document.createElementNS("http://www.w3.org/1999/xhtml", "div");
+
+        d.className = "selectowlbox"
+        d.style.display = "none";
+        d.style.position = "absolute";
+        d.style.height = "0px";
+        d.style.width = "0px";
+        d.style.zIndex = "65536";
+
+        d.style.background = "#000";
+        d.style.opacity = ".5";
+
+        d.autopagerSelectorLabel = true; // mark as ours
+
+        this.borderElems[i] = d;
+    }
+
+    var doc = elem.ownerDocument;
+    if (!doc || !doc.body)
+        return;
+
+    for (i = 0; i < 4; i++) {
+        try {
+            doc.adoptNode(this.borderElems[i]);
+        }
+        catch (e) {
+        // Gecko 1.8 doesn't implement adoptNode, ignore
+        }
+        doc.body.appendChild(this.borderElems[i]);
+    }
+
+    var currentDocument = aardvarkUtils.currentDocument();
+
+    var elements = currentDocument.getElementsByTagName("*");
+
+    var width = 0;
+
+    for (i = 0; i < elements.length; i++) {
+        if (width < elements[i].offsetWidth) {
+            width = elements[i].offsetWidth;
+        }
+    }
+
+    var pos = getPos(elem);
+
+    this.borderElems[0].style.left
+    = this.borderElems[1].style.left
+    = this.borderElems[2].style.left
+    = "0px";
+    this.borderElems[3].style.left = (pos.x + elem.offsetWidth) + "px";
+
+    this.borderElems[0].style.width
+    = this.borderElems[1].style.width
+    = (currentDocument.body.offsetWidth > width ? currentDocument.body.offsetWidth : width) + "px";
+    this.borderElems[2].style.width = (pos.x) + "px";
+    this.borderElems[3].style.width = ((currentDocument.body.offsetWidth > width ? currentDocument.body.offsetWidth : width) - (pos.x + elem.offsetWidth)) + "px";
+
+
+    var documentHeight = Math.max(
+        Math.max(currentDocument.body.scrollHeight, currentDocument.documentElement.scrollHeight),
+        Math.max(currentDocument.body.offsetHeight, currentDocument.documentElement.offsetHeight),
+        Math.max(currentDocument.body.clientHeight, currentDocument.documentElement.clientHeight)
+    );
+
+    this.borderElems[0].style.height = (pos.y) + "px";
+    this.borderElems[1].style.height = (documentHeight - (pos.y + elem.offsetHeight)) + "px";
+    this.borderElems[2].style.height
+    = this.borderElems[3].style.height
+    = (elem.offsetHeight) + "px";
+
+    this.borderElems[0].style.top = "0px";
+    this.borderElems[2].style.top
+    = this.borderElems[3].style.top
+    = (pos.y) + "px";
+    this.borderElems[1].style.top = (pos.y + elem.offsetHeight) + "px";
+
+    this.borderElems[0].style.display
+    = this.borderElems[1].style.display
+    = this.borderElems[2].style.display
+    = this.borderElems[3].style.display
+    = "";
+}
+
+/**
+ * Odstraní box zvýrazňující kontext.
+ */
+selectowl.gui.hideContextBox = function() {
+  if(!this.borderElems) return;
+    for (var i = 0; i < this.borderElems.length; i++) {
+        if (this.borderElems[i].parentNode) {
+            this.borderElems[i].parentNode.removeChild(this.borderElems[i]);
+        }
+    }
+}
+
+/**
+ * Zvýrazní všechny elementy vyhovující selektoru.
+ *
+ * @param selected  selektor
+ */
+selectowl.gui.showSelectedElem = function(selected) {
+    this.hideSelectedElem();
+
+    var currentDocument = aardvarkUtils.currentDocument();
+
+    if (currentDocument.getElementById("selectowl-style") == null) {
+        var style = currentDocument.createElement('style');
+
+        style.setAttribute("id", "selectowl-style");
+        style.innerHTML = ".selectowl-selection { background: GreenYellow; }";
+
+        var head = currentDocument.getElementsByTagName('head')[0];
+
+        if (head) {
+            head.appendChild(style);
+        } else {
+            currentDocument.body.appendChild(style);
+        }
+    }
+
+    try {
+        //for (var i in selected) {
+        //    jQuery(selected[i]).addClass("selectowl-selection");
+        //}
+        $(selected).addClass('selectowl-selection');
+    } catch (exception) {}
+}
+
+/**
+ * Odstraní zvýraznění elementů.
+ */
+selectowl.gui.hideSelectedElem = function() {
+    var currentDocument = aardvarkUtils.currentDocument();
+
+    //var selected = Sizzle(".selectowl-selection", currentDocument);
+    //
+    //for (var i in selected) {
+    //    jQuery(selected[i]).removeClass("selectowl-selection");
+    //}
+    
+    $(currentDocument).find(".selectowl-selection").removeClass("selectowl-selection");
+}
+
+/**
+ * Obnoví zvýraznění elementů a kontextu v závislosti na výběru v elementu
+ * <code>tree</code>.
+ */
+selectowl.gui.refreshHighlight = function() {
+    var context = this.getContext(undefined, true);
+
+    if (context != "") {
+        var currentDocument = aardvarkUtils.currentDocument();
+
+        //var selected = Sizzle(context, currentDocument);
+        var selected = $(currentDocument).find(context).get();
+
+        this.showSelectedElem(selected);
+
+        this.showContextBox(selected[0]);
+    } else {
+        this.hideSelectedElem();
+        this.hideContextBox();
+    }
+}
+
+
+selectowl.gui.getContext = function(index, inclSelected) {
+    var tree = $('#selectowl-scenario-tree').get(0);
+
+    if (index == undefined) {
+        index = tree.currentIndex;
+    }
+
+    return selectowl.scenario.tree.get(index).step.selector;
+}
+
+
