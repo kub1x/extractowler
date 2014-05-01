@@ -86,10 +86,16 @@ selectowl.gui.showStep = function (step_id ) {
   //selectowl.gui.refreshAllLists(); //TODO CHECKME TESTING XXX
 }
 
+
+/************************************************************
+ *                                                          *
+ ************************************************************/
+
 selectowl.gui.refreshAllLists = function() {
   selectowl.gui.refreshPrefixesList();
   selectowl.gui.refreshClassesList();
   selectowl.gui.refreshPropertiesList();
+  selectowl.gui.refreshScenarionTree();
 }
 
 selectowl.gui.refreshPrefixesList = function() {
@@ -109,6 +115,16 @@ selectowl.gui.refreshPropertiesList = function() {
   tree.view = selectowl.gui.getPropertiesTreeView();
   $(tree).attr('editable', 'true');
 }
+
+selectowl.gui.refreshScenarionTree = function() {
+  var tree = $('#selectowl-scenario-tree').get(0);
+  tree.view = selectowl.gui.getScenarioTreeView();
+}
+
+
+/************************************************************
+ *                                                          *
+ ************************************************************/
 
 selectowl.gui.basicTreeView = {
   // Set this!
@@ -225,3 +241,7 @@ selectowl.gui.getPropertiesTreeView = function() {
     });
 };
 
+selectowl.gui.getScenarioTreeView = function() {
+  // Merge basic tree structure with it's "specific" implementation and return
+  return $.extend({}, selectowl.gui.basicTreeView, selectowl.scenario.tree);
+}

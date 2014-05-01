@@ -1,4 +1,9 @@
 
+/************************************************************
+ *                                                          *
+ ************************************************************/
+
+
 selectowl.ontology.feedMee = function () {
   // index is a hashmap from URI to jOWL Ontology object representing the resource
   // sometimes the URI is shortened when base-namespace is present

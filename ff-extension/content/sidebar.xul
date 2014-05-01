@@ -17,6 +17,8 @@
     <script src="selectowl/selectowl.ontology.js" />
     <script src="selectowl/selectowl.aardvark.js" />
     <script src="selectowl/selectowl.gui.js" />
+    <script src="selectowl/selectowl.scenario.js" />
+    <script src="selectowl/selectowl.scenario.tree.js" />
 
     <!--
     <script src="sizzle.js" />
@@ -151,7 +153,8 @@ further:
             onclick="selectowl.gui.onClick(event);"
             -->
               <treecols>
-                  <treecol id="scenario-step-col" label="step" flex="1" persist="width" />
+                  <treecol id="scenario-resource-col" label="resource" flex="1" persist="width" />
+                  <treecol id="scenario-selector-col" label="selector" flex="1" persist="width" />
               </treecols>
               <treechildren />
           </tree>
