@@ -245,3 +245,18 @@ selectowl.gui.getScenarioTreeView = function() {
   // Merge basic tree structure with it's "specific" implementation and return
   return $.extend({}, selectowl.gui.basicTreeView, selectowl.scenario.tree);
 }
+
+
+/************************************************************
+ *                                                          *
+ ************************************************************/
+
+selectowl.gui.onClassSelect = function ( event ) {
+  var target = event.target;
+  console.log('called onselect on name: ' + target.tagName + ' with current index: ' + target.currentIndex);
+  var idx = target.currentIndex;
+  var resource = selectowl.ontology.classes.get(idx).uri;
+  var context  = null;//TODO
+  selectowl.aardvark.start( resource, context );
+}; 
+

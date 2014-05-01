@@ -105,7 +105,7 @@ further:
 
         <!-- TODO learn to sort trees by column values -->
 
-        <groupbox id="select-class" style="display: none;" flex="1">
+        <groupbox id="select-class" style="display: none;" flex="1" onselect="selectowl.gui.onClassSelect(event);">
           <caption label="Select Class" />
           <tree id="selectowl-classes-tree" enableColumnDrag="true" flex="1">
             <treecols>

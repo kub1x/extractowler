@@ -26,12 +26,18 @@
  * ******************************** AARDVARK ******************************** *
  * ************************************************************************** */
 
+selectowl.aardvark.resource = null; 
+selectowl.aardvark.context = null; 
+
 /**
  * Spustí Aardvark.
  */
-selectowl.aardvark.start = function() {
-    var currentBrowser  = aardvarkUtils.currentBrowser();
+selectowl.aardvark.start = function( resource, context ) {
+    this.resource = resource;
+    this.context = context;
+    //TODO show context or something..?
 
+    var currentBrowser  = aardvarkUtils.currentBrowser();
     aardvarkSelector.start(currentBrowser);
 }
 
@@ -42,29 +48,35 @@ selectowl.aardvark.start = function() {
  * @param elem      vybraný element
  */
 selectowl.aardvark.onSelect = function(elem) {
-  //XXX
-  var owlObj = selectowl.workflow['select-object'].selected; 
-  $(elem).css('background-color', 'green');
-  $(elem).attr('data-asdf', owlObj.name + '[' + owlObj.type + ']');
-  return;
-  //XXX
+  //var owlObj = selectowl.workflow['select-object'].selected; 
+  //$(elem).css('background-color', 'green');
+  //$(elem).attr('data-asdf', owlObj.name + '[' + owlObj.type + ']');
+  //return;
+  
+  var selector;
+  var currDoc = aardvarkUtils.currentDocument();
+
         
-    var _gui = this._parent.gui;
+    //var _gui = this._parent.gui;
 
     // získání indexu uzlu, do jehož kontextu bude selektor zařazen
 
-    var indexOfContext = this.getIndexOfContext(elem);
+    //var indexOfContext = this.getIndexOfContext(elem);
 
     // vygenerování selektoru a názvu, pod kterým budo do stromu přidán
-
-    var context = _gui.getContext(indexOfContext, true);
+    
+    //var context = _gui.getContext(indexOfContext, true);
+    var context = null; //this.context;
+    //TODO these are two different context the left is DOM object of webpage
+    //     the right is tree.step -> get selector from the tree step and "obtain" the context from it
 
     var name;
     var selector;
 
     var currDoc = aardvarkUtils.currentDocument();
 
-    var parents = context == "" ? Sizzle("body", currDoc) : Sizzle(context, currDoc);
+    //var parents = context == "" ? Sizzle("body", currDoc) : Sizzle(context, currDoc);
+    var parents = context ? $(currDoc).find(context).parents().get()/* <-- get() all of them*/ : $(currDoc).find('body').get(0);
 
     var topReached = false;
     var idFound = false;
@@ -124,7 +136,9 @@ selectowl.aardvark.onSelect = function(elem) {
 
     // přidání selektoru do stromu
 
-    _gui.addNode(indexOfContext, selector, name);
+    //_gui.addNode(indexOfContext, selector, name);
+
+  selectowl.scenario.tree.createNewStep(this.resource, selector);
 }
 
 /**
@@ -152,29 +166,29 @@ selectowl.aardvark.isInContext = function(elem, context) {
     return isInContext;
 }
 
-/**
- * Vrátí index uzlu stromu, do jehož kontextu zapadá daný element.
- *
- * @param elem      element
- * @return          index uzlu stromu
- */
-selectowl.aardvark.getIndexOfContext = function(elem) {
-    var _gui = this._parent.gui;
-
-    var tree = _gui.get();
-
-    var index = tree.currentIndex;
-
-    if (index > 0) {
-        var context = _gui.getContext(index, true);
-
-        while (!this.isInContext(elem, context)) {
-            index = tree.view.getParentIndex(index);
-            context = _gui.getContext(index, true);
-        }
-
-        return index;
-    } else {
-        return 0;
-    }
-}
+///**
+// * Vrátí index uzlu stromu, do jehož kontextu zapadá daný element.
+// *
+// * @param elem      element
+// * @return          index uzlu stromu
+// */
+//selectowl.aardvark.getIndexOfContext = function(elem) {
+//    var _gui = this._parent.gui;
+//
+//    var tree = _gui.get();
+//
+//    var index = tree.currentIndex;
+//
+//    if (index > 0) {
+//        var context = _gui.getContext(index, true);
+//
+//        while (!this.isInContext(elem, context)) {
+//            index = tree.view.getParentIndex(index);
+//            context = _gui.getContext(index, true);
+//        }
+//
+//        return index;
+//    } else {
+//        return 0;
+//    }
+//}
