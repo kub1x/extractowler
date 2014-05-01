@@ -4,11 +4,223 @@
 \department {Katedra kybernetiky}
 \title {Minimální dokument}
 \author {Jakub Podlaha}
-\date {November 2013}
+\date {May 2014}
 \abstractEN {This document is for testing purpose only.}
 \abstractCZ {Tento dokument je pouze pro potřeby testování.}
 \declaration {Prohlašuji, že jsem se neflákal.}
 \makefront
+
+
+
+\chap Introduction
+
+\sec Problem Statement and Motivation
+
+Giving meaning, i.e. semantization of web pages gets more popular. XXX
+
+ex.: Google -- showing structured result for many types of queries
+\url{https://en.wikipedia.org/wiki/Google_Knowledge_Graph}
+
+%In future they're going even beyond that and suggest "predictive search"
+%\url{http://www.nytimes.com/2013/07/30/technology/apps-that-know-what-you-want-before-you-do.html}
+%technologies, that try to guess the motivation of your search, not only it's
+%meaning. \url{http://www.google.com/landing/now/}
+
+One direction to go is to anotate data on "the server side", i.e. at the time
+when we are creatign them. The person crating the data have to use the right
+tool and spend time giving the data the appropriate annotation. There is enough
+technologies for it: HTML5 adding tags for better annotation of the page
+structure (such as nav, article, section, aside, ...), microformats
+\url{http://microformats.org/} using html classes to bring standardized
+patterns for several basic use cases with fixed structure, such as vcard or
+event, or RDFa to annotate data on a webpage with an actual ontology (see in
+separate section XXX).
+
+There are tools for extracting and testing structured data 
+\url{http://www.google.com/webmasters/tools/richsnippets}
+\url{http://rdfa.info/play/}
+
+To bypass the gap between anonymous data present on the web on one side and
+rich, linked, meaningful ontologies on the other, we can go the opposite
+direction as well. We can take the unannotated data already present on the web
+and retrieve them in a form, that is defined by some ontology structure. 
+
+To allow such a proccess we need to create tools that allow users to annotate
+the, previously meaning-free, data with elements of existing ontology. By using
+existing ontologies we not only give data the meaning, but also valuable
+connection to any other dataset annotated using the same ontology. 
+
+
+
+\sec Current solution crOWLer
+
+The suggested base technology is being developed on our faculty. Crawler called
+crOWLer serves the needs of extracting data from web. In current technology
+both, the scenario and the ontology are hard-coded into the crOWLer code. This
+requires unnecessary load of work for each separate use case, whilst in
+practice all the use cases share the same workflow. 
+
+\begitems \style n
+  * load the ontology
+  * add selectors to specific resources from the ontology
+  * run the crawling process according the above
+\enditems
+
+
+\sec Proposed Solution and Methodology
+
+To simplyfy the creation of guidelines, or scenarios, for crOWLer , we propose
+a tool that allows user to select all the element directly on the web page with
+all the necessary settings, pass the scenario created to the crOWLer and optain
+the results in a form of a graphical feedback. 
+
+\sec Specific goals of the project
+
+\begitems
+  * implement extension for a browser
+  * load ontology
+  * create scenario for crOWLer 
+  * serialize scenario and ontology
+  * parse it by crOWLer creating it's parsing configuration
+  * run crOWLer
+  * visualize the extracted data (feedback)
+\enditems
+
+
+\sec testy - co jsem zkousel..
+
+TBD
+
+\chap Existing solutions
+
+%Semanticke a nesemanticke crowlery (linked media framework, calimachus, ...) je toho proste malo ;-) a proto to delame
+
+\sec Semantic and non semantic crawlers
+
+By researching existing solutions, there is currently no open source or openly
+available solution to solve this task. Rumor goes there is proprietary tool in IBM.
+
+Existing tools named as "Ontology-based Web Crawlers" refer mostly to crawlers
+that "rank" pages being crawled by guess-matching them against some ontology.
+In those programs user can't specify data that are being retrieved. Moreover,
+there is no way to get involved in the crawling process. It is solely used to
+automatically rank the relevance of documents. They are solving different task
+where input is several documents and possibly an ontology and output is the
+best matching document. 
+
+In case we're solving  the input is one or more documents and one or more
+ontologies and the result is data obtained from the documents and annotated
+with structure from the ontologies. 
+
+\sec Advantages and pitfalls of Semantic crawler and linked data
+
+% vyhody sem crowleru, i pro linked data
+The simplest approach is manual searching for keywords, or even simple browsing
+the web. That might be useful in some cases, but when there is a lot of data,
+it becomes exhausting. 
+
+Crawling data using simple tools like 'wget --mirror' allows us to load data
+and then write a program or script to retrieve a relevant information. This
+approach takes a lot of energy for one time only solution of a given problem. 
+
+By storing such crawled data into database we obtain persistent database,
+possibly automatically obtained by the script from pervious case. Such data is
+static, but can be queried over and over and possibly re-retrieved when becomes
+obsolete. It's structure is, however, based on programmers imagination an
+needst to be described in order to understand and handle the data properly. 
+
+When using Ontology-based solution, tailor made for crawling and annotating
+data from web, we obtain several benefits "for free". The tool designed
+specially for this purpose makes it easy. Once the data is annotated, we can
+not only query on them, but also automatically reason on them and obtain more
+or more specific/narrow results than with general data. The atributes and
+relations within ontology, that allow reasoning, are usually part of the
+ontology deffinition and as such comes, again, "for free". 
+
+Last for benefits: using ontology from public resource as a schema for our data
+can give us correct structure without need for making it up or building it from
+scratch. Also by using some common ontology, we can join together any
+accessible data structured according to this ontology and simply query on
+resulting super set. 
+
+~
+
+Semantic crawling is not a silver bullet. The technology is only finding it's
+place and uses and it's being shaped by the needs of it's users. In current
+it's mostly used on accademic field XXX. 
+
+There is always a threat of inconsystency of an ontology when some data don't
+fit the rules or breaks structure of an ontology. 
+
+Just like with "hardcoded" crawling technique, the semantic crawling is tightly
+connected with the structure of the web being crawled and selectors used for
+matching data on the web. Any change on a webpage structure can lead to broken
+selectors or links during the crawling process. 
+
+A lot of web pages loads their data dynamically using AJAX queries. Some pages
+simply changes it's content frequently (rt.com, vimeo.com, ...) which would
+require almost constant crawling and growth into an massive ontology. 
+
+Stating that, the semantic crawling is an usefull way to effectively obtain and
+query otherwise anonymous data from the web, but it still have it's challenges
+to overtake. 
+
+
+\chap Linked Data, RDFa, 
+% * informativni cast, teorie
+
+\chap Program design and Implementation
+
+\sec Use Cases
+
+\begitems
+  * NPU
+  * beerborec.cz
+  * citybee.cz
+\enditems
+
+\sec Model
+
+\sec Imlementation
+
+\sec Issues - solved and unsolved
+
+\begitems
+  * error handling (non existent selector, missing data, ...)
+\enditems
+
+% * diagramy... clas, sequence (komunikace s jOWLem, komunikace s generatorem selectoru, ), 
+% * model
+% * vyresene, nevyresene problemy
+
+\chap Results and Tests 
+% * na npu, nebo i na jinych strankach
+
+\chap zaver
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\chap Už jen výpisky
+
+~
+
 
 \chap Zadání SW Projektu
 
@@ -21,6 +233,11 @@
     sloužící k tvorbě scénářů ve vámi navrženém datovém formátu pro následnou
     extrakci sémantických data z webových stránek. 
 \enditems
+
+
+
+
+
 
 
 \chap Knowledge base, principles and technologies
@@ -78,10 +295,15 @@ jazyky sémantického webu RDF, RDFS a OWL.
 \enditems
 
 
-\chap research - existující řešení
 
 
-\sec InfoCram 2000 - Jirka
+
+
+
+\chap research - existující řešení - platforma
+
+
+\sec InfoCram 2000 - Jirka Mašek
 
 \begitems
   * zalozeny na Aardwark \urlnote{https://addons.mozilla.org/en-US/firefox/addon/aardvark/}
@@ -99,7 +321,7 @@ jazyky sémantického webu RDF, RDFS a OWL.
 
 \sec Sahi
 
-Yet another web automation project. \url{http://sourceforge.net/projects/sahi/}
+Yet another web automation and testing tool. \url{http://sourceforge.net/projects/sahi/}
 
 
 \sec Selenium IDE
@@ -204,100 +426,100 @@ crowler cz.sio2.crowler.configurations.parser.SeleniumConfiguration\
 
 
 
-\chap Implementace
+%\chap Implementace
+%
+%
+%\sec Ideas
+%
+%
+%\secc Overlay on webpage
+%
+%\begitems
+%  * create an overlay that will highlight information being crowled
+%  * the rest of webpage will gray out
+%  * will show classes of each highlighted region
+%  * onmouseover will show arrows with relations aswell
+%  * will show current context in a table view aswell
+%\enditems
+%
+%
+%\secc Selenium Builder - new technology
+%
+%\url{https://github.com/sebuilder/se-builder/wiki/Getting-Started}
+%
+%
+%\sec SelectOWL - Plugin pro Selenium IDE - Firefox
+%
+%\begitems
+%  * \url{https://developer.mozilla.org/en-US/Add-ons/Setting_up_extension_development_environment}
+%  * \url{http://kb.mozillazine.org/Getting_started_with_extension_development}
+%  * \url{http://code.google.com/p/selenium/source/browse/}
+%  * \url{http://docs.seleniumhq.org/download/maven.jsp}
+%  * \url{http://repo1.maven.org/maven2/org/seleniumhq/selenium/ide/selenium-ide/1.0.2/}
+%\enditems
+%
+%
+%
+%\sec Snippets
+%
+%\begitems
+%  * \url{https://code.google.com/p/selenium/source/browse/ide/main/src/content/testCase.js} - definition of TestCase and Command (!!!)
+%  * selenium/chrome/content/selenium/scripts/selenium-commandhandlers.js - registrace prikazu (vytvari se tam "AndWait" postfixy etc.)
+%\enditems
+%
+%
+%\secc Embeding selenium-commandhandlers.js
+%
+%I need to embed the selenium core itself in order to add new TYPE of commands. 
+%
+%The original selenium commands are: 
+%
+%\begitems
+%  * accessors (i.e. getSometing or isSomething -> getFoo, assertFoo, verifyFoo, assertNotFoo, verifyNotFoo, storeFoo, waitForFoo, and waitForNotFoo.
+%  * asserts (i.e. assertSomething -> assertSomething)
+%  * actions (i.e. doSomeAction -> someAction, someActionAndWait)
+%\enditems
+%
+%none of which applies for owl commands that are more
+%
+%\begtt
+%vim selenium/chrome/content/selenium/scripts/selenium-commandhandlers.js
+%\endtt
+%
+%\begtt
+%vim selenium/chrome/content/selenium/scripts/htmlutils.js
+%21: function classCreate()
+%  - constructor that calls initialize on self with arguments passed
+%27: function objectExtend(destination, source)
+%\endtt
+%
+%\begtt
+%vim selenium/chrome/content/selenium/scripts/selenium-executionloop.js
+% 94: _executeCurrentCommand - calls:
+%104: var handler = this.commandFactory.getCommandHandler(command.command);
+%112: this.result = handler.execute(selenium, command);
+%\endtt
+%
+%HANDLER HAS TO IMPLEMENT execute(seleniumApi, commandObj);
 
 
-\sec Ideas
 
-
-\secc Overlay on webpage
-
-\begitems
-  * create an overlay that will highlight information being crowled
-  * the rest of webpage will gray out
-  * will show classes of each highlighted region
-  * onmouseover will show arrows with relations aswell
-  * will show current context in a table view aswell
-\enditems
-
-
-\secc Selenium Builder - new technology
-
-\url{https://github.com/sebuilder/se-builder/wiki/Getting-Started}
-
-
-\sec SelectOWL - Plugin pro Selenium IDE - Firefox
-
-\begitems
-  * \url{https://developer.mozilla.org/en-US/Add-ons/Setting_up_extension_development_environment}
-  * \url{http://kb.mozillazine.org/Getting_started_with_extension_development}
-  * \url{http://code.google.com/p/selenium/source/browse/}
-  * \url{http://docs.seleniumhq.org/download/maven.jsp}
-  * \url{http://repo1.maven.org/maven2/org/seleniumhq/selenium/ide/selenium-ide/1.0.2/}
-\enditems
-
-
-
-\sec Snippets
-
-\begitems
-  * \url{https://code.google.com/p/selenium/source/browse/ide/main/src/content/testCase.js} - definition of TestCase and Command (!!!)
-  * selenium/chrome/content/selenium/scripts/selenium-commandhandlers.js - registrace prikazu (vytvari se tam "AndWait" postfixy etc.)
-\enditems
-
-
-\secc Embeding selenium-commandhandlers.js
-
-I need to embed the selenium core itself in order to add new TYPE of commands. 
-
-The original selenium commands are: 
-
-\begitems
-  * accessors (i.e. getSometing or isSomething -> getFoo, assertFoo, verifyFoo, assertNotFoo, verifyNotFoo, storeFoo, waitForFoo, and waitForNotFoo.
-  * asserts (i.e. assertSomething -> assertSomething)
-  * actions (i.e. doSomeAction -> someAction, someActionAndWait)
-\enditems
-
-none of which applies for owl commands that are more
-
-\begtt
-vim selenium/chrome/content/selenium/scripts/selenium-commandhandlers.js
-\endtt
-
-\begtt
-vim selenium/chrome/content/selenium/scripts/htmlutils.js
-21: function classCreate()
-  - constructor that calls initialize on self with arguments passed
-27: function objectExtend(destination, source)
-\endtt
-
-\begtt
-vim selenium/chrome/content/selenium/scripts/selenium-executionloop.js
- 94: _executeCurrentCommand - calls:
-104: var handler = this.commandFactory.getCommandHandler(command.command);
-112: this.result = handler.execute(selenium, command);
-\endtt
-
-HANDLER HAS TO IMPLEMENT execute(seleniumApi, commandObj);
-
-
-
-\chap Bookmarklet prototype
-
-
-\sec step by step
-
-\begitems
-  * create bookmarklet to alert from external script
-  * fill it with simple \<div\> containing an external html
-  * insert form to load a file or url with ontology
-  * add jOWL to load the ontology
-  * add jOWLBrowser-ish functionality to visualize the ontology
-  * add aardwark.js to select items
-  * create the json expressing scripts for crowler
-  * visualise anotated data
-  * export and run in crowler
-\enditems
+%\chap Bookmarklet prototype
+%
+%
+%\sec step by step
+%
+%\begitems
+%  * create bookmarklet to alert from external script
+%  * fill it with simple div element containing an external html
+%  * insert form to load a file or url with ontology
+%  * add jOWL to load the ontology
+%  * add jOWLBrowser-ish functionality to visualize the ontology
+%  * add aardwark.js to select items
+%  * create the json expressing scripts for crowler
+%  * visualise anotated data
+%  * export and run in crowler
+%\enditems
 
 
 \bye
