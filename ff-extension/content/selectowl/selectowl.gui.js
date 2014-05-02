@@ -258,6 +258,9 @@ selectowl.gui.onClassSelect = function ( event ) {
   var resource = selectowl.ontology.classes.get(idx).uri;
   var context  = null;//TODO
   selectowl.aardvark.start( resource, context );
+  //TODO DELME following didn't help the window hot gaining focus
+  //event.stopPropagation();
+  //aardvarkUtils.currentBrowser().contentWindow.focus();
 }; 
 
 /* we will show selected item in webpage document and set current context on select */
@@ -273,9 +276,7 @@ selectowl.gui.onScenarioSelect = function ( event ) {
   this.refreshHighlight();
 };
 
-/**
- * Obslouží událost <code>onResize</code> webového prohlížeče.
- */
+/** Obslouží událost <code>onResize</code> webového prohlížeče.  */
 selectowl.gui.onResize = function() {
   selectowl.gui.refreshHighlight();
 }
@@ -285,8 +286,7 @@ selectowl.gui.onResize = function() {
  *                                  HIGHLIGHT                                 *
  * ************************************************************************** */
 
-/**
- * Zobrazí box zvýrazňující kontext.
+/** Zobrazí box zvýrazňující kontext.
  *
  * @param elem  element, kolemž něho bude box vytvořen
  */
@@ -382,8 +382,7 @@ selectowl.gui.showContextBox = function(elem) {
     = "";
 }
 
-/**
- * Odstraní box zvýrazňující kontext.
+/** Odstraní box zvýrazňující kontext.
  */
 selectowl.gui.hideContextBox = function() {
   if(!this.borderElems) return;
@@ -394,8 +393,7 @@ selectowl.gui.hideContextBox = function() {
     }
 }
 
-/**
- * Zvýrazní všechny elementy vyhovující selektoru.
+/** Zvýrazní všechny elementy vyhovující selektoru.
  *
  * @param selected  selektor
  */

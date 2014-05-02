@@ -138,6 +138,8 @@ aardvarkSelector.start = function(browser) {
         }
     }
 
+    //console.log('registering events');
+
     this.addEventListener(browser,"click", this.mouseClick, true);
     this.addEventListener(browser,"mouseover", this.mouseOver, true);
     this.addEventListener(browser,"keypress", this.keyPress, true);
@@ -167,6 +169,7 @@ aardvarkSelector.start = function(browser) {
 }
 
 aardvarkSelector.doCommand = function(command, event) {
+  //console.log('doCommand(' + command + ')');
     if (this[command](this.selectedElem)) {
         if (event) {
             event.stopPropagation();
@@ -230,6 +233,9 @@ aardvarkSelector.onMouseClick = function(event) {
 }
 
 aardvarkSelector.onMouseOver = function(event) {
+  //XXX
+  aardvarkUtils.currentBrowser().contentWindow.focus();
+
     if (this.paused)
         return;
     var elem = event.originalTarget;
@@ -250,6 +256,9 @@ aardvarkSelector.onMouseOver = function(event) {
 }
 
 aardvarkSelector.onKeyPress = function(event) {
+
+    //console.log('key press: ' + event.keyCode + ' t.j.: ' + String.fromCharCode(event.charCode));
+
     if (event.altKey || event.ctrlKey || event.metaKey)
         return;
 
@@ -290,6 +299,7 @@ aardvarkSelector.onMouseMove = function(event) {
 // to the real handlers (aardvarkSelector.onKeyPress in this case) with
 // correct this pointer.
 aardvarkSelector.generateEventHandlers = function(handlers) {
+  //console.log('generating event handlers');
     var generator = function(handler) {
         return function(event) {
             aardvarkSelector[handler](event)
@@ -534,6 +544,7 @@ aardvarkSelector.commands = [
 //------------------------------------------------------------
 aardvarkSelector.wider = function (elem)
 {
+  //console.log('called wider: ' + elem);
     if (elem)
     {
         var newElem = elem.parentNode;
@@ -606,6 +617,7 @@ aardvarkSelector.quit = function ()
 
 //------------------------------------------------------------
 aardvarkSelector.select = function (elem) {
+  //console.log('select');
     selectowl.aardvark.onSelect(elem);
 
     return true;
@@ -772,17 +784,16 @@ aardvarkSelector.getOuterHtmlFormatted = function (node, container)
 //-------------------------------------------------
 aardvarkSelector.showMenu = function ()
 {
-  //XXX hidden
-    //var helpBox = document.getElementById("aardvark-helpbox");
-    //
-    //if (helpBox.getAttribute("_moz-menuactive") == "true") {
-    //    helpBox.hidePopup();
-    //    return true;
-    //}
+  var helpBox = document.getElementById("aardvark-helpbox");
+  
+  if (helpBox.getAttribute("_moz-menuactive") == "true") {
+      helpBox.hidePopup();
+      return true;
+  }
 
-    //// Show help box
-    //helpBox.showPopup(this.browser, -1, -1, "tooltip", "topleft", "topleft");
-    //return true;
+  // Show help box
+  helpBox.showPopup(this.browser, -1, -1, "tooltip", "topleft", "topleft");
+  return true;
 }
 
 const aardvarkUtils = {
