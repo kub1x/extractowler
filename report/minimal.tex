@@ -14,12 +14,46 @@
 
 \chap Introduction
 
+During past few years the Web went through bigger or smaller revolutions. 
+
+\begitems
+  * WEB 2.0 and tag cloud
+  * HTML5 and semantic tags
+  * Smartphones, Tablets and mobile web everywhere, 
+  * The run out of IPv4 addresses, nonexistent boom of IPv6, 
+  * Cloud technologies and BigData, 
+  * Bitcoin, Tor, anonymous internet, 
+  * WikiLeaks, NSA, Heartbleed and secourity concerns
+  * Google Knowledge Graph, Facebook Open Graph, ...
+\enditems
+
+That's only few examples of some of the biggest recent issues on the web in
+general. We live in an age, where so little can mean so much. The enviroment
+online is dramatically changing, mostly on a wave of some new, useful or
+frightening technology. The Semantic Web technologies have been described,
+standardized and implemented for several year now XXX and their tide is near,
+though yet to come.
+
+Semantic Web itself reates to several principals (and their implementation)
+that allow users to add meaning to their data. This meaning brings not only a
+standardized structure, but also posibility to query and reason on it. Once
+given the structure, similar data can be also joined in a form of a bigger
+clowd. This phenomena is called Linked Data. 
+
+In this work we'd like to bring the Semantic Web technologies closer to users.
+The approach is to implement tool to simplify the process of giving meaning to
+(yet anonymous) data on a webpage, i.e. to bring structure and meaning into it. 
+
+
+
 \sec Problem Statement and Motivation
 
-Giving meaning, i.e. semantization of web pages gets more popular. XXX
+Giving meaning, i.e. semantization of web pages gets more popular. The most
+obvious it's probably on the way google serves it's results. Showing menu
+fields parsed directly from HTML5, or visualizing data from their own internal
+ontology XXX \url{https://en.wikipedia.org/wiki/Google_Knowledge_Graph}
 
-ex.: Google -- showing structured result for many types of queries
-\url{https://en.wikipedia.org/wiki/Google_Knowledge_Graph}
+What are the options for bringing sematic into a web? 
 
 %In future they're going even beyond that and suggest "predictive search"
 %\url{http://www.nytimes.com/2013/07/30/technology/apps-that-know-what-you-want-before-you-do.html}
@@ -37,7 +71,9 @@ event, or RDFa to annotate data on a webpage with an actual ontology (see in
 separate section XXX).
 
 There are tools for extracting and testing structured data 
+
 \url{http://www.google.com/webmasters/tools/richsnippets}
+
 \url{http://rdfa.info/play/}
 
 To bypass the gap between anonymous data present on the web on one side and
@@ -54,11 +90,11 @@ connection to any other dataset annotated using the same ontology.
 
 \sec Current solution crOWLer
 
-The suggested base technology is being developed on our faculty. Crawler called
-crOWLer serves the needs of extracting data from web. In current technology
-both, the scenario and the ontology are hard-coded into the crOWLer code. This
-requires unnecessary load of work for each separate use case, whilst in
-practice all the use cases share the same workflow. 
+The suggested base-technology is being developed on our faculty XXX. Crawler
+called crOWLer serves the needs of extracting data from web. In current
+technology, both, the scenario and the ontology structure/schema are hard-coded
+into the crOWLer code. This requires unnecessary load of work for each separate
+use case, whilst in practice all the use cases share the same workflow. 
 
 \begitems \style n
   * load the ontology
@@ -69,19 +105,19 @@ practice all the use cases share the same workflow.
 
 \sec Proposed Solution and Methodology
 
-To simplyfy the creation of guidelines, or scenarios, for crOWLer , we propose
-a tool that allows user to select all the element directly on the web page with
-all the necessary settings, pass the scenario created to the crOWLer and optain
-the results in a form of a graphical feedback. 
+To simplyfy the creation of guidelines, or scenarios for crOWLer, we propose a
+tool that allows user to select all the element directly on the web page being
+crawled, with all the necessary settings, pass the scenario created to the
+crOWLer and obtain the results in a form of a graphical feedback. 
 
 \sec Specific goals of the project
 
 \begitems
   * implement extension for a browser
-  * load ontology
+  * load and visualise ontology
   * create scenario for crOWLer 
   * serialize scenario and ontology
-  * parse it by crOWLer creating it's parsing configuration
+  * parse it by crOWLer creating it's configuration
   * run crOWLer
   * visualize the extracted data (feedback)
 \enditems
@@ -166,86 +202,18 @@ query otherwise anonymous data from the web, but it still have it's challenges
 to overtake. 
 
 
-\chap Linked Data, RDFa, 
-% * informativni cast, teorie
-
-\chap Program design and Implementation
-
-\sec Use Cases
-
-\begitems
-  * NPU
-  * beerborec.cz
-  * citybee.cz
-\enditems
-
-\sec Model
-
-\sec Imlementation
-
-\sec Issues - solved and unsolved
-
-\begitems
-  * error handling (non existent selector, missing data, ...)
-\enditems
-
-% * diagramy... clas, sequence (komunikace s jOWLem, komunikace s generatorem selectoru, ), 
-% * model
-% * vyresene, nevyresene problemy
-
-\chap Results and Tests 
-% * na npu, nebo i na jinych strankach
-
-\chap zaver
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\chap Už jen výpisky
-
-~
-
-
-\chap Zadání SW Projektu
-
-\begitems \style n
-  * Seznamte se technologiemi pro automatickou extrakci dat z webových stránek
-    a s jazyky sémantického webu RDF, RDFS a OWL.
-  * Navrhněte a implementujte vhodný datový formát pro popis scénářů extrakce
-    dat, které bude možné zpracovat vhodným open-source crawlerem (např.  [1]).
-    Vytvořte jednoduché uživatelské rozhraní ve vhodném webovém prohlížeči,
-    sloužící k tvorbě scénářů ve vámi navrženém datovém formátu pro následnou
-    extrakci sémantických data z webových stránek. 
-\enditems
-
-
-
-
-
-
-
 \chap Knowledge base, principles and technologies
+
+ Linked Data, RDFa, ...
+
+informativni cast, teorie
 
 Seznamte se technologiemi pro automatickou extrakci dat z webových stránek a s
 jazyky sémantického webu RDF, RDFS a OWL.
 
-%\sec automatická extrakce dat
+\sec automatická extrakce dat
+
+~
 
 \sec RDF and RDFS
 
@@ -299,18 +267,30 @@ jazyky sémantického webu RDF, RDFS a OWL.
 
 
 
+\chap Program design and Implementation
 
-\chap research - existující řešení - platforma
+
+\sec Use Cases
+
+\begitems
+  * NPU
+  * beerborec.cz
+  * citybee.cz
+\enditems
 
 
-\sec InfoCram 2000 - Jirka Mašek
+
+\sec Research - existující řešení - platforma
+
+
+\secc InfoCram 2000 - Jirka Mašek
 
 \begitems
   * zalozeny na Aardwark \urlnote{https://addons.mozilla.org/en-US/firefox/addon/aardvark/}
 \enditems
 
 
-\sec iMacros
+\secc iMacros
 
 \begitems
   * \url{http://wiki.imacros.net/Command_Reference}
@@ -319,12 +299,12 @@ jazyky sémantického webu RDF, RDFS a OWL.
 \enditems
 
 
-\sec Sahi
+%\secc Sahi
+%
+%Yet another web automation and testing tool. \url{http://sourceforge.net/projects/sahi/}
 
-Yet another web automation and testing tool. \url{http://sourceforge.net/projects/sahi/}
 
-
-\sec Selenium IDE
+\secc Selenium IDE
 
 \begitems
   * IDE - \url{http://www.seleniumhq.org/projects/ide/}
@@ -340,11 +320,9 @@ Yet another web automation and testing tool. \url{http://sourceforge.net/project
 
 
 
+\sec crOWLer
 
-
-\chap crOWLer
-
-\sec zavislosti
+\secc zavislosti
 
 \begitems \style O
   * maven - apache project managing tool
@@ -373,9 +351,6 @@ Yet another web automation and testing tool. \url{http://sourceforge.net/project
 \enditems
 
 
-\sec Implementation
-
-
 \secc Classes of CrOWLer
 
 \begitems
@@ -389,14 +364,6 @@ Yet another web automation and testing tool. \url{http://sourceforge.net/project
     * 
   \enditems
 \enditems
-
-
-\sec notes
-
-\begitems
-  * \url{http://onto.mondis.cz/resource/page/npu/}
-\enditems
-
 
 \secc Run configuration 
 
@@ -414,112 +381,61 @@ crowler cz.sio2.crowler.configurations.parser.SeleniumConfiguration\
 
 
 
-\chap Data
+
+\sec Model
 
 
-\sec Pamatky
+
+
+\sec Imlementation
+
+
+
+
+\sec Issues - solved and unsolved
 
 \begitems
+  * error handling (non existent selector, missing data, ...)
+\enditems
+
+% * diagramy... clas, sequence (komunikace s jOWLem, komunikace s generatorem selectoru, ), 
+% * model
+% * vyresene, nevyresene problemy
+
+
+
+
+
+
+
+
+
+
+
+
+
+\chap Results and Tests 
+% * na npu, nebo i na jinych strankach
+
+
+\sec Data
+
+
+\secc Pamatky
+
+\begitems
+  * \url{http://onto.mondis.cz/resource/page/npu/}
   * \url{http://monumnet.npu.cz/pamfond/list.php?hledani=1&KrOk=&HiZe=&VybUzemi=1&sNazSidOb=&Adresa=&Cdom=&Pamatka=&CiRejst=&Uz=B&PrirUbytOd=3.5.1958&PrirUbytDo=10.12.2013}
   * \url{http://dominanty.cz/pamatky-cihana.php}
 \enditems
 
 
 
-%\chap Implementace
-%
-%
-%\sec Ideas
-%
-%
-%\secc Overlay on webpage
-%
-%\begitems
-%  * create an overlay that will highlight information being crowled
-%  * the rest of webpage will gray out
-%  * will show classes of each highlighted region
-%  * onmouseover will show arrows with relations aswell
-%  * will show current context in a table view aswell
-%\enditems
-%
-%
-%\secc Selenium Builder - new technology
-%
-%\url{https://github.com/sebuilder/se-builder/wiki/Getting-Started}
-%
-%
-%\sec SelectOWL - Plugin pro Selenium IDE - Firefox
-%
-%\begitems
-%  * \url{https://developer.mozilla.org/en-US/Add-ons/Setting_up_extension_development_environment}
-%  * \url{http://kb.mozillazine.org/Getting_started_with_extension_development}
-%  * \url{http://code.google.com/p/selenium/source/browse/}
-%  * \url{http://docs.seleniumhq.org/download/maven.jsp}
-%  * \url{http://repo1.maven.org/maven2/org/seleniumhq/selenium/ide/selenium-ide/1.0.2/}
-%\enditems
-%
-%
-%
-%\sec Snippets
-%
-%\begitems
-%  * \url{https://code.google.com/p/selenium/source/browse/ide/main/src/content/testCase.js} - definition of TestCase and Command (!!!)
-%  * selenium/chrome/content/selenium/scripts/selenium-commandhandlers.js - registrace prikazu (vytvari se tam "AndWait" postfixy etc.)
-%\enditems
-%
-%
-%\secc Embeding selenium-commandhandlers.js
-%
-%I need to embed the selenium core itself in order to add new TYPE of commands. 
-%
-%The original selenium commands are: 
-%
-%\begitems
-%  * accessors (i.e. getSometing or isSomething -> getFoo, assertFoo, verifyFoo, assertNotFoo, verifyNotFoo, storeFoo, waitForFoo, and waitForNotFoo.
-%  * asserts (i.e. assertSomething -> assertSomething)
-%  * actions (i.e. doSomeAction -> someAction, someActionAndWait)
-%\enditems
-%
-%none of which applies for owl commands that are more
-%
-%\begtt
-%vim selenium/chrome/content/selenium/scripts/selenium-commandhandlers.js
-%\endtt
-%
-%\begtt
-%vim selenium/chrome/content/selenium/scripts/htmlutils.js
-%21: function classCreate()
-%  - constructor that calls initialize on self with arguments passed
-%27: function objectExtend(destination, source)
-%\endtt
-%
-%\begtt
-%vim selenium/chrome/content/selenium/scripts/selenium-executionloop.js
-% 94: _executeCurrentCommand - calls:
-%104: var handler = this.commandFactory.getCommandHandler(command.command);
-%112: this.result = handler.execute(selenium, command);
-%\endtt
-%
-%HANDLER HAS TO IMPLEMENT execute(seleniumApi, commandObj);
 
 
+\chap zaver
 
-%\chap Bookmarklet prototype
-%
-%
-%\sec step by step
-%
-%\begitems
-%  * create bookmarklet to alert from external script
-%  * fill it with simple div element containing an external html
-%  * insert form to load a file or url with ontology
-%  * add jOWL to load the ontology
-%  * add jOWLBrowser-ish functionality to visualize the ontology
-%  * add aardwark.js to select items
-%  * create the json expressing scripts for crowler
-%  * visualise anotated data
-%  * export and run in crowler
-%\enditems
+TBD
 
 
 \bye
