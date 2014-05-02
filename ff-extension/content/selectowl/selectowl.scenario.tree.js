@@ -17,6 +17,11 @@ selectowl.scenario.tree.TreeStep.prototype = {
   getLevel: function() { return this.level; }, 
 };
 
+// See: scenario.tree itself acts like a TreeStep
+//           scenario itself acts like a Step
+selectowl.scenario.tree.step = selectowl.scenario;
+selectowl.scenario.tree.level = -1;
+
 
 /************************************************************
  *                                                          *
@@ -29,10 +34,9 @@ selectowl.scenario.tree.get = function(idx) {
 }
 
 
-selectowl.scenario.tree.createNewStep = function( resource, selector, idx ) {
+selectowl.scenario.tree.createNewStep = function( resource, selector ) {
   // obtain context
-  var context = null;
-  if (idx) context = _byIdx[idx];
+  var context = this.getSelected();
 
   // Grab scenario.step outa context
   var ss_context = null;
@@ -41,14 +45,16 @@ selectowl.scenario.tree.createNewStep = function( resource, selector, idx ) {
   // Create selectowl.scenario.step for given context
   var ss = selectowl.scenario.createStep(resource, selector, ss_context);  
 
+  //XXX done by scenario.createStep already
   // Add scenario.step into scenario
-  selectowl.scenario.addStep(ss, context);
+  //selectowl.scenario.addStep(ss, context);
 
   // Create TreeStep
   var ts = new this.TreeStep(ss, context);
 
   // Add TreeStep into tree
-  if (!idx) this._byIdx.push(ts);
+  var idx = this.getCurrentIndex();
+  if (idx == -1) this._byIdx.push(ts);
   else { this._byIdx.splice(idx, 0, ts); }
 
   // Update tree length etc
@@ -63,13 +69,14 @@ selectowl.scenario.tree.createNewStep = function( resource, selector, idx ) {
   return ts;
 }
 
-selectowl.scenario.tree.appendChild = function( step, context ) {
-  // Create a child step
-  if (!context) {
-    
-  } else {
-  }
-}
+//DEPRECATED - we'll use createNewStep as the tree itself keeps track of context (selected item)
+//selectowl.scenario.tree.appendChild = function( step, context ) {
+//  // Create a child step
+//  if (!context) {
+//    
+//  } else {
+//  }
+//}
 
 selectowl.scenario.tree.refreshTree = function( steps ) {
   // Recursively rebuild _byIdx array
@@ -80,8 +87,32 @@ selectowl.scenario.tree.getLength = function( ) {
 }
 
 
+
 /************************************************************
- *                                                          *
+ * Selection                                                *
+ ************************************************************/
+
+selectowl.scenario.tree.getSelected = function( ) {
+  return this._byIdx[this.getCurrentIndex()] || this;
+}
+
+selectowl.scenario.tree.getCurrentIndex = function( ) {
+  var tree = this.getTreeElement();
+  return tree.currentIndex;
+}
+
+
+
+/************************************************************
+ * Tree                                                     *
+ ************************************************************/
+
+selectowl.scenario.tree.getTreeElement = function () {
+  return $('#selectowl-scenario-tree').get(0);
+}
+
+/************************************************************
+ * nsITreeView implementation                               *
  ************************************************************/
 
 selectowl.scenario.tree.getLevel = function(row) {
@@ -106,6 +137,7 @@ selectowl.scenario.tree.getParentIndex = function(row) {
   for ( i = row - 1; i >= 0 ; i-- ) {
     if( this.getLevel(i) == lvl-1  ) { return i; }
   }
+  throw 'no parent found for row: ' + row;
 };
 
 selectowl.scenario.tree.isContainer = function(row) {

@@ -120,7 +120,7 @@ further:
           </tree>
         </groupbox>
 
-        <groupbox id="select-property" style="display: none;" flex="1">
+        <groupbox id="select-property" style="display: none;" flex="1" onselect="selectowl.gui.onPropertySelect(event);">
           <caption label="Select Property" />
           <tree id="selectowl-properties-tree" enableColumnDrag="true" flex="1">
             <treecols>

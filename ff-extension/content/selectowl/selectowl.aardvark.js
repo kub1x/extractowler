@@ -27,16 +27,12 @@
  * ************************************************************************** */
 
 selectowl.aardvark.resource = null; 
-selectowl.aardvark.context = null; 
 
 /**
  * Spustí Aardvark.
  */
-selectowl.aardvark.start = function( resource, context ) {
+selectowl.aardvark.start = function( resource ) {
     this.resource = resource;
-    this.context = context;
-    //TODO show context or something..?
-
     var currentBrowser  = aardvarkUtils.currentBrowser();
     aardvarkSelector.start(currentBrowser);
 }
@@ -58,6 +54,7 @@ selectowl.aardvark.onSelect = function(elem) {
 
         
     //var _gui = this._parent.gui;
+    var _gui = selectowl.gui;
 
     // získání indexu uzlu, do jehož kontextu bude selektor zařazen
 
@@ -66,7 +63,7 @@ selectowl.aardvark.onSelect = function(elem) {
     // vygenerování selektoru a názvu, pod kterým budo do stromu přidán
     
     //var context = _gui.getContext(indexOfContext, true);
-    var context = null; //this.context;
+    var context = selectowl.scenario.tree.getSelected().step.selector;
     //TODO these are two different context the left is DOM object of webpage
     //     the right is tree.step -> get selector from the tree step and "obtain" the context from it
 
@@ -76,7 +73,7 @@ selectowl.aardvark.onSelect = function(elem) {
     var currDoc = aardvarkUtils.currentDocument();
 
     //var parents = context == "" ? Sizzle("body", currDoc) : Sizzle(context, currDoc);
-    var parents = context ? $(currDoc).find(context).parents().get()/* <-- get() all of them*/ : $(currDoc).find('body').get(0);
+    var parents = context ? $(currDoc).find(context).parents().andSelf().get()/* <-- get() all of them*/ : $(currDoc).find('body').get(0);
 
     var topReached = false;
     var idFound = false;

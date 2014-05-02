@@ -256,11 +256,15 @@ selectowl.gui.onClassSelect = function ( event ) {
   console.log('called onselect on name: ' + target.tagName + ' with current index: ' + target.currentIndex);
   var idx = target.currentIndex;
   var resource = selectowl.ontology.classes.get(idx).uri;
-  var context  = null;//TODO
-  selectowl.aardvark.start( resource, context );
-  //TODO DELME following didn't help the window hot gaining focus
-  //event.stopPropagation();
-  //aardvarkUtils.currentBrowser().contentWindow.focus();
+  selectowl.aardvark.start( resource );
+}; 
+
+selectowl.gui.onPropertySelect = function ( event ) {
+  var target = event.target;
+  console.log('called onselect on name: ' + target.tagName + ' with current index: ' + target.currentIndex);
+  var idx = target.currentIndex;
+  var resource = selectowl.ontology.properties.get(idx).uri;
+  selectowl.aardvark.start( resource );
 }; 
 
 /* we will show selected item in webpage document and set current context on select */

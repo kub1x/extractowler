@@ -6,8 +6,14 @@
 // The root of all evil ;)
 selectowl.scenario._steps = [];
 
+// Make scenario act like a Step
+selectowl.scenario.children = selectowl.scenario._steps;
+selectowl.scenario.slector = 'body';
+
 selectowl.scenario.createStep = function( resource, selector, parent ) {
   var s = new this.Step( resource, selector, parent );
+  if (parent) parent.addStep(s);
+  else this.addStep(s);
   return s;
 }
 
