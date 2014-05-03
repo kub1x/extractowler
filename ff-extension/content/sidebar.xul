@@ -155,7 +155,8 @@ further:
             onclick="selectowl.gui.onClick(event);"
             -->
               <treecols>
-                  <treecol id="scenario-resource-col" label="resource" flex="1" persist="width" />
+                  <treecol id="scenario-resource-col" label="resource" flex="1" persist="width" primary="true" />
+                  <splitter class="tree-splitter" />
                   <treecol id="scenario-selector-col" label="selector" flex="1" persist="width" />
               </treecols>
               <treechildren />

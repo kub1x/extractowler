@@ -142,8 +142,8 @@ selectowl.gui.basicTreeView = {
   // Implement this for non-text cells
   setCellValue : function(row, col, value) { throw "NOT IMPLEMENTED!"; }, 
 
-  setTree : function(treebox){
-    this.treebox = treebox;
+  setTree : function(treeBox){
+    this.treeBox = treeBox;
   },
   isContainer : function(row){
     return false;
@@ -173,7 +173,7 @@ selectowl.gui.getPrefixesTreeView = function() {
   return $.extend({}, selectowl.gui.basicTreeView, {
       prefixes : selectowl.ontology.prefixes,
 
-      rowCount : selectowl.ontology.prefixes.getLength(),
+      get rowCount() { return selectowl.ontology.prefixes.getLength(); },
 
       getCellText : function(row, col){
         if (col.id == 'prefixes-prefix-col') { return this.prefixes.get(row).prefix; }
@@ -198,7 +198,7 @@ selectowl.gui.getClassesTreeView = function() {
   return $.extend({}, selectowl.gui.basicTreeView, {
       classes : selectowl.ontology.classes,
 
-      rowCount : selectowl.ontology.classes.getLength(),
+      get rowCount() { return selectowl.ontology.classes.getLength(); },
 
       getCellText : function(row, column){
         if (column.id == 'classes-prefix-col') { return this.classes.get(row).prefix; } 
@@ -220,7 +220,7 @@ selectowl.gui.getPropertiesTreeView = function() {
   return $.extend({}, selectowl.gui.basicTreeView, {
       properties : selectowl.ontology.properties,
 
-      rowCount : selectowl.ontology.properties.getLength(),
+      get rowCount() { return selectowl.ontology.properties.getLength(); },
 
       getCellText : function(row, column){
         if (column.id == 'properties-prefix-col') { return this.properties.get(row).prefix; } 

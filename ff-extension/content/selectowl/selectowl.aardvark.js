@@ -44,124 +44,107 @@ selectowl.aardvark.start = function( resource ) {
  * @param elem      vybraný element
  */
 selectowl.aardvark.onSelect = function(elem) {
-  //var owlObj = selectowl.workflow['select-object'].selected; 
-  //$(elem).css('background-color', 'green');
-  //$(elem).attr('data-asdf', owlObj.name + '[' + owlObj.type + ']');
-  //return;
-  
+  var _gui = selectowl.gui;
+
+  var ts_context = selectowl.scenario.tree.getSelected();
+  var context = ts_context ? ts_context.step.selector : null;
+
+  // results
+  var name;
   var selector;
+
   var currDoc = aardvarkUtils.currentDocument();
 
-        
-    //var _gui = this._parent.gui;
-    var _gui = selectowl.gui;
+  //var parents = context == "" ? Sizzle("body", currDoc) : Sizzle(context, currDoc);
+  var parents = context ? $(currDoc).find(context).parents().andSelf().get()/* <-- get() all of them*/ : $(currDoc).find('body').get();
 
-    // získání indexu uzlu, do jehož kontextu bude selektor zařazen
+  var topReached = false;
+  var idFound = false;
 
-    //var indexOfContext = this.getIndexOfContext(elem);
+  do
+  {
+      var node = elem.tagName.toLowerCase();
 
-    // vygenerování selektoru a názvu, pod kterým budo do stromu přidán
-    
-    //var context = _gui.getContext(indexOfContext, true);
-    var context = selectowl.scenario.tree.getSelected().step.selector;
-    //TODO these are two different context the left is DOM object of webpage
-    //     the right is tree.step -> get selector from the tree step and "obtain" the context from it
+      // přidaní selektoru ID
 
-    var name;
-    var selector;
+      if (elem.id != "") {
+          if (!name) {
+              name = elem.id;
+          }
 
-    var currDoc = aardvarkUtils.currentDocument();
+          // ověření, zdali je ID v rámci dokumentu unikátní
 
-    //var parents = context == "" ? Sizzle("body", currDoc) : Sizzle(context, currDoc);
-    var parents = context ? $(currDoc).find(context).parents().andSelf().get()/* <-- get() all of them*/ : $(currDoc).find('body').get(0);
+          if (isUniqueID(elem.id, elem.ownerDocument)) {
+              node += "#" + elem.id;
 
-    var topReached = false;
-    var idFound = false;
+              idFound = true;
+          } else {
+              node += "[id=" + elem.id + "]";
+          }
+      }
 
-    do
-    {
-        var node = elem.tagName.toLowerCase();
+      // přidaní selektoru třídy
 
-        // přidaní selektoru ID
+      if (elem.className != "") {
+          var classes  = elem.className.split(" ");
 
-        if (elem.id != "") {
-            if (!name) {
-                name = elem.id;
-            }
+          for (var i in classes) {
+              if (classes[i] != "selectowl-selection") {
+                  if (!name) {
+                      name = classes[i];
+                  }
+              
+                  node += "." + classes[i];
+              }
+          }
+      }
 
-            // ověření, zdali je ID v rámci dokumentu unikátní
+      selector = selector == undefined ? node : node + " " + selector;
 
-            if (isUniqueID(elem.id, elem.ownerDocument)) {
-                node += "#" + elem.id;
+      elem = elem.parentNode && elem.parentNode.nodeType == elem.ELEMENT_NODE ? elem.parentNode : null;
 
-                idFound = true;
-            } else {
-                node += "[id=" + elem.id + "]";
-            }
-        }
+      // ověření, zdali rodič elementu zpracovávaného v cyklu není již
+      // elementem nadřazeného kontextu
 
-        // přidaní selektoru třídy
+      for (var j = 0; j < parents.length; j++) {
+          if (parents[j] == elem) {
+              topReached = true;
+              break;
+          }
+      }
+  } while (!topReached && !idFound && elem != null);
 
-        if (elem.className != "") {
-            var classes  = elem.className.split(" ");
+  // přidání selektoru do stromu
 
-            for (var i in classes) {
-                if (classes[i] != "selectowl-selection") {
-                    if (!name) {
-                        name = classes[i];
-                    }
-                
-                    node += "." + classes[i];
-                }
-            }
-        }
-
-        selector = selector == undefined ? node : node + " " + selector;
-
-        elem = elem.parentNode && elem.parentNode.nodeType == elem.ELEMENT_NODE ? elem.parentNode : null;
-
-        // ověření, zdali rodič elementu zpracovávaného v cyklu není již
-        // elementem nadřazeného kontextu
-
-        for (var j = 0; j < parents.length; j++) {
-            if (parents[j] == elem) {
-                topReached = true;
-                break;
-            }
-        }
-    } while (!topReached && !idFound && elem != null);
-
-    // přidání selektoru do stromu
-
-    //_gui.addNode(indexOfContext, selector, name);
+  //_gui.addNode(indexOfContext, selector, name);
 
   selectowl.scenario.tree.createNewStep(this.resource, selector);
 }
 
-/**
- * Ověří, jestli se daný element nachází v zadaném kontextu.
- *
- * @param elem      element
- * @param context   kontext
- * @return          <code>true</code> nachází-li se v kontextu,
- *                  <code>false</code> nenachází-li
- */
-selectowl.aardvark.isInContext = function(elem, context) {
-    var currentDocument = aardvarkUtils.currentDocument();
-
-    var selected = Sizzle(trim(context + " *"), currentDocument);
-
-    var isInContext = false;
-
-    for (var i = 0; i < selected.length; i++) {
-        if (selected[i] == elem) {
-            isInContext = true;
-            break;
-        }
-    }
-
-    return isInContext;
-}
+///**
+// * Ověří, jestli se daný element nachází v zadaném kontextu.
+// *
+// * @param elem      element
+// * @param context   kontext
+// * @return          <code>true</code> nachází-li se v kontextu,
+// *                  <code>false</code> nenachází-li
+// */
+//selectowl.aardvark.isInContext = function(elem, context) {
+//    var currentDocument = aardvarkUtils.currentDocument();
+//
+//    var selected = Sizzle(trim(context + " *"), currentDocument);
+//
+//    var isInContext = false;
+//
+//    for (var i = 0; i < selected.length; i++) {
+//        if (selected[i] == elem) {
+//            isInContext = true;
+//            break;
+//        }
+//    }
+//
+//    return isInContext;
+//}
 
 ///**
 // * Vrátí index uzlu stromu, do jehož kontextu zapadá daný element.
