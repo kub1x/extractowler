@@ -26,7 +26,9 @@ selectowl.scenario.tree.TreeStep.prototype = {
     for (ch in this.children) {
       this.children[ch].deleteSelf();
     }
-    this.parent.deleteChild(this);
+    if (this.parent) {
+      this.parent.deleteChild(this);
+    }
   },
 
 }
@@ -64,20 +66,21 @@ selectowl.scenario.tree.createNewStep = function( resource, selector ) {
   if (idx == -1) { 
     // Just add to the floor
     this._byIdx.push(ts);
+    // And select it
+    this.select(this.rowCount-1);
   } else {
     if (ts_context.isOpen) {
       // If it is open, we gotta add the new to the end of children manually
       
       // Find the place where to insert (just before next "same or smaller
       // level" row after context). 
-      var level = this.getLevel(idx), l, i;
-      for ( i = idx + 1; i < this.getLength(); i++ ) {
-        l = this.getLevel(i);
-        if ( l <= level ) { break; }
-      } 
+      var i = this.findLastSubtreeRow(idx) + 1;
 
       // The variable i is pointing AT the index on which we'll insert 
       this._byIdx.splice(i, 0, ts);
+
+      // Select the newly inserted row 
+      this.select(i);
 
       if (this.treeBox) this.treeBox.rowCountChanged(i, 1);
 
@@ -85,6 +88,10 @@ selectowl.scenario.tree.createNewStep = function( resource, selector ) {
       // If the context isn't open, we should open it. The toggleOpenState will
       // fill the children in for us. 
       this.toggleOpenState(idx);
+      // Note, since context is selected, all the parents of context have to be
+      // open no matther what ;)
+
+      this.select(this.findLastSubtreeRow(idx));
     }
   }
   //if (this.treeBox) this.treeBox.invalidateRow(idx);
@@ -121,6 +128,52 @@ selectowl.scenario.tree.getCurrentIndex = function( ) {
 selectowl.scenario.tree.getTreeElement = function () {
   return $('#selectowl-scenario-tree').get(0);
 }
+
+selectowl.scenario.tree.select = function(row) {
+  this.getTreeElement().view.selection.select(row);
+}
+
+selectowl.scenario.tree.clearSelection = function() {
+  this.getTreeElement().view.selection.clearSelection();
+}
+
+selectowl.scenario.tree.findLastSubtreeRow = function(idx) {
+  var level = this.getLevel(idx), l, i;
+  for ( i = idx + 1; i < this.rowCount; i++ ) {
+    l = this.getLevel(i);
+    if ( l <= level ) { break; }
+  }
+  return i - 1;
+} 
+
+selectowl.scenario.tree.deleteCurrent = function() {
+  var idx = this.getCurrentIndex(); 
+
+  // Nothing to delete
+  if (idx == -1) return;
+
+  this.deleteWithChildren(idx); 
+};
+
+selectowl.scenario.tree.deleteWithChildren = function(row) {
+  var n = this.get(row);
+
+  // Close it, so we don't have to delete the rows from view. 
+  if (n.isOpen) {
+    this.toggleOpenState(row);
+  }
+
+  // Recursive delete for all children.
+  // Also calls parent.deleteChild(me);
+  n.deleteSelf();
+
+  // Delete the line...
+  this._byIdx.splice(row, 1);
+
+  selectowl.gui.refreshScenarionTree();
+
+  delete n;
+};
 
 /************************************************************
  * nsITreeView implementation                               *

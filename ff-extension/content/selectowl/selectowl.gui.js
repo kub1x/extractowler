@@ -52,7 +52,7 @@ selectowl.gui.populateWorkflow = function () {
 
 }
 
-selectowl.gui.showStep = function (step_id ) {
+selectowl.gui.showStep = function (step_id) {
   var $currgrp = $('#main groupbox' + '.' + selectowl.gui.CURRENT_STEP_CLASS);
   var $nextgrp = $('#main groupbox' + '#' + step_id);
 
@@ -253,9 +253,12 @@ selectowl.gui.getScenarioTreeView = function() {
 
 selectowl.gui.onClassSelect = function ( event ) {
   var target = event.target;
-  console.log('called onselect on name: ' + target.tagName + ' with current index: ' + target.currentIndex);
+
   var idx = target.currentIndex;
   var resource = selectowl.ontology.classes.get(idx).uri;
+
+  selectowl.scenario.tree.clearSelection();
+
   selectowl.aardvark.start( resource );
 }; 
 
@@ -269,10 +272,18 @@ selectowl.gui.onPropertySelect = function ( event ) {
 
 /* we will show selected item in webpage document and set current context on select */
 selectowl.gui.onScenarioSelect = function ( event ) {
+  if (event.target.currentIndex == -1) {
+    console.log('onScenarioSelect(-1) was called - deselecting!!');
+    this.hideContextBox();
+    return;
+  }
+
   //var target = event.target;
   //var idx = target.currentIndex;
   //var ts = selectowl.scenario.tree.get(idx);
   //var ss = ts.step;
+
+  this.showStep('select-property');
 
   // juveej
   var currentBrowser  = aardvarkUtils.currentBrowser();
@@ -285,6 +296,14 @@ selectowl.gui.onResize = function() {
   selectowl.gui.refreshHighlight();
 }
 
+
+selectowl.gui.onScenarioKeyPress = function(event) {
+  var code;
+  if (event.keyCode == 46) { // delete
+    selectowl.scenario.tree.deleteCurrent(); 
+  }
+
+};
 
 /* ************************************************************************** *
  *                                  HIGHLIGHT                                 *
