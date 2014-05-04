@@ -119,6 +119,7 @@ selectowl.aardvark.onSelect = function(elem) {
   //_gui.addNode(indexOfContext, selector, name);
 
   selectowl.scenario.tree.createNewStep(this.resource, selector);
+  aardvarkSelector.doCommand('quit');
 }
 
 ///**
