@@ -36,6 +36,7 @@ selectowl.ontology.feedMee = function () {
     my.prefix = this.prefixes.uri2prefix(el.baseURI) || this.prefixes.guessPrefix(el.baseURI);
 
     if ( el.isProperty ) {
+      my.isProperty = true;
       my.domain = el.domain;
       my.range = el.range;
       this.properties.add(my);
@@ -43,6 +44,11 @@ selectowl.ontology.feedMee = function () {
       this.classes.add(my);
     }
   } 
+}
+
+selectowl.ontology.getByUri = function( uri ) {
+  return this.classes.getByUri(uri) ||
+         this.properties.getByUri(uri);
 }
 
 
@@ -128,7 +134,7 @@ selectowl.ontology.classes._byIdx = [];
 selectowl.ontology.classes._byUri = {};
 selectowl.ontology.classes.add = function ( obj ) {
   this._byIdx.push(obj);
-  this._byUri[obj.baseURI] = obj;
+  this._byUri[obj.uri] = obj;
 }
 
 selectowl.ontology.classes.getLength = function () {
@@ -139,6 +145,10 @@ selectowl.ontology.classes.get = function ( idx ) {
   return this._byIdx[idx];
 }
 
+selectowl.ontology.classes.getByUri = function( uri ) {
+  return this._byUri[uri];
+}
+
 /************************************************************
  *                                                          *
  ************************************************************/
@@ -147,7 +157,7 @@ selectowl.ontology.properties._byIdx = [];
 selectowl.ontology.properties._byUri = {};
 selectowl.ontology.properties.add = function ( obj ) {
   this._byIdx.push(obj);
-  this._byUri[obj.baseURI] = obj;
+  this._byUri[obj.uri] = obj;
 }
 
 selectowl.ontology.properties.getLength = function () {
@@ -158,5 +168,7 @@ selectowl.ontology.properties.get = function ( idx ) {
   return this._byIdx[idx];
 }
 
-
+selectowl.ontology.properties.getByUri = function( uri ) {
+  return this._byUri[uri];
+}
 

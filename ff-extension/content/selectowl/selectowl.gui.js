@@ -283,7 +283,10 @@ selectowl.gui.onScenarioSelect = function ( event ) {
   //var ts = selectowl.scenario.tree.get(idx);
   //var ss = ts.step;
 
-  this.showStep('select-property');
+  //TODO shall we show the properties window instead of classes? 
+  //this.showStep('select-property');
+  
+  //TODO sort properties by domain according to selected item
 
   // juveej
   var currentBrowser  = aardvarkUtils.currentBrowser();
@@ -296,9 +299,15 @@ selectowl.gui.onResize = function() {
   selectowl.gui.refreshHighlight();
 }
 
+selectowl.gui.onScenarioClick = function(event) {
+};
 
 selectowl.gui.onScenarioKeyPress = function(event) {
   var code;
+  if (event.keyCode == 18) { // enter
+    
+  }
+
   if (event.keyCode == 46) { // delete
     selectowl.scenario.tree.deleteCurrent(); 
   }

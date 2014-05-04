@@ -66,8 +66,8 @@ selectowl.scenario.tree.createNewStep = function( resource, selector ) {
   if (idx == -1) { 
     // Just add to the floor
     this._byIdx.push(ts);
-    // And select it
-    this.select(this.rowCount-1);
+    // And (don't) select it
+    //this.select(this.rowCount-1);
   } else {
     if (ts_context.isOpen) {
       // If it is open, we gotta add the new to the end of children manually
@@ -79,8 +79,8 @@ selectowl.scenario.tree.createNewStep = function( resource, selector ) {
       // The variable i is pointing AT the index on which we'll insert 
       this._byIdx.splice(i, 0, ts);
 
-      // Select the newly inserted row 
-      this.select(i);
+      // Select the newly inserted row. Best not, it's confusing. 
+      //this.select(i);
 
       if (this.treeBox) this.treeBox.rowCountChanged(i, 1);
 
@@ -91,7 +91,9 @@ selectowl.scenario.tree.createNewStep = function( resource, selector ) {
       // Note, since context is selected, all the parents of context have to be
       // open no matther what ;)
 
-      this.select(this.findLastSubtreeRow(idx));
+      //We don't select it as it only confuses the scenario creation, let's
+      //keep it as it is. 
+      //this.select(this.findLastSubtreeRow(idx));
     }
   }
   //if (this.treeBox) this.treeBox.invalidateRow(idx);

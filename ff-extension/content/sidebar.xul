@@ -145,6 +145,7 @@ further:
           <tree id="selectowl-scenario-tree"
             flex="1"
             seltype="single"
+            onclick="selectowl.gui.onScenarioClick(event);"
             onselect="selectowl.gui.onScenarioSelect(event);"
             onkeypress="selectowl.gui.onScenarioKeyPress(event);" >
             <!--

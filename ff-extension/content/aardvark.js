@@ -114,6 +114,9 @@ aardvarkSelector.start = function(browser) {
     if (!this.CanSelect(browser))
         return;
 
+    //XXX Blink ;)
+    //this.blinkElement($(browser.contentDocument).find('body').get(0));
+
     this.paused = false;
     if (!("viewSourceURL" in this)) {
         // Firefox/Thunderbird and SeaMonkey have different viewPartialSource URLs
@@ -164,7 +167,7 @@ aardvarkSelector.start = function(browser) {
         notshowMenu = branch.getBoolPref("selector.notshowhelp");
     } catch(e) {}
 
-    if (true)
+    if (false) //XXX
         this.showMenu();
 }
 
@@ -233,66 +236,64 @@ aardvarkSelector.onMouseClick = function(event) {
 }
 
 aardvarkSelector.onMouseOver = function(event) {
-  //XXX
+  //XXX workaround windows didn't focus at first
   aardvarkUtils.currentBrowser().contentWindow.focus();
 
-    if (this.paused)
-        return;
-    var elem = event.originalTarget;
-    var aardvarkLabel = elem;
-    while (aardvarkLabel && !("aardvarkSelectorLabel" in aardvarkLabel))
-        aardvarkLabel = aardvarkLabel.parentNode;
+  if (this.paused)
+      return;
 
-    if (elem == null || aardvarkLabel)
-    {
-        this.clearBox ();
-        return;
-    }
+  var elem = event.originalTarget;
+  var aardvarkLabel = elem;
+  while (aardvarkLabel && !("aardvarkSelectorLabel" in aardvarkLabel))
+      aardvarkLabel = aardvarkLabel.parentNode;
 
-    if (elem == this.selectedElem)
-        return;
+  if (elem == null || aardvarkLabel)
+  {
+      this.clearBox();
+      return;
+  }
 
-    this.showBoxAndLabel (elem, this.makeElementLabelString (elem));
+  if (elem == this.selectedElem)
+      return;
+
+  this.showBoxAndLabel(elem, this.makeElementLabelString(elem));
 }
 
 aardvarkSelector.onKeyPress = function(event) {
+  if (event.altKey || event.ctrlKey || event.metaKey)
+      return;
 
-    //console.log('key press: ' + event.keyCode + ' t.j.: ' + String.fromCharCode(event.charCode));
+  var command = null;
+  if (event.keyCode == event.DOM_VK_ESCAPE)
+      command = "quit";
+  else if (event.keyCode == event.DOM_VK_RETURN)
+      command = "select";
+  else if (event.charCode) {
+      var key = String.fromCharCode(event.charCode).toLowerCase();
+      var commands = this.commands;
+      for (var i = 0; i < commands.length; i++)
+          if (commands[commands[i] + "_key"] == key)
+              command = commands[i];
+  }
 
-    if (event.altKey || event.ctrlKey || event.metaKey)
-        return;
-
-    var command = null;
-    if (event.keyCode == event.DOM_VK_ESCAPE)
-        command = "quit";
-    else if (event.keyCode == event.DOM_VK_RETURN)
-        command = "select";
-    else if (event.charCode) {
-        var key = String.fromCharCode(event.charCode).toLowerCase();
-        var commands = this.commands;
-        for (var i = 0; i < commands.length; i++)
-            if (commands[commands[i] + "_key"] == key)
-                command = commands[i];
-    }
-
-    if (command)
-        this.doCommand(command, event);
+  if (command)
+      this.doCommand(command, event);
 }
 
 aardvarkSelector.onPageHide = function(event) {
-    this.doCommand("quit", null);
+  this.doCommand("quit", null);
 }
 
 aardvarkSelector.onResize = function(event) {
-    if (this.selectedElem == null)
-        return;
+  if (this.selectedElem == null)
+      return;
 
-    this.showBoxAndLabel (this.selectedElem, this.makeElementLabelString (this.selectedElem));
+  this.showBoxAndLabel (this.selectedElem, this.makeElementLabelString (this.selectedElem));
 }
 
 aardvarkSelector.onMouseMove = function(event) {
-    this.mouseX = event.screenX;
-    this.mouseY = event.screenY;
+  this.mouseX = event.screenX;
+  this.mouseY = event.screenY;
 }
 
 // Makes sure event handlers like aardvarkSelector.keyPress redirect
