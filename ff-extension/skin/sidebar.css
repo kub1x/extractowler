@@ -1,0 +1,22 @@
+#workflow {
+  margin: 4px;
+}
+
+#workflow label {
+  border: dotted gray 1px;
+  padding: 2px;
+  color: black;
+  margin-right: -1px;
+  margin-left: 0;
+}
+
+#workflow label.current-step {
+  /*font-weight: bold !important;*/
+  padding-left: 1px;
+  border-left: solid gray 2px;
+  box-shadow: inset 0 0 0 1em #ddd;
+}
+
+#workflow label:hover {
+  box-shadow: inset 0 0 0 1em #ddd;
+}

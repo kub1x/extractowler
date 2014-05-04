@@ -25,7 +25,7 @@ selectowl.gui.populateWorkflow = function () {
     selectowl.gui.showStep(group_id);
   }
 
-  var $wf = $('hbox#workflow');
+  var $wf = $('#workflow');
   var $groups = $('#main').children('groupbox');
 
   // Clear worflow menu
@@ -53,11 +53,11 @@ selectowl.gui.populateWorkflow = function () {
 }
 
 selectowl.gui.showStep = function (step_id ) {
-  var $currgrp = $('groupbox' + '.' + selectowl.gui.CURRENT_STEP_CLASS);
-  var $nextgrp = $('groupbox' + '#' + step_id);
+  var $currgrp = $('#main groupbox' + '.' + selectowl.gui.CURRENT_STEP_CLASS);
+  var $nextgrp = $('#main groupbox' + '#' + step_id);
 
-  var $currlab = $('label' + '.' + selectowl.gui.CURRENT_STEP_CLASS);
-  var $nextlab = $('label' + '#' + step_id);
+  var $currlab = $('#workflow label' + '.' + selectowl.gui.CURRENT_STEP_CLASS);
+  var $nextlab = $('#workflow label' + '#' + selectowl.gui.WORKFLOW_LINK_PREFIX + step_id);
 
   // Apply imediately for labels...
   $currlab.removeClass(selectowl.gui.CURRENT_STEP_CLASS);

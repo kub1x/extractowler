@@ -1,9 +1,7 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css" ?>
 <?xml-stylesheet href="chrome://browser/skin/browser.css" type="text/css" ?>
-<!--
-<?xml-stylesheet href="chrome://selectowl/skin/selectowl-editor.css" type="text/css" ?>
--->
+<?xml-stylesheet href="chrome://selectowl/skin/sidebar.css" type="text/css"?>
 <!DOCTYPE page SYSTEM "chrome://selectowl/locale/sidebar.dtd">
 <page id="selectowl-sidebar" title="&sidebar.title;"
       xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
