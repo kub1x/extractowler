@@ -32,13 +32,13 @@ var selectowl = {
     tree : {}, 
   }, 
 
-}
+};
 
 
 selectowl.init = function () {
   selectowl.gui.init();
   selectowl.load(); //TODO debug only - delete
-}
+};
 
 
 selectowl.load = function (url) {
@@ -59,5 +59,53 @@ selectowl.load = function (url) {
   };
 
   jOWL.load(url, callback, {reason: true, locale: 'en'});
-}
+};
 
+
+selectowl.parseAndSave = function() {
+  this.save(this.getJson()); 
+  //TODO call crowler.jar
+};
+
+
+selectowl.save = function(data) {
+  var fileChooser = Components.classes["@mozilla.org/filepicker;1"]
+  .createInstance(Components.interfaces.nsIFilePicker);
+
+  fileChooser.init(window, "Save scenario..", Components.interfaces.nsIFilePicker.modeSave);
+
+  fileChooser.defaultExtension = "json";
+  fileChooser.defaultString = "scenario.json";
+
+  fileChooser.appendFilters(0x02);
+  fileChooser.appendFilters(0x01);
+
+  var fileBox = fileChooser.show();
+
+  if (!fileBox) {
+    var file = fileChooser.file;
+
+    var foStream = Components.classes["@mozilla.org/network/file-output-stream;1"].
+    createInstance(Components.interfaces.nsIFileOutputStream);
+
+    foStream.init(file, 0x02 | 0x08 | 0x20, 0666, 0);
+
+    var converterOutputStream = Components.classes["@mozilla.org/intl/converter-output-stream;1"].
+
+    createInstance(Components.interfaces.nsIConverterOutputStream);
+
+    converterOutputStream.init(foStream, "UTF-8", 0, 0);
+    converterOutputStream.writeString(data);
+    converterOutputStream.close();
+  }
+};
+
+
+selectowl.getJson = function() {
+  var res = {};
+  res.url = aardvarkUtils.currentWindow.location;
+  res.classes = selectowl.ontology.classes._byIdx;
+  res.properties = selectowl.ontology.properties._byIdx;
+  res.steps = selectowl.scenario._steps;
+  return JSON.stringify(res);
+};
