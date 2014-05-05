@@ -31,7 +31,7 @@
  *
  * @param e     událost
  */
-infocram.editor.onPopUpShown = function(e) {
+selectowl.editor.onPopUpShown = function(e) {
     var _parent = this._parent;
 
     var textbox = document.getElementById(_parent.AREA);
@@ -47,7 +47,7 @@ infocram.editor.onPopUpShown = function(e) {
  *
  * @return  panel
  */
-infocram.editor.get = function() {
+selectowl.editor.get = function() {
     var _root = this._parent;
 
     return document.getElementById(_root.EDITOR);
@@ -59,11 +59,11 @@ infocram.editor.get = function() {
  * @param except    pole definující prvky, které nemají být obnovovány
  *                  ve formátu { prvek: true }, např. { widgetPos: true }
  */
-infocram.editor.update = function(except) {
+selectowl.editor.update = function(except) {
     for (var child in this) {
         if (child.match(/^widget.*$/)) {
             if ((!except || !except[child]) && this[child]['update']) {
-                setTimeout("infocram.editor." +  child + ".update();", 300);
+                setTimeout("selectowl.editor." +  child + ".update();", 300);
             }
         }
     }

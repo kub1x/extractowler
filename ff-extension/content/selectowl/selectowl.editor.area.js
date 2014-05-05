@@ -35,7 +35,7 @@
  *
  * @param e     událost
  */
-infocram.editor.area.onFocus = function(e) {
+selectowl.editor.area.onFocus = function(e) {
     var _parent = this._parent;
 
     var textbox = e.target;
@@ -51,7 +51,7 @@ infocram.editor.area.onFocus = function(e) {
  *
  * @param e     událost
  */
-infocram.editor.area.onClick = function(e) {
+selectowl.editor.area.onClick = function(e) {
     var _parent = this._parent;
     var _gui = this._parent._parent.gui;
 
@@ -68,7 +68,7 @@ infocram.editor.area.onClick = function(e) {
  *
  * @param e     událost
  */
-infocram.editor.area.onKeyUp = function(e) {
+selectowl.editor.area.onKeyUp = function(e) {
     var _parent = this._parent;
     var _gui = this._parent._parent.gui;
     var _tagName = this._parent.widgetTagName;
@@ -159,7 +159,7 @@ infocram.editor.area.onKeyUp = function(e) {
  *
  * @return  XUL element <code>textbox</code>
  */
-infocram.editor.area.get = function() {
+selectowl.editor.area.get = function() {
     var _root = this._parent._parent;
 
     return document.getElementById(_root.AREA);
@@ -177,7 +177,7 @@ infocram.editor.area.get = function() {
                 tagName: selektory typu
             }
  */
-infocram.editor.area.getSequence = function() {
+selectowl.editor.area.getSequence = function() {
     var _root = this._parent._parent;
 
     var textbox = this.get();
@@ -250,7 +250,7 @@ infocram.editor.area.getSequence = function() {
  * @param update    <code>true</code>, máli se editor aktualizovat
  * @return
  */
-infocram.editor.area.editSequence = function(sequence, curPos, update) {
+selectowl.editor.area.editSequence = function(sequence, curPos, update) {
     var _gui = this._parent._parent.gui;
 
     var tree = _gui.get();
@@ -272,7 +272,7 @@ infocram.editor.area.editSequence = function(sequence, curPos, update) {
 /**
  * Vyjme aktuálně editovanou sekvenci jednoduchých selektorů.
  */
-infocram.editor.area.removeSequence = function() {
+selectowl.editor.area.removeSequence = function() {
     var _gui = this._parent._parent.gui;
 
     var tree = _gui.get();

@@ -35,7 +35,7 @@
  *
  * @param checkbox   checkbox
  */
-infocram.editor.widgetPos.onCommand = function(checkbox) {
+selectowl.editor.widgetPos.onCommand = function(checkbox) {
     var _area = this._parent.area;
     var _gui = this._parent._parent.gui;
 
@@ -67,7 +67,7 @@ infocram.editor.widgetPos.onCommand = function(checkbox) {
             case ":gt":
             case ":lt":
             case ":eq":
-                var textbox = document.getElementById("infocram-" + pos.substr(1) + "val");
+                var textbox = document.getElementById("selectowl-" + pos.substr(1) + "val");
 
                 pos = pos + "(" + textbox.value + ")";
                 break;
@@ -122,12 +122,12 @@ infocram.editor.widgetPos.onCommand = function(checkbox) {
  * @param event     událost
  * @param possel    position selector
  */
-infocram.editor.widgetPos.onKeyUp = function(event, possel) {
+selectowl.editor.widgetPos.onKeyUp = function(event, possel) {
     var _gui = this._parent._parent.gui;
     var _area = this._parent.area;
 
     var textbox = event.target;
-    var checkbox = document.getElementById("infocram-" + possel);
+    var checkbox = document.getElementById("selectowl-" + possel);
 
     var currNode = _area.getSequence();
 
@@ -188,7 +188,7 @@ infocram.editor.widgetPos.onKeyUp = function(event, possel) {
  *
  * @return  XUL element <code>groupbox</code>
  */
-infocram.editor.widgetPos.get = function() {
+selectowl.editor.widgetPos.get = function() {
     var _root = this._parent._parent;
 
     return document.getElementById(_root.POS);
@@ -197,7 +197,7 @@ infocram.editor.widgetPos.get = function() {
 /**
  * Aktualizuje widget.
  */
-infocram.editor.widgetPos.update = function() {
+selectowl.editor.widgetPos.update = function() {
     var _area = this._parent.area;
 
     var currNode = _area.getSequence();
@@ -209,7 +209,7 @@ infocram.editor.widgetPos.update = function() {
 
     // first
 
-    checkbox = document.getElementById("infocram-first");
+    checkbox = document.getElementById("selectowl-first");
 
     index = currNode.node.search(/:first[^-A-Za-z0-9_]|:first$/g);
 
@@ -217,7 +217,7 @@ infocram.editor.widgetPos.update = function() {
 
     // last
 
-    checkbox = document.getElementById("infocram-last");
+    checkbox = document.getElementById("selectowl-last");
 
     index = currNode.node.search(/:last[^-A-Za-z0-9_]|:last$/g);
 
@@ -225,7 +225,7 @@ infocram.editor.widgetPos.update = function() {
 
     // even
 
-    checkbox = document.getElementById("infocram-even");
+    checkbox = document.getElementById("selectowl-even");
 
     index = currNode.node.search(/:even[^-A-Za-z0-9_]|:even$/g);
 
@@ -233,7 +233,7 @@ infocram.editor.widgetPos.update = function() {
 
     // odd
 
-    checkbox = document.getElementById("infocram-odd");
+    checkbox = document.getElementById("selectowl-odd");
 
     index = currNode.node.search(/:odd[^-A-Za-z0-9_]|:odd/g);
 
@@ -241,14 +241,14 @@ infocram.editor.widgetPos.update = function() {
 
     // gt
 
-    checkbox = document.getElementById("infocram-gt");
+    checkbox = document.getElementById("selectowl-gt");
 
     index = currNode.node.search(/:gt\((.*)\)/g);
 
     checkbox.checked = index != -1;
 
     if (index != -1) {
-        textbox = document.getElementById("infocram-gtval");
+        textbox = document.getElementById("selectowl-gtval");
 
         matches = currNode.node.match(/:gt\(([^\)]*)\)/);
 
@@ -257,14 +257,14 @@ infocram.editor.widgetPos.update = function() {
 
     // lt
 
-    checkbox = document.getElementById("infocram-lt");
+    checkbox = document.getElementById("selectowl-lt");
 
     index = currNode.node.search(/:lt\((.*)\)/g);
 
     checkbox.checked = index != -1;
 
     if (index != -1) {
-        textbox = document.getElementById("infocram-ltval");
+        textbox = document.getElementById("selectowl-ltval");
 
         matches = currNode.node.match(/:lt\(([^\)]*)\)/);
 
@@ -273,14 +273,14 @@ infocram.editor.widgetPos.update = function() {
 
     // eq
 
-    checkbox = document.getElementById("infocram-eq");
+    checkbox = document.getElementById("selectowl-eq");
 
     index = currNode.node.search(/:eq\((.*)\)/g);
 
     checkbox.checked = index != -1;
 
     if (index != -1) {
-        textbox = document.getElementById("infocram-eqval");
+        textbox = document.getElementById("selectowl-eqval");
 
         matches = currNode.node.match(/:eq\(([^\)]*)\)/);
 

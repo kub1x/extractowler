@@ -35,7 +35,7 @@
  *
  * @param listbox   listbox
  */
-infocram.editor.widgetTagName.onClick = function(listbox) {
+selectowl.editor.widgetTagName.onClick = function(listbox) {
     var _parent = this._parent;
     var _gui = this._parent._parent.gui;
     var _area = this._parent.area;
@@ -60,7 +60,7 @@ infocram.editor.widgetTagName.onClick = function(listbox) {
  *
  * @param listbox   listbox
  */
-infocram.editor.widgetTagName.onKeyUp = function(listbox) {
+selectowl.editor.widgetTagName.onKeyUp = function(listbox) {
     this.onClick(listbox);
 }
 
@@ -69,7 +69,7 @@ infocram.editor.widgetTagName.onKeyUp = function(listbox) {
  *
  * @return  XUL element <code>listbox</code>
  */
-infocram.editor.widgetTagName.get = function() {
+selectowl.editor.widgetTagName.get = function() {
     var _root = this._parent._parent;
 
     return document.getElementById(_root.TAGNAME);
@@ -78,7 +78,7 @@ infocram.editor.widgetTagName.get = function() {
 /**
  * Aktualizuje widget.
  */
-infocram.editor.widgetTagName.update = function() {
+selectowl.editor.widgetTagName.update = function() {
     var _gui = this._parent._parent.gui;
     var _area = this._parent.area;
 

@@ -35,7 +35,7 @@
  *
  * @param e     událost
  */
-infocram.editor.name.onKeyUp = function(e) {
+selectowl.editor.name.onKeyUp = function(e) {
     var _gui = this._parent._parent.gui;
 
     var tree = _gui.get();
@@ -50,7 +50,7 @@ infocram.editor.name.onKeyUp = function(e) {
  *
  * @return  XUL element <code>textbox</code>
  */
-infocram.editor.name.get = function() {
+selectowl.editor.name.get = function() {
     var _root = this._parent._parent;
 
     return document.getElementById(_root.NAME);

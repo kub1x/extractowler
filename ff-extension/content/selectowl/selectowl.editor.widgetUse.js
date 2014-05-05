@@ -36,7 +36,7 @@
  *
  * @param menulist  element <code>menulist</code>
  */
-infocram.editor.widgetUse.onCommand = function(menulist) {
+selectowl.editor.widgetUse.onCommand = function(menulist) {
     var _gui = this._parent._parent.gui;
 
     var tree = _gui.get();
@@ -49,7 +49,7 @@ infocram.editor.widgetUse.onCommand = function(menulist) {
  *
  * @return  XUL element <code>menulist</code>
  */
-infocram.editor.widgetUse.get = function() {
+selectowl.editor.widgetUse.get = function() {
     var _root = this._parent._parent;
 
     return document.getElementById(_root.USE);
@@ -58,7 +58,7 @@ infocram.editor.widgetUse.get = function() {
 /**
  * Aktualizuje widget.
  */
-infocram.editor.widgetUse.update = function() {
+selectowl.editor.widgetUse.update = function() {
     var _tree = this._parent._parent.tree;
 
     var menulist = this.get();

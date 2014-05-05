@@ -35,7 +35,7 @@
  *
  * @param label
  */
-infocram.editor.widgetClass.onClick = function(label) {
+selectowl.editor.widgetClass.onClick = function(label) {
     var _gui = this._parent._parent.gui;
     var _area = this._parent.area;
 
@@ -174,7 +174,7 @@ infocram.editor.widgetClass.onClick = function(label) {
  *
  * @return  XUL element <code>groupbox</code>
  */
-infocram.editor.widgetClass.get = function() {
+selectowl.editor.widgetClass.get = function() {
     var _root = this._parent._parent;
 
     return document.getElementById(_root.CLASS);
@@ -183,7 +183,7 @@ infocram.editor.widgetClass.get = function() {
 /**
  * Aktualizuje widget.
  */
-infocram.editor.widgetClass.update = function() {
+selectowl.editor.widgetClass.update = function() {
     var _gui = this._parent._parent.gui;
     var _class = this._parent.widgetClass;
     var _area = this._parent.area;
@@ -238,7 +238,7 @@ infocram.editor.widgetClass.update = function() {
     }
 
     classes.remove("");
-    classes.remove("infocram-selection");
+    classes.remove("selectowl-selection");
 
     // removing previous content
 
@@ -268,7 +268,7 @@ infocram.editor.widgetClass.update = function() {
             label.className = "lblAllow";
         }
 
-        label.setAttribute("onclick", "infocram.editor.widgetClass.onClick(this);");
+        label.setAttribute("onclick", "selectowl.editor.widgetClass.onClick(this);");
 
         hbox.appendChild(label);
     }
@@ -282,7 +282,7 @@ infocram.editor.widgetClass.update = function() {
  * @param cl        název třídy
  * @return          index
  */
-infocram.editor.widgetClass.indexOfClass = function(node, cl) {
+selectowl.editor.widgetClass.indexOfClass = function(node, cl) {
     var notRegExp = /:not\(.*\)/g;
 
     var matches = node.match(notRegExp);
@@ -309,7 +309,7 @@ infocram.editor.widgetClass.indexOfClass = function(node, cl) {
  * @param cl        název třídy
  * @return          <code>true</code> obsahuje-li, <code>false</code> neobsahuje-li
  */
-infocram.editor.widgetClass.hasClass = function(node, cl) {
+selectowl.editor.widgetClass.hasClass = function(node, cl) {
     return this.indexOfClass(node, cl) != -1;
 }
 
@@ -322,7 +322,7 @@ infocram.editor.widgetClass.hasClass = function(node, cl) {
  * @param cl        název třídy
  * @return          index
  */
-infocram.editor.widgetClass.indexOfBan = function(node, cl) {
+selectowl.editor.widgetClass.indexOfBan = function(node, cl) {
     return node.search(new RegExp("\\:not\\(.*\\." + cl + "[^_a-zA-Z0-9-].*\\)|\\:not\\(.*\\." + cl + "\\)", "g"));
 }
 
@@ -334,6 +334,6 @@ infocram.editor.widgetClass.indexOfBan = function(node, cl) {
  * @param cl        název třídy
  * @return          <code>true</code> obsahuje-li, <code>false</code> neobsahuje-li
  */
-infocram.editor.widgetClass.banClass = function(node, cl) {
+selectowl.editor.widgetClass.banClass = function(node, cl) {
     return this.indexOfBan(node, cl) != -1;
 }

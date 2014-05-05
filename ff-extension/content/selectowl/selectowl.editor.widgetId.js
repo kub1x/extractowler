@@ -33,7 +33,7 @@
 /**
  * Obslouží událost <code>onCommand</code> widgetu.
  */
-infocram.editor.widgetId.onCommand = function() {
+selectowl.editor.widgetId.onCommand = function() {
     var _gui = this._parent._parent.gui;
 
     this.update();
@@ -48,7 +48,7 @@ infocram.editor.widgetId.onCommand = function() {
  *
  * @param label
  */
-infocram.editor.widgetId.onClick = function(label) {
+selectowl.editor.widgetId.onClick = function(label) {
     var _root = this._parent._parent;
     var _gui = this._parent._parent.gui;
     var _area = this._parent.area;
@@ -255,7 +255,7 @@ infocram.editor.widgetId.onClick = function(label) {
  *
  * @return  XUL element <code>groupbox</code>
  */
-infocram.editor.widgetId.get = function() {
+selectowl.editor.widgetId.get = function() {
     var _root = this._parent._parent;
 
     return document.getElementById(_root.ID);
@@ -264,7 +264,7 @@ infocram.editor.widgetId.get = function() {
 /**
  * Aktualizuje widget.
  */
-infocram.editor.widgetId.update = function() {
+selectowl.editor.widgetId.update = function() {
     var _gui = this._parent._parent.gui;
     var _id = this._parent.widgetId;
     var _area = this._parent.area;
@@ -344,7 +344,7 @@ infocram.editor.widgetId.update = function() {
         }
 
 
-        label.setAttribute("onclick", "infocram.editor.widgetId.onClick(this);");
+        label.setAttribute("onclick", "selectowl.editor.widgetId.onClick(this);");
 
         hbox.appendChild(label);
     }
@@ -359,7 +359,7 @@ infocram.editor.widgetId.update = function() {
  * @param id        identifikátor
  * @return          index
  */
-infocram.editor.widgetId.indexOfId = function(node, id) {
+selectowl.editor.widgetId.indexOfId = function(node, id) {
     var notRegExp = /:not\(.*\)/g;
 
     var matches = node.match(notRegExp);
@@ -392,7 +392,7 @@ infocram.editor.widgetId.indexOfId = function(node, id) {
  * @param id        identifikátor
  * @return          <code>true</code> obsahuje-li, <code>false</code> neobsahuje-li
  */
-infocram.editor.widgetId.hasId = function(node, id) {
+selectowl.editor.widgetId.hasId = function(node, id) {
     return this.indexOfId(node, id) != -1;
 }
 
@@ -405,7 +405,7 @@ infocram.editor.widgetId.hasId = function(node, id) {
  * @param id        identifikátor
  * @return          index
  */
-infocram.editor.widgetId.indexOfBan = function(node, id) {
+selectowl.editor.widgetId.indexOfBan = function(node, id) {
     var index = node.search(new RegExp("\\:not\\(.*#" + id + "[^-A-Za-z0-9_].*\\)|\\:not\\(.*#" + id + "\\)", "g"));
 
     if (index == -1) {
@@ -423,7 +423,7 @@ infocram.editor.widgetId.indexOfBan = function(node, id) {
  * @param id        identifikátor
  * @return          <code>true</code> obsahuje-li, <code>false</code> neobsahuje-li
  */
-infocram.editor.widgetId.banId = function(node, id) {
+selectowl.editor.widgetId.banId = function(node, id) {
     return this.indexOfBan(node, id) != -1;
 }
 
@@ -434,6 +434,6 @@ infocram.editor.widgetId.banId = function(node, id) {
  * @param id        identifikátor
  * @return          <code>true</code> obsahuje-li, <code>false</code> neobsahuje-li
  */
-infocram.editor.widgetId.isIdHard = function(node, id) {
+selectowl.editor.widgetId.isIdHard = function(node, id) {
     return node.search(new RegExp("#" + id + "[^-A-Za-z0-9_]|" + "#" + id + "$", "g")) != -1;
 }

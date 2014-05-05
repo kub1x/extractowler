@@ -2,9 +2,119 @@
 /************************************************************
  *                                                          *
  ************************************************************/
+//var selectowl = {
+//    // === KONSTANTY === //
+//    EDITOR: "selectowl-editor",
+//    AREA: "selectowl-area",
+//    NAME: "selectowl-name",
+//    URL: "selectowl-url",
+//    READ: "selectowl-read",
+//    USE: "selectowl-use",
+//    ATTACH: "selectowl-attach",
+//    TAGNAME: "selectowl-tagname",
+//    ID: "selectowl-id",
+//    IDTYPE: "selectowl-idtype",
+//    CLASS: "selectowl-classes",
+//    CONTENT: "selectowl-contains",
+//    POS: "selectowl-position",
+//    ATTR: "selectowl-attributes",
+//    CUSTOM: "selectowl-custom",
+//    TREE: "selectowl-tree",
+//    // === OBJEKTY === //
+//    aardvark: {
+//        _parent: null,
+//        selectors: null
+//    },
+//    editor: {
+//        _parent: null,
+//        name: {
+//            _parent: null
+//        },
+//        area: {
+//            _parent: null,
+//            selectionStart: 0,
+//            selectionEnd: 0
+//        },
+//        url: {
+//            _parent: null
+//        },
+//        read: {
+//            _parent: null
+//        },
+//        widgetUse: {
+//            _parent: null
+//        },
+//        attach: {
+//            _parent: null
+//        },
+//        widgetTagName: {
+//            _parent: null
+//        },
+//        widgetId: {
+//            _parent: null
+//        },
+//        widgetClass: {
+//            _parent: null
+//        },
+//        widgetPos: {
+//            _parent: null
+//        },
+//        widgetContent: {
+//            _parent: null
+//        },
+//        widgetAttr: {
+//            _parent: null
+//        },
+//        widgetCustom: {
+//            _parent: null
+//        }
+//    },
+//    extractor: {
+//        _parent: null
+//    },
+//    file: {
+//        _parent: null
+//    },
+//    gui: {
+//        SELECT: "select",
+//        DEF: "def",
+//        URL: "url",
+//        _parent: null,
+//        borderElems: new Array(),
+//        area: "select",
+//        editing: "select",
+//        path: new Array()
+//    },
+//    tree: {
+//        _parent: null,
+//        title: "",
+//        delay: 1000,
+//        def: { },
+//        url: "",
+//        select: { }
+//    }
+//}
+
 
 
 var selectowl = {
+  EDITOR: "selectowl-editor",
+  AREA: "selectowl-area",
+  NAME: "selectowl-name",
+  URL: "selectowl-url",
+  READ: "selectowl-read",
+  USE: "selectowl-use",
+  ATTACH: "selectowl-attach",
+  TAGNAME: "selectowl-tagname",
+  ID: "selectowl-id",
+  IDTYPE: "selectowl-idtype",
+  CLASS: "selectowl-classes",
+  CONTENT: "selectowl-contains",
+  POS: "selectowl-position",
+  ATTR: "selectowl-attributes",
+  CUSTOM: "selectowl-custom",
+  TREE: "selectowl-tree",
+
   aardvark : {
   }, 
 
@@ -32,8 +142,76 @@ var selectowl = {
     tree : {}, 
   }, 
 
+  editor: {
+    _parent: null,
+    name: {
+        _parent: null
+    },
+    area: {
+        _parent: null,
+        selectionStart: 0,
+        selectionEnd: 0
+    },
+    url: {
+        _parent: null
+    },
+    read: {
+        _parent: null
+    },
+    widgetUse: {
+        _parent: null
+    },
+    attach: {
+        _parent: null
+    },
+    widgetTagName: {
+        _parent: null
+    },
+    widgetId: {
+        _parent: null
+    },
+    widgetClass: {
+        _parent: null
+    },
+    widgetPos: {
+        _parent: null
+    },
+    widgetContent: {
+        _parent: null
+    },
+    widgetAttr: {
+        _parent: null
+    },
+    widgetCustom: {
+        _parent: null
+    }
+  },
+
 };
 
+// definice zpětných referencí v jednotlivých podřízených objektech
+
+//selectowl.aardvark._parent = selectowl;
+//selectowl.gui._parent = selectowl;
+selectowl.editor._parent = selectowl;
+selectowl.editor.name._parent = selectowl.editor;
+selectowl.editor.area._parent = selectowl.editor;
+selectowl.editor.url._parent = selectowl.editor;
+selectowl.editor.read._parent = selectowl.editor;
+selectowl.editor.widgetUse._parent = selectowl.editor;
+selectowl.editor.attach._parent = selectowl.editor;
+selectowl.editor.widgetTagName._parent = selectowl.editor;
+selectowl.editor.widgetId._parent = selectowl.editor;
+selectowl.editor.widgetClass._parent = selectowl.editor;
+selectowl.editor.widgetPos._parent = selectowl.editor;
+selectowl.editor.widgetContent._parent = selectowl.editor;
+selectowl.editor.widgetAttr._parent = selectowl.editor;
+selectowl.editor.widgetCustom._parent = selectowl.editor;
+//selectowl.extractor._parent = selectowl;
+//selectowl.file._parent = selectowl;
+//selectowl.tree._parent = selectowl;
+
+//------------------------------------------------------------
 
 selectowl.init = function () {
   selectowl.gui.init();

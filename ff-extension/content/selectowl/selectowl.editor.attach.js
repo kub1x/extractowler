@@ -36,7 +36,7 @@
  *
  * @param menulist  element <code>menulist</code>
  */
-infocram.editor.attach.onCommand = function(menulist) {
+selectowl.editor.attach.onCommand = function(menulist) {
     var _gui = this._parent._parent.gui;
 
     var tree = _gui.get();
@@ -49,7 +49,7 @@ infocram.editor.attach.onCommand = function(menulist) {
  *
  * @return  XUL element <code>menulist</code>
  */
-infocram.editor.attach.get = function() {
+selectowl.editor.attach.get = function() {
     var _root = this._parent._parent;
 
     return document.getElementById(_root.ATTACH);

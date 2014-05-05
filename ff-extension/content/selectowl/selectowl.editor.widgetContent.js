@@ -35,7 +35,7 @@
  *
  * @param label
  */
-infocram.editor.widgetContent.onClick = function(label) {
+selectowl.editor.widgetContent.onClick = function(label) {
     var _gui = this._parent._parent.gui;
     var _area = this._parent.area;
 
@@ -92,7 +92,7 @@ infocram.editor.widgetContent.onClick = function(label) {
  *
  * @return  XUL element <code>groupbox</code>
  */
-infocram.editor.widgetContent.get = function() {
+selectowl.editor.widgetContent.get = function() {
     var _root = this._parent._parent;
 
     return document.getElementById(_root.CONTENT);
@@ -101,7 +101,7 @@ infocram.editor.widgetContent.get = function() {
 /**
  * Aktualizuje widget.
  */
-infocram.editor.widgetContent.update = function() {
+selectowl.editor.widgetContent.update = function() {
     var _gui = this._parent._parent.gui;
     var _area = this._parent.area;
 
@@ -183,7 +183,7 @@ infocram.editor.widgetContent.update = function() {
             label.className = "lblAllow";
         }
 
-        label.setAttribute("onclick", "infocram.editor.widgetContent.onClick(this);");
+        label.setAttribute("onclick", "selectowl.editor.widgetContent.onClick(this);");
 
         hbox.appendChild(label);
     }
@@ -197,7 +197,7 @@ infocram.editor.widgetContent.update = function() {
  * @param content   argument pseudo-třídy
  * @return          index
  */
-infocram.editor.widgetContent.indexOfContent = function(node, content) {
+selectowl.editor.widgetContent.indexOfContent = function(node, content) {
     return node.search(new RegExp(":contains\\([\'\"]?" + content + "[\'\"]?\\)", "g"));
 }
 
@@ -208,6 +208,6 @@ infocram.editor.widgetContent.indexOfContent = function(node, content) {
  * @param content   argument pseudo-třídy
  * @return          <code>true</code> obsahuje-li, <code>false</code> neobsahuje-li
  */
-infocram.editor.widgetContent.contains = function(node, content) {
+selectowl.editor.widgetContent.contains = function(node, content) {
     return this.indexOfContent(node, content) != -1;
 }

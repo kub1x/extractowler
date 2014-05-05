@@ -33,7 +33,7 @@
 /**
  * Obslouží událost <code>onClick</code> tlačítka "Use Current Page".
  */
-infocram.editor.url.onClick = function() {
+selectowl.editor.url.onClick = function() {
     var _gui = this._parent._parent.gui;
 
     var tree = _gui.get();
@@ -51,7 +51,7 @@ infocram.editor.url.onClick = function() {
  *
  * @param e     událost
  */
-infocram.editor.url.onKeyUp = function(e) {
+selectowl.editor.url.onKeyUp = function(e) {
     var _gui = this._parent._parent.gui;
 
     var tree = _gui.get();
@@ -65,7 +65,7 @@ infocram.editor.url.onKeyUp = function(e) {
  *
  * @return  XUL element <code>textbox</code>
  */
-infocram.editor.url.get = function() {
+selectowl.editor.url.get = function() {
     var _root = this._parent._parent;
 
     return document.getElementById(_root.URL);
