@@ -300,6 +300,121 @@ selectowl.gui.onResize = function() {
 }
 
 selectowl.gui.onScenarioClick = function(event) {
+    var _editor = this._parent.editor;
+    var _name = this._parent.editor.name;
+    var _area = this._parent.editor.area;
+    var _url = this._parent.editor.url;
+    var _read = this._parent.editor.read;
+    var _use = this._parent.editor.widgetUse;
+    var _attach = this._parent.editor.attach;
+
+    // XXX added selectowl specific
+    var _tree = selectowl.scenario.tree
+
+    var tree = _tree.getTreeElement(); //this.get(); //TODO XXX !!!
+
+    // otevření editoru
+
+    if (event.button == 2 && (tree.currentIndex != 0 || this.editing != this.DEF)) {
+        var editor = _editor.get();
+        var name = _name.get();
+        var area = _area.get();
+        var url = _url.get();
+        var read = _read.get();
+        var use = _use.get();
+        var attach = _attach.get();
+
+        // obnova výchozího stavu editoru
+
+        var hbox = editor.childNodes[0];
+
+        hbox.childNodes[0].hidden = false;
+
+        var vbox = hbox.childNodes[1];
+
+        vbox.childNodes[1].hidden = false;
+        vbox.childNodes[2].hidden = false;
+        vbox.childNodes[3].hidden = false;
+
+        url.setAttribute("readonly", true);
+
+        var urlUse = document.getElementById("infocram-url-use");
+
+        urlUse.hidden = true;
+
+        var urlEdit = document.getElementById("infocram-url-edit");
+
+        urlEdit.hidden = false;
+
+        // modifikace editoru, je-li otevřen nad kořenovým uzlem SELECT
+
+        if (tree.currentIndex == 0 && this.editing == this.SELECT) {
+            hbox.childNodes[0].hidden = true;
+
+            vbox.childNodes[1].hidden = true;
+            vbox.childNodes[2].hidden = true;
+            vbox.childNodes[3].hidden = true;
+
+            url.removeAttribute("readonly");
+
+            urlUse.hidden = false;
+
+            urlEdit.hidden = true;
+        }
+
+        // naplnění hodnotami
+
+        name.value = this.getColumn("name");
+        area.value = this.getColumn("area");
+        url.value = this.getColumn("url");
+
+        // read
+
+        var index = 0;
+
+        for (var i = 0; i < read.itemCount; i++) {
+            if (read.getItemAtIndex(i).value == this.getColumn("read")) {
+                index = i;
+                break;
+            }
+        }
+
+        read.selectedIndex = index;
+
+        // use
+
+        index = 0;
+
+        for (i = 0; i < use.itemCount; i++) {
+            if (use.getItemAtIndex(i).value == this.getColumn("use")) {
+                index = i;
+                break;
+            }
+        }
+
+        use.selectedIndex = index;
+
+        // attach
+
+        index = 0;
+
+        for (i = 0; i < attach.itemCount; i++) {
+            if (attach.getItemAtIndex(i).value == this.getColumn("attach")) {
+                index = i;
+                break;
+            }
+        }
+
+        attach.selectedIndex = index;
+
+        editor.openPopup(tree, "overlap", 0, 0, false, false);
+    //} else if (event.button == 0) {
+    //    var currentBrowser  = aardvarkUtils.currentBrowser();
+
+    //    currentBrowser.addEventListener("resize", this.onResize, false);
+
+    //    this.refreshHighlight();
+    }
 };
 
 selectowl.gui.onScenarioKeyPress = function(event) {

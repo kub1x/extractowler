@@ -192,7 +192,7 @@ var selectowl = {
 // definice zpětných referencí v jednotlivých podřízených objektech
 
 //selectowl.aardvark._parent = selectowl;
-//selectowl.gui._parent = selectowl;
+selectowl.gui._parent = selectowl;
 selectowl.editor._parent = selectowl;
 selectowl.editor.name._parent = selectowl.editor;
 selectowl.editor.area._parent = selectowl.editor;

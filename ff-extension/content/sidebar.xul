@@ -18,24 +18,25 @@
     <script src="selectowl/selectowl.gui.js"           />
     <script src="selectowl/selectowl.scenario.js"      />
     <script src="selectowl/selectowl.scenario.tree.js" />
+    <script src="selectowl/selectowl.editor.js" />
+    <script src="selectowl/selectowl.editor.area.js" />
+    <script src="selectowl/selectowl.editor.name.js" />
+    <script src="selectowl/selectowl.editor.widgetClass.js" />
+    <script src="selectowl/selectowl.editor.widgetContent.js" />
+    <script src="selectowl/selectowl.editor.widgetId.js" />
+    <script src="selectowl/selectowl.editor.widgetPos.js" />
+    <script src="selectowl/selectowl.editor.widgetTagName.js" />
 
     <!--
     <script src="sizzle.js" />
     <script src="json2.js" />
     <script src="extractor.js" />
     
-    <script src="selectowl/selectowl.editor.js" />
-    <script src="selectowl/selectowl.editor.area.js" />
     <script src="selectowl/selectowl.editor.attach.js" />
-    <script src="selectowl/selectowl.editor.name.js" />
     <script src="selectowl/selectowl.editor.read.js" />
     <script src="selectowl/selectowl.editor.url.js" />
-    <script src="selectowl/selectowl.editor.widgetClass.js" />
-    <script src="selectowl/selectowl.editor.widgetContent.js" />
-    <script src="selectowl/selectowl.editor.widgetId.js" />
-    <script src="selectowl/selectowl.editor.widgetPos.js" />
-    <script src="selectowl/selectowl.editor.widgetTagName.js" />
     <script src="selectowl/selectowl.editor.widgetUse.js" />
+
     <script src="selectowl/selectowl.extractor.js" />
     <script src="selectowl/selectowl.file.js" />
     <script src="selectowl/selectowl.misc.js" />
@@ -61,7 +62,7 @@ further:
     -->
 
     <vbox flex="1">
-      <vbox id="main" flex="1">
+      <vbox id="main" flex="&selectowl.goldencut.a;">
         <!-- trying to make workflow kinda "movable" in a smaller box -->
         <box flex="0" style="width: 100%;">
           <box flex="1" style="flex-direction: row;">
@@ -141,7 +142,7 @@ further:
 
       <!-- SCENARIO EDITOR - common for all -->
 
-      <vbox id="scenario-vbox" flex="1">
+      <vbox id="scenario-vbox" flex="&selectowl.goldencut.b;">
         <groupbox id="scenario-editor" flex="1">
           <tree id="selectowl-scenario-tree"
             flex="1"
@@ -185,7 +186,6 @@ further:
 
 
 
-    <!--
     <panel id="selectowl-editor" onpopupshown="selectowl.editor.onPopUpShown(event);">
         <hbox>
             <vbox>
@@ -308,71 +308,11 @@ further:
         </hbox>
     </panel>
 
+    <!--
     <hbox id="selectowl-breadcrumbs" hidden="true">
         <textbox id="selectowl-path" flex="1" readonly="true" />
         <button label="&selectowl.breadcrumbs.back;" oncommand="selectowl.gui.urlBack();" />
     </hbox>
-
-    <tree id="selectowl-tree" flex="1" hidecolumnpicker="false" seltype="single" class="tree" rows="5" onselect="selectowl.gui.onSelect();" onclick="selectowl.gui.onClick(event);">
-        <treecols id="selectowl-tree-cols">
-            <treecol id="selectowl-tree-col-name" primary="true" flex="0" label="name" persist="width" ordinal="1"/>
-
-            <splitter class="tree-splitter" ordinal="2"/>
-
-            <treecol id="selectowl-tree-col-area" flex="1" label="area" ordinal="3" />
-
-            <splitter class="tree-splitter" ordinal="4"/>
-
-            <treecol id="selectowl-tree-col-url" label="url" ordinal="5" hidden="true"/>
-
-            <splitter class="tree-splitter" ordinal="6"/>
-
-            <treecol id="selectowl-tree-col-read" label="read" ordinal="7" hidden="true"/>
-
-            <splitter class="tree-splitter" ordinal="8"/>
-
-            <treecol id="selectowl-tree-col-use" label="use" ordinal="9" hidden="true"/>
-
-            <splitter class="tree-splitter" ordinal="10"/>
-
-            <treecol id="selectowl-tree-col-attach" label="attach" ordinal="11" hidden="true"/>
-        </treecols>
-
-        <treechildren>
-            <treeitem>
-                <treerow>
-                    <treecell label="select" />
-                    <treecell />
-                    <treecell />
-                    <treecell />
-                    <treecell />
-                    <treecell />
-                </treerow>
-            </treeitem>
-        </treechildren>
-    </tree>
-
-    <button label="&selectowl.aardvark.start;" oncommand="selectowl.aardvark.start();" />
-
-    <hbox>
-        <button flex="1" label="&selectowl.tree.add;" oncommand="selectowl.gui.addNode();" />
-        <button flex="1" label="&selectowl.tree.remove;" oncommand="selectowl.gui.removeNode();" />
-    </hbox>
-
-    <button id="selectowl-switch" label="&selectowl.tree.def;" oncommand="selectowl.gui.onToggle();" />
-
-    <hbox>
-        <button flex="1" label="&selectowl.file.new;" oncommand="selectowl.file.blank();" />
-        <button flex="1" label="&selectowl.file.load;" oncommand="selectowl.file.load();" />
-        <button flex="1" label="&selectowl.file.save;" oncommand="selectowl.file.save();" />
-    </hbox>
-    
-    <button label="&selectowl.extractor.run;" oncommand="selectowl.extractor.exec();" />
-    
-    <hbox>
-        <textbox id="selectowl-log" multiline="true" />
-
-        <textbox id="selectowl-ret" multiline="true" />
-    </hbox>
     -->
+
 </page>

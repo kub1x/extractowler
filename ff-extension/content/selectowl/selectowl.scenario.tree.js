@@ -21,7 +21,6 @@ selectowl.scenario.tree.TreeStep.prototype = {
       }
     }
   },
-
   deleteSelf : function () {
     for (ch in this.children) {
       this.children[ch].deleteSelf();
@@ -30,7 +29,6 @@ selectowl.scenario.tree.TreeStep.prototype = {
       this.parent.deleteChild(this);
     }
   },
-
 }
 
 

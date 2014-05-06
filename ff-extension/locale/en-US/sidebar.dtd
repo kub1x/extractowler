@@ -26,3 +26,9 @@
 <!ENTITY selectowl.file.save "Save File">
 
 <!ENTITY selectowl.extractor.run "Run Extraction">
+
+<!--ENTITY selectowl.goldencut.a "10000000000">
+<!ENTITY selectowl.goldencut.b "16180339887"-->
+
+<!ENTITY selectowl.goldencut.a "10000">
+<!ENTITY selectowl.goldencut.b "16180">
