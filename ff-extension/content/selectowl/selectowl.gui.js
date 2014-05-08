@@ -270,6 +270,11 @@ selectowl.gui.onPropertySelect = function ( event ) {
   selectowl.aardvark.start( resource );
 }; 
 
+
+/************************************************************
+ *                                                          *
+ ************************************************************/
+
 /* we will show selected item in webpage document and set current context on select */
 selectowl.gui.onScenarioSelect = function ( event ) {
   if (event.target.currentIndex == -1) {
@@ -303,26 +308,28 @@ selectowl.gui.onScenarioClick = function(event) {
     var _editor = this._parent.editor;
     var _name = this._parent.editor.name;
     var _area = this._parent.editor.area;
-    var _url = this._parent.editor.url;
-    var _read = this._parent.editor.read;
-    var _use = this._parent.editor.widgetUse;
-    var _attach = this._parent.editor.attach;
+    //var _url = this._parent.editor.url;
+    //var _read = this._parent.editor.read;
+    //var _use = this._parent.editor.widgetUse;
+    //var _attach = this._parent.editor.attach;
 
     // XXX added selectowl specific
     var _tree = selectowl.scenario.tree
 
     var tree = _tree.getTreeElement(); //this.get(); //TODO XXX !!!
 
+  console.log('clicked scenario with tree index: ' + tree.currentIndex);
+
     // otevření editoru
 
-    if (event.button == 2 && (tree.currentIndex != 0 || this.editing != this.DEF)) {
+    if (event.button == 2 && (tree.currentIndex >= 0 || this.editing != this.DEF)) {
         var editor = _editor.get();
         var name = _name.get();
         var area = _area.get();
-        var url = _url.get();
-        var read = _read.get();
-        var use = _use.get();
-        var attach = _attach.get();
+        //var url = _url.get();
+        //var read = _read.get();
+        //var use = _use.get();
+        //var attach = _attach.get();
 
         // obnova výchozího stavu editoru
 
@@ -330,82 +337,82 @@ selectowl.gui.onScenarioClick = function(event) {
 
         hbox.childNodes[0].hidden = false;
 
-        var vbox = hbox.childNodes[1];
+        //var vbox = hbox.childNodes[1];
 
-        vbox.childNodes[1].hidden = false;
-        vbox.childNodes[2].hidden = false;
-        vbox.childNodes[3].hidden = false;
+        //vbox.childNodes[1].hidden = false;
+        //vbox.childNodes[2].hidden = false;
+        //vbox.childNodes[3].hidden = false;
 
-        url.setAttribute("readonly", true);
+        //url.setAttribute("readonly", true);
 
-        var urlUse = document.getElementById("infocram-url-use");
+        //var urlUse = document.getElementById("infocram-url-use");
 
-        urlUse.hidden = true;
+        //urlUse.hidden = true;
 
-        var urlEdit = document.getElementById("infocram-url-edit");
+        //var urlEdit = document.getElementById("infocram-url-edit");
 
-        urlEdit.hidden = false;
+        //urlEdit.hidden = false;
 
-        // modifikace editoru, je-li otevřen nad kořenovým uzlem SELECT
+        //// modifikace editoru, je-li otevřen nad kořenovým uzlem SELECT
 
-        if (tree.currentIndex == 0 && this.editing == this.SELECT) {
-            hbox.childNodes[0].hidden = true;
+        //if (tree.currentIndex == 0 && this.editing == this.SELECT) {
+        //    hbox.childNodes[0].hidden = true;
 
-            vbox.childNodes[1].hidden = true;
-            vbox.childNodes[2].hidden = true;
-            vbox.childNodes[3].hidden = true;
+        //    vbox.childNodes[1].hidden = true;
+        //    vbox.childNodes[2].hidden = true;
+        //    vbox.childNodes[3].hidden = true;
 
-            url.removeAttribute("readonly");
+        //    url.removeAttribute("readonly");
 
-            urlUse.hidden = false;
+        //    urlUse.hidden = false;
 
-            urlEdit.hidden = true;
-        }
+        //    urlEdit.hidden = true;
+        //}
 
         // naplnění hodnotami
 
-        name.value = this.getColumn("name");
-        area.value = this.getColumn("area");
-        url.value = this.getColumn("url");
+        name.value = this.getScenarioColumn("scenario-resource-col");
+        area.value = this.getScenarioColumn("scenario-selector-col");
+        //url.value = this.getColumn("url");
 
         // read
 
-        var index = 0;
+        //var index = 0;
 
-        for (var i = 0; i < read.itemCount; i++) {
-            if (read.getItemAtIndex(i).value == this.getColumn("read")) {
-                index = i;
-                break;
-            }
-        }
+        //for (var i = 0; i < read.itemCount; i++) {
+        //    if (read.getItemAtIndex(i).value == this.getColumn("read")) {
+        //        index = i;
+        //        break;
+        //    }
+        //}
 
-        read.selectedIndex = index;
+        //read.selectedIndex = index;
 
         // use
 
-        index = 0;
+        //index = 0;
 
-        for (i = 0; i < use.itemCount; i++) {
-            if (use.getItemAtIndex(i).value == this.getColumn("use")) {
-                index = i;
-                break;
-            }
-        }
+        //for (i = 0; i < use.itemCount; i++) {
+        //    if (use.getItemAtIndex(i).value == this.getColumn("use")) {
+        //        index = i;
+        //        break;
+        //    }
+        //}
 
-        use.selectedIndex = index;
+        //use.selectedIndex = index;
 
         // attach
 
-        index = 0;
+        //index = 0;
 
-        for (i = 0; i < attach.itemCount; i++) {
-            if (attach.getItemAtIndex(i).value == this.getColumn("attach")) {
-                index = i;
-                break;
-            }
-        }
+        //for (i = 0; i < attach.itemCount; i++) {
+        //    if (attach.getItemAtIndex(i).value == this.getColumn("attach")) {
+        //        index = i;
+        //        break;
+        //    }
+        //}
 
-        attach.selectedIndex = index;
+        //attach.selectedIndex = index;
 
         editor.openPopup(tree, "overlap", 0, 0, false, false);
     //} else if (event.button == 0) {
@@ -416,6 +423,29 @@ selectowl.gui.onScenarioClick = function(event) {
     //    this.refreshHighlight();
     }
 };
+
+selectowl.gui.getScenarioColumn = function(col_id) {
+    var tree = selectowl.scenario.tree;
+
+    var col =tree.columns.getNamedColumn(col_id);
+    var idx = tree.getCurrentIndex();
+
+    return tree.view.getCellText(idx, col);
+};
+
+/**
+ * for backward compatibility - gui.get returns the tree element
+ */
+selectowl.gui.get = function() {
+  return selectowl.scenario.tree.getTreeElement();
+}
+
+selectowl.gui.editColumn = function(idx, col_id, value) {
+  var col = selectowl.scenario.tree.getColById(col_id);
+  selectowl.scenario.tree.setCellText(idx, col, value);
+  //TODO is this ---------^^^^^^^^^^^ cool to do?
+  //yeah.. just implemented it so that it saves the value to the right place
+}
 
 selectowl.gui.onScenarioKeyPress = function(event) {
   var code;

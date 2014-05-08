@@ -175,12 +175,24 @@ selectowl.scenario.tree.deleteWithChildren = function(row) {
   delete n;
 };
 
+selectowl.scenario.tree.getColById = function(col_id){
+  return $(this.getTreeElement).find('#scenario-' + col_id + '-col').get(0);
+};
+
 /************************************************************
  * nsITreeView implementation                               *
  ************************************************************/
 
 selectowl.scenario.tree.__defineGetter__("rowCount", function() {
   return this.getLength();
+});
+
+selectowl.scenario.tree.__defineGetter__("view", function() {
+  return this.getTreeElement().view;
+});
+
+selectowl.scenario.tree.__defineGetter__("columns", function() {
+  return this.getTreeElement().columns;
 });
 
 selectowl.scenario.tree.getLevel = function(row) {
@@ -265,13 +277,13 @@ selectowl.scenario.tree.toggleOpenState = function(row) {
   if (this.treeBox) this.treeBox.invalidateRow(row);
 };
 
-selectowl.scenario.tree.getCellText = function(row, column){
-  if (column.id == 'scenario-resource-col' ) { return this.get(row).step.resource; } 
-  if (column.id == 'scenario-selector-col' ) { return this.get(row).step.selector; } 
+selectowl.scenario.tree.getCellText = function(row, col){
+  if (col.id == 'scenario-resource-col' ) { return this.get(row).step.resource; } 
+  if (col.id == 'scenario-selector-col' ) { return this.get(row).step.selector; } 
 };
 
-//selectowl.scenario.tree.setCellText = function(row, col, value) {
-//  if (column.id == 'scenario-resource-col' ) { this.get(row).name   = value; } 
-//  if (column.id == 'scenario-selector-col' ) { this.get(row).type   = value; } 
-//}; 
+selectowl.scenario.tree.setCellText = function(row, col, value) {
+  if (col.id == 'scenario-resource-col' ) { this.get(row).step.resource = value; } 
+  if (col.id == 'scenario-selector-col' ) { this.get(row).step.selector = value; } 
+}; 
 

@@ -58,7 +58,7 @@ selectowl.editor.area.onClick = function(e) {
     var tree = _gui.get();
     var textbox = e.target;
 
-    _gui.editColumn(tree.currentIndex, "area", textbox.value);
+    _gui.editColumn(tree.currentIndex, "selector", textbox.value);
 
     _parent.update();
 }
@@ -134,7 +134,7 @@ selectowl.editor.area.onKeyUp = function(e) {
         }
 
     } else {
-        _gui.editColumn(tree.currentIndex, "area", textbox.value);
+        _gui.editColumn(tree.currentIndex, "selector", textbox.value);
 
         _parent.update();
     }
@@ -266,7 +266,7 @@ selectowl.editor.area.editSequence = function(sequence, curPos, update) {
         textbox.focus();
     }
 
-    _gui.editColumn(tree.currentIndex, "area", textbox.value);
+    _gui.editColumn(tree.currentIndex, "selector", textbox.value);
 }
 
 /**
@@ -289,7 +289,7 @@ selectowl.editor.area.removeSequence = function() {
 
     textbox.focus();
 
-    _gui.editColumn(tree.currentIndex, "area", textbox.value);
+    _gui.editColumn(tree.currentIndex, "selector", textbox.value);
 
     // refreshing highlight
 

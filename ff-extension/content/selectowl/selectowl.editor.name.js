@@ -42,7 +42,7 @@ selectowl.editor.name.onKeyUp = function(e) {
 
     var textbox = e.target;
 
-    _gui.editColumn(tree.currentIndex, "name", textbox.value);
+    _gui.editColumn(tree.currentIndex, "resource", textbox.value);
 }
 
 /**

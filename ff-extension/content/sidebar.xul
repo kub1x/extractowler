@@ -10,6 +10,7 @@
     <script src="jquery-2.1.0.js" />
     <script src="jOWL.js" />
     <script src="aardvark.js" />
+    <script><![CDATA[window.Sizzle = jQuery.find;]]></script>
 
     <script src="selectowl/selectowl.js"               />
     <script src="selectowl/selectowl.misc.js"          /> <!-- for: gui -->
@@ -264,7 +265,7 @@ further:
                     </vbox>
                 </hbox>
             </vbox>
-            <vbox>
+            <!--vbox>
                 <groupbox>
                     <caption label="url"/>
 
@@ -304,7 +305,7 @@ further:
                         </menupopup>
                     </menulist>
                 </groupbox>
-            </vbox>
+            </vbox-->
         </hbox>
     </panel>
 
