@@ -77,7 +77,7 @@ further:
             <textbox id="ontology-url" flex="1"/>
             <button label="Load" oncommand="selectowl.load();" flex="0" width="50"/>
           </hbox>
-          <button label="Testing Window" oncommand="window.open('chrome://selectowl/content/test.xul');" flex="0" width="50"/>
+          <!--button label="Testing Window" oncommand="window.open('chrome://selectowl/content/test.xul');" flex="0" width="50"/-->
           <button label="Parse and Save" oncommand="selectowl.parseAndSave();" flex="0" width="50"/>
         </groupbox>
 
