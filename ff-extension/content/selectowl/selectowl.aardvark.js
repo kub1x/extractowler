@@ -44,7 +44,13 @@ selectowl.aardvark.start = function( resource ) {
  * @param elem      vybraný element
  */
 selectowl.aardvark.onSelect = function(elem) {
-  var _gui = selectowl.gui;
+  var selector = this.getBestSelector(elem);
+  selectowl.scenario.tree.createNewStep(this.resource, selector);
+  aardvarkSelector.doCommand('quit');
+};
+
+selectowl.aardvark.getBestSelector = function(elem) {
+  var orig = elem;
 
   var ts_context = selectowl.scenario.tree.getSelected();
   var context = ts_context ? ts_context.step.selector : null;
@@ -60,7 +66,7 @@ selectowl.aardvark.onSelect = function(elem) {
 
   var topReached = false;
   var idFound = false;
-
+  var isFound = false;
   do
   {
       var node = elem.tagName.toLowerCase();
@@ -99,9 +105,8 @@ selectowl.aardvark.onSelect = function(elem) {
           }
       }
 
-      selector = selector == undefined ? node : node + " " + selector;
-
-      elem = elem.parentNode && elem.parentNode.nodeType == elem.ELEMENT_NODE ? elem.parentNode : null;
+      prev = elem;
+      elem = (elem.parentNode && elem.parentNode.nodeType == elem.ELEMENT_NODE)  ?  elem.parentNode  :  null;
 
       // ověření, zdali rodič elementu zpracovávaného v cyklu není již
       // elementem nadřazeného kontextu
@@ -112,15 +117,31 @@ selectowl.aardvark.onSelect = function(elem) {
               break;
           }
       }
-  } while (!topReached && !idFound && elem != null);
 
-  // přidání selektoru do stromu
+      // index if needed to match properly!
+      if (!idFound) {
+        var idx = $(elem).children().index(prev);
+        if (idx != -1) {
+          node += ":eq(" + idx + ")";
+        }
+        console.log('looking for element: ' + prev.tagName + ' within element: ' + elem.tagName + ' with result idx: ' + idx);
+      }
 
-  //_gui.addNode(indexOfContext, selector, name);
+      selector = selector == undefined ? node : node + " " + selector;
 
-  selectowl.scenario.tree.createNewStep(this.resource, selector);
-  aardvarkSelector.doCommand('quit');
-}
+      // already equivavent?
+      var $found = $(currDoc).find(selector);
+      if ($found.length == 1 && $found.get(0) == orig) {
+        isFound = true;
+      }
+
+
+  } while (!topReached && !idFound && !isFound && elem != null);
+
+  return selector;
+};
+
+
 
 ///**
 // * Ověří, jestli se daný element nachází v zadaném kontextu.
