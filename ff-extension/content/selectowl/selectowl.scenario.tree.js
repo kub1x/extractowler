@@ -38,6 +38,9 @@ selectowl.scenario.tree.TreeStep.prototype = {
 
 selectowl.scenario.tree._byIdx = [];
 
+// Last selected index (handled by gui)
+selectowl.scenario.tree.lastIndex = -1;
+
 // Note: scenario.tree itself acts like a TreeStep
 //            scenario itself acts like a Step
 selectowl.scenario.tree.step = selectowl.scenario;
