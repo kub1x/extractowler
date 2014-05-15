@@ -278,7 +278,7 @@ selectowl.gui.onPropertySelect = function ( event ) {
 /* we will show selected item in webpage document and set current context on select */
 selectowl.gui.onScenarioSelect = function ( event ) {
   var _tree = selectowl.scenario.tree;
-  var currentIndex = _tree.getCurrentIndex();
+  var currentIndex = _tree.currentIndex;
 
   console.log('selected(BEGIN) scenario step with currentIndex: ' + currentIndex);
 
@@ -315,20 +315,14 @@ selectowl.gui.onScenarioKeyDown = function(event) {
       event.keyCode == 40) { // Down arrow
 
     var _tree = selectowl.scenario.tree
-    var currentIndex = _tree.getCurrentIndex();
+
+    var currentIndex = _tree.currentIndex;
     var lastIndex = _tree.lastIndex;
 
     console.log('keyDown currentIndex:' + currentIndex + ' lastIndex: ' + lastIndex + ' keyCode: ' + event.keyCode);
 
     _tree.lastIndex = currentIndex;
 
-    //if (currentIndex == lastIndex) {
-    //  // Deselecting
-    //  _tree.lastIndex = -1;
-    //  _tree.clearSelection();
-    //} else {
-    //  _tree.lastIndex = currentIndex;
-    //}
     return;
   }
 }
@@ -349,7 +343,7 @@ selectowl.gui.onScenarioClick = function(event) {
   console.log('clicked scenario with currentIndex: ' + tree.currentIndex + ' with button: ' + event.button);
 
   if (event.button == 0) { // Left button
-    var currentIndex = _tree.getCurrentIndex();
+    var currentIndex = _tree.currentIndex;
     var lastIndex = _tree.lastIndex;
 
     console.log('clicked currentIndex:' + currentIndex + ' lastIndex: ' + lastIndex);
@@ -473,7 +467,7 @@ selectowl.gui.getScenarioColumn = function(col_id) {
     var tree = selectowl.scenario.tree;
 
     var col =tree.columns.getNamedColumn(col_id);
-    var idx = tree.getCurrentIndex();
+    var idx = tree.currentIndex;
 
     return tree.view.getCellText(idx, col);
 };

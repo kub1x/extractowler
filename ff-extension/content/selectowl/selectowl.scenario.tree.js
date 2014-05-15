@@ -63,7 +63,7 @@ selectowl.scenario.tree.createNewStep = function( resource, selector ) {
   var ts = new this.TreeStep(ss, ts_context);
 
   // Add TreeStep into tree
-  var idx = this.getCurrentIndex(); // of the context
+  var idx = this.currentIndex; // of the context
   if (idx == -1) { 
     // Just add to the floor
     this._byIdx.push(ts);
@@ -120,13 +120,14 @@ selectowl.scenario.tree.getLength = function( ) {
 }
 
 selectowl.scenario.tree.getSelected = function( ) {
-  return this._byIdx[this.getCurrentIndex()];
+  return this._byIdx[this.currentIndex];
 }
 
-selectowl.scenario.tree.getCurrentIndex = function( ) {
-  var tree = this.getTreeElement();
-  return tree.currentIndex;
-}
+//TODO DELME - DEPRECATED
+//selectowl.scenario.tree.getCurrentIndex = function( ) {
+//  var tree = this.getTreeElement();
+//  return tree.currentIndex;
+//}
 
 selectowl.scenario.tree.getTreeElement = function () {
   return $('#selectowl-scenario-tree').get(0);
@@ -150,7 +151,7 @@ selectowl.scenario.tree.findLastSubtreeRow = function(idx) {
 } 
 
 selectowl.scenario.tree.deleteCurrent = function() {
-  var idx = this.getCurrentIndex(); 
+  var idx = this.currentIndex;
 
   // Nothing to delete
   if (idx == -1) return;
@@ -196,6 +197,11 @@ selectowl.scenario.tree.__defineGetter__("view", function() {
 
 selectowl.scenario.tree.__defineGetter__("columns", function() {
   return this.getTreeElement().columns;
+});
+
+selectowl.scenario.tree.__defineGetter__("currentIndex", function() {
+  var tree = this.getTreeElement();
+  return tree.currentIndex;
 });
 
 selectowl.scenario.tree.getLevel = function(row) {
