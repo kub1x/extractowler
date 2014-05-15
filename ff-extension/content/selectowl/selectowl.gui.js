@@ -279,20 +279,15 @@ selectowl.gui.onPropertySelect = function ( event ) {
 selectowl.gui.onScenarioSelect = function ( event ) {
   var _tree = selectowl.scenario.tree;
   var currentIndex = _tree.getCurrentIndex();
+
+  console.log('selected(BEGIN) scenario step with currentIndex: ' + currentIndex);
+
   if (currentIndex == -1) {
     console.log('onScenarioSelect(-1) was called - deselecting!!');
     this.hideContextBox();
     return;
   }
 
-  var lastIndex = _tree.lastIndex;
-
-  if (currentIndex == lastIndex) {
-    // Deselecting
-    _tree.lastIndex = -1;
-    event.target.clearSelection();
-    return;
-  }
 
   //var target = event.target;
   //var idx = target.currentIndex;
@@ -315,6 +310,29 @@ selectowl.gui.onResize = function() {
   selectowl.gui.refreshHighlight();
 }
 
+selectowl.gui.onScenarioKeyDown = function(event) {
+  if (event.keyCode == 38 || // Up   arrow
+      event.keyCode == 40) { // Down arrow
+
+    var _tree = selectowl.scenario.tree
+    var currentIndex = _tree.getCurrentIndex();
+    var lastIndex = _tree.lastIndex;
+
+    console.log('keyDown currentIndex:' + currentIndex + ' lastIndex: ' + lastIndex + ' keyCode: ' + event.keyCode);
+
+    _tree.lastIndex = currentIndex;
+
+    //if (currentIndex == lastIndex) {
+    //  // Deselecting
+    //  _tree.lastIndex = -1;
+    //  _tree.clearSelection();
+    //} else {
+    //  _tree.lastIndex = currentIndex;
+    //}
+    return;
+  }
+}
+
 selectowl.gui.onScenarioClick = function(event) {
     var _editor = this._parent.editor;
     var _name = this._parent.editor.name;
@@ -326,13 +344,29 @@ selectowl.gui.onScenarioClick = function(event) {
 
     // XXX added selectowl specific
     var _tree = selectowl.scenario.tree
-
     var tree = _tree.getTreeElement(); //this.get(); //TODO XXX !!!
 
-  console.log('clicked scenario with currentIndex: ' + tree.currentIndex);
+  console.log('clicked scenario with currentIndex: ' + tree.currentIndex + ' with button: ' + event.button);
 
-    // otevření editoru
+  if (event.button == 0) { // Left button
+    var currentIndex = _tree.getCurrentIndex();
+    var lastIndex = _tree.lastIndex;
 
+    console.log('clicked currentIndex:' + currentIndex + ' lastIndex: ' + lastIndex);
+
+    if (currentIndex == lastIndex) {
+      // Deselecting
+      _tree.lastIndex = -1;
+      _tree.clearSelection();
+    } else {
+      _tree.lastIndex = currentIndex;
+    }
+    return;
+  }
+
+  // otevření editoru
+
+  // Right button
     if (event.button == 2 && (tree.currentIndex >= 0 || this.editing != this.DEF)) {
         var editor = _editor.get();
         var name = _name.get();
