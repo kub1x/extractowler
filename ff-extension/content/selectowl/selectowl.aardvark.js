@@ -57,7 +57,7 @@ selectowl.aardvark.getBestSelector = function(elem) {
 
   // results
   var name;
-  var selector;
+  var selector = "";
 
   var currDoc = aardvarkUtils.currentDocument();
 
@@ -118,23 +118,30 @@ selectowl.aardvark.getBestSelector = function(elem) {
           }
       }
 
+      // already equivavent?
+      var $found = $(currDoc).find(node + ' ' + selector);
+      if ($found.length == 1 && $found.get(0) == orig) {
+        isFound = true;
+      }
+
       // index if needed to match properly!
-      if (!idFound) {
-        var idx = $(elem).children().index(prev);
+      if (!isFound && !idFound) {
+        var idx = $(elem).children(prev.tagName).index(prev);
         if (idx != -1) {
           node += ":eq(" + idx + ")";
         }
         console.log('looking for element: ' + prev.tagName + ' within element: ' + elem.tagName + ' with result idx: ' + idx);
       }
 
-      selector = selector == undefined ? node : node + " " + selector;
+      //
+      // just do it!
+      selector = node + " " + selector;
 
       // already equivavent?
       var $found = $(currDoc).find(selector);
       if ($found.length == 1 && $found.get(0) == orig) {
         isFound = true;
       }
-
 
   } while (!topReached && !idFound && !isFound && elem != null);
 
