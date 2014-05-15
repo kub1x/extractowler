@@ -268,7 +268,7 @@ selectowl.gui.onScenarioSelect = function ( event ) {
 
   if (currentIndex == -1) {
     console.log('onScenarioSelect(-1) was called - deselecting!!');
-    this.hideContextBox();
+    this.hideHighlight();
     return;
   }
 
@@ -283,9 +283,7 @@ selectowl.gui.onScenarioSelect = function ( event ) {
   //TODO sort properties by domain according to selected item
 
   // juveej
-  var currentBrowser  = aardvarkUtils.currentBrowser();
-  currentBrowser.addEventListener("resize", this.onResize, false);
-  this.refreshHighlight();
+  this.showHighlight();
 };
 
 /** Obslouží událost <code>onResize</code> webového prohlížeče.  */
@@ -329,6 +327,7 @@ selectowl.gui.onScenarioClick = function(event) {
       // Deselecting
       _tree.lastIndex = -1;
       _tree.clearSelection();
+      this.hideHighlight();
     } else {
       _tree.lastIndex = currentIndex;
     }
@@ -397,6 +396,19 @@ selectowl.gui.onScenarioKeyPress = function(event) {
 /* ************************************************************************** *
  *                                  HIGHLIGHT                                 *
  * ************************************************************************** */
+
+selectowl.gui.showHighlight = function() {
+  var currentBrowser = aardvarkUtils.currentBrowser();
+  currentBrowser.addEventListener("resize", this.onResize, false);
+  this.refreshHighlight();
+};
+
+selectowl.gui.hideHighlight = function() {
+  var currentBrowser = aardvarkUtils.currentBrowser();
+  currentBrowser.removeEventListener("resize", this.onResize);
+  this.hideContextBox();
+  this.hideSelectedElem();
+};
 
 /** Zobrazí box zvýrazňující kontext.
  *
@@ -569,38 +581,32 @@ selectowl.gui.refreshHighlight = function() {
 }
 
 
-selectowl.gui.getContext = function(index, inclSelected) {
-  //TODO getTreeElement
-  var tree = $('#selectowl-scenario-tree').get(0);
+selectowl.gui.getContext = function() {
+  var _tree = selectowl.scenario.tree;
+  var index = _tree.currentIndex;
 
-  if (index == undefined) {
-    index = tree.currentIndex;
-  }
-
-  // Collect selectors from bottom up
+  //
+  // Collect selectors
+  //
+  // We go all the way through parents (bottom-up). Only TreeStep holds the
+  // reference to it's parent, then we access the underlying Step object. 
   var selectors = []
-  var ts = selectowl.scenario.tree.get(index);
+  var ts = _tree.get(index);
 
   selectors.unshift(ts.step.selector);
 
   while (ts.parent != null) {
-    //console.log('found parent: ' + step.parent + ' with selector: ' + step.parent.selector);
     ts = ts.parent;
     selectors.unshift(ts.step.selector);
   }
 
+  //
+  // Get that node
   var currentDocument = aardvarkUtils.currentDocument();
-
-  //var selected = Sizzle(context_selector, currentDocument);
   var $selected = $(currentDocument);
-  
   for (s in selectors) {
-    console.log('filtering context by: ' + selectors[s]);
     $selected = $selected.find(selectors[s]);
   }
-
-  //TODO !!! XXX !!! we have to do the selection all the way throught
-  //node and it's parents!
 
   return $selected.get();
 }
