@@ -40,7 +40,7 @@ selectowl.gui.populateWorkflow = function () {
     // set label text
     $lab.attr('value', $grp.children('caption').attr('label'));
     // show the active one
-    if ( $grp.hasClass(selectowl.gui.CURRENT_STEP_CLASS) ) {
+    if ($grp.hasClass(selectowl.gui.CURRENT_STEP_CLASS)) {
       $lab.addClass(selectowl.gui.CURRENT_STEP_CLASS);
     }
     // change active group on click
@@ -48,8 +48,6 @@ selectowl.gui.populateWorkflow = function () {
     // actually add it
     $wf.append($lab);
   });
-
-
 }
 
 selectowl.gui.showStep = function (step_id) {
@@ -67,23 +65,9 @@ selectowl.gui.showStep = function (step_id) {
   $currgrp.removeClass(selectowl.gui.CURRENT_STEP_CLASS);
   $nextgrp.addClass(selectowl.gui.CURRENT_STEP_CLASS);
 
-  //// Start animation - hide current
-  //$currgrp.hide({ effect: "slide", "direction": "left" }, 500, function() {
-  //  // Followed by - show next
-  //  $nextgrp.show({ effect: "fade" }, 500);
-  //});
-  // Start animation - hide current
+  // hide current - show next
   $currgrp.hide();
-  // Followed by - show next
   $nextgrp.show();
-
-  //// hide current
-  //$curr.effect("slide", { "direction": "left", "mode": "hide" }, 500, function() {
-  //  // then show next
-  //  $next.effect("slide", { "direction": "right", "mode": "show" }, 500);
-  //});
-
-  //selectowl.gui.refreshAllTrees(); //TODO CHECKME TESTING XXX
 }
 
 
@@ -152,16 +136,16 @@ selectowl.gui.basicTreeView = {
     return false;
   },
   isSorted : function(){
-     return false; 
+    return false; 
   },
   isEditable : function(row, col){
     return false;
   },
   getLevel : function(row){
-     return 0; 
+    return 0; 
   },
   getImageSrc : function(row, col){
-     return null; 
+    return null; 
   },
   getRowProperties : function(row, props){ },
   getCellProperties : function(row, col, props){ },
@@ -171,74 +155,74 @@ selectowl.gui.basicTreeView = {
 selectowl.gui.getPrefixesTreeView = function() {
   // Merge basic tree structure with it's "specific" implementation and return
   return $.extend({}, selectowl.gui.basicTreeView, {
-      prefixes : selectowl.ontology.prefixes,
+    prefixes : selectowl.ontology.prefixes,
 
-      get rowCount() { return selectowl.ontology.prefixes.getLength(); },
+    get rowCount() { return selectowl.ontology.prefixes.getLength(); },
 
-      getCellText : function(row, col){
-        if (col.id == 'prefixes-prefix-col') { return this.prefixes.get(row).prefix; }
-        if (col.id == 'prefixes-uri-col'   ) { return this.prefixes.get(row).uri;    }
-      },
+    getCellText : function(row, col){
+      if (col.id == 'prefixes-prefix-col') { return this.prefixes.get(row).prefix; }
+      if (col.id == 'prefixes-uri-col'   ) { return this.prefixes.get(row).uri;    }
+    },
 
-      setCellText : function(row, col, value) {
-        if (col.id == 'prefixes-prefix-col') { this.prefixes.get(row).prefix = value; }
-        if (col.id == 'prefixes-uri-col'   ) { this.prefixes.get(row).uri    = value; }
-        //TODO do we want to allow URI editing? ^^^ 
-      }, 
+    setCellText : function(row, col, value) {
+      if (col.id == 'prefixes-prefix-col') { this.prefixes.get(row).prefix = value; }
+      if (col.id == 'prefixes-uri-col'   ) { this.prefixes.get(row).uri    = value; }
+      //TODO do we want to allow URI editing? ^^^ 
+    }, 
 
-      isEditable : function(row, col){
-        return true;
-        //TODO do we want to allow URI editing? ^^^ 
-      },
-    });
+    isEditable : function(row, col){
+      return true;
+      //TODO do we want to allow URI editing? ^^^ 
+    },
+  });
 };
 
 selectowl.gui.getClassesTreeView = function() {
   // Merge basic tree structure with it's "specific" implementation and return
   return $.extend({}, selectowl.gui.basicTreeView, {
-      classes : selectowl.ontology.classes,
+    classes : selectowl.ontology.classes,
 
-      get rowCount() { return selectowl.ontology.classes.getLength(); },
+    get rowCount() { return selectowl.ontology.classes.getLength(); },
 
-      getCellText : function(row, column){
-        if (column.id == 'classes-prefix-col') { return this.classes.get(row).prefix; } 
-        if (column.id == 'classes-name-col'  ) { return this.classes.get(row).name;   } 
-        if (column.id == 'classes-type-col'  ) { return this.classes.get(row).type;   } 
-      },
+    getCellText : function(row, column){
+      if (column.id == 'classes-prefix-col') { return this.classes.get(row).prefix; } 
+      if (column.id == 'classes-name-col'  ) { return this.classes.get(row).name;   } 
+      if (column.id == 'classes-type-col'  ) { return this.classes.get(row).type;   } 
+    },
 
-      setCellText : function(row, col, value) {
-        if (column.id == 'classes-prefix-col') { this.classes.get(row).prefix = value; } 
-        if (column.id == 'classes-name-col'  ) { this.classes.get(row).name   = value; } 
-        if (column.id == 'classes-type-col'  ) { this.classes.get(row).type   = value; } 
-      }, 
+    setCellText : function(row, col, value) {
+      if (column.id == 'classes-prefix-col') { this.classes.get(row).prefix = value; } 
+      if (column.id == 'classes-name-col'  ) { this.classes.get(row).name   = value; } 
+      if (column.id == 'classes-type-col'  ) { this.classes.get(row).type   = value; } 
+    }, 
 
-    });
+  });
 };
 
 selectowl.gui.getPropertiesTreeView = function() {
   // Merge basic tree structure with it's "specific" implementation and return
   return $.extend({}, selectowl.gui.basicTreeView, {
-      properties : selectowl.ontology.properties,
+    properties : selectowl.ontology.properties,
 
-      get rowCount() { return selectowl.ontology.properties.getLength(); },
+    get rowCount() { return selectowl.ontology.properties.getLength(); },
 
-      getCellText : function(row, column){
-        if (column.id == 'properties-prefix-col') { return this.properties.get(row).prefix; } 
-        if (column.id == 'properties-name-col'  ) { return this.properties.get(row).name;   } 
-        if (column.id == 'properties-domain-col') { return this.properties.get(row).domain; } 
-        if (column.id == 'properties-range-col' ) { return this.properties.get(row).range;  } 
-        if (column.id == 'properties-type-col'  ) { return this.properties.get(row).type;   } 
-      },
+    getCellText : function(row, column){
+      if (column.id == 'properties-prefix-col') { return this.properties.get(row).prefix; } 
+      if (column.id == 'properties-name-col'  ) { return this.properties.get(row).name;   } 
+      if (column.id == 'properties-domain-col') { return this.properties.get(row).domain; } 
+      if (column.id == 'properties-range-col' ) { return this.properties.get(row).range;  } 
+      if (column.id == 'properties-type-col'  ) { return this.properties.get(row).type;   } 
+    },
 
-      setCellText : function(row, col, value) {
-        if (column.id == 'properties-prefix-col') { this.properties.get(row).prefix = value; } 
-        if (column.id == 'properties-name-col'  ) { this.properties.get(row).name   = value; } 
-        if (column.id == 'properties-domain-col') { this.properties.get(row).domain = value; } 
-        if (column.id == 'properties-range-col' ) { this.properties.get(row).range  = value; } 
-        if (column.id == 'properties-type-col'  ) { this.properties.get(row).type   = value; } 
-      }, 
+    setCellText : function(row, col, value) {
+      if (column.id == 'properties-prefix-col') { this.properties.get(row).prefix = value; } 
+      if (column.id == 'properties-name-col'  ) { this.properties.get(row).name   = value; } 
+      if (column.id == 'properties-domain-col') { this.properties.get(row).domain = value; } 
+      if (column.id == 'properties-range-col' ) { this.properties.get(row).range  = value; } 
+      if (column.id == 'properties-type-col'  ) { this.properties.get(row).type   = value; } 
+    }, 
 
-    });
+  });
 };
 
 selectowl.gui.getScenarioTreeView = function() {
@@ -376,12 +360,12 @@ selectowl.gui.onScenarioClick = function(event) {
 };
 
 selectowl.gui.getScenarioColumn = function(col_id) {
-    var tree = selectowl.scenario.tree;
+  var tree = selectowl.scenario.tree;
 
-    var col = tree.columns.getNamedColumn(col_id);
-    var idx = tree.currentIndex;
+  var col = tree.columns.getNamedColumn(col_id);
+  var idx = tree.currentIndex;
 
-    return tree.getCellText(idx, col);
+  return tree.getCellText(idx, col);
 };
 
 /**
@@ -419,105 +403,105 @@ selectowl.gui.onScenarioKeyPress = function(event) {
  * @param elem  element, kolemž něho bude box vytvořen
  */
 selectowl.gui.showContextBox = function(elem) {
-    this.hideContextBox();
+  this.hideContextBox();
 
-    this.borderElems = [];
+  this.borderElems = [];
 
-    var d, i;
+  var d, i;
 
-    for (i = 0; i < 4; i++)
-    {
-        d = document.createElementNS("http://www.w3.org/1999/xhtml", "div");
+  for (i = 0; i < 4; i++)
+  {
+    d = document.createElementNS("http://www.w3.org/1999/xhtml", "div");
 
-        d.className = "selectowlbox"
-        d.style.display = "none";
-        d.style.position = "absolute";
-        d.style.height = "0px";
-        d.style.width = "0px";
-        d.style.zIndex = "65536";
+    d.className = "selectowlbox"
+    d.style.display = "none";
+    d.style.position = "absolute";
+    d.style.height = "0px";
+    d.style.width = "0px";
+    d.style.zIndex = "65536";
 
-        d.style.background = "#000";
-        d.style.opacity = ".5";
+    d.style.background = "#000";
+    d.style.opacity = ".5";
 
-        d.autopagerSelectorLabel = true; // mark as ours
+    d.autopagerSelectorLabel = true; // mark as ours
 
-        this.borderElems[i] = d;
+    this.borderElems[i] = d;
+  }
+
+  var doc = elem.ownerDocument;
+  if (!doc || !doc.body)
+      return;
+
+  for (i = 0; i < 4; i++) {
+    try {
+        doc.adoptNode(this.borderElems[i]);
     }
-
-    var doc = elem.ownerDocument;
-    if (!doc || !doc.body)
-        return;
-
-    for (i = 0; i < 4; i++) {
-        try {
-            doc.adoptNode(this.borderElems[i]);
-        }
-        catch (e) {
-        // Gecko 1.8 doesn't implement adoptNode, ignore
-        }
-        doc.body.appendChild(this.borderElems[i]);
+    catch (e) {
+    // Gecko 1.8 doesn't implement adoptNode, ignore
     }
+    doc.body.appendChild(this.borderElems[i]);
+  }
 
-    var currentDocument = aardvarkUtils.currentDocument();
+  var currentDocument = aardvarkUtils.currentDocument();
 
-    var elements = currentDocument.getElementsByTagName("*");
+  var elements = currentDocument.getElementsByTagName("*");
 
-    var width = 0;
+  var width = 0;
 
-    for (i = 0; i < elements.length; i++) {
-        if (width < elements[i].offsetWidth) {
-            width = elements[i].offsetWidth;
-        }
+  for (i = 0; i < elements.length; i++) {
+    if (width < elements[i].offsetWidth) {
+      width = elements[i].offsetWidth;
     }
+  }
 
-    var pos = getPos(elem);
+  var pos = getPos(elem);
 
-    this.borderElems[0].style.left
-    = this.borderElems[1].style.left
-    = this.borderElems[2].style.left
-    = "0px";
-    this.borderElems[3].style.left = (pos.x + elem.offsetWidth) + "px";
+  this.borderElems[0].style.left
+  = this.borderElems[1].style.left
+  = this.borderElems[2].style.left
+  = "0px";
+  this.borderElems[3].style.left = (pos.x + elem.offsetWidth) + "px";
 
-    this.borderElems[0].style.width
-    = this.borderElems[1].style.width
-    = (currentDocument.body.offsetWidth > width ? currentDocument.body.offsetWidth : width) + "px";
-    this.borderElems[2].style.width = (pos.x) + "px";
-    this.borderElems[3].style.width = ((currentDocument.body.offsetWidth > width ? currentDocument.body.offsetWidth : width) - (pos.x + elem.offsetWidth)) + "px";
+  this.borderElems[0].style.width
+  = this.borderElems[1].style.width
+  = (currentDocument.body.offsetWidth > width ? currentDocument.body.offsetWidth : width) + "px";
+  this.borderElems[2].style.width = (pos.x) + "px";
+  this.borderElems[3].style.width = ((currentDocument.body.offsetWidth > width ? currentDocument.body.offsetWidth : width) - (pos.x + elem.offsetWidth)) + "px";
 
 
-    var documentHeight = Math.max(
-        Math.max(currentDocument.body.scrollHeight, currentDocument.documentElement.scrollHeight),
-        Math.max(currentDocument.body.offsetHeight, currentDocument.documentElement.offsetHeight),
-        Math.max(currentDocument.body.clientHeight, currentDocument.documentElement.clientHeight)
-    );
+  var documentHeight = Math.max(
+    Math.max(currentDocument.body.scrollHeight, currentDocument.documentElement.scrollHeight),
+    Math.max(currentDocument.body.offsetHeight, currentDocument.documentElement.offsetHeight),
+    Math.max(currentDocument.body.clientHeight, currentDocument.documentElement.clientHeight)
+  );
 
-    this.borderElems[0].style.height = (pos.y) + "px";
-    this.borderElems[1].style.height = (documentHeight - (pos.y + elem.offsetHeight)) + "px";
-    this.borderElems[2].style.height
-    = this.borderElems[3].style.height
-    = (elem.offsetHeight) + "px";
+  this.borderElems[0].style.height = (pos.y) + "px";
+  this.borderElems[1].style.height = (documentHeight - (pos.y + elem.offsetHeight)) + "px";
+  this.borderElems[2].style.height
+  = this.borderElems[3].style.height
+  = (elem.offsetHeight) + "px";
 
-    this.borderElems[0].style.top = "0px";
-    this.borderElems[2].style.top
-    = this.borderElems[3].style.top
-    = (pos.y) + "px";
-    this.borderElems[1].style.top = (pos.y + elem.offsetHeight) + "px";
+  this.borderElems[0].style.top = "0px";
+  this.borderElems[2].style.top
+  = this.borderElems[3].style.top
+  = (pos.y) + "px";
+  this.borderElems[1].style.top = (pos.y + elem.offsetHeight) + "px";
 
-    this.borderElems[0].style.display
-    = this.borderElems[1].style.display
-    = this.borderElems[2].style.display
-    = this.borderElems[3].style.display
-    = "";
+  this.borderElems[0].style.display
+  = this.borderElems[1].style.display
+  = this.borderElems[2].style.display
+  = this.borderElems[3].style.display
+  = "";
 }
 
 /** Odstraní box zvýrazňující kontext.
  */
 selectowl.gui.hideContextBox = function() {
-  if(!this.borderElems) return;
+  if (!this.borderElems) return;
     for (var i = 0; i < this.borderElems.length; i++) {
-        if (this.borderElems[i].parentNode) {
-            this.borderElems[i].parentNode.removeChild(this.borderElems[i]);
-        }
+      if (this.borderElems[i].parentNode) {
+        this.borderElems[i].parentNode.removeChild(this.borderElems[i]);
+      }
     }
 }
 
@@ -526,46 +510,46 @@ selectowl.gui.hideContextBox = function() {
  * @param selected  selektor
  */
 selectowl.gui.showSelectedElem = function(selected) {
-    this.hideSelectedElem();
+  this.hideSelectedElem();
 
-    var currentDocument = aardvarkUtils.currentDocument();
+  var currentDocument = aardvarkUtils.currentDocument();
 
-    if (currentDocument.getElementById("selectowl-style") == null) {
-        var style = currentDocument.createElement('style');
+  if (currentDocument.getElementById("selectowl-style") == null) {
+    var style = currentDocument.createElement('style');
 
-        style.setAttribute("id", "selectowl-style");
-        style.innerHTML = ".selectowl-selection { background: GreenYellow; }";
+    style.setAttribute("id", "selectowl-style");
+    style.innerHTML = ".selectowl-selection { background: GreenYellow; }";
 
-        var head = currentDocument.getElementsByTagName('head')[0];
+    var head = currentDocument.getElementsByTagName('head')[0];
 
-        if (head) {
-            head.appendChild(style);
-        } else {
-            currentDocument.body.appendChild(style);
-        }
+    if (head) {
+      head.appendChild(style);
+    } else {
+      currentDocument.body.appendChild(style);
     }
+  }
 
-    try {
-        //for (var i in selected) {
-        //    jQuery(selected[i]).addClass("selectowl-selection");
-        //}
-        $(selected).addClass('selectowl-selection');
-    } catch (exception) {}
+  try {
+    //for (var i in selected) {
+    //    jQuery(selected[i]).addClass("selectowl-selection");
+    //}
+    $(selected).addClass('selectowl-selection');
+  } catch (exception) {}
 }
 
 /**
  * Odstraní zvýraznění elementů.
  */
 selectowl.gui.hideSelectedElem = function() {
-    var currentDocument = aardvarkUtils.currentDocument();
+  var currentDocument = aardvarkUtils.currentDocument();
 
-    //var selected = Sizzle(".selectowl-selection", currentDocument);
-    //
-    //for (var i in selected) {
-    //    jQuery(selected[i]).removeClass("selectowl-selection");
-    //}
-    
-    $(currentDocument).find(".selectowl-selection").removeClass("selectowl-selection");
+  //var selected = Sizzle(".selectowl-selection", currentDocument);
+  //
+  //for (var i in selected) {
+  //    jQuery(selected[i]).removeClass("selectowl-selection");
+  //}
+  
+  $(currentDocument).find(".selectowl-selection").removeClass("selectowl-selection");
 }
 
 /**
@@ -576,11 +560,11 @@ selectowl.gui.refreshHighlight = function() {
   var context = this.getContext(undefined, true);
 
   if (context != null) {
-      this.showSelectedElem(context);
-      this.showContextBox(context[0]);
+    this.showSelectedElem(context);
+    this.showContextBox(context[0]);
   } else {
-      this.hideSelectedElem();
-      this.hideContextBox();
+    this.hideSelectedElem();
+    this.hideContextBox();
   }
 }
 
@@ -590,7 +574,7 @@ selectowl.gui.getContext = function(index, inclSelected) {
   var tree = $('#selectowl-scenario-tree').get(0);
 
   if (index == undefined) {
-      index = tree.currentIndex;
+    index = tree.currentIndex;
   }
 
   // Collect selectors from bottom up
@@ -620,5 +604,4 @@ selectowl.gui.getContext = function(index, inclSelected) {
 
   return $selected.get();
 }
-
 
