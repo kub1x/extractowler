@@ -236,24 +236,38 @@ selectowl.gui.getScenarioTreeView = function() {
  ************************************************************/
 
 selectowl.gui.onClassSelect = function ( event ) {
-  var target = event.target;
+  //var target = event.target;
 
-  var idx = target.currentIndex;
-  var resource = selectowl.ontology.classes.get(idx).uri;
+  //var idx = target.currentIndex;
+  //var resource = selectowl.ontology.classes.get(idx).uri;
 
-  selectowl.scenario.tree.clearSelection();
+  //selectowl.scenario.tree.clearSelection();
 
-  selectowl.aardvark.start( resource );
+  //selectowl.aardvark.start( resource );
 }; 
 
 selectowl.gui.onPropertySelect = function ( event ) {
-  var target = event.target;
-  console.log('called onselect on name: ' + target.tagName + ' with current index: ' + target.currentIndex);
+  //var target = event.target;
+  //console.log('called onselect on name: ' + target.tagName + ' with current index: ' + target.currentIndex);
+  //var idx = target.currentIndex;
+  //var resource = selectowl.ontology.properties.get(idx).uri;
+  //selectowl.aardvark.start( resource );
+}; 
+
+
+selectowl.gui.onClassClick = function ( event ) {
+  var target = $('#selectowl-classes-tree').get(0);
+  var idx = target.currentIndex;
+  var resource = selectowl.ontology.classes.get(idx).uri;
+  selectowl.aardvark.start( resource );
+};
+
+selectowl.gui.onPropertyClick = function ( event ) {
+  var target = $('#selectowl-properties-tree').get(0);
   var idx = target.currentIndex;
   var resource = selectowl.ontology.properties.get(idx).uri;
   selectowl.aardvark.start( resource );
-}; 
-
+};
 
 /************************************************************
  *                                                          *

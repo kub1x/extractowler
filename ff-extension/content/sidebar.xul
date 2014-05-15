@@ -108,7 +108,7 @@ further:
 
         <!-- TODO learn to sort trees by column values -->
 
-        <groupbox id="select-class" style="display: none;" flex="1" onselect="selectowl.gui.onClassSelect(event);">
+        <groupbox id="select-class" style="display: none;" flex="1" onselect="selectowl.gui.onClassSelect(event);" onclick="selectowl.gui.onClassClick(event);">
           <caption label="Select Class" />
           <tree id="selectowl-classes-tree" enableColumnDrag="true" flex="1">
             <treecols>
@@ -122,7 +122,7 @@ further:
           </tree>
         </groupbox>
 
-        <groupbox id="select-property" style="display: none;" flex="1" onselect="selectowl.gui.onPropertySelect(event);">
+        <groupbox id="select-property" style="display: none;" flex="1" onselect="selectowl.gui.onPropertySelect(event);" onclick="selectowl.gui.onPropertyClick(event);">
           <caption label="Select Property" />
           <tree id="selectowl-properties-tree" enableColumnDrag="true" flex="1">
             <treecols>
