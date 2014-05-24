@@ -41,6 +41,7 @@ pack:
 	cp -v -R defaults $(TMP_DIR) || echo 'no defaults'
 	cp -v install.rdf $(TMP_DIR)
 	cp -v chrome.manifest $(TMP_DIR)
+	cp -v -R crowler $(TMP_DIR)
 	#generate the JAR file
 	cd $(TMP_DIR)/chrome ;\
 	zip -r $(JAR_NAME) * ;\

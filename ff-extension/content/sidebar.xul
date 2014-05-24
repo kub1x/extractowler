@@ -79,6 +79,7 @@ further:
           </hbox>
           <!--button label="Testing Window" oncommand="window.open('chrome://selectowl/content/test.xul');" flex="0" width="50"/-->
           <button label="Parse and Save" oncommand="selectowl.parseAndSave();" flex="0" width="50"/>
+          <button label="Save and Run CrOWLer" oncommand="selectowl.runCrowler();" flex="0" width="50"/>
         </groupbox>
 
         <groupbox id="edit-prefixes" style="display: none;" flex="1">
@@ -191,12 +192,17 @@ further:
         <hbox>
             <vbox>
                 <hbox>
-                    <textbox id="selectowl-name" onkeyup="selectowl.editor.name.onKeyUp(event);" style="max-width: 80px;"></textbox>
-                    <textbox id="selectowl-area" onfocus="selectowl.editor.area.onFocus(event);" onclick="selectowl.editor.area.onClick(event);" onkeyup="selectowl.editor.area.onKeyUp(event);" flex="1"></textbox>
+                    <textbox id="selectowl-name" onkeyup="selectowl.editor.name.onKeyUp(event);" style="max-width: 180px;"></textbox>
+                    <textbox id="selectowl-area" flex="1"
+                      onfocus="selectowl.editor.area.onFocus(event);"
+                      onclick="selectowl.editor.area.onClick(event);"
+                      onkeyup="selectowl.editor.area.onKeyUp(event);"></textbox>
                 </hbox>
 
                 <hbox>
-                    <listbox id="selectowl-tagname" onclick="selectowl.editor.widgetTagName.onClick(this);" onkeyup="selectowl.editor.widgetTagName.onKeyUp(this);" flex="1"></listbox>
+                  <listbox id="selectowl-tagname" flex="1"
+                    onclick="selectowl.editor.widgetTagName.onClick(this);"
+                    onkeyup="selectowl.editor.widgetTagName.onKeyUp(this);"></listbox>
 
                     <vbox style="max-width: 500px;">
                         <groupbox id="selectowl-id" style="max-height:85px">

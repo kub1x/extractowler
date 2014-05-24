@@ -240,6 +240,27 @@ selectowl.load = function (url) {
 };
 
 
+//------------------------------------------------------------
+
+
+selectowl.getJson = function() {
+  var res = {};
+
+  // set url
+  //
+  contentWindow = aardvarkUtils.currentBrowser().contentWindow; 
+  res.url = contentWindow.location.toString(); //aardvarkUtils.currentWindow().location;
+
+  //res.classes = selectowl.ontology.classes._byIdx;
+  //res.properties = selectowl.ontology.properties._byIdx;
+  res.steps = selectowl.scenario._steps;
+  return JSON.stringify(res);
+};
+
+
+//------------------------------------------------------------
+
+
 selectowl.parseAndSave = function() {
   this.save(this.getJson()); 
   //TODO call crowler.jar
@@ -247,43 +268,111 @@ selectowl.parseAndSave = function() {
 
 
 selectowl.save = function(data) {
-  var fileChooser = Components.classes["@mozilla.org/filepicker;1"]
-  .createInstance(Components.interfaces.nsIFilePicker);
-
-  fileChooser.init(window, "Save scenario..", Components.interfaces.nsIFilePicker.modeSave);
-
-  fileChooser.defaultExtension = "json";
-  fileChooser.defaultString = "scenario.json";
-
-  fileChooser.appendFilters(0x02);
-  fileChooser.appendFilters(0x01);
-
-  var fileBox = fileChooser.show();
-
-  if (!fileBox) {
-    var file = fileChooser.file;
-
-    var foStream = Components.classes["@mozilla.org/network/file-output-stream;1"].
-    createInstance(Components.interfaces.nsIFileOutputStream);
-
-    foStream.init(file, 0x02 | 0x08 | 0x20, 0666, 0);
-
-    var converterOutputStream = Components.classes["@mozilla.org/intl/converter-output-stream;1"].
-
-    createInstance(Components.interfaces.nsIConverterOutputStream);
-
-    converterOutputStream.init(foStream, "UTF-8", 0, 0);
-    converterOutputStream.writeString(data);
-    converterOutputStream.close();
-  }
+  var file = selectowl.filePicker( {
+      topic: "Save scenario...",
+      defaultExtension: "json", 
+      defaultString: "scenario.json", 
+      filter: ["SelectOWL scenario", "*.json"], 
+  }, function (file) {
+    if (file) {
+      selectowl.writeData(file, data);
+    }
+  });
 };
 
 
-selectowl.getJson = function() {
-  var res = {};
-  res.url = aardvarkUtils.currentWindow.location;
-  res.classes = selectowl.ontology.classes._byIdx;
-  res.properties = selectowl.ontology.properties._byIdx;
-  res.steps = selectowl.scenario._steps;
-  return JSON.stringify(res);
+selectowl.filePicker = function( options, callback ) {
+  var filePicker = Components.classes["@mozilla.org/filepicker;1"].createInstance(Components.interfaces.nsIFilePicker);
+
+  filePicker.init(window, options.topic, Components.interfaces.nsIFilePicker.modeSave);
+
+  filePicker.defaultExtension = options.defaultExtension;
+  filePicker.defaultString = options.defaultString;
+
+  var filter = options.filter;
+  filePicker.appendFilter(filter[0], filter[1]);
+  filePicker.appendFilters(0x01);
+
+  // Blocking
+  var ret = filePicker.show();
+  var OK = 0, CANCEL = 1, REPLACE = 2;
+  if (ret != CANCEL) {
+    callback(filePicker.file);
+  }
+  
+  //TODO might want to use asynchronous 
+  // filePicker.open( callback );
+  // instead.. just not documented yet. 
+  // see: 
+  // https://developer.mozilla.org/en-US/docs/Mozilla/Tech/XPCOM/Reference/Interface/nsIFilePicker#open%28%29
+  // https://developer.mozilla.org/en-US/docs/XPCOM_Interface_Reference/nsIFilePickerShownCallback
+
+};
+
+
+selectowl.writeData = function(file, data) {
+  var foStream = Components.classes["@mozilla.org/network/file-output-stream;1"].createInstance(Components.interfaces.nsIFileOutputStream);
+  foStream.init(file, 0x02 | 0x08 | 0x20, 0666, 0);
+
+  var converterOutputStream = Components.classes["@mozilla.org/intl/converter-output-stream;1"].createInstance(Components.interfaces.nsIConverterOutputStream);
+  converterOutputStream.init(foStream, "UTF-8", 0, 0);
+  converterOutputStream.writeString(data);
+  converterOutputStream.close();
+};
+
+
+//------------------------------------------------------------
+
+
+selectowl.runCrowler = function () {
+  Components.utils.import("resource://gre/modules/NetUtil.jsm");
+  Components.utils.import("resource://gre/modules/FileUtils.jsm");
+
+  var file = this.getNsiFile("crowler/scenario.json");
+  var data = this.getJson();
+
+  // You can also optionally pass a flags parameter here. It defaults to
+  // FileUtils.MODE_WRONLY | FileUtils.MODE_CREATE | FileUtils.MODE_TRUNCATE;
+  var ostream = FileUtils.openSafeFileOutputStream(file)
+  var converter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].
+                  createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
+  converter.charset = "UTF-8";
+
+  var istream = converter.convertToInputStream(data);
+  
+  // The last argument (the callback) is optional.
+  NetUtil.asyncCopy(istream, ostream, function(status) {
+    if (!Components.isSuccessCode(status)) {
+      // Handle error!
+      console.log('asyncCopy scrued up with status:\n' + status);
+      return;
+    }
+  
+    // Data has been written to the file.
+    // Run crOWLer
+    var xfile = selectowl.getNsiFile("crowler/crowler.jar");
+    var args = [ "cz.sio2.crowler.configurations.json.JsonConfiguration", "file", "results", "scenario.json" ];
+    var process = Components.classes["@mozilla.org/process/util;1"]
+                  .createInstance(Components.interfaces.nsIProcess);
+    process.init(xfile);
+    process.run(false, args, args.length);
+  });
+  
+};
+
+selectowl.getNsiFile = function( arPath ) {
+  if ( typeof arPath == 'string' ) {
+    arPath = arPath.split('/');
+  }
+  
+  var file = Components.classes["@mozilla.org/file/directory_service;1"]
+             .getService(Components.interfaces.nsIProperties)
+             .get("ProfD", Components.interfaces.nsILocalFile); // get profile folder
+  file.append("extensions");             // extensions sub-directory
+  file.append("selectowl@kub1x.org");    // GUID of your extension
+
+  for (var i = 0; i < arPath.length; i++){
+    file.append(arPath[i]);
+  }
+  return file;
 };
