@@ -215,7 +215,7 @@ selectowl.editor.widgetCustom._parent = selectowl.editor;
 
 selectowl.init = function () {
   selectowl.gui.init();
-  selectowl.load(); //TODO debug only - delete
+  //selectowl.load('http://xmlns.com/foaf/spec/index.rdf'); //TODO DEBUG DELME
 };
 
 
@@ -223,11 +223,7 @@ selectowl.load = function (url) {
   //console.log('loading url: ' + url + ', !url: ' + !url);
   if (!url) { url =  $('#ontology-url').val(); }
 
-  //TODO remove default to foaf (testing only)
-  if (!url) url = 'http://xmlns.com/foaf/spec/index.rdf';
-
-  //TODO put back the "empty url" exception
-  //if (!url) { throw "empty url, nothing to load"; }
+  if (!url) { throw "empty url, nothing to load"; }
 
   // Call load on jOWL and refresh after
   var callback = function () {

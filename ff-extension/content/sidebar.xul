@@ -5,6 +5,7 @@
 <!DOCTYPE page SYSTEM "chrome://selectowl/locale/sidebar.dtd">
 <page id="selectowl-sidebar" title="&sidebar.title;"
       xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+      xmlns:html="http://www.w3.org/1999/xhtml"
       onload="selectowl.init();">
 
     <script src="jquery-2.1.0.js" />
@@ -77,6 +78,10 @@ further:
             <textbox id="ontology-url" flex="1"/>
             <button label="Load" oncommand="selectowl.load();" flex="0" width="50"/>
           </hbox>
+          <box>
+            <html:b>Predefined: </html:b>
+            <html:a onclick="selectowl.load('http://xmlns.com/foaf/spec/index.rdf'); $(this).addClass('loaded');">foaf</html:a>, 
+          </box>
           <!--button label="Testing Window" oncommand="window.open('chrome://selectowl/content/test.xul');" flex="0" width="50"/-->
           <button label="Parse and Save" oncommand="selectowl.parseAndSave();" flex="0" width="50"/>
           <button label="Save and Run CrOWLer" oncommand="selectowl.runCrowler();" flex="0" width="50"/>

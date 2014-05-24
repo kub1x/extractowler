@@ -25,3 +25,16 @@
 #workflow label:hover {
   box-shadow: inset 0 0 0 1em #ddd;
 }
+
+a {
+  text-decoration: underline;
+  color: blue !important;
+}
+
+a.loaded {
+  color: purple !important;
+}
+
+a:hover {
+  cursor: pointer;
+}
