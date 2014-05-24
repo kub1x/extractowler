@@ -14,3 +14,5 @@ http.createServer(function (req, res) {
     //res.end('_testcb(\'{"message": "Hello world!"}\')');
   })
 }).listen(8888);
+
+console.log('running on http://localhost:8888');
