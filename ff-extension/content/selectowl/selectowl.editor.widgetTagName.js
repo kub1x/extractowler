@@ -94,6 +94,7 @@ selectowl.editor.widgetTagName.update = function() {
     if (context == "" && currNode.prefix == "") {
         area = "body *";
     } else {
+      //TODO XXX creates badly-defined selector! fix
         area = context + " " + currNode.prefix + "*";
     }
 
