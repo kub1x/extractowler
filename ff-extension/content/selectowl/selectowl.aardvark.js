@@ -145,6 +145,9 @@ selectowl.aardvark.getBestSelector = function(elem) {
 
   } while (!topReached && !idFound && !isFound && elem != null);
 
+  //We might have added some whitespaces around
+  selector = selector.trim();
+
   return selector;
 };
 
