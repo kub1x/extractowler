@@ -328,14 +328,14 @@ selectowl.runCrowler = function () {
   Components.utils.import("resource://gre/modules/NetUtil.jsm");
   Components.utils.import("resource://gre/modules/FileUtils.jsm");
 
-  var file = this.getNsiFile("crowler/scenario.json");
+  var sfile = this.getNsiFile("crowler/scenario.json");
   var data = this.getJson();
 
   // You can also optionally pass a flags parameter here. It defaults to
   // FileUtils.MODE_WRONLY | FileUtils.MODE_CREATE | FileUtils.MODE_TRUNCATE;
-  var ostream = FileUtils.openSafeFileOutputStream(file)
-  var converter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].
-                  createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
+  var ostream = FileUtils.openSafeFileOutputStream(sfile)
+  var converter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"]
+                  .createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
   converter.charset = "UTF-8";
 
   var istream = converter.convertToInputStream(data);
@@ -351,11 +351,13 @@ selectowl.runCrowler = function () {
     // Data has been written to the file.
     // Run crOWLer
     var xfile = selectowl.getNsiFile("crowler/crowler.jar");
-    var args = [ "cz.sio2.crowler.configurations.json.JsonConfiguration", "file", "results", "scenario.json" ];
+    var args = [ "cz.sio2.crowler.configurations.json.JsonConfiguration", "file", "results", sfile.path ];
     var process = Components.classes["@mozilla.org/process/util;1"]
                   .createInstance(Components.interfaces.nsIProcess);
     process.init(xfile);
+    console.log('running exe: ' + xfile.path + '\n' + 'with path argument: ' + args[3]); //TODO DEBUG DELME
     process.run(false, args, args.length);
+    console.log('finished running'); //TODO DEBUG DELME
   });
   
 };
