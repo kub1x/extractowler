@@ -32,6 +32,7 @@ edit:
  
 pack: 
 	rm -rf $(TMP_DIR)
+	rm -rf $(XPI_NAME)
 	# prepare
 	mkdir -p $(TMP_DIR)/chrome/content
 	# load
