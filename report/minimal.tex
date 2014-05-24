@@ -31,18 +31,20 @@ That's only few examples of some of the biggest recent issues on the web in
 general. We live in an age, where so little can mean so much. The enviroment
 online is dramatically changing, mostly on a wave of some new, useful or
 frightening technology. The Semantic Web technologies have been described,
-standardized and implemented for several year now XXX and their tide is near,
-though yet to come.
+standardized and implemented for several year now  (XXX Example with linked
+data, rdf) and their tide is near, though yet to come.
 
-Semantic Web itself reates to several principals (and their implementation)
+Semantic Web itself reates to several principles (and their implementation)
 that allow users to add meaning to their data. This meaning brings not only a
 standardized structure, but also posibility to query and reason on it. Once
 given the structure, similar data can be also joined in a form of a bigger
-clowd. This phenomena is called Linked Data. 
+cloud. This phenomena is called Linked Data. 
 
 In this work we'd like to bring the Semantic Web technologies closer to users.
-The approach is to implement tool to simplify the process of giving meaning to
-(yet anonymous) data on a webpage, i.e. to bring structure and meaning into it. 
+The approach is to propose a methodology for extracting structured data out of
+unstructured ones, designing and implementing an appropriate tool, to simplify
+the process of annotating (yet anonymous) data on a webpage, i.e. to bring
+structure and meaning into it. 
 
 
 
@@ -51,7 +53,11 @@ The approach is to implement tool to simplify the process of giving meaning to
 Giving meaning, i.e. semantization of web pages gets more popular. The most
 obvious it's probably on the way google serves it's results. Showing menu
 fields parsed directly from HTML5, or visualizing data from their own internal
-ontology XXX \url{https://en.wikipedia.org/wiki/Google_Knowledge_Graph}
+ontology
+
+XXX \url{https://en.wikipedia.org/wiki/Google_Knowledge_Graph}
+
+XXX Strigil - \url{http://delivery.acm.org/10.1145/2540000/2539170/p453-starka.pdf}
 
 What are the options for bringing sematic into a web? 
 
@@ -60,11 +66,11 @@ What are the options for bringing sematic into a web?
 %technologies, that try to guess the motivation of your search, not only it's
 %meaning. \url{http://www.google.com/landing/now/}
 
-One direction to go is to anotate data on "the server side", i.e. at the time
-when we are creatign them. The person crating the data have to use the right
-tool and spend time giving the data the appropriate annotation. There is enough
-technologies for it: HTML5 adding tags for better annotation of the page
-structure (such as nav, article, section, aside, ...), microformats
+One direction to go is to annotate data on "the server side", i.e. at the time
+it is being created and/or published. The person creating the data have to use
+the right tool and spend time giving the data the appropriate annotation. There
+is enough technologies for it: HTML5 adding tags for better annotation of the
+page structure (such as nav, article, section, aside, ...), microformats
 \url{http://microformats.org/} using html classes to bring standardized
 patterns for several basic use cases with fixed structure, such as vcard or
 event, or RDFa to annotate data on a webpage with an actual ontology (see in
@@ -77,15 +83,15 @@ There are tools for extracting and testing structured data
 \url{http://rdfa.info/play/}
 
 To bypass the gap between anonymous data present on the web on one side and
-rich, linked, meaningful ontologies on the other, we can go the opposite
-direction as well. We can take the unannotated data already present on the web
-and retrieve them in a form, that is defined by some ontology structure. 
+rich, linked, meaningful ontologies (XXX example) on the other, we can go the
+opposite direction as well. We can take the unannotated data already present on
+the web and retrieve them in a form, that is defined by some ontology
+structure. 
 
 To allow such a proccess we need to create tools that allow users to annotate
 the, previously meaning-free, data with elements of existing ontology. By using
-existing ontologies we not only give data the meaning, but also valuable
+existing ontologies we not only give the meaning to our data, but also valuable
 connection to any other dataset annotated using the same ontology. 
-
 
 
 \sec Current solution crOWLer
@@ -113,6 +119,7 @@ crOWLer and obtain the results in a form of a graphical feedback.
 \sec Specific goals of the project
 
 \begitems
+  * design the semantic data creation use-cases
   * implement extension for a browser
   * load and visualise ontology
   * create scenario for crOWLer 
@@ -123,7 +130,7 @@ crOWLer and obtain the results in a form of a graphical feedback.
 \enditems
 
 
-\sec testy - co jsem zkousel..
+\sec Work structure (XXX)
 
 TBD
 
