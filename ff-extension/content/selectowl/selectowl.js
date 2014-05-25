@@ -346,7 +346,10 @@ selectowl.runCrowler = function () {
   
     // Data has been written to the file.
     // Run crOWLer
-    var xfile = selectowl.getNsiFile("crowler/crowler.jar");
+    var crowler_path = selectowl.getCharPref("crowler_path");
+    console.log('crowler path: ' + crowler_path);
+    var xfile = new FileUtils.File(crowler_path);
+    //var xfile = selectowl.getNsiFile("crowler/crowler.jar");
     var args = [ "cz.sio2.crowler.configurations.json.JsonConfiguration", "file", "results", sfile.path ];
     var process = Components.classes["@mozilla.org/process/util;1"]
                   .createInstance(Components.interfaces.nsIProcess);
@@ -373,4 +376,11 @@ selectowl.getNsiFile = function( arPath ) {
     file.append(arPath[i]);
   }
   return file;
+};
+
+selectowl.getCharPref = function( pref ) {
+  var prefs = Components.classes["@mozilla.org/preferences-service;1"]
+              .getService(Components.interfaces.nsIPrefService);
+  prefs = prefs.getBranch("extensions.selectowl.");
+  return prefs.getCharPref(pref);
 };
