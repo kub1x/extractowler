@@ -12,7 +12,8 @@
     <em:type>2</em:type>
     <em:unpack>true</em:unpack>
     <!--Preferences -->
-    <em:optionsURL>chrome://selectowl/content/view/options.xul</em:optionsURL>
+    <em:optionsURL>chrome://selectowl/content/options.xul</em:optionsURL>
+    <em:optionsType>2</em:optionsType>
  
     <!-- its a firefox plugin -->
     <em:targetApplication>

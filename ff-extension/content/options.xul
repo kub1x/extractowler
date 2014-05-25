@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<!--DOCTYPE selectowl-dialog SYSTEM "chrome://selectowl/locale/selectowl-dialog.dtd"-->
+
+<vbox xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <setting type="file" pref="extensions.selectowl.crowler_path" title="CrOWLer path"
+           desc="The absolute path to the crowler.jar file" />
+  <!--setting type="directory" pref="extensions.selectowl.default_dir" title="Default directory" desc="typically the directory with crowler.jar in it" /-->
+</vbox>
