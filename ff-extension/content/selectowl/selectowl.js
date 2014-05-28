@@ -1,101 +1,6 @@
-
 /************************************************************
  *                                                          *
  ************************************************************/
-//var selectowl = {
-//    // === KONSTANTY === //
-//    EDITOR: "selectowl-editor",
-//    AREA: "selectowl-area",
-//    NAME: "selectowl-name",
-//    URL: "selectowl-url",
-//    READ: "selectowl-read",
-//    USE: "selectowl-use",
-//    ATTACH: "selectowl-attach",
-//    TAGNAME: "selectowl-tagname",
-//    ID: "selectowl-id",
-//    IDTYPE: "selectowl-idtype",
-//    CLASS: "selectowl-classes",
-//    CONTENT: "selectowl-contains",
-//    POS: "selectowl-position",
-//    ATTR: "selectowl-attributes",
-//    CUSTOM: "selectowl-custom",
-//    TREE: "selectowl-tree",
-//    // === OBJEKTY === //
-//    aardvark: {
-//        _parent: null,
-//        selectors: null
-//    },
-//    editor: {
-//        _parent: null,
-//        name: {
-//            _parent: null
-//        },
-//        area: {
-//            _parent: null,
-//            selectionStart: 0,
-//            selectionEnd: 0
-//        },
-//        url: {
-//            _parent: null
-//        },
-//        read: {
-//            _parent: null
-//        },
-//        widgetUse: {
-//            _parent: null
-//        },
-//        attach: {
-//            _parent: null
-//        },
-//        widgetTagName: {
-//            _parent: null
-//        },
-//        widgetId: {
-//            _parent: null
-//        },
-//        widgetClass: {
-//            _parent: null
-//        },
-//        widgetPos: {
-//            _parent: null
-//        },
-//        widgetContent: {
-//            _parent: null
-//        },
-//        widgetAttr: {
-//            _parent: null
-//        },
-//        widgetCustom: {
-//            _parent: null
-//        }
-//    },
-//    extractor: {
-//        _parent: null
-//    },
-//    file: {
-//        _parent: null
-//    },
-//    gui: {
-//        SELECT: "select",
-//        DEF: "def",
-//        URL: "url",
-//        _parent: null,
-//        borderElems: new Array(),
-//        area: "select",
-//        editing: "select",
-//        path: new Array()
-//    },
-//    tree: {
-//        _parent: null,
-//        title: "",
-//        delay: 1000,
-//        def: { },
-//        url: "",
-//        select: { }
-//    }
-//}
-
-
 
 var selectowl = {
   EDITOR: "selectowl-editor",
@@ -116,11 +21,12 @@ var selectowl = {
   TREE: "selectowl-tree",
 
   aardvark : {
+    _parent: null,
   }, 
 
   gui : {
-    CURRENT_STEP_CLASS : "current-step", //TODO load from prefs
-    WORKFLOW_LINK_PREFIX : 'wf-link-',   //TODO load from prefs
+    CURRENT_STEP_CLASS : "current-step",
+    WORKFLOW_LINK_PREFIX : 'wf-link-',
   }, 
 
   workflow : {
@@ -191,7 +97,7 @@ var selectowl = {
 
 // definice zpětných referencí v jednotlivých podřízených objektech
 
-//selectowl.aardvark._parent = selectowl;
+selectowl.aardvark._parent = selectowl;
 selectowl.gui._parent = selectowl;
 selectowl.editor._parent = selectowl;
 selectowl.editor.name._parent = selectowl.editor;
@@ -213,23 +119,48 @@ selectowl.editor.widgetCustom._parent = selectowl.editor;
 
 //------------------------------------------------------------
 
+selectowl.ns = {
+  get filePicker() {
+    return Components.classes["@mozilla.org/filepicker;1"]
+      .createInstance(Components.interfaces.nsIFilePicker);
+  },
+  get fileOutputStream() {
+    return Components.classes["@mozilla.org/network/file-output-stream;1"]
+      .createInstance(Components.interfaces.nsIFileOutputStream); 
+  },
+  get converterOutputStream() {
+    return Components.classes["@mozilla.org/intl/converter-output-stream;1"]
+      .createInstance(Components.interfaces.nsIConverterOutputStream); 
+  }, 
+  get scriptableUnicodeConverter() {
+    return Components.classes["@mozilla.org/intl/scriptableunicodeconverter"]
+      .createInstance(Components.interfaces.nsIScriptableUnicodeConverter); 
+  }, 
+  get process() {
+    return Components.classes["@mozilla.org/process/util;1"]
+      .createInstance(Components.interfaces.nsIProcess); 
+  },
+};
+
+//------------------------------------------------------------
+
 selectowl.init = function () {
   selectowl.gui.init();
-  //selectowl.load('http://xmlns.com/foaf/spec/index.rdf'); //TODO DEBUG DELME
 };
 
 
 selectowl.load = function (url) {
-  //console.log('loading url: ' + url + ', !url: ' + !url);
   if (!url) { url =  $('#ontology-url').val(); }
 
   if (!url) { throw "empty url, nothing to load"; }
 
+  //TODO call assynchronously, show 'loading...', etc. 
+  // use setTimer()
+  
   // Call load on jOWL and refresh after
   var callback = function () {
     selectowl.ontology.feedMee();
     selectowl.gui.refreshAllTrees();
-    //selectowl.gui.showStep('select-action');
   };
 
   jOWL.load(url, callback, {reason: true, locale: 'en'});
@@ -242,14 +173,16 @@ selectowl.load = function (url) {
 selectowl.getJson = function() {
   var res = {};
 
-  // set url
-  //
+  // Obtain URL from current open tab...
   contentWindow = aardvarkUtils.currentBrowser().contentWindow; 
-  res.url = contentWindow.location.toString(); //aardvarkUtils.currentWindow().location;
+  res.url = contentWindow.location.toString();
+
+  //TODO see what we need from the ontology deffinitions: 
 
   //res.classes = selectowl.ontology.classes._byIdx;
   //res.properties = selectowl.ontology.properties._byIdx;
   res.steps = selectowl.scenario._steps;
+
   return JSON.stringify(res);
 };
 
@@ -259,7 +192,6 @@ selectowl.getJson = function() {
 
 selectowl.parseAndSave = function() {
   this.save(this.getJson()); 
-  //TODO call crowler.jar
 };
 
 
@@ -272,13 +204,14 @@ selectowl.save = function(data) {
   }, function (file) {
     if (file) {
       selectowl.writeData(file, data);
+    } else {
+      // Do nothing...
     }
   });
 };
 
-
 selectowl.filePicker = function( options, callback ) {
-  var filePicker = Components.classes["@mozilla.org/filepicker;1"].createInstance(Components.interfaces.nsIFilePicker);
+  var filePicker = selectowl.ns.filePicker;
 
   filePicker.init(window, options.topic, Components.interfaces.nsIFilePicker.modeSave);
 
@@ -294,12 +227,13 @@ selectowl.filePicker = function( options, callback ) {
   var OK = 0, CANCEL = 1, REPLACE = 2;
   if (ret != CANCEL) {
     callback(filePicker.file);
+  } else {
+    callback(null);
   }
   
   //TODO might want to use asynchronous 
   // filePicker.open( callback );
-  // instead.. just not documented yet. 
-  // see: 
+  // instead.. just not documented yet. See: 
   // https://developer.mozilla.org/en-US/docs/Mozilla/Tech/XPCOM/Reference/Interface/nsIFilePicker#open%28%29
   // https://developer.mozilla.org/en-US/docs/XPCOM_Interface_Reference/nsIFilePickerShownCallback
 
@@ -307,10 +241,10 @@ selectowl.filePicker = function( options, callback ) {
 
 
 selectowl.writeData = function(file, data) {
-  var foStream = Components.classes["@mozilla.org/network/file-output-stream;1"].createInstance(Components.interfaces.nsIFileOutputStream);
+  var foStream = selectowl.ns.fileOutputStream;
   foStream.init(file, 0x02 | 0x08 | 0x20, 0666, 0);
 
-  var converterOutputStream = Components.classes["@mozilla.org/intl/converter-output-stream;1"].createInstance(Components.interfaces.nsIConverterOutputStream);
+  var converterOutputStream = selectowl.ns.converterOutputStream;
   converterOutputStream.init(foStream, "UTF-8", 0, 0);
   converterOutputStream.writeString(data);
   converterOutputStream.close();
@@ -318,7 +252,6 @@ selectowl.writeData = function(file, data) {
 
 
 //------------------------------------------------------------
-
 
 selectowl.runCrowler = function () {
   Components.utils.import("resource://gre/modules/NetUtil.jsm");
@@ -330,8 +263,7 @@ selectowl.runCrowler = function () {
   // You can also optionally pass a flags parameter here. It defaults to
   // FileUtils.MODE_WRONLY | FileUtils.MODE_CREATE | FileUtils.MODE_TRUNCATE;
   var ostream = FileUtils.openSafeFileOutputStream(sfile)
-  var converter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"]
-                  .createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
+  var converter = selectowl.ns.scriptableUnicodeConverter;
   converter.charset = "UTF-8";
 
   var istream = converter.convertToInputStream(data);
@@ -349,13 +281,15 @@ selectowl.runCrowler = function () {
     var crowler_path = selectowl.getCharPref("crowler_path");
     console.log('crowler path: ' + crowler_path);
     var xfile = new FileUtils.File(crowler_path);
-    //var xfile = selectowl.getNsiFile("crowler/crowler.jar");
-    var args = [ "cz.sio2.crowler.configurations.json.JsonConfiguration", "file", "results", sfile.path ];
-    var process = Components.classes["@mozilla.org/process/util;1"]
-                  .createInstance(Components.interfaces.nsIProcess);
+    //var args = [ "cz.sio2.crowler.configurations.json.JsonConfiguration", "file", "results", sfile.path ];
+    var args = [ "cz.sio2.crowler.configurations.json.JsonConfiguration file results " + sfile.path ];
+    var process = selectowl.ns.process;
     process.init(xfile);
+
     console.log('running exe: ' + xfile.path + '\n' + 'with path argument: ' + args[3]); //TODO DEBUG DELME
+
     process.run(false, args, args.length);
+
     console.log('finished running'); //TODO DEBUG DELME
   });
   
