@@ -30,22 +30,6 @@
     <script src="selectowl/selectowl.editor.widgetTagName.js" />
 
     <!--
-    <script src="sizzle.js" />
-    <script src="json2.js" />
-    <script src="extractor.js" />
-    
-    <script src="selectowl/selectowl.editor.attach.js" />
-    <script src="selectowl/selectowl.editor.read.js" />
-    <script src="selectowl/selectowl.editor.url.js" />
-    <script src="selectowl/selectowl.editor.widgetUse.js" />
-
-    <script src="selectowl/selectowl.extractor.js" />
-    <script src="selectowl/selectowl.file.js" />
-    <script src="selectowl/selectowl.misc.js" />
-    <script src="selectowl/selectowl.tree.js" />
-    -->
-
-    <!--
 workflow: 
     * load ontology
     * select action (what to do)
@@ -85,6 +69,7 @@ further:
           <!--button label="Testing Window" oncommand="window.open('chrome://selectowl/content/test.xul');" flex="0" width="50"/-->
           <button label="Parse and Save" oncommand="selectowl.parseAndSave();" flex="0" width="50"/>
           <button label="Save and Run CrOWLer" oncommand="selectowl.runCrowler();" flex="0" width="50"/>
+          <button label="Just Run CrOWLer" oncommand="selectowl.justRunCrowler();" flex="0" width="50"/>
         </groupbox>
 
         <groupbox id="edit-prefixes" style="display: none;" flex="1">
@@ -99,20 +84,7 @@ further:
           </tree>
         </groupbox>
 
-        <!--groupbox id="select-action" style="display: none;" flex="1">
-          <caption label="Select Action" />
-          <vbox flex="1"> 
-            <button label="Load Ontology"             oncommand="selectowl.gui.showStep('load-ontology');"  flex="1"/>
-            <button label="Select Object"             oncommand="selectowl.gui.showStep('select-class');"  flex="1"/>
-            <button label="Select Object Property"    oncommand="selectowl.gui.showStep('select-property');" flex="1" />
-            <button label="Edit Script"               disabled="true" oncommand="" flex="1" />
-            <button label="Save Script"               disabled="true" oncommand="" flex="1" />
-            <button label="Edit Ontology Preferences" disabled="true" oncommand="" flex="1" />
-          </vbox>
-        </groupbox-->
-
-
-        <!-- TODO learn to sort trees by column values -->
+        <!-- TODO sort trees by column values -->
 
         <groupbox id="select-class" style="display: none;" flex="1" onselect="selectowl.gui.onClassSelect(event);" onclick="selectowl.gui.onClassClick(event);">
           <caption label="Select Class" />
@@ -197,7 +169,7 @@ further:
         <hbox>
             <vbox>
                 <hbox>
-                    <textbox id="selectowl-name" onkeyup="selectowl.editor.name.onKeyUp(event);" style="max-width: 180px;"></textbox>
+                    <textbox id="selectowl-name" onkeyup="selectowl.editor.name.onKeyUp(event);" style="max-width: 180px;" flex="0.5"></textbox>
                     <textbox id="selectowl-area" flex="1"
                       onfocus="selectowl.editor.area.onFocus(event);"
                       onclick="selectowl.editor.area.onClick(event);"
@@ -205,75 +177,75 @@ further:
                 </hbox>
 
                 <hbox>
-                  <listbox id="selectowl-tagname" flex="1"
+                  <!--listbox id="selectowl-tagname" flex="1"
                     onclick="selectowl.editor.widgetTagName.onClick(this);"
-                    onkeyup="selectowl.editor.widgetTagName.onKeyUp(this);"></listbox>
+                    onkeyup="selectowl.editor.widgetTagName.onKeyUp(this);"></listbox-->
 
-                    <vbox style="max-width: 500px;">
-                        <groupbox id="selectowl-id" style="max-height:85px">
-                            <caption label="&selectowl.editor.id;"/>
+                  <vbox style="max-width: 250px;">
+                      <groupbox id="selectowl-id" style="max-height:85px">
+                          <caption label="&selectowl.editor.id;"/>
 
-                            <radiogroup id="selectowl-idtype" oncommand="selectowl.editor.widgetId.onCommand();">
-                                <hbox>
-                                    <radio label="&selectowl.editor.hard;" value="hard" accesskey="H" />
-                                    <radio label="&selectowl.editor.soft;" value="soft" accesskey="S" selected="true" />
-                                </hbox>
-                            </radiogroup>
+                          <radiogroup id="selectowl-idtype" oncommand="selectowl.editor.widgetId.onCommand();">
+                              <hbox>
+                                  <radio label="&selectowl.editor.hard;" value="hard" accesskey="H" />
+                                  <radio label="&selectowl.editor.soft;" value="soft" accesskey="S" selected="true" />
+                              </hbox>
+                          </radiogroup>
 
-                            <vbox flex="1" style="overflow: auto"></vbox>
-                        </groupbox>
+                          <vbox flex="1" style="overflow: auto"></vbox>
+                      </groupbox>
 
-                        <groupbox id="selectowl-classes" style="max-height:66px">
-                            <caption label="&selectowl.editor.classes;"/>
+                      <groupbox id="selectowl-classes" style="max-height:66px">
+                          <caption label="&selectowl.editor.classes;"/>
 
-                            <vbox flex="1" style="overflow: auto"></vbox>
-                        </groupbox>
+                          <vbox flex="1" style="overflow: auto"></vbox>
+                      </groupbox>
 
-                        <groupbox id="selectowl-position">
-                            <caption label="&selectowl.editor.position;"/>
+                      <groupbox id="selectowl-position">
+                          <caption label="&selectowl.editor.position;"/>
 
-                            <hbox>
-                                <checkbox id="selectowl-first" label=":first" checked="false" oncommand="selectowl.editor.widgetPos.onCommand(this);" />
+                          <hbox>
+                              <checkbox id="selectowl-first" label=":first" checked="false" oncommand="selectowl.editor.widgetPos.onCommand(this);" />
 
-                                <checkbox id="selectowl-last" label=":last" checked="false" oncommand="selectowl.editor.widgetPos.onCommand(this);" />
+                              <checkbox id="selectowl-last" label=":last" checked="false" oncommand="selectowl.editor.widgetPos.onCommand(this);" />
 
-                                <checkbox id="selectowl-even" label=":even" checked="false" oncommand="selectowl.editor.widgetPos.onCommand(this);" />
+                              <checkbox id="selectowl-even" label=":even" checked="false" oncommand="selectowl.editor.widgetPos.onCommand(this);" />
 
-                                <checkbox id="selectowl-odd" label=":odd" checked="false" oncommand="selectowl.editor.widgetPos.onCommand(this);" />
-                            </hbox>
+                              <checkbox id="selectowl-odd" label=":odd" checked="false" oncommand="selectowl.editor.widgetPos.onCommand(this);" />
+                          </hbox>
 
-                            <hbox>
-                                <hbox class="pos">
-                                    <checkbox id="selectowl-gt" label=":gt" checked="false" oncommand="selectowl.editor.widgetPos.onCommand(this);" />
-                                    <label value="(" />
-                                    <textbox id="selectowl-gtval" value="0" onkeyup="selectowl.editor.widgetPos.onKeyUp(event, 'gt');" />
-                                    <label value=")" />
-                                </hbox>
+                          <hbox>
+                              <hbox class="pos">
+                                  <checkbox id="selectowl-gt" label=":gt" checked="false" oncommand="selectowl.editor.widgetPos.onCommand(this);" />
+                                  <label value="(" />
+                                  <textbox id="selectowl-gtval" value="0" onkeyup="selectowl.editor.widgetPos.onKeyUp(event, 'gt');" />
+                                  <label value=")" />
+                              </hbox>
 
-                                <hbox class="pos">
-                                    <checkbox id="selectowl-lt" label=":lt" checked="false" oncommand="selectowl.editor.widgetPos.onCommand(this);" />
-                                    <label value="(" />
-                                    <textbox id="selectowl-ltval" value="0" onkeyup="selectowl.editor.widgetPos.onKeyUp(event, 'lt');" />
-                                    <label value=")" />
-                                </hbox>
+                              <hbox class="pos">
+                                  <checkbox id="selectowl-lt" label=":lt" checked="false" oncommand="selectowl.editor.widgetPos.onCommand(this);" />
+                                  <label value="(" />
+                                  <textbox id="selectowl-ltval" value="0" onkeyup="selectowl.editor.widgetPos.onKeyUp(event, 'lt');" />
+                                  <label value=")" />
+                              </hbox>
 
-                                <hbox class="pos">
-                                    <checkbox id="selectowl-eq" label=":eq" checked="false" oncommand="selectowl.editor.widgetPos.onCommand(this);" />
-                                    <label value="(" />
-                                    <textbox id="selectowl-eqval" value="0" onkeyup="selectowl.editor.widgetPos.onKeyUp(event, 'eq');" />
-                                    <label value=")" />
-                                </hbox>
-                            </hbox>
-                        </groupbox>
+                              <hbox class="pos">
+                                  <checkbox id="selectowl-eq" label=":eq" checked="false" oncommand="selectowl.editor.widgetPos.onCommand(this);" />
+                                  <label value="(" />
+                                  <textbox id="selectowl-eqval" value="0" onkeyup="selectowl.editor.widgetPos.onKeyUp(event, 'eq');" />
+                                  <label value=")" />
+                              </hbox>
+                          </hbox>
+                      </groupbox>
 
-                        <groupbox id="selectowl-contains" style="max-height:66px">
-                            <caption label="&selectowl.editor.contains;"/>
+                      <groupbox id="selectowl-contains" style="max-height:66px">
+                          <caption label="&selectowl.editor.contains;"/>
 
-                            <vbox flex="1" style="overflow: auto"></vbox>
-                        </groupbox>
+                          <vbox flex="1" style="overflow: auto"></vbox>
+                      </groupbox>
 
-                        <button id="selectowl-remove" label="&selectowl.editor.remove;" onclick="selectowl.editor.area.removeSequence();" />
-                    </vbox>
+                      <button id="selectowl-remove" label="&selectowl.editor.remove;" onclick="selectowl.editor.area.removeSequence();" />
+                  </vbox>
                 </hbox>
             </vbox>
             <!--vbox>
