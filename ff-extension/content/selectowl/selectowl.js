@@ -253,40 +253,69 @@ selectowl.writeData = function(file, data) {
 
 //------------------------------------------------------------
 
+//TODO JUST_TESTING DELME
+//selectowl.justRunCrowler = function () {
+//  Components.utils.import("resource://gre/modules/FileUtils.jsm");
+//
+//  var java_path = selectowl.getCharPref("java_path");
+//  var java_file = new FileUtils.File(java_path);
+//
+//  var sfile = this.getNsiFile("crowler/scenario.json");
+//
+//  var crowler_path = selectowl.getCharPref("crowler_path");
+//  var xfile = new FileUtils.File(crowler_path);
+//
+//  //var args = [];
+//  //var args = [ "cz.sio2.crowler.configurations.json.JsonConfiguration file results " + sfile.path ];
+//  var args = [ '-jar', xfile.path, "cz.sio2.crowler.configurations.json.JsonConfiguration", "file", "results", sfile.path ];
+//
+//  console.log('just running exe: ' + java_file.path + ' with arguments:' + '\n  ' + args.join('\n  ') );
+//
+//  var process = selectowl.ns.process;
+//  process.init(java_file);
+//  var ret = process.run(false, args, args.length);
+//
+//  console.log('just finished running with ret: ' + ret);
+//};
+
 selectowl.runCrowler = function () {
   Components.utils.import("resource://gre/modules/NetUtil.jsm");
   Components.utils.import("resource://gre/modules/FileUtils.jsm");
 
-  var sfile = this.getNsiFile("crowler/scenario.json");
+  var java_path = selectowl.getCharPref("java_path");
+  var java_file = new FileUtils.File(java_path);
+
+  var crowler_path = selectowl.getCharPref("crowler_path");
+  var crowler_file = new FileUtils.File(crowler_path);
+
+  console.log('crowler path: ' + crowler_path); //TODO DEBUG DELME
+
+  var scenario_file = crowler_file.parent.clone();
+  scenario_file.append('scenario.json');
+
+  console.log('scenario path: ' + scenario_file.path); //TODO DEBUG DELME
+
   var data = this.getJson();
 
-  // You can also optionally pass a flags parameter here. It defaults to
-  // FileUtils.MODE_WRONLY | FileUtils.MODE_CREATE | FileUtils.MODE_TRUNCATE;
-  var ostream = FileUtils.openSafeFileOutputStream(sfile)
+  var ostream = FileUtils.openSafeFileOutputStream(scenario_file)
   var converter = selectowl.ns.scriptableUnicodeConverter;
   converter.charset = "UTF-8";
 
   var istream = converter.convertToInputStream(data);
   
-  // The last argument (the callback) is optional.
+  // Write data into scenario
   NetUtil.asyncCopy(istream, ostream, function(status) {
     if (!Components.isSuccessCode(status)) {
       // Handle error!
       console.log('asyncCopy scrued up with status:\n' + status);
       return;
     }
-  
-    // Data has been written to the file.
-    // Run crOWLer
-    var crowler_path = selectowl.getCharPref("crowler_path");
-    console.log('crowler path: ' + crowler_path);
-    var xfile = new FileUtils.File(crowler_path);
-    //var args = [ "cz.sio2.crowler.configurations.json.JsonConfiguration", "file", "results", sfile.path ];
-    var args = [ "cz.sio2.crowler.configurations.json.JsonConfiguration file results " + sfile.path ];
-    var process = selectowl.ns.process;
-    process.init(xfile);
 
-    console.log('running exe: ' + xfile.path + '\n' + 'with path argument: ' + args[3]); //TODO DEBUG DELME
+    var args = [ '-jar', crowler_file.path, "cz.sio2.crowler.configurations.json.JsonConfiguration", "file", "results", scenario_file.parent.path ];
+    var process = selectowl.ns.process;
+    process.init(java_file);
+
+    console.log('running exe: ' + java_file.path + ' with arguments:' + '\n  ' + args.join('\n  ') ); //TODO DEBUG DELME
 
     process.run(false, args, args.length);
 
@@ -295,22 +324,23 @@ selectowl.runCrowler = function () {
   
 };
 
-selectowl.getNsiFile = function( arPath ) {
-  if ( typeof arPath == 'string' ) {
-    arPath = arPath.split('/');
-  }
-  
-  var file = Components.classes["@mozilla.org/file/directory_service;1"]
-             .getService(Components.interfaces.nsIProperties)
-             .get("ProfD", Components.interfaces.nsILocalFile); // get profile folder
-  file.append("extensions");             // extensions sub-directory
-  file.append("selectowl@kub1x.org");    // GUID of your extension
-
-  for (var i = 0; i < arPath.length; i++){
-    file.append(arPath[i]);
-  }
-  return file;
-};
+//TODO DEPRECATED DELME
+//selectowl.getNsiFile = function( arPath ) {
+//  if ( typeof arPath == 'string' ) {
+//    arPath = arPath.split('/');
+//  }
+//  
+//  var file = Components.classes["@mozilla.org/file/directory_service;1"]
+//             .getService(Components.interfaces.nsIProperties)
+//             .get("ProfD", Components.interfaces.nsILocalFile); // get profile folder
+//  file.append("extensions");             // extensions sub-directory
+//  file.append("selectowl@kub1x.org");    // GUID of your extension
+//
+//  for (var i = 0; i < arPath.length; i++){
+//    file.append(arPath[i]);
+//  }
+//  return file;
+//};
 
 selectowl.getCharPref = function( pref ) {
   var prefs = Components.classes["@mozilla.org/preferences-service;1"]

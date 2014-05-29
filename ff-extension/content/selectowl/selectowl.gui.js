@@ -615,7 +615,7 @@ selectowl.gui.getContext = function() {
   }
 
   //
-  // Get that node
+  // Get that node, parent by parent, all the way to target
   var currentDocument = aardvarkUtils.currentDocument();
   var $selected = $(currentDocument);
   for (s in selectors) {

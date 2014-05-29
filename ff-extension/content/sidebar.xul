@@ -69,7 +69,7 @@ further:
           <!--button label="Testing Window" oncommand="window.open('chrome://selectowl/content/test.xul');" flex="0" width="50"/-->
           <button label="Parse and Save" oncommand="selectowl.parseAndSave();" flex="0" width="50"/>
           <button label="Save and Run CrOWLer" oncommand="selectowl.runCrowler();" flex="0" width="50"/>
-          <button label="Just Run CrOWLer" oncommand="selectowl.justRunCrowler();" flex="0" width="50"/>
+          <!--button label="Just Run CrOWLer" oncommand="selectowl.justRunCrowler();" flex="0" width="50"/-->
         </groupbox>
 
         <groupbox id="edit-prefixes" style="display: none;" flex="1">
