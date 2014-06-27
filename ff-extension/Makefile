@@ -1,9 +1,10 @@
 #!/bin/bash
 
-#FIREFOX_DIR=/cygdrive/c/Program\ Files\ \(x86\)/Mozilla\ Firefox\ Dev/
+#FIREFOX_DIR=/cygdrive/c/Program\ Files\ \(x86\)/Mozilla\ Firefox\ Dev/ ### XXX folder deleted
 #FIREFOX_EXE=firerox.exe
-FIREFOX=/cygdrive/c/Program\ Files\ \(x86\)/Mozilla\ Firefox\ Dev/firefox.exe
-FIREFOX_LNK=firefox-dev.exe.lnk
+#FIREFOX=/cygdrive/c/Program\ Files\ \(x86\)/Mozilla\ Firefox\ Dev/firefox.exe ### XXX folder deleted
+FIREFOX=/cygdrive/c/Program\ Files\ \(x86\)/Mozilla\ Firefox/firefox.exe
+#FIREFOX_LNK=firefox-dev.exe.lnk
  
 # short-name, jar and xpi files name. Must be lowercase with no spaces
 JAR_NAME=selectowl.jar
@@ -54,14 +55,14 @@ pack:
 	rm -rf $(TMP_DIR)
 
 install: 
-	cygstart.exe $(FIREFOX_LNK) "C:\Users\kub1x\school\fel\diplomka\selectowl\ff-extension\$(XPI_NAME)"
-	#$(FIREFOX) $(XPI_NAME) -P selectowl -no-remote >/dev/null 2>&1 &
+	#cygstart.exe $(FIREFOX_LNK) "C:\Users\kub1x\school\fel\diplomka\selectowl\ff-extension\$(XPI_NAME)"
+	$(FIREFOX) $(XPI_NAME) -P selectowl -no-remote >/dev/null 2>&1 &
 	#cp $(APP_NAME).xpi /cygdrive/c/Users/kub1x/AppData/Roaming/Mozilla/Firefox/Profiles/d859hbtr.selectowl/extensions/
 	#rm -f /cygdrive/c/Users/kub1x/AppData/Roaming/Mozilla/Firefox/Profiles/d859hbtr.selectowl/extensions.*
 
 run: 
-	cygstart.exe $(FIREFOX_LNK)
-	#$(FIREFOX) -no-remote -P selectowl >/dev/null 2>&1 &
+	#cygstart.exe $(FIREFOX_LNK)
+	$(FIREFOX) -no-remote -P selectowl >/dev/null 2>&1 &
 	#cd $(FIREFOX_DIR) ; $(FIREFOX) -no-remote -P selectowl >/dev/null 2>&1 &
 
 wait:
