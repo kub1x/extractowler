@@ -28,8 +28,8 @@ all: pack install wait run
 #	rm -rf $(TMP_DIR)
 
 edit: 
-	vim content
-	#vim content/sidebar.xul
+	vim chrome/content
+	#vim chrome/content/sidebar.xul
  
 pack: 
 	rm -rf $(TMP_DIR)
@@ -37,9 +37,9 @@ pack:
 	# prepare
 	mkdir -p $(TMP_DIR)/chrome/content
 	# load
-	cp -v -R content $(TMP_DIR)/chrome
-	cp -v -R locale $(TMP_DIR)/chrome
-	cp -v -R skin $(TMP_DIR)/chrome
+	cp -v -R chrome/content $(TMP_DIR)/chrome
+	cp -v -R chrome/locale $(TMP_DIR)/chrome
+	cp -v -R chrome/skin $(TMP_DIR)/chrome
 	cp -v -R defaults $(TMP_DIR) || echo 'no defaults'
 	cp -v install.rdf $(TMP_DIR)
 	cp -v chrome.manifest $(TMP_DIR)
