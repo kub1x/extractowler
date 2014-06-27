@@ -66,6 +66,15 @@ further:
             <html:b>Predefined: </html:b>
             <html:a onclick="selectowl.load('http://xmlns.com/foaf/spec/index.rdf'); $(this).addClass('loaded');">foaf</html:a>, 
           </box>
+          <box>
+            <html:b>Examples: </html:b>
+            <html:a onclick="selectowl.openPage('http://www.inventati.org/kub1x/t/');">kub1x</html:a>, 
+            <html:a onclick="selectowl.openPage('http://monumnet.npu.cz/pamfond/list.php?hledani=1&amp;KrOk=&amp;HiZe=&amp;VybUzemi=1&amp;sNazSidOb=&amp;Adresa=&amp;Cdom=&amp;Pamatka=&amp;CiRejst=&amp;Uz=B&amp;PrirUbytOd=3.5.1958&amp;PrirUbytDo=10.12.2013');">npu.cz</html:a>, 
+            <html:a onclick="selectowl.openPage('http://www.uzpln.cz/cs/ln_incident?page=1&amp;where_aircraft=all');">uzpln.cz</html:a>, 
+            <html:a onclick="selectowl.openPage('http://www.ntsb.gov/investigations/reports_aviation.html');">ntsb.gov</html:a>, 
+            <html:a onclick="selectowl.openPage('http://www.atsb.gov.au/publications/safety-investigation-reports.aspx?mode=Aviation');">atsb.gov.au</html:a>, 
+            <html:a onclick="selectowl.openPage('');"></html:a>, 
+          </box>
           <!--button label="Testing Window" oncommand="window.open('chrome://selectowl/content/test.xul');" flex="0" width="50"/-->
           <button label="Parse and Save" oncommand="selectowl.parseAndSave();" flex="0" width="50"/>
           <button label="Save and Run CrOWLer" oncommand="selectowl.runCrowler();" flex="0" width="50"/>

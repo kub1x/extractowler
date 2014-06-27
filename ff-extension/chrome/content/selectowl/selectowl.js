@@ -166,6 +166,11 @@ selectowl.load = function (url) {
   jOWL.load(url, callback, {reason: true, locale: 'en'});
 };
 
+selectowl.openPage = function (url) {
+  contentWindow = aardvarkUtils.currentBrowser().contentWindow; 
+  contentWindow.location = url;
+};
+
 
 //------------------------------------------------------------
 
