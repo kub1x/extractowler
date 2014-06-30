@@ -398,7 +398,15 @@ selectowl.gui.editColumn = function(idx, col_id, value) {
 selectowl.gui.onScenarioKeyPress = function(event) {
   var code;
   if (event.keyCode == 18) { // enter
-    
+    //TODO this one should open the popup on the current line
+    event.stopPropagation();
+    return false;
+  }
+
+  if (event.keyCode == 32) { // space
+    //TODO this one should select/unselect the current line
+    event.stopPropagation();
+    return false;
   }
 
   if (event.keyCode == 46) { // delete
@@ -625,9 +633,12 @@ selectowl.gui.getContext = function() {
   return $selected.get();
 }
 
+/* ************************************************************************** *
+ *                               NEW WITH XML                                 *
+ * ************************************************************************** */
 
 selectowl.gui.onOntologyEditPrefixesMenuClick = function(event) {
-  var container = null; //document.getElementById('selectowl-container');
+  var container = document.getElementById('selectowl-container');
   var panel = document.getElementById('selectowl-edit-prefixes-panel');
   //NOTE the documentation can be found on MDN site
   // https://developer.mozilla.org/en-US/docs/Mozilla/Tech/XUL/Method/openPopup
@@ -635,6 +646,13 @@ selectowl.gui.onOntologyEditPrefixesMenuClick = function(event) {
 }
 
 selectowl.gui.onOntologyImportMenuClick = function(event) {
+  var container = document.getElementById('selectowl-container');
   var panel = document.getElementById('selectowl-load-ontology-panel');
-  panel.openPopup(null, 'overlap', 0, 0, false, false, event);
+  panel.openPopup(container, 'overlap', 0, 0, false, false, event);
 }
+
+selectowl.gui.onScenarioDblclick = function(event) {
+  var container = event.target;
+  var panel = document.getElementById('selectowl-scenario-new-command-panel');
+  panel.openPopup(container, 'end_before', 5, 0, false, false, event);
+};

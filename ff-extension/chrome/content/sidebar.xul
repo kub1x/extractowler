@@ -126,7 +126,8 @@ further:
             seltype="single"
             onclick="selectowl.gui.onScenarioClick(event);"
             onselect="selectowl.gui.onScenarioSelect(event);"
-            onkeypress="selectowl.gui.onScenarioKeyPress(event);" >
+            onkeypress="selectowl.gui.onScenarioKeyPress(event);"
+            ondblclic="selectowl.gui.onScenarioDblclick(event);" >
             <!--
             hidecolumnpicker="false"
             class="tree"
@@ -147,23 +148,27 @@ further:
         <!-- ### -->
         <!-- ### -->
 
-      <box>
-        <html:b>Hint: </html:b>
-        <html:i>Doubleclick the scenario edit box</html:i>, 
-      </box>
-      <box>
-        <html:b>Predefined: </html:b>
-        <html:a onclick="selectowl.load('http://xmlns.com/foaf/spec/index.rdf'); $(this).addClass('loaded');">foaf</html:a>, 
-      </box>
-      <box>
-        <html:b>Examples: </html:b>
-        <html:a onclick="selectowl.openPage('http://www.inventati.org/kub1x/t/');">kub1x</html:a>, 
-        <html:a onclick="selectowl.openPage('http://monumnet.npu.cz/pamfond/list.php?hledani=1&amp;KrOk=&amp;HiZe=&amp;VybUzemi=1&amp;sNazSidOb=&amp;Adresa=&amp;Cdom=&amp;Pamatka=&amp;CiRejst=&amp;Uz=B&amp;PrirUbytOd=3.5.1958&amp;PrirUbytDo=10.12.2013');">npu.cz</html:a>, 
-        <html:a onclick="selectowl.openPage('http://www.uzpln.cz/cs/ln_incident?page=1&amp;where_aircraft=all');">uzpln.cz</html:a>, 
-        <html:a onclick="selectowl.openPage('http://www.ntsb.gov/investigations/reports_aviation.html');">ntsb.gov</html:a>, 
-        <html:a onclick="selectowl.openPage('http://www.atsb.gov.au/publications/safety-investigation-reports.aspx?mode=Aviation');">atsb.gov.au</html:a>, 
-        <html:a onclick="selectowl.openPage('');"></html:a>, 
-      </box>
+      <groupbox>
+        <vbox>
+          <html:div>
+            <html:b>Hint: </html:b>
+            <html:i>Doubleclick the scenario edit box</html:i>, 
+          </html:div>
+          <html:div>
+            <html:b>Predefined: </html:b>
+            <html:a onclick="selectowl.load('http://xmlns.com/foaf/spec/index.rdf'); $(this).addClass('loaded');">foaf</html:a>, 
+          </html:div>
+          <html:div>
+            <html:b>Examples: </html:b>
+            <html:a onclick="selectowl.openPage('http://www.inventati.org/kub1x/t/');">kub1x</html:a>, 
+            <html:a onclick="selectowl.openPage('http://monumnet.npu.cz/pamfond/list.php?hledani=1&amp;KrOk=&amp;HiZe=&amp;VybUzemi=1&amp;sNazSidOb=&amp;Adresa=&amp;Cdom=&amp;Pamatka=&amp;CiRejst=&amp;Uz=B&amp;PrirUbytOd=3.5.1958&amp;PrirUbytDo=10.12.2013');">npu.cz</html:a>, 
+            <html:a onclick="selectowl.openPage('http://www.uzpln.cz/cs/ln_incident?page=1&amp;where_aircraft=all');">uzpln.cz</html:a>, 
+            <html:a onclick="selectowl.openPage('http://www.ntsb.gov/investigations/reports_aviation.html');">ntsb.gov</html:a>, 
+            <html:a onclick="selectowl.openPage('http://www.atsb.gov.au/publications/safety-investigation-reports.aspx?mode=Aviation');">atsb.gov.au</html:a>, 
+            <html:a onclick="selectowl.openPage('');"></html:a>, 
+          </html:div>
+        </vbox>
+      </groupbox>
 
     </vbox>
 
@@ -316,6 +321,7 @@ further:
 
   <panel id="selectowl-edit-prefixes-panel"
          width="500" height="300" level="parent">
+    <!-- might use titlebar instead of groupbox and caption -->
     <groupbox id="edit-prefixes" flex="1">
       <caption label="Edit Prefixes" />
       <tree id="selectowl-prefixes-tree" flex="1" seltype="single" editable="true">
@@ -331,6 +337,7 @@ further:
 
   <panel id="selectowl-load-ontology-panel"
          width="500" height="300" level="parent">
+    <!-- might use titlebar instead of groupbox and caption -->
     <groupbox id="load-ontology" flex="1">
       <caption label="Load Ontology" />
       <hbox flex="0">
@@ -342,6 +349,12 @@ further:
       <button label="Save and Run CrOWLer" oncommand="selectowl.runCrowler();" flex="0" width="50"/>
       <!--button label="Just Run CrOWLer" oncommand="selectowl.justRunCrowler();" flex="0" width="50"/-->
     </groupbox>
+  </panel>
+
+  <panel id="selectowl-scenario-new-command-panel"
+         width="500" height="300" level="parent" type="arrow">
+    <button label="Call Template" disabled="true" />
+    <button label="Template" disabled="true" />
   </panel>
 
 </page>
