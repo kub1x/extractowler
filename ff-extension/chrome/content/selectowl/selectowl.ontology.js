@@ -49,8 +49,28 @@ selectowl.ontology.feedMee = function () {
 selectowl.ontology.getByUri = function( uri ) {
   return this.classes.getByUri(uri) ||
          this.properties.getByUri(uri);
-}
+};
 
+selectowl.ontology.prefixify = function (uri) {
+  //TODO error handling
+  var idx = uri.lastIndexOf('#');
+  idx == (idx != -1) ? idx || uri.lastIndexOf('/');
+  //NOTE +1 to include the '#' or '/' sign
+  var base = uri.substring(0,idx+1);
+  var name = uri.substring(idx);
+  var prefix = selectowl.ontology.prefixes.getByUri(base);
+  if (prefix == null) {
+    prefix = this.prefixes.guessPrefix(uri);
+  }
+  return prefix + ':' + name;
+};
+
+selectowl.ontology.urify = function ( id ) {
+  //TODO error handling
+  var arr = id.split(':');
+  var uri = this.prefixes.getByPrefix(arr[0]);
+  return uri + arr[1];
+};
 
 
 /************************************************************
@@ -104,8 +124,8 @@ selectowl.ontology.prefixes.contains = function ( str ) {
 }
 
 selectowl.ontology.prefixes.guessPrefix = function ( uri ) {
-  rg_last_word = /[a-zA-Z-_]+(?=[^a-zA-Z-_]*$)/;
-  prefix = uri.match(rg_last_word);
+  var rg_last_word = /[a-zA-Z-_]+(?=[^a-zA-Z-_]*$)/;
+  var prefix = uri.match(rg_last_word);
   if(prefix) {
     this.add(prefix, uri);
     return prefix;
@@ -132,6 +152,7 @@ selectowl.ontology.prefixes.delete = function ( prefix ) {
 
 selectowl.ontology.classes._byIdx = [];
 selectowl.ontology.classes._byUri = {};
+
 selectowl.ontology.classes.add = function ( obj ) {
   this._byIdx.push(obj);
   this._byUri[obj.uri] = obj;
@@ -155,6 +176,7 @@ selectowl.ontology.classes.getByUri = function( uri ) {
 
 selectowl.ontology.properties._byIdx = [];
 selectowl.ontology.properties._byUri = {};
+
 selectowl.ontology.properties.add = function ( obj ) {
   this._byIdx.push(obj);
   this._byUri[obj.uri] = obj;
