@@ -58,31 +58,13 @@ further:
       </menu>
       <menu id="selectowl-ontology-menu" label="Ontology">
         <menupopup id="selectowl-ontology-popup">
-          <menuitem label="Import an ontology" disabled="true" />
+          <menuitem label="Import an ontology" onclick="selectowl.gui.onOntologyImportMenuClick(event);" />
           <menuitem label="Edit prefixes" onclick="selectowl.gui.onOntologyEditPrefixesMenuClick(event);" />
         </menupopup>
       </menu>
     </menubar>
     <vbox flex="1" id="selectowl-container">
       <vbox id="main" flex="&selectowl.goldencut.a;" hidden="true">
-        <!-- trying to make workflow kinda "movable" in a smaller box -->
-        <box flex="0" style="width: 100%;">
-          <box flex="1" style="flex-direction: row;">
-            <hbox id="workflow"><!-- populated with selectowl.gui.populateWorkflow(); --></hbox>
-          </box>
-        </box>
-
-        <groupbox id="load-ontology" class="current-step" flex="1">
-          <caption label="Load Ontology" />
-          <hbox flex="0">
-            <textbox id="ontology-url" flex="1"/>
-            <button label="Load" oncommand="selectowl.load();" flex="0" width="50"/>
-          </hbox>
-          <!--button label="Testing Window" oncommand="window.open('chrome://selectowl/content/test.xul');" flex="0" width="50"/-->
-          <button label="Parse and Save" oncommand="selectowl.parseAndSave();" flex="0" width="50"/>
-          <button label="Save and Run CrOWLer" oncommand="selectowl.runCrowler();" flex="0" width="50"/>
-          <!--button label="Just Run CrOWLer" oncommand="selectowl.justRunCrowler();" flex="0" width="50"/-->
-        </groupbox>
 
         <!-- <groupbox id="edit-prefixes" style="display: none;" flex="1">
           <caption label="Edit Prefixes" />
@@ -344,6 +326,21 @@ further:
         </treecols>
         <treechildren />
       </tree>
+    </groupbox>
+  </panel>
+
+  <panel id="selectowl-load-ontology-panel"
+         width="500" height="300" level="parent">
+    <groupbox id="load-ontology" flex="1">
+      <caption label="Load Ontology" />
+      <hbox flex="0">
+        <textbox id="ontology-url" flex="1"/>
+        <button label="Load" oncommand="selectowl.load();" flex="0" width="50"/>
+      </hbox>
+      <!--button label="Testing Window" oncommand="window.open('chrome://selectowl/content/test.xul');" flex="0" width="50"/-->
+      <button label="Parse and Save" oncommand="selectowl.parseAndSave();" flex="0" width="50"/>
+      <button label="Save and Run CrOWLer" oncommand="selectowl.runCrowler();" flex="0" width="50"/>
+      <!--button label="Just Run CrOWLer" oncommand="selectowl.justRunCrowler();" flex="0" width="50"/-->
     </groupbox>
   </panel>
 

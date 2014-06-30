@@ -1,74 +1,74 @@
 
 selectowl.gui.init = function () {
-  selectowl.gui.populateWorkflow();
+  //selectowl.gui.populateWorkflow();
 }
 
-selectowl.gui.populateWorkflow = function () {
-  // Create following structure: 
-  //<hbox id="workflow">
-  //  <label id="step-link-load-ontology"  value="Load Ontology" onclick="onStepLinkClick(event);" />
-  //  <splitter />
-  //  <label id="step-link-select-action"  value="Select Action" onclick="onStepLinkClick(event);" />
-  //  <splitter />
-  //  <vbox>
-  //    <label id="step-link-select-object"  value="Select Object"          onclick="onStepLinkClick(event);" />
-  //    <label id="step-link-select-objprop" value="Select Object Property" onclick="onStepLinkClick(event);" />
-  //  </vbox>
-  //</hbox>
+//selectowl.gui.populateWorkflow = function () {
+//  // Create following structure: 
+//  //<hbox id="workflow">
+//  //  <label id="step-link-load-ontology"  value="Load Ontology" onclick="onStepLinkClick(event);" />
+//  //  <splitter />
+//  //  <label id="step-link-select-action"  value="Select Action" onclick="onStepLinkClick(event);" />
+//  //  <splitter />
+//  //  <vbox>
+//  //    <label id="step-link-select-object"  value="Select Object"          onclick="onStepLinkClick(event);" />
+//  //    <label id="step-link-select-objprop" value="Select Object Property" onclick="onStepLinkClick(event);" />
+//  //  </vbox>
+//  //</hbox>
+//
+//  var onStepLinkClick = function( event ) {
+//    // Get group_id
+//    var $l = $(event.target);
+//    var id = $l.attr('id');
+//    var group_id = id.replace(selectowl.gui.WORKFLOW_LINK_PREFIX, '');
+//    // Select it
+//    selectowl.gui.showStep(group_id);
+//  }
+//
+//  var $wf = $('#workflow');
+//  var $groups = $('#main').children('groupbox');
+//
+//  // Clear worflow menu
+//  $wf.empty();
+//
+//  $groups.each( function(index, element) {
+//    debugger;
+//    var $grp = $(this);
+//    var $lab = $('<label />');
+//    // set label id
+//    $lab.attr('id', selectowl.gui.WORKFLOW_LINK_PREFIX + $grp.attr('id'));
+//    // set label text
+//    $lab.attr('value', $grp.children('caption').attr('label'));
+//    // show the active one
+//    if ($grp.hasClass(selectowl.gui.CURRENT_STEP_CLASS)) {
+//      $lab.addClass(selectowl.gui.CURRENT_STEP_CLASS);
+//    }
+//    // change active group on click
+//    $lab.click(onStepLinkClick);
+//    // actually add it
+//    $wf.append($lab);
+//  });
+//}
 
-  var onStepLinkClick = function( event ) {
-    // Get group_id
-    var $l = $(event.target);
-    var id = $l.attr('id');
-    var group_id = id.replace(selectowl.gui.WORKFLOW_LINK_PREFIX, '');
-    // Select it
-    selectowl.gui.showStep(group_id);
-  }
-
-  var $wf = $('#workflow');
-  var $groups = $('#main').children('groupbox');
-
-  // Clear worflow menu
-  $wf.empty();
-
-  $groups.each( function(index, element) {
-    debugger;
-    var $grp = $(this);
-    var $lab = $('<label />');
-    // set label id
-    $lab.attr('id', selectowl.gui.WORKFLOW_LINK_PREFIX + $grp.attr('id'));
-    // set label text
-    $lab.attr('value', $grp.children('caption').attr('label'));
-    // show the active one
-    if ($grp.hasClass(selectowl.gui.CURRENT_STEP_CLASS)) {
-      $lab.addClass(selectowl.gui.CURRENT_STEP_CLASS);
-    }
-    // change active group on click
-    $lab.click(onStepLinkClick);
-    // actually add it
-    $wf.append($lab);
-  });
-}
-
-selectowl.gui.showStep = function (step_id) {
-  var $currgrp = $('#main groupbox' + '.' + selectowl.gui.CURRENT_STEP_CLASS);
-  var $nextgrp = $('#main groupbox' + '#' + step_id);
-
-  var $currlab = $('#workflow label' + '.' + selectowl.gui.CURRENT_STEP_CLASS);
-  var $nextlab = $('#workflow label' + '#' + selectowl.gui.WORKFLOW_LINK_PREFIX + step_id);
-
-  // Apply imediately for labels...
-  $currlab.removeClass(selectowl.gui.CURRENT_STEP_CLASS);
-  $nextlab.addClass(selectowl.gui.CURRENT_STEP_CLASS);
-
-  // Apply imediately for groups
-  $currgrp.removeClass(selectowl.gui.CURRENT_STEP_CLASS);
-  $nextgrp.addClass(selectowl.gui.CURRENT_STEP_CLASS);
-
-  // hide current - show next
-  $currgrp.hide();
-  $nextgrp.show();
-}
+//selectowl.gui.showStep = function (step_id) {
+//  var $currgrp = $('#main groupbox' + '.' + selectowl.gui.CURRENT_STEP_CLASS);
+//  var $nextgrp = $('#main groupbox' + '#' + step_id);
+//
+//  var $currlab = $('#workflow label' + '.' + selectowl.gui.CURRENT_STEP_CLASS);
+//  var $nextlab = $('#workflow label' + '#' + selectowl.gui.WORKFLOW_LINK_PREFIX + step_id);
+//
+//  // Apply imediately for labels...
+//  $currlab.removeClass(selectowl.gui.CURRENT_STEP_CLASS);
+//  $nextlab.addClass(selectowl.gui.CURRENT_STEP_CLASS);
+//
+//  // Apply imediately for groups
+//  $currgrp.removeClass(selectowl.gui.CURRENT_STEP_CLASS);
+//  $nextgrp.addClass(selectowl.gui.CURRENT_STEP_CLASS);
+//
+//  // hide current - show next
+//  $currgrp.hide();
+//  $nextgrp.show();
+//}
 
 
 /************************************************************
@@ -625,3 +625,16 @@ selectowl.gui.getContext = function() {
   return $selected.get();
 }
 
+
+selectowl.gui.onOntologyEditPrefixesMenuClick = function(event) {
+  var container = null; //document.getElementById('selectowl-container');
+  var panel = document.getElementById('selectowl-edit-prefixes-panel');
+  //NOTE the documentation can be found on MDN site
+  // https://developer.mozilla.org/en-US/docs/Mozilla/Tech/XUL/Method/openPopup
+  panel.openPopup(container, 'overlap', 0, 0, false, false, event);
+}
+
+selectowl.gui.onOntologyImportMenuClick = function(event) {
+  var panel = document.getElementById('selectowl-load-ontology-panel');
+  panel.openPopup(null, 'overlap', 0, 0, false, false, event);
+}
