@@ -44,9 +44,27 @@ further:
       * safe script
       * start crowler
     -->
-
-    <vbox flex="1">
-      <vbox id="main" flex="&selectowl.goldencut.a;">
+ 
+    <menubar id="selectowl-menubar">
+      <menu id="selectowl-scenario-menu" label="Scenario">
+        <menupopup id="selectowl-scenario-popup">
+          <menuitem label="New Scenario" disabled="true" />
+          <menuitem label="Save"  disabled="true" />
+          <menuitem label="Open from file" disabled="true" />
+          <menuitem label="Open from Drive" disabled="true" />
+          <menuitem label="Open from DropBox" disabled="true" />
+          <!-- <menuseparator/> -->
+        </menupopup>
+      </menu>
+      <menu id="selectowl-ontology-menu" label="Ontology">
+        <menupopup id="selectowl-ontology-popup">
+          <menuitem label="Import an ontology" disabled="true" />
+          <menuitem label="Edit prefixes" onclick="selectowl.gui.onOntologyEditPrefixesMenuClick(event);" />
+        </menupopup>
+      </menu>
+    </menubar>
+    <vbox flex="1" id="selectowl-container">
+      <vbox id="main" flex="&selectowl.goldencut.a;" hidden="true">
         <!-- trying to make workflow kinda "movable" in a smaller box -->
         <box flex="0" style="width: 100%;">
           <box flex="1" style="flex-direction: row;">
@@ -60,26 +78,13 @@ further:
             <textbox id="ontology-url" flex="1"/>
             <button label="Load" oncommand="selectowl.load();" flex="0" width="50"/>
           </hbox>
-          <box>
-            <html:b>Predefined: </html:b>
-            <html:a onclick="selectowl.load('http://xmlns.com/foaf/spec/index.rdf'); $(this).addClass('loaded');">foaf</html:a>, 
-          </box>
-          <box>
-            <html:b>Examples: </html:b>
-            <html:a onclick="selectowl.openPage('http://www.inventati.org/kub1x/t/');">kub1x</html:a>, 
-            <html:a onclick="selectowl.openPage('http://monumnet.npu.cz/pamfond/list.php?hledani=1&amp;KrOk=&amp;HiZe=&amp;VybUzemi=1&amp;sNazSidOb=&amp;Adresa=&amp;Cdom=&amp;Pamatka=&amp;CiRejst=&amp;Uz=B&amp;PrirUbytOd=3.5.1958&amp;PrirUbytDo=10.12.2013');">npu.cz</html:a>, 
-            <html:a onclick="selectowl.openPage('http://www.uzpln.cz/cs/ln_incident?page=1&amp;where_aircraft=all');">uzpln.cz</html:a>, 
-            <html:a onclick="selectowl.openPage('http://www.ntsb.gov/investigations/reports_aviation.html');">ntsb.gov</html:a>, 
-            <html:a onclick="selectowl.openPage('http://www.atsb.gov.au/publications/safety-investigation-reports.aspx?mode=Aviation');">atsb.gov.au</html:a>, 
-            <html:a onclick="selectowl.openPage('');"></html:a>, 
-          </box>
           <!--button label="Testing Window" oncommand="window.open('chrome://selectowl/content/test.xul');" flex="0" width="50"/-->
           <button label="Parse and Save" oncommand="selectowl.parseAndSave();" flex="0" width="50"/>
           <button label="Save and Run CrOWLer" oncommand="selectowl.runCrowler();" flex="0" width="50"/>
           <!--button label="Just Run CrOWLer" oncommand="selectowl.justRunCrowler();" flex="0" width="50"/-->
         </groupbox>
 
-        <groupbox id="edit-prefixes" style="display: none;" flex="1">
+        <!-- <groupbox id="edit-prefixes" style="display: none;" flex="1">
           <caption label="Edit Prefixes" />
           <tree id="selectowl-prefixes-tree" flex="1" seltype="single" editable="true">
             <treecols>
@@ -89,7 +94,7 @@ further:
             </treecols>
             <treechildren />
           </tree>
-        </groupbox>
+        </groupbox> -->
 
         <!-- TODO sort trees by column values -->
 
@@ -129,7 +134,9 @@ further:
       <vbox id="scenario-vbox" flex="&selectowl.goldencut.b;">
 
         <!-- ### -->
+        <!--
         <label ondblclick="document.getElementById('selectowl-panel').openPopup(this, 'end_before', 0, 0, false, false);">show popup</label>
+        -->
 
         <groupbox id="scenario-editor" flex="1">
           <tree id="selectowl-scenario-tree"
@@ -153,6 +160,29 @@ further:
           </tree>
         </groupbox>
       </vbox>
+
+        <!-- ### -->
+        <!-- ### -->
+        <!-- ### -->
+
+      <box>
+        <html:b>Hint: </html:b>
+        <html:i>Doubleclick the scenario edit box</html:i>, 
+      </box>
+      <box>
+        <html:b>Predefined: </html:b>
+        <html:a onclick="selectowl.load('http://xmlns.com/foaf/spec/index.rdf'); $(this).addClass('loaded');">foaf</html:a>, 
+      </box>
+      <box>
+        <html:b>Examples: </html:b>
+        <html:a onclick="selectowl.openPage('http://www.inventati.org/kub1x/t/');">kub1x</html:a>, 
+        <html:a onclick="selectowl.openPage('http://monumnet.npu.cz/pamfond/list.php?hledani=1&amp;KrOk=&amp;HiZe=&amp;VybUzemi=1&amp;sNazSidOb=&amp;Adresa=&amp;Cdom=&amp;Pamatka=&amp;CiRejst=&amp;Uz=B&amp;PrirUbytOd=3.5.1958&amp;PrirUbytDo=10.12.2013');">npu.cz</html:a>, 
+        <html:a onclick="selectowl.openPage('http://www.uzpln.cz/cs/ln_incident?page=1&amp;where_aircraft=all');">uzpln.cz</html:a>, 
+        <html:a onclick="selectowl.openPage('http://www.ntsb.gov/investigations/reports_aviation.html');">ntsb.gov</html:a>, 
+        <html:a onclick="selectowl.openPage('http://www.atsb.gov.au/publications/safety-investigation-reports.aspx?mode=Aviation');">atsb.gov.au</html:a>, 
+        <html:a onclick="selectowl.openPage('');"></html:a>, 
+      </box>
+
     </vbox>
 
       <popupset id="aardvark-popupset">
@@ -296,10 +326,25 @@ further:
         </hbox>
       </panel>
 
-      <panel id="selectowl-panel"
-        onpopupshown=""
-        backgrag="true">
-      <label id="target-test">ahoj</label>
-    </panel>
+  <panel id="selectowl-panel"
+    onpopupshown=""
+    backgrag="true">
+    <label id="target-test">ahoj</label>
+  </panel>
+
+  <panel id="selectowl-edit-prefixes-panel"
+         width="500" height="300" level="parent">
+    <groupbox id="edit-prefixes" flex="1">
+      <caption label="Edit Prefixes" />
+      <tree id="selectowl-prefixes-tree" flex="1" seltype="single" editable="true">
+        <treecols>
+          <treecol id="prefixes-prefix-col" flex="1" label="prefix" persist="width"/>
+          <splitter class="tree-splitter" />
+          <treecol id="prefixes-uri-col"    flex="5" label="URI"/>
+        </treecols>
+        <treechildren />
+      </tree>
+    </groupbox>
+  </panel>
 
 </page>
