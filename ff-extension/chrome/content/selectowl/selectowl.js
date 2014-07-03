@@ -48,74 +48,12 @@ var selectowl = {
     tree : {}, 
   }, 
 
-  editor: {
-    _parent: null,
-    name: {
-        _parent: null
-    },
-    area: {
-        _parent: null,
-        selectionStart: 0,
-        selectionEnd: 0
-    },
-    url: {
-        _parent: null
-    },
-    read: {
-        _parent: null
-    },
-    widgetUse: {
-        _parent: null
-    },
-    attach: {
-        _parent: null
-    },
-    widgetTagName: {
-        _parent: null
-    },
-    widgetId: {
-        _parent: null
-    },
-    widgetClass: {
-        _parent: null
-    },
-    widgetPos: {
-        _parent: null
-    },
-    widgetContent: {
-        _parent: null
-    },
-    widgetAttr: {
-        _parent: null
-    },
-    widgetCustom: {
-        _parent: null
-    }
-  },
-
 };
 
 // definice zpětných referencí v jednotlivých podřízených objektech
 
 selectowl.aardvark._parent = selectowl;
 selectowl.gui._parent = selectowl;
-selectowl.editor._parent = selectowl;
-selectowl.editor.name._parent = selectowl.editor;
-selectowl.editor.area._parent = selectowl.editor;
-selectowl.editor.url._parent = selectowl.editor;
-selectowl.editor.read._parent = selectowl.editor;
-selectowl.editor.widgetUse._parent = selectowl.editor;
-selectowl.editor.attach._parent = selectowl.editor;
-selectowl.editor.widgetTagName._parent = selectowl.editor;
-selectowl.editor.widgetId._parent = selectowl.editor;
-selectowl.editor.widgetClass._parent = selectowl.editor;
-selectowl.editor.widgetPos._parent = selectowl.editor;
-selectowl.editor.widgetContent._parent = selectowl.editor;
-selectowl.editor.widgetAttr._parent = selectowl.editor;
-selectowl.editor.widgetCustom._parent = selectowl.editor;
-//selectowl.extractor._parent = selectowl;
-//selectowl.file._parent = selectowl;
-//selectowl.tree._parent = selectowl;
 
 //------------------------------------------------------------
 
@@ -148,6 +86,9 @@ selectowl.init = function () {
   selectowl.gui.init();
 };
 
+selectowl.newScenario = function () {
+  selectowl.gui.init();
+};
 
 selectowl.load = function (url) {
   if (!url) { url =  $('#ontology-url').val(); }
@@ -175,35 +116,41 @@ selectowl.openPage = function (url) {
 //------------------------------------------------------------
 
 
-selectowl.getJson = function() {
-  var res = {};
+//XXX DEPRECATED
+//selectowl.getJson = function() {
+//  var res = {};
+//
+//  // Obtain URL from current open tab...
+//  contentWindow = aardvarkUtils.currentBrowser().contentWindow; 
+//  res.url = contentWindow.location.toString();
+//
+//  //TODO see what we need from the ontology deffinitions: 
+//
+//  //res.classes = selectowl.ontology.classes._byIdx;
+//  //res.properties = selectowl.ontology.properties._byIdx;
+//  res.steps = selectowl.scenario._steps;
+//
+//  return JSON.stringify(res);
+//};
 
-  // Obtain URL from current open tab...
-  contentWindow = aardvarkUtils.currentBrowser().contentWindow; 
-  res.url = contentWindow.location.toString();
+selectowl.serialize = function() {
 
-  //TODO see what we need from the ontology deffinitions: 
-
-  //res.classes = selectowl.ontology.classes._byIdx;
-  //res.properties = selectowl.ontology.properties._byIdx;
-  res.steps = selectowl.scenario._steps;
-
-  return JSON.stringify(res);
 };
 
+selectowl.getXml = function() {
+};
 
 //------------------------------------------------------------
 
-
 selectowl.parseAndSave = function() {
-  this.save(this.getJson()); 
+  this.save(this.serialize()); 
 };
-
 
 selectowl.save = function(data) {
   var file = selectowl.filePicker( {
       topic: "Save scenario...",
-      defaultExtension: "json", 
+      //defaultExtension: "json", 
+      defaultExtension: "xml", 
       defaultString: "scenario.json", 
       filter: ["SelectOWL scenario", "*.json"], 
   }, function (file) {
@@ -243,7 +190,6 @@ selectowl.filePicker = function( options, callback ) {
   // https://developer.mozilla.org/en-US/docs/XPCOM_Interface_Reference/nsIFilePickerShownCallback
 
 };
-
 
 selectowl.writeData = function(file, data) {
   var foStream = selectowl.ns.fileOutputStream;
@@ -300,7 +246,7 @@ selectowl.runCrowler = function () {
 
   console.log('scenario path: ' + scenario_file.path); //TODO DEBUG DELME
 
-  var data = this.getJson();
+  var data = this.serialize();
 
   var ostream = FileUtils.openSafeFileOutputStream(scenario_file)
   var converter = selectowl.ns.scriptableUnicodeConverter;

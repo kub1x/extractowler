@@ -19,37 +19,13 @@
   <script src="selectowl/selectowl.gui.js"           />
   <script src="selectowl/selectowl.scenario.js"      />
   <script src="selectowl/selectowl.scenario.tree.js" />
-  <script src="selectowl/selectowl.editor.js" />
-  <script src="selectowl/selectowl.editor.area.js" />
-  <script src="selectowl/selectowl.editor.name.js" />
-  <script src="selectowl/selectowl.editor.widgetClass.js" />
-  <script src="selectowl/selectowl.editor.widgetContent.js" />
-  <script src="selectowl/selectowl.editor.widgetId.js" />
-  <script src="selectowl/selectowl.editor.widgetPos.js" />
-  <script src="selectowl/selectowl.editor.widgetTagName.js" />
-  <!--
-workflow: 
-    * load ontology
-    * select action (what to do)
-      * add object
-      * add property
-    * select resource (depending on action)
-    * aardvark - selector
-    * edit the result
-    * back to action
-
-further: 
-    * more actions: 
-      * edit settings of ontology.. (if selected)
-      * safe script
-      * start crowler
-    -->
  
     <menubar id="selectowl-menubar">
       <menu id="selectowl-scenario-menu" label="Scenario">
         <menupopup id="selectowl-scenario-popup">
-          <menuitem label="New Scenario" disabled="true" />
+          <menuitem label="New Scenario" onclick="selectowl.gui.onNewScenarioMenuClick();" />
           <menuitem label="Save"  disabled="true" />
+          <menuitem label="Test"  oncommand="alert(selectowl.scenario.toJson());" />
           <menuitem label="Open from file" disabled="true" />
           <menuitem label="Open from Drive" disabled="true" />
           <menuitem label="Open from DropBox" disabled="true" />
@@ -124,22 +100,14 @@ further:
           <tree id="selectowl-scenario-tree"
             flex="1"
             seltype="single"
+            hidecolumnpicker="true"
             onclick="selectowl.gui.onScenarioClick(event);"
             onselect="selectowl.gui.onScenarioSelect(event);"
-            onkeypress="selectowl.gui.onScenarioKeyPress(event);"
-            ondblclic="selectowl.gui.onScenarioDblclick(event);" >
-            <!--
-            hidecolumnpicker="false"
-            class="tree"
-            rows="5"
-            onclick="selectowl.gui.onClick(event);"
-            -->
+            onkeypress="selectowl.gui.onScenarioKeyPress(event);" >
             <treecols>
-              <treecol id="scenario-resource-col" label="resource" flex="1" persist="width" primary="true" />
-              <splitter class="tree-splitter" />
-              <treecol id="scenario-selector-col" label="selector" flex="1" persist="width" />
+              <treecol id="scenario-label-col" label="Step" flex="1" persist="width" primary="true" />
             </treecols>
-            <treechildren />
+            <treechildren id="scenario-editor-treechildren"/>
           </tree>
         </groupbox>
       </vbox>
@@ -151,8 +119,8 @@ further:
       <groupbox>
         <vbox>
           <html:div>
-            <html:b>Hint: </html:b>
-            <html:i>Doubleclick the scenario edit box</html:i>, 
+            <html:b>Hint, use these keys: </html:b>
+            <html:i>i,j,k,l,Up,Down,Ctrl+Enter</html:i>, 
           </html:div>
           <html:div>
             <html:b>Predefined: </html:b>
@@ -185,133 +153,6 @@ further:
           </grid>
         </tooltip>
       </popupset>
-
-      <panel id="selectowl-editor" onpopupshown="selectowl.editor.onPopUpShown(event);">
-        <hbox>
-          <vbox>
-            <vbox>
-              <textbox id="selectowl-name" onkeyup="selectowl.editor.name.onKeyUp(event);" flex="1"></textbox>
-              <textbox id="selectowl-area" flex="1"
-                onfocus="selectowl.editor.area.onFocus(event);"
-                onclick="selectowl.editor.area.onClick(event);"
-                onkeyup="selectowl.editor.area.onKeyUp(event);"></textbox>
-            </vbox>
-
-            <hbox>
-              <!--listbox id="selectowl-tagname" flex="1"
-                    onclick="selectowl.editor.widgetTagName.onClick(this);"
-                    onkeyup="selectowl.editor.widgetTagName.onKeyUp(this);"></listbox-->
-
-                  <vbox style="max-width: 250px;">
-                    <groupbox id="selectowl-id" style="max-height:85px">
-                      <caption label="&selectowl.editor.id;"/>
-
-                      <radiogroup id="selectowl-idtype" oncommand="selectowl.editor.widgetId.onCommand();">
-                        <hbox>
-                          <radio label="&selectowl.editor.hard;" value="hard" accesskey="H" />
-                          <radio label="&selectowl.editor.soft;" value="soft" accesskey="S" selected="true" />
-                        </hbox>
-                      </radiogroup>
-
-                      <vbox flex="1" style="overflow: auto"></vbox>
-                    </groupbox>
-
-                    <groupbox id="selectowl-classes" style="max-height:66px">
-                      <caption label="&selectowl.editor.classes;"/>
-
-                      <vbox flex="1" style="overflow: auto"></vbox>
-                    </groupbox>
-
-                    <groupbox id="selectowl-position">
-                      <caption label="&selectowl.editor.position;"/>
-
-                      <hbox>
-                        <checkbox id="selectowl-first" label=":first" checked="false" oncommand="selectowl.editor.widgetPos.onCommand(this);" />
-
-                        <checkbox id="selectowl-last" label=":last" checked="false" oncommand="selectowl.editor.widgetPos.onCommand(this);" />
-
-                        <checkbox id="selectowl-even" label=":even" checked="false" oncommand="selectowl.editor.widgetPos.onCommand(this);" />
-
-                        <checkbox id="selectowl-odd" label=":odd" checked="false" oncommand="selectowl.editor.widgetPos.onCommand(this);" />
-                      </hbox>
-
-                      <hbox>
-                        <hbox class="pos">
-                          <checkbox id="selectowl-gt" label=":gt" checked="false" oncommand="selectowl.editor.widgetPos.onCommand(this);" />
-                          <label value="(" />
-                          <textbox id="selectowl-gtval" value="0" onkeyup="selectowl.editor.widgetPos.onKeyUp(event, 'gt');" />
-                          <label value=")" />
-                        </hbox>
-
-                        <hbox class="pos">
-                          <checkbox id="selectowl-lt" label=":lt" checked="false" oncommand="selectowl.editor.widgetPos.onCommand(this);" />
-                          <label value="(" />
-                          <textbox id="selectowl-ltval" value="0" onkeyup="selectowl.editor.widgetPos.onKeyUp(event, 'lt');" />
-                          <label value=")" />
-                        </hbox>
-
-                        <hbox class="pos">
-                          <checkbox id="selectowl-eq" label=":eq" checked="false" oncommand="selectowl.editor.widgetPos.onCommand(this);" />
-                          <label value="(" />
-                          <textbox id="selectowl-eqval" value="0" onkeyup="selectowl.editor.widgetPos.onKeyUp(event, 'eq');" />
-                          <label value=")" />
-                        </hbox>
-                      </hbox>
-                    </groupbox>
-
-                    <groupbox id="selectowl-contains" style="max-height:66px">
-                      <caption label="&selectowl.editor.contains;"/>
-
-                      <vbox flex="1" style="overflow: auto"></vbox>
-                    </groupbox>
-
-                    <button id="selectowl-remove" label="&selectowl.editor.remove;" onclick="selectowl.editor.area.removeSequence();" />
-                  </vbox>
-                </hbox>
-              </vbox>
-              <!--vbox>
-                <groupbox>
-                    <caption label="url"/>
-
-                    <hbox>
-                        <textbox id="selectowl-url" readonly="true" onkeyup="selectowl.editor.url.onKeyUp(event);" />
-                        <button id="selectowl-url-use" label="&selectowl.url.current;" hidden="true" onclick="selectowl.editor.url.onClick();" />
-                        <button id="selectowl-url-edit" label="&selectowl.url.edit;" oncommand="selectowl.gui.editURL(selectowl.gui.getPath());" />
-                    </hbox>
-                </groupbox>
-
-                <groupbox>
-                    <caption label="read"/>
-
-                    <menulist id="selectowl-read" oncommand="selectowl.editor.read.onCommand(this);">
-                        <menupopup>
-                            <menuitem label="" value="" selected="true"  />
-                        </menupopup>
-                    </menulist>
-                </groupbox>
-
-                <groupbox>
-                    <caption label="use"/>
-
-                    <menulist id="selectowl-use" oncommand="selectowl.editor.widgetUse.onCommand(this);">
-                        <menupopup>
-                            <menuitem label="" value="" selected="true" />
-                        </menupopup>
-                    </menulist>
-                </groupbox>
-
-                <groupbox>
-                    <caption label="attach"/>
-
-                    <menulist id="selectowl-attach" oncommand="selectowl.editor.attach.onCommand(this);">
-                        <menupopup>
-                            <menuitem label="" value="" selected="true"  />
-                        </menupopup>
-                    </menulist>
-                </groupbox>
-            </vbox-->
-        </hbox>
-      </panel>
 
   <panel id="selectowl-panel"
     onpopupshown=""
@@ -351,10 +192,100 @@ further:
     </groupbox>
   </panel>
 
-  <panel id="selectowl-scenario-new-command-panel"
-         width="500" height="300" level="parent" type="arrow">
-    <button label="Call Template" disabled="true" />
-    <button label="Template" disabled="true" />
+  <!-- #### #### -->
+
+  <!--
+  <keyset>
+    <key id="direct-command-key" modifiers="" keycode="VK_F1" oncommand="selectowl.gui.onDirectCommand(event);"/>
+  </keyset>
+
+  <panel id="scenario-direct-command-panel"
+         width="300" height="300" level="parent" position="after_pointer">
+    <grid>
+      <columns>
+        <column flex="1"></column>
+        <column flex="1"></column>
+        <column flex="1"></column>
+      </columns>
+      <rows>
+        <row>
+        <button label="Call Template" disabled="true"  flex="1"/>
+        <button label="Template"      disabled="true"  flex="1"/>
+        </row>
+        <row>
+        <button label="Value Of"  disabled="true" flex="1"/>
+        <label />
+        <button label="Onto Elem" disabled="true" flex="1"/>
+        </row>
+        <row>
+        </row>
+      </rows>
+    </grid>
+  </panel>
+  -->
+
+  <!-- #### #### -->
+
+  <panel id="scenario-edit-template-panel"
+    width="370" level="parent" type="arrow"
+    onpopupshowing="selectowl.gui.onScenarioEditTemplatePopupShowing(event);"
+    onpopupshown="document.getElementById('scenario-edit-template-name').focus();"
+    onsubmit="selectowl.gui.onScenarioEditTemplateSubmit(event);"
+    onkeydown="selectowl.gui.onScenarioEditPanelKeyDown(event);">
+    <vbox flex="1">
+      <hbox><html:pre>name:</html:pre><textbox id="scenario-edit-template-name" flex="1"></textbox></hbox>
+      <hbox><html:pre>mime:</html:pre><textbox id="scenario-edit-template-mime" flex="1"></textbox></hbox>
+      <hbox><button label="New Child" oncommand="selectowl.gui.onTemplateNewChildClick();" flex="1"/></hbox>
+    </vbox>
+  </panel>
+
+  <panel id="scenario-new-child-template-panel"
+    width="370" level="parent" type="arrow" >
+    <button label="OntoElem"     oncommand="selectowl.gui.onNewChild(event, 'onto-elem');"/>
+    <button label="ValueOf"      oncommand="selectowl.gui.onNewChild(event, 'value-of');"/>
+    <button label="CallTemplate" oncommand="selectowl.gui.onNewChild(event, 'call-template');"/>
+  </panel>
+
+  <!-- #### -->
+
+  <panel id="scenario-edit-call-template-panel"
+    width="370" level="parent" type="arrow"
+    onpopupshowing="selectowl.gui.onScenarioEditCallTemplatePopupShowing(event);"
+    onpopupshown="document.getElementById('scenario-edit-call-template-name').focus();"
+    onsubmit="selectowl.gui.onScenarioEditCallTemplateSubmit(event);"
+    onkeydown="selectowl.gui.onScenarioEditPanelKeyDown(event);">
+    <vbox flex="1">
+      <hbox><html:pre>name:</html:pre><textbox id="scenario-edit-call-template-name" flex="1"></textbox></hbox>
+      <hbox><html:pre>type:</html:pre><textbox id="scenario-edit-call-template-type" flex="1"></textbox></hbox>
+    </vbox>
+  </panel>
+
+  <panel id="scenario-edit-value-of-panel"
+    width="370" level="parent" type="arrow"
+    onpopupshowing="selectowl.gui.onScenarioEditValueOfPopupShowing(event);"
+    onpopupshown="document.getElementById('scenario-edit-value-of-text').focus();"
+    onsubmit="selectowl.gui.onScenarioEditValueOfSubmit(event);"
+    onkeydown="selectowl.gui.onScenarioEditPanelKeyDown(event);">
+    <vbox flex="1">
+      <hbox><html:pre>    text:</html:pre><textbox id="scenario-edit-value-of-text"     flex="1"></textbox></hbox>
+      <hbox><html:pre>  select:</html:pre><textbox id="scenario-edit-value-of-select"   flex="1"></textbox></hbox>
+      <hbox><html:pre>  regexp:</html:pre><textbox id="scenario-edit-value-of-regexp"   flex="1"></textbox></hbox>
+      <hbox><html:pre> replace:</html:pre><textbox id="scenario-edit-value-of-replace"  flex="1"></textbox></hbox>
+      <hbox><html:pre>property:</html:pre><textbox id="scenario-edit-value-of-property" flex="1"></textbox></hbox>
+    </vbox>
+  </panel>
+
+  <panel id="scenario-edit-onto-elem-panel"
+    width="370" level="parent" type="arrow"
+    onpopupshowing="selectowl.gui.onScenarioEditOntoElemPopupShowing(event);"
+    onpopupshown="document.getElementById('scenario-edit-onto-elem-rel').focus();"
+    onsubmit="selectowl.gui.onScenarioEditOntoElemSubmit(event);"
+    onkeydown="selectowl.gui.onScenarioEditPanelKeyDown(event);">
+    <vbox flex="1">
+      <hbox><html:pre>  rel:</html:pre><textbox id="scenario-edit-onto-elem-rel"   flex="1"></textbox></hbox>
+      <hbox><html:pre> type:</html:pre><textbox id="scenario-edit-onto-elem-type"  flex="1"></textbox></hbox>
+      <hbox><html:pre>about:</html:pre><textbox id="scenario-edit-onto-elem-about" flex="1"></textbox></hbox>
+    </vbox>
   </panel>
 
 </page>

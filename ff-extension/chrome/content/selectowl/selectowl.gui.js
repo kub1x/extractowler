@@ -1,5 +1,6 @@
 
 selectowl.gui.init = function () {
+  this.onNewScenarioMenuClick();
   //selectowl.gui.populateWorkflow();
 }
 
@@ -278,10 +279,10 @@ selectowl.gui.onScenarioSelect = function ( event ) {
   var _tree = selectowl.scenario.tree;
   var currentIndex = _tree.currentIndex;
 
-  console.log('selected(BEGIN) scenario step with currentIndex: ' + currentIndex);
+  //console.log('selected(BEGIN) scenario step with currentIndex: ' + currentIndex);
 
   if (currentIndex == -1) {
-    console.log('onScenarioSelect(-1) was called - deselecting!!');
+    //console.log('onScenarioSelect(-1) was called - deselecting!!');
     this.hideHighlight();
     return;
   }
@@ -314,7 +315,7 @@ selectowl.gui.onScenarioKeyDown = function(event) {
     var currentIndex = _tree.currentIndex;
     var lastIndex = _tree.lastIndex;
 
-    console.log('keyDown currentIndex:' + currentIndex + ' lastIndex: ' + lastIndex + ' keyCode: ' + event.keyCode);
+    //console.log('keyDown currentIndex:' + currentIndex + ' lastIndex: ' + lastIndex + ' keyCode: ' + event.keyCode);
 
     _tree.lastIndex = currentIndex;
 
@@ -323,19 +324,14 @@ selectowl.gui.onScenarioKeyDown = function(event) {
 }
 
 selectowl.gui.onScenarioClick = function(event) {
-  var _editor = this._parent.editor;
-  var _name = this._parent.editor.name;
-  var _area = this._parent.editor.area;
-
   var _tree = selectowl.scenario.tree
 
-  //
   // Selection handling (left button)
   if (event.button == 0) {
     var currentIndex = _tree.currentIndex;
     var lastIndex = _tree.lastIndex;
 
-    console.log('clicked scenario with currentIndex: ' + _tree.currentIndex + ' with button: ' + event.button);
+    //console.log('clicked scenario with currentIndex: ' + _tree.currentIndex + ' with button: ' + event.button);
 
     if (currentIndex == lastIndex) {
       // Deselecting
@@ -348,27 +344,9 @@ selectowl.gui.onScenarioClick = function(event) {
     return;
   }
 
-  //
-  // otevření editoru (right button)
+  // Open popup
   if (event.button == 2 && (_tree.currentIndex >= 0 || this.editing != this.DEF)) {
-    var editor = _editor.get();
-    var name = _name.get();
-    var area = _area.get();
-
-    //
-    // obnova výchozího stavu editoru
-    
-    var hbox = editor.childNodes[0];
-    hbox.childNodes[0].hidden = false;
-
-    //
-    // naplnění hodnotami
-
-    name.value = this.getScenarioColumn("scenario-resource-col");
-    area.value = this.getScenarioColumn("scenario-selector-col");
-
-    //TODO open popup over the whole sidebar or something
-    editor.openPopup(_tree.getTreeElement(), "overlap", 0, 0, false, false);
+    this.openEditPopupForCurrent();
   }
 };
 
@@ -388,17 +366,23 @@ selectowl.gui.get = function() {
   return selectowl.scenario.tree.getTreeElement();
 }
 
-selectowl.gui.editColumn = function(idx, col_id, value) {
-  var col = selectowl.scenario.tree.getColById(col_id);
-  selectowl.scenario.tree.setCellText(idx, col, value);
-  //TODO is this ---------^^^^^^^^^^^ cool to do?
-  //yeah.. just implemented it so that it saves the value to the right place
-}
+//NOTE DEPRECATED - won't use this to edit.. will be specific to the underlying
+//step how it will be edited
+//
+//selectowl.gui.editColumn = function(idx, col_id, value) {
+//  var col = selectowl.scenario.tree.getColById(col_id);
+//  selectowl.scenario.tree.setCellText(idx, col, value);
+//  //TODO is this ---------^^^^^^^^^^^ cool to do?
+//  //yeah.. just implemented it so that it saves the value to the right place
+//}
 
 selectowl.gui.onScenarioKeyPress = function(event) {
   var code;
-  if (event.keyCode == 18) { // enter
-    //TODO this one should open the popup on the current line
+
+  console.log('keypress: ctrl: '+ event.ctrlKey + ' keyCode:' + event.keyCode + ' charCode: ' + event.charCode );
+
+  if (event.ctrlKey && event.keyCode == 13) { // Ctrl+enter
+    this.openEditPopupForCurrent();
     event.stopPropagation();
     return false;
   }
@@ -409,8 +393,40 @@ selectowl.gui.onScenarioKeyPress = function(event) {
     return false;
   }
 
+  if (event.keyCode == 27) { // escape
+    selectowl.scenario.tree.clearSelection();
+    event.stopPropagation();
+    return false;
+  }
+
   if (event.keyCode == 46) { // delete
     selectowl.scenario.tree.deleteCurrent(); 
+    event.stopPropagation();
+    return false;
+  }
+
+  if (event.charCode == 105) { // 'i'
+    this.openEditPopupForCurrent();
+    event.stopPropagation();
+    return false;
+  }
+
+  if (event.charCode == 106) { // 'j'
+    selectowl.scenario.tree.selectNext();
+    event.stopPropagation();
+    return false;
+  }
+
+  if (event.charCode == 107) { // 'k'
+    selectowl.scenario.tree.selectPrevious();
+    event.stopPropagation();
+    return false;
+  }
+
+  if (event.charCode == 108) { // 'l'
+    this.openNewChildPopupForCurrent();
+    event.stopPropagation();
+    return false;
   }
 
 };
@@ -591,15 +607,17 @@ selectowl.gui.hideSelectedElem = function() {
  * <code>tree</code>.
  */
 selectowl.gui.refreshHighlight = function() {
-  var context = this.getContext(undefined, true);
-
-  if (context != null) {
-    this.showSelectedElem(context);
-    this.showContextBox(context[0]);
-  } else {
-    this.hideSelectedElem();
-    this.hideContextBox();
-  }
+  //TODO XXX context is defined differently now.. it changes only on <scr:each>
+  //or whatever name we give calling a template on subset of DOM
+  
+  //var context = this.getContext(undefined, true);
+  //if (context != null) {
+  //  this.showSelectedElem(context);
+  //  this.showContextBox(context[0]);
+  //} else {
+  //  this.hideSelectedElem();
+  //  this.hideContextBox();
+  //}
 }
 
 
@@ -651,8 +669,189 @@ selectowl.gui.onOntologyImportMenuClick = function(event) {
   panel.openPopup(container, 'overlap', 0, 0, false, false, event);
 }
 
-selectowl.gui.onScenarioDblclick = function(event) {
-  var container = event.target;
-  var panel = document.getElementById('selectowl-scenario-new-command-panel');
-  panel.openPopup(container, 'end_before', 5, 0, false, false, event);
+//selectowl.gui.onDirectCommand = function(event) {
+//  console.log('direct command called x:' + event.clientX);
+//  //var container = event.target;
+//  var panel = document.getElementById('scenario-direct-command-panel');
+//  panel.openPopup(null, 'after_pointer', event.clientX, event.clientY, false, false, event);
+//};
+
+selectowl.gui.onNewScenarioMenuClick = function () {
+  //TODO XXX open a dialog asking for new template name,
+  //then create the template and create a call-template for it
+  var contentWindow = aardvarkUtils.currentBrowser().contentWindow; 
+  var url = contentWindow.location.toString();
+
+  var sCallTemplate = selectowl.scenario.tree.createNewStep('CallTemplateStep');
+  sCallTemplate.step.name = 'init';
+  sCallTemplate.step.type = 'html/GET';
+
+  var sValueOf = selectowl.scenario.tree.createNewStep('ValueOfStep', sCallTemplate);
+  sValueOf.step.text = url;
+
+  var sTemplate = selectowl.scenario.tree.createNewStep('TemplateStep');
+  sTemplate.step.name = 'init';
+  sTemplate.step.mime = 'text/html';
+
+  this.refreshScenarionTree();
 };
+
+//------------------------------------------------------------------
+
+selectowl.gui.onScenarioEditTemplatePopupShowing = function(event) {
+  var selected_step = selectowl.scenario.tree.getSelected();
+  $('#scenario-edit-template-name').val(selected_step.step.name);
+  $('#scenario-edit-template-mime').val(selected_step.step.mime);
+};
+
+selectowl.gui.onScenarioEditTemplateSubmit = function(event) {
+  //TODO error handling
+  var selected_step = selectowl.scenario.tree.getSelected();
+  selected_step.step.name = $('#scenario-edit-template-name').val();
+  selected_step.step.mime = $('#scenario-edit-template-mime').val();
+  event.currentTarget.hidePopup();
+};    
+
+selectowl.gui.onTemplateNewChildClick = function() {
+  var orig = document.getElementById('scenario-edit-template-panel');
+  var child = document.getElementById('scenario-new-child-template-panel');
+  child.openPopup(null, orig.position);
+  orig.hidePopup();
+};
+
+//------------------------------------------------------------------
+
+selectowl.gui.onScenarioEditCallTemplatePopupShowing = function(event) {
+  var selected_step = selectowl.scenario.tree.getSelected();
+  $('#scenario-edit-call-template-name').val(selected_step.step.name);
+  $('#scenario-edit-call-template-type').val(selected_step.step.type);
+};
+
+selectowl.gui.onScenarioEditCallTemplateSubmit = function(event) {
+  //TODO error handling
+  var selected_step = selectowl.scenario.tree.getSelected();
+  selected_step.step.name = $('#scenario-edit-call-template-name').val();
+  selected_step.step.type = $('#scenario-edit-call-template-type').val();
+  event.currentTarget.hidePopup();
+};    
+
+//------------------------------------------------------------------
+
+selectowl.gui.onScenarioEditValueOfPopupShowing = function(event) {
+  var selected_step = selectowl.scenario.tree.getSelected();
+  $('#scenario-edit-value-of-text').val(selected_step.step.text);
+  $('#scenario-edit-value-of-select').val(selected_step.step.select);
+  $('#scenario-edit-value-of-regexp').val(selected_step.step.regexp);
+  $('#scenario-edit-value-of-replace').val(selected_step.step.replace);
+  $('#scenario-edit-value-of-property').val(selected_step.step.property);
+};
+
+selectowl.gui.onScenarioEditValueOfSubmit = function(event) {
+  console.log('submit called');
+  //TODO error handling
+  var selected_step = selectowl.scenario.tree.getSelected();
+  selected_step.step.text = $('#scenario-edit-value-of-text').val();
+  selected_step.step.select = $('#scenario-edit-value-of-select').val();
+  selected_step.step.regexp = $('#scenario-edit-value-of-regexp').val();
+  selected_step.step.replace = $('#scenario-edit-value-of-replace').val();
+  selected_step.step.property = $('#scenario-edit-value-of-property').val();
+  event.currentTarget.hidePopup();
+};    
+
+//------------------------------------------------------------------
+
+selectowl.gui.onScenarioEditOntoElemPopupShowing = function(event) {
+  var selected_step = selectowl.scenario.tree.getSelected();
+  $('#scenario-edit-onto-elem-rel').val(selected_step.step.rel);
+  $('#scenario-edit-onto-elem-type').val(selected_step.step.type);
+  $('#scenario-edit-onto-elem-about').val(selected_step.step.about);
+};
+
+selectowl.gui.onScenarioEditOntoElemSubmit = function(event) {
+  //TODO error handling
+  var selected_step = selectowl.scenario.tree.getSelected();
+  selected_step.step.rel   = $('#scenario-edit-onto-elem-rel').val();
+  selected_step.step.type  = $('#scenario-edit-onto-elem-type').val();
+  selected_step.step.about = $('#scenario-edit-onto-elem-about').val();
+  event.currentTarget.hidePopup();
+};
+
+//------------------------------------------------------------------
+
+selectowl.gui.onScenarioEditPanelKeyDown = function(event) {
+  if (event.ctrlKey && event.keyCode == 13) { // ctrl+enter
+    event.currentTarget.dispatchEvent(new CustomEvent("submit", {bubbles:false, cancelable:true}));
+    event.preventDefault();
+    event.stopPropagation();
+  }
+};
+
+selectowl.gui.openEditPopupForCurrent = function() {
+  var tree_step = selectowl.scenario.tree.getSelected();
+  var y_offset = selectowl.scenario.tree.getSelectedRowYOffset();
+  var step = tree_step.step;
+  var popup = null;
+  switch(step.nodeName) {
+    case 'template': 
+      popup = document.getElementById("scenario-edit-template-panel");
+      break;
+    case 'call-template':
+      popup = document.getElementById("scenario-edit-call-template-panel");
+      break;
+    case 'value-of':
+      popup = document.getElementById("scenario-edit-value-of-panel");
+      break;
+    case 'onto-elem':
+      popup = document.getElementById('scenario-edit-onto-elem-panel');
+      break;
+    default:
+      throw 'unknown node name: ' + step.nodeName;
+  } 
+  popup.openPopup(document.getElementById('scenario-editor-treechildren'), 'end_before', 0, y_offset, false, false);
+};
+
+selectowl.gui.openNewChildPopupForCurrent = function() {
+  var tree_step = selectowl.scenario.tree.getSelected();
+  var y_offset = selectowl.scenario.tree.getSelectedRowYOffset();
+  var step = tree_step.step;
+  var popup = null;
+  switch(step.nodeName) {
+    case 'template': 
+      popup = document.getElementById("scenario-new-child-template-panel");
+      break;
+    case 'call-template':
+      popup = document.getElementById("scenario-new-child-call-template-panel");
+      break;
+    case 'value-of':
+      popup = document.getElementById("scenario-new-child-value-of-panel");
+      break;
+    case 'onto-elem':
+      popup = document.getElementById('scenario-new-child-onto-elem-panel');
+      break;
+    default:
+      throw 'unknown node name: ' + step.nodeName;
+  } 
+  popup.openPopup(document.getElementById('scenario-editor-treechildren'), 'end_before', 0, y_offset, false, false);
+};
+
+selectowl.gui.onNewChild = function(event, elemType) {
+  var ts;
+  var curr = selectowl.scenario.tree.getSelected();
+  switch (elemType) {
+    case 'onto-elem':
+      ts = selectowl.scenario.tree.createNewStep('OntoElemStep', curr);
+      break;
+    case 'value-of':
+      ts = selectowl.scenario.tree.createNewStep('ValueOfStep', curr);
+      break;
+    case 'call-template':
+      ts = selectowl.scenario.tree.createNewStep('CallTemplateStep', curr);
+      break;
+    case 'template':
+      ts = selectowl.scenario.tree.createNewStep('TemplateStep', -1);
+      break;
+    default:
+      throw 'unknown type: ' + elemType;
+  }
+};
+

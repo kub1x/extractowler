@@ -54,7 +54,7 @@ selectowl.ontology.getByUri = function( uri ) {
 selectowl.ontology.prefixify = function (uri) {
   //TODO error handling
   var idx = uri.lastIndexOf('#');
-  idx == (idx != -1) ? idx || uri.lastIndexOf('/');
+  idx == (idx != -1) ? idx : uri.lastIndexOf('/');
   //NOTE +1 to include the '#' or '/' sign
   var base = uri.substring(0,idx+1);
   var name = uri.substring(idx);

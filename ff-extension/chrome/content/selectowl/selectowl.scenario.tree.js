@@ -48,22 +48,25 @@ selectowl.scenario.tree.level = -1;
 //selectowl.scenario.tree.children = selectowl.scenario.tree._byIdx;
 
 
-selectowl.scenario.tree.createNewStep = function( resource, selector ) {
+selectowl.scenario.tree.createNewStep = function( step_type, parent ) {
   // obtain context TreeStep
-  var ts_context = this.getSelected();
+  // NOTE we use parent === -1 to append at the end of scenario tree as it
+  // holds level -1
+  var ts_context = (parent == null) ? this.getSelected() :
+                   (parent === -1)  ? this : parent;
 
   // Grab scenario.step outa ts_context
   var ss_context = null;
   if (ts_context) ss_context = ts_context.step;
 
   // Create selectowl.scenario.step for given ss_context
-  var ss = selectowl.scenario.createStep(resource, selector, ss_context);  
+  var ss = selectowl.scenario.createStep(step_type, ss_context);  
 
   // Create TreeStep
   var ts = new this.TreeStep(ss, ts_context);
 
   // Add TreeStep into tree
-  var idx = this.currentIndex; // of the context
+  var idx = (parent != null) ? this.indexOf(parent) : this.currentIndex; // of the context
   if (idx == -1) { 
     // Just add to the floor
     this._byIdx.push(ts);
@@ -123,11 +126,24 @@ selectowl.scenario.tree.getSelected = function( ) {
   return this._byIdx[this.currentIndex];
 }
 
+selectowl.scenario.tree.indexOf = function( ts ) {
+  return this._byIdx.indexOf(ts);
+};
+
 //TODO DELME - DEPRECATED
 //selectowl.scenario.tree.getCurrentIndex = function( ) {
 //  var tree = this.getTreeElement();
 //  return tree.currentIndex;
 //}
+
+selectowl.scenario.tree.getSelectedRowYOffset = function () {
+  var x = {}, y = {}, width = {}, height = {};
+  var tree = this.getTreeElement();
+  var box = tree.boxObject;
+  box.getCoordsForCellItem(this.currentIndex, box.columns[0], 'cell', x, y, width, height );
+  //console.log('tree box: ' + [x.value, y.value, width.value, height.value].join(', '));
+  return y.value + height.value / 2;
+};
 
 selectowl.scenario.tree.getTreeElement = function () {
   return $('#selectowl-scenario-tree').get(0);
@@ -136,6 +152,18 @@ selectowl.scenario.tree.getTreeElement = function () {
 selectowl.scenario.tree.select = function(row) {
   this.getTreeElement().view.selection.select(row);
 }
+
+selectowl.scenario.tree.selectStep = function(treeStep) {
+  this.select(this.indexOf(treeStep));
+};
+
+selectowl.scenario.tree.selectNext = function(){
+  this.select(this.currentIndex + 1);
+};
+
+selectowl.scenario.tree.selectPrevious = function(){
+  this.select(this.currentIndex - 1);
+};
 
 selectowl.scenario.tree.clearSelection = function() {
   this.getTreeElement().view.selection.clearSelection();
@@ -287,12 +315,14 @@ selectowl.scenario.tree.toggleOpenState = function(row) {
 };
 
 selectowl.scenario.tree.getCellText = function(row, col){
-  if (col.id == 'scenario-resource-col' ) { return this.get(row).step.resource; } 
-  if (col.id == 'scenario-selector-col' ) { return this.get(row).step.selector; } 
+  return this.get(row).step.getLabel();
+  //if (col.id == 'scenario-resource-col' ) { return this.get(row).step.resource; } 
+  //if (col.id == 'scenario-selector-col' ) { return this.get(row).step.selector; } 
 };
 
-selectowl.scenario.tree.setCellText = function(row, col, value) {
-  if (col.id == 'scenario-resource-col' ) { this.get(row).step.resource = value; } 
-  if (col.id == 'scenario-selector-col' ) { this.get(row).step.selector = value; } 
-}; 
+//NOTE DEPRECATED - won't be manually editable
+//selectowl.scenario.tree.setCellText = function(row, col, value) {
+//  if (col.id == 'scenario-resource-col' ) { this.get(row).step.resource = value; } 
+//  if (col.id == 'scenario-selector-col' ) { this.get(row).step.selector = value; } 
+//}; 
 
