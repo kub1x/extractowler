@@ -306,23 +306,6 @@ selectowl.gui.onResize = function() {
   selectowl.gui.refreshHighlight();
 }
 
-selectowl.gui.onScenarioKeyDown = function(event) {
-  if (event.keyCode == 38 || // Up   arrow
-      event.keyCode == 40) { // Down arrow
-
-    var _tree = selectowl.scenario.tree
-
-    var currentIndex = _tree.currentIndex;
-    var lastIndex = _tree.lastIndex;
-
-    //console.log('keyDown currentIndex:' + currentIndex + ' lastIndex: ' + lastIndex + ' keyCode: ' + event.keyCode);
-
-    _tree.lastIndex = currentIndex;
-
-    return;
-  }
-}
-
 selectowl.gui.onScenarioClick = function(event) {
   var _tree = selectowl.scenario.tree
 
@@ -344,7 +327,7 @@ selectowl.gui.onScenarioClick = function(event) {
     return;
   }
 
-  // Open popup
+  // Open popup on right click
   if (event.button == 2 && (_tree.currentIndex >= 0 || this.editing != this.DEF)) {
     this.openEditPopupForCurrent();
   }
@@ -378,56 +361,83 @@ selectowl.gui.get = function() {
 
 selectowl.gui.onScenarioKeyPress = function(event) {
   var code;
+  var handeled;
 
-  console.log('keypress: ctrl: '+ event.ctrlKey + ' keyCode:' + event.keyCode + ' charCode: ' + event.charCode );
+  console.log('keypress ctrl: '+ event.ctrlKey + ' keyCode:' + event.keyCode + ' charCode: ' + event.charCode );
 
   if (event.ctrlKey && event.keyCode == 13) { // Ctrl+enter
     this.openEditPopupForCurrent();
-    event.stopPropagation();
-    return false;
+    handeled = true;
   }
 
-  if (event.keyCode == 32) { // space
-    //TODO this one should select/unselect the current line
-    event.stopPropagation();
-    return false;
-  }
+  //if (event.keyCode == 32) { // space
+  //  if (selectowl.scenario.currentIndex != -1) {
+  //    selectowl.scenario.tree.clearSelection();
+  //    handeled = true;
+  //  } else {
+  //    //Select is default behavior leave it to bubble
+  //    return;
+  //  }
+  //}
+  
+  //MAYBE OBSOLETE store last index???
+  //if (event.keyCode == 38 || // Up   arrow
+  //    event.keyCode == 40) { // Down arrow
+  //  var _tree = selectowl.scenario.tree
+  //  var currentIndex = _tree.currentIndex;
+  //  var lastIndex = _tree.lastIndex;
+  //  //console.log('keyDown currentIndex:' + currentIndex + ' lastIndex: ' + lastIndex + ' keyCode: ' + event.keyCode);
+  //  _tree.lastIndex = currentIndex;
+  //  return;
+  //}
 
   if (event.keyCode == 27) { // escape
     selectowl.scenario.tree.clearSelection();
-    event.stopPropagation();
-    return false;
+    handeled = true;
   }
 
   if (event.keyCode == 46) { // delete
-    selectowl.scenario.tree.deleteCurrent(); 
-    event.stopPropagation();
-    return false;
+    selectowl.scenario.tree.deleteCurrent();
+    handeled = true;
   }
 
   if (event.charCode == 105) { // 'i'
     this.openEditPopupForCurrent();
-    event.stopPropagation();
-    return false;
+    handeled = true;
   }
 
   if (event.charCode == 106) { // 'j'
     selectowl.scenario.tree.selectNext();
-    event.stopPropagation();
-    return false;
+    handeled = true;
   }
+
+  //if (event.charCode == 97) { // 'a'
+  //  //TODO create new siblink
+  //  handeled = true;
+  //}
+
+  //if (event.shiftKey && event.charCode == 97) { // Shift+'a'
+  //  //TODO create new "previous" siblink
+  //  handeled = true;
+  //}
 
   if (event.charCode == 107) { // 'k'
     selectowl.scenario.tree.selectPrevious();
+    handeled = true;
+  }
+
+  if (event.charCode == 108) { // Ctrl+'l'
+    this.openNewChildPopupForCurrent();
+    handeled = true;
+  }
+
+
+  if (handeled) {
     event.stopPropagation();
+    event.preventDefault();
     return false;
   }
 
-  if (event.charCode == 108) { // 'l'
-    this.openNewChildPopupForCurrent();
-    event.stopPropagation();
-    return false;
-  }
 
 };
 
