@@ -16,10 +16,14 @@ selectowl.scenario.addStep = function( step ) {
   this._steps.push(step);
 };
 
-selectowl.scenario.toJson = function() {
+selectowl.scenario.toJSON = function() {
   // add scenario settings
   // add steps
-  return JSON.stringify(this._steps, null, 2);
+  
+  //NOTE the returned value will be serialized
+  //return JSON.stringify(this._steps, null, 2);
+  
+  return this._steps
 };
 
 /************************************************************

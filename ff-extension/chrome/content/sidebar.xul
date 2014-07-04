@@ -25,7 +25,7 @@
         <menupopup id="selectowl-scenario-popup">
           <menuitem label="New Scenario" onclick="selectowl.gui.onNewScenarioMenuClick();" />
           <menuitem label="Save"  disabled="true" />
-          <menuitem label="Test"  oncommand="alert(selectowl.scenario.toJson());" />
+          <menuitem label="Test"  oncommand="alert(JSON.stringify(selectowl.scenario, null, 2));" />
           <menuitem label="Open from file" disabled="true" />
           <menuitem label="Open from Drive" disabled="true" />
           <menuitem label="Open from DropBox" disabled="true" />
