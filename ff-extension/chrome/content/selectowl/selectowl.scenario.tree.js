@@ -136,13 +136,17 @@ selectowl.scenario.tree.indexOf = function( ts ) {
 //  return tree.currentIndex;
 //}
 
-selectowl.scenario.tree.getSelectedRowYOffset = function () {
+selectowl.scenario.tree.getSelectedRowYOffset = function (type) {
   var x = {}, y = {}, width = {}, height = {};
   var tree = this.getTreeElement();
   var box = tree.boxObject;
   box.getCoordsForCellItem(this.currentIndex, box.columns[0], 'cell', x, y, width, height );
   //console.log('tree box: ' + [x.value, y.value, width.value, height.value].join(', '));
-  return y.value + height.value / 2;
+  if (type == 'end') {
+    return y.value + height.value
+  } else { // Middle
+    return y.value + height.value / 2;
+  }
 };
 
 selectowl.scenario.tree.getTreeElement = function () {

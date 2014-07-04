@@ -224,7 +224,7 @@
   </panel>
   -->
 
-  <!-- #### #### -->
+  <!-- #### ####
 
   <panel id="scenario-edit-template-panel"
     width="370" level="parent" type="arrow"
@@ -245,8 +245,6 @@
     <button label="ValueOf"      oncommand="selectowl.gui.onNewChild(event, 'value-of');"/>
     <button label="CallTemplate" oncommand="selectowl.gui.onNewChild(event, 'call-template');"/>
   </panel>
-
-  <!-- #### -->
 
   <panel id="scenario-edit-call-template-panel"
     width="370" level="parent" type="arrow"
@@ -286,6 +284,24 @@
       <hbox><html:pre> type:</html:pre><textbox id="scenario-edit-onto-elem-type"  flex="1"></textbox></hbox>
       <hbox><html:pre>about:</html:pre><textbox id="scenario-edit-onto-elem-about" flex="1"></textbox></hbox>
     </vbox>
+  </panel>
+  -->
+
+  <panel id="scenario-edit-panel"
+    width="370" level="parent" type="arrow"
+    onpopupshowing="selectowl.gui.onScenarioEditPopupShowing(event);"
+    onsubmit="selectowl.gui.onScenarioEditSubmit(event);"
+    onkeydown="selectowl.gui.onScenarioEditPanelKeyDown(event);">
+
+  </panel>
+
+  <panel id="scenario-new-panel"
+    width="370" level="parent" type="arrow"
+    onpopupshowing="selectowl.gui.onScenarioNewPopupShowing(event);"
+    onpopupshown="$(this).find('textbox.first').focus();"
+    onsubmit="selectowl.gui.onScenarioNewPanelSubmit(event);"
+    onkeydown="selectowl.gui.onScenarioNewPanelKeyDown(event);">
+
   </panel>
 
 </page>

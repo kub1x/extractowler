@@ -329,7 +329,7 @@ selectowl.gui.onScenarioClick = function(event) {
 
   // Open popup on right click
   if (event.button == 2 && (_tree.currentIndex >= 0 || this.editing != this.DEF)) {
-    this.openEditPopupForCurrent();
+    this.openPopupForCurrent('edit');
   }
 };
 
@@ -366,7 +366,7 @@ selectowl.gui.onScenarioKeyPress = function(event) {
   console.log('keypress ctrl: '+ event.ctrlKey + ' keyCode:' + event.keyCode + ' charCode: ' + event.charCode );
 
   if (event.ctrlKey && event.keyCode == 13) { // Ctrl+enter
-    this.openEditPopupForCurrent();
+    this.openPopupForCurrent('edit');
     handeled = true;
   }
 
@@ -402,7 +402,7 @@ selectowl.gui.onScenarioKeyPress = function(event) {
   }
 
   if (event.charCode == 105) { // 'i'
-    this.openEditPopupForCurrent();
+    this.openPopupForCurrent('edit');
     handeled = true;
   }
 
@@ -426,8 +426,8 @@ selectowl.gui.onScenarioKeyPress = function(event) {
     handeled = true;
   }
 
-  if (event.charCode == 108) { // Ctrl+'l'
-    this.openNewChildPopupForCurrent();
+  if (event.charCode == 108) { // 'l'
+    this.openPopupForCurrent('new');
     handeled = true;
   }
 
@@ -708,145 +708,101 @@ selectowl.gui.onNewScenarioMenuClick = function () {
 
 //------------------------------------------------------------------
 
-selectowl.gui.onScenarioEditTemplatePopupShowing = function(event) {
-  var selected_step = selectowl.scenario.tree.getSelected();
-  $('#scenario-edit-template-name').val(selected_step.step.name);
-  $('#scenario-edit-template-mime').val(selected_step.step.mime);
-};
+//selectowl.gui.onScenarioEditTemplatePopupShowing = function(event) {
+//  var selected_step = selectowl.scenario.tree.getSelected();
+//  $('#scenario-edit-template-name').val(selected_step.step.name);
+//  $('#scenario-edit-template-mime').val(selected_step.step.mime);
+//};
+//
+//selectowl.gui.onScenarioEditTemplateSubmit = function(event) {
+//  //TODO error handling
+//  var selected_step = selectowl.scenario.tree.getSelected();
+//  selected_step.step.name = $('#scenario-edit-template-name').val();
+//  selected_step.step.mime = $('#scenario-edit-template-mime').val();
+//  event.currentTarget.hidePopup();
+//};    
+//
+//selectowl.gui.onTemplateNewChildClick = function() {
+//  var orig = document.getElementById('scenario-edit-template-panel');
+//  var child = document.getElementById('scenario-new-child-template-panel');
+//  child.openPopup(null, orig.position);
+//  orig.hidePopup();
+//};
+//
+////------------------------------------------------------------------
+//
+//selectowl.gui.onScenarioEditCallTemplatePopupShowing = function(event) {
+//  var selected_step = selectowl.scenario.tree.getSelected();
+//  $('#scenario-edit-call-template-name').val(selected_step.step.name);
+//  $('#scenario-edit-call-template-type').val(selected_step.step.type);
+//};
+//
+//selectowl.gui.onScenarioEditCallTemplateSubmit = function(event) {
+//  //TODO error handling
+//  var selected_step = selectowl.scenario.tree.getSelected();
+//  selected_step.step.name = $('#scenario-edit-call-template-name').val();
+//  selected_step.step.type = $('#scenario-edit-call-template-type').val();
+//  event.currentTarget.hidePopup();
+//};    
+//
+////------------------------------------------------------------------
+//
+//selectowl.gui.onScenarioEditValueOfPopupShowing = function(event) {
+//  var selected_step = selectowl.scenario.tree.getSelected();
+//  $('#scenario-edit-value-of-text').val(selected_step.step.text);
+//  $('#scenario-edit-value-of-select').val(selected_step.step.select);
+//  $('#scenario-edit-value-of-regexp').val(selected_step.step.regexp);
+//  $('#scenario-edit-value-of-replace').val(selected_step.step.replace);
+//  $('#scenario-edit-value-of-property').val(selected_step.step.property);
+//};
+//
+//selectowl.gui.onScenarioEditValueOfSubmit = function(event) {
+//  console.log('submit called');
+//  //TODO error handling
+//  var selected_step = selectowl.scenario.tree.getSelected();
+//  selected_step.step.text = $('#scenario-edit-value-of-text').val();
+//  selected_step.step.select = $('#scenario-edit-value-of-select').val();
+//  selected_step.step.regexp = $('#scenario-edit-value-of-regexp').val();
+//  selected_step.step.replace = $('#scenario-edit-value-of-replace').val();
+//  selected_step.step.property = $('#scenario-edit-value-of-property').val();
+//  event.currentTarget.hidePopup();
+//};    
+//
+////------------------------------------------------------------------
+//
+//selectowl.gui.onScenarioEditOntoElemPopupShowing = function(event) {
+//  var selected_step = selectowl.scenario.tree.getSelected();
+//  $('#scenario-edit-onto-elem-rel').val(selected_step.step.rel);
+//  $('#scenario-edit-onto-elem-type').val(selected_step.step.type);
+//  $('#scenario-edit-onto-elem-about').val(selected_step.step.about);
+//};
+//
+//selectowl.gui.onScenarioEditOntoElemSubmit = function(event) {
+//  //TODO error handling
+//  var selected_step = selectowl.scenario.tree.getSelected();
+//  selected_step.step.rel   = $('#scenario-edit-onto-elem-rel').val();
+//  selected_step.step.type  = $('#scenario-edit-onto-elem-type').val();
+//  selected_step.step.about = $('#scenario-edit-onto-elem-about').val();
+//  event.currentTarget.hidePopup();
+//};
+//
+////------------------------------------------------------------------
 
-selectowl.gui.onScenarioEditTemplateSubmit = function(event) {
-  //TODO error handling
-  var selected_step = selectowl.scenario.tree.getSelected();
-  selected_step.step.name = $('#scenario-edit-template-name').val();
-  selected_step.step.mime = $('#scenario-edit-template-mime').val();
-  event.currentTarget.hidePopup();
-};    
-
-selectowl.gui.onTemplateNewChildClick = function() {
-  var orig = document.getElementById('scenario-edit-template-panel');
-  var child = document.getElementById('scenario-new-child-template-panel');
-  child.openPopup(null, orig.position);
-  orig.hidePopup();
-};
-
-//------------------------------------------------------------------
-
-selectowl.gui.onScenarioEditCallTemplatePopupShowing = function(event) {
-  var selected_step = selectowl.scenario.tree.getSelected();
-  $('#scenario-edit-call-template-name').val(selected_step.step.name);
-  $('#scenario-edit-call-template-type').val(selected_step.step.type);
-};
-
-selectowl.gui.onScenarioEditCallTemplateSubmit = function(event) {
-  //TODO error handling
-  var selected_step = selectowl.scenario.tree.getSelected();
-  selected_step.step.name = $('#scenario-edit-call-template-name').val();
-  selected_step.step.type = $('#scenario-edit-call-template-type').val();
-  event.currentTarget.hidePopup();
-};    
-
-//------------------------------------------------------------------
-
-selectowl.gui.onScenarioEditValueOfPopupShowing = function(event) {
-  var selected_step = selectowl.scenario.tree.getSelected();
-  $('#scenario-edit-value-of-text').val(selected_step.step.text);
-  $('#scenario-edit-value-of-select').val(selected_step.step.select);
-  $('#scenario-edit-value-of-regexp').val(selected_step.step.regexp);
-  $('#scenario-edit-value-of-replace').val(selected_step.step.replace);
-  $('#scenario-edit-value-of-property').val(selected_step.step.property);
-};
-
-selectowl.gui.onScenarioEditValueOfSubmit = function(event) {
-  console.log('submit called');
-  //TODO error handling
-  var selected_step = selectowl.scenario.tree.getSelected();
-  selected_step.step.text = $('#scenario-edit-value-of-text').val();
-  selected_step.step.select = $('#scenario-edit-value-of-select').val();
-  selected_step.step.regexp = $('#scenario-edit-value-of-regexp').val();
-  selected_step.step.replace = $('#scenario-edit-value-of-replace').val();
-  selected_step.step.property = $('#scenario-edit-value-of-property').val();
-  event.currentTarget.hidePopup();
-};    
-
-//------------------------------------------------------------------
-
-selectowl.gui.onScenarioEditOntoElemPopupShowing = function(event) {
-  var selected_step = selectowl.scenario.tree.getSelected();
-  $('#scenario-edit-onto-elem-rel').val(selected_step.step.rel);
-  $('#scenario-edit-onto-elem-type').val(selected_step.step.type);
-  $('#scenario-edit-onto-elem-about').val(selected_step.step.about);
-};
-
-selectowl.gui.onScenarioEditOntoElemSubmit = function(event) {
-  //TODO error handling
-  var selected_step = selectowl.scenario.tree.getSelected();
-  selected_step.step.rel   = $('#scenario-edit-onto-elem-rel').val();
-  selected_step.step.type  = $('#scenario-edit-onto-elem-type').val();
-  selected_step.step.about = $('#scenario-edit-onto-elem-about').val();
-  event.currentTarget.hidePopup();
-};
-
-//------------------------------------------------------------------
-
-selectowl.gui.onScenarioEditPanelKeyDown = function(event) {
-  if (event.ctrlKey && event.keyCode == 13) { // ctrl+enter
-    event.currentTarget.dispatchEvent(new CustomEvent("submit", {bubbles:false, cancelable:true}));
-    event.preventDefault();
-    event.stopPropagation();
-  }
-};
-
-selectowl.gui.openEditPopupForCurrent = function() {
-  var tree_step = selectowl.scenario.tree.getSelected();
-  var y_offset = selectowl.scenario.tree.getSelectedRowYOffset();
-  var step = tree_step.step;
-  var popup = null;
-  switch(step.nodeName) {
-    case 'template': 
-      popup = document.getElementById("scenario-edit-template-panel");
-      break;
-    case 'call-template':
-      popup = document.getElementById("scenario-edit-call-template-panel");
-      break;
-    case 'value-of':
-      popup = document.getElementById("scenario-edit-value-of-panel");
-      break;
-    case 'onto-elem':
-      popup = document.getElementById('scenario-edit-onto-elem-panel');
-      break;
-    default:
-      throw 'unknown node name: ' + step.nodeName;
-  } 
-  popup.openPopup(document.getElementById('scenario-editor-treechildren'), 'end_before', 0, y_offset, false, false);
-};
-
-selectowl.gui.openNewChildPopupForCurrent = function() {
-  var tree_step = selectowl.scenario.tree.getSelected();
-  var y_offset = selectowl.scenario.tree.getSelectedRowYOffset();
-  var step = tree_step.step;
-  var popup = null;
-  switch(step.nodeName) {
-    case 'template': 
-      popup = document.getElementById("scenario-new-child-template-panel");
-      break;
-    case 'call-template':
-      popup = document.getElementById("scenario-new-child-call-template-panel");
-      break;
-    case 'value-of':
-      popup = document.getElementById("scenario-new-child-value-of-panel");
-      break;
-    case 'onto-elem':
-      popup = document.getElementById('scenario-new-child-onto-elem-panel');
-      break;
-    default:
-      throw 'unknown node name: ' + step.nodeName;
-  } 
-  popup.openPopup(document.getElementById('scenario-editor-treechildren'), 'end_before', 0, y_offset, false, false);
+selectowl.gui.openPopupForCurrent = function( type ) {
+  var popup = document.getElementById('scenario-'+type+'-panel');
+  var y_offset = selectowl.scenario.tree.getSelectedRowYOffset(type == 'new' ? 'end' : 'middle');
+  var anchor = document.getElementById('scenario-editor-treechildren');
+  popup.openPopup(anchor, 'end_before', 0, y_offset, false, false);
 };
 
 selectowl.gui.onNewChild = function(event, elemType) {
+
+  document.getElementById('scenario-new-panel').hidePopup();
+
   var ts;
   var curr = selectowl.scenario.tree.getSelected();
+  //TODO replace this switch case.. sort this out in createStep method of scenario (not tree)
+  //TODO better placement (append child 'l', prepend/unshift child 'L', add after 'a')
   switch (elemType) {
     case 'onto-elem':
       ts = selectowl.scenario.tree.createNewStep('OntoElemStep', curr);
@@ -863,5 +819,81 @@ selectowl.gui.onNewChild = function(event, elemType) {
     default:
       throw 'unknown type: ' + elemType;
   }
+
+  selectowl.scenario.tree.selectStep(ts);
+
+  selectStep.gui.openPopupForCurrent('edit');
 };
+
+selectowl.gui.onScenarioNewPopupShowing = function(event) {
+  var step = selectowl.scenario.tree.getSelected().step;
+  var allowedChildNodes = step.allowedChildNodes;
+
+  var $popup = $('#scenario-new-panel');
+  $popup.empty();
+
+  var $vbox = $('<vbox flex="1"></vbox>');
+  $popup.append($vbox);
+
+  for(i in allowedChildNodes) {
+    var ch = allowedChildNodes[i];
+    var $hbox = $('<hbox></hbox>');
+    var $button = $('<button label="New ' + ch + '" flex="1"/>'); 
+    $vbox.append($hbox);
+    $hbox.append($button);
+    $button.on('command', function(event) {
+      selectowl.gui.onNewChild(event, ch);
+    });
+  }
+};
+
+//-------------------------------------------------------
+
+selectowl.gui.onScenarioEditPopupShowing = function(event) {
+  var step = selectowl.scenario.tree.getSelected().step;
+  var fields = step.getOwnFields();
+
+  var popup = document.getElementById('scenario-edit-panel');
+
+  var tmp_html = '<vbox flex="1">'
+
+  var first_id = null;
+  for(f in fields) {
+    var field = fields[f];
+    var field_id = 'scenario-edit-' + field + '-field';
+    first_id = first_id || field_id;
+    var tag_xul = '<hbox><html:pre> ' + field + ': </html:pre><textbox id="' + field_id + '" flex="1" value="' + step[field] + '"/></hbox>';
+    tmp_html += tag_xul;
+  }
+
+  tmp_html += '</vbox>';
+
+  popup.innerHTML = tmp_html;
+  
+  $(popup).on('popupshown', function() {
+    document.getElementById(first_id).focus();
+  });
+};
+
+selectowl.gui.onScenarioEditSubmit = function(event) {
+  var step = selectowl.scenario.tree.getSelected().step;
+  var fields = step.getOwnFields();
+  for(f in fields) {
+    var field = fields[f];
+    var field_id = 'scenario-edit-' + field + '-field';
+    // Assign
+    step[field] = $('#'+field_id).val();
+  }
+  event.target.hidePopup();
+};
+
+selectowl.gui.onScenarioEditPanelKeyDown = function(event) {
+  if (event.ctrlKey && event.keyCode == 13) { // ctrl+enter
+    event.currentTarget.dispatchEvent(new CustomEvent("submit", {bubbles:false, cancelable:true}));
+    event.preventDefault();
+    event.stopPropagation();
+  }
+};
+
+//-------------------------------------------------------
 
