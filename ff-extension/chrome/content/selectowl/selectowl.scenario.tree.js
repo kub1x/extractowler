@@ -158,11 +158,15 @@ selectowl.scenario.tree.selectStep = function(treeStep) {
 };
 
 selectowl.scenario.tree.selectNext = function(){
-  this.select(this.currentIndex + 1);
+  if (this.currentIndex + 1 < this.rowCount) {
+    this.select(this.currentIndex + 1);
+  }
 };
 
 selectowl.scenario.tree.selectPrevious = function(){
-  this.select(this.currentIndex - 1);
+  if (this.currentIndex - 1 >= 0) {
+    this.select(this.currentIndex - 1);
+  }
 };
 
 selectowl.scenario.tree.clearSelection = function() {
