@@ -829,19 +829,22 @@ selectowl.gui.onScenarioNewPopupShowing = function(event) {
   var step = selectowl.scenario.tree.getSelected().step;
   var allowedChildNodes = step.allowedChildNodes;
 
-  var $popup = $('#scenario-new-panel');
-  $popup.empty();
+  var popup = document.getElementById('scenario-new-panel');
+  popup.innerHTML = '';
 
-  var $vbox = $('<vbox flex="1"></vbox>');
-  $popup.append($vbox);
+  var vbox = document.createElement('vbox');
+  popup.appendChild(vbox);
+  vbox.setAttribute('flex', 1);
 
   for(i in allowedChildNodes) {
     var ch = allowedChildNodes[i];
-    var $hbox = $('<hbox></hbox>');
-    var $button = $('<button label="' + ch + '" flex="1"/>'); 
-    $vbox.append($hbox);
-    $hbox.append($button);
-    $button.on('command', function(event) {
+    var hbox = document.createElement('hbox');
+    vbox.appendChild(hbox);
+    var button = document.createElement('button');
+    hbox.appendChild(button);
+    button.setAttribute('label', ch);
+    button.setAttribute('flex', 1);
+    button.addEventListener('command', function(event) {
       //selectowl.gui.onNewChild(event, ch); //TODO XXX takhle ten closure nefunguje, promenna 'ch' se prepise a udrizi se jen posledni
       selectowl.gui.onNewChild(event, $(this).attr('label')); //TODO WARNING using label for storing variables is baad ;)
     });
@@ -930,7 +933,7 @@ selectowl.gui.onScenarioEditPopupShown = function(event) {
 };
 
 selectowl.gui.onScenarioNewPopupShown = function(event) {
-  this.focusFirst(event.target, 'textbox');
+  this.focusFirst(event.target, 'button');
 };
 
 //-------------------------------------------------------
