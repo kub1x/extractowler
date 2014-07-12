@@ -8,6 +8,7 @@
   xmlns:html="http://www.w3.org/1999/xhtml"
   onload="selectowl.init();">
   <script src="jquery-2.1.0.js" />
+  <script src="jquery-ui-1.10.4.js" />
   <script src="jOWL.js" />
   <script src="aardvark.js" />
   <script><![CDATA[window.Sizzle = jQuery.find;]]></script>

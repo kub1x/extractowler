@@ -194,3 +194,11 @@ selectowl.ontology.properties.getByUri = function( uri ) {
   return this._byUri[uri];
 }
 
+selectowl.ontology.properties.getShortened = function() {
+  var res = [];
+  for (var i in this._byIdx) {
+    var p = this._byIdx[i];
+    res.push(p.prefix + ':' + p.name);
+  }
+  return res;
+};

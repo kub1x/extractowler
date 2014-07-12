@@ -838,39 +838,66 @@ selectowl.gui.onScenarioNewPopupShowing = function(event) {
   for(i in allowedChildNodes) {
     var ch = allowedChildNodes[i];
     var $hbox = $('<hbox></hbox>');
-    var $button = $('<button label="New ' + ch + '" flex="1"/>'); 
+    var $button = $('<button label="' + ch + '" flex="1"/>'); 
     $vbox.append($hbox);
     $hbox.append($button);
     $button.on('command', function(event) {
-      selectowl.gui.onNewChild(event, ch);
+      //selectowl.gui.onNewChild(event, ch); //TODO XXX takhle ten closure nefunguje, promenna 'ch' se prepise a udrizi se jen posledni
+      selectowl.gui.onNewChild(event, $(this).attr('label')); //TODO WARNING using label for storing variables is baad ;)
     });
   }
 };
 
 //-------------------------------------------------------
 
+// here we'll catch special cases of nodes
+// TODO implement this hook on specific steps directly or something
+selectowl.gui.fieldAttrsHook = function(step, field, textbox) {
+  if (step.nodeName == 'value-of' && field == 'property') {
+    var data = selectowl.ontology.properties.getShortened();
+    $(textbox).autocomplete({
+      source: data,
+    }); 
+    console.log('hooked autocomplete with data: '+ JSON.stringify(data).slice(0, 100));
+    return;
+  };
+
+};
+
 selectowl.gui.onScenarioEditPopupShowing = function(event) {
   var step = selectowl.scenario.tree.getSelected().step;
   var fields = step.getOwnFields();
 
   var popup = document.getElementById('scenario-edit-panel');
+  popup.innerHTML = '';
 
-  var tmp_html = '<vbox flex="1">'
+  var vbox = document.createElement('vbox');
 
   var first_id = null;
   for(f in fields) {
     var field = fields[f];
     var field_id = 'scenario-edit-' + field + '-field';
     first_id = first_id || field_id;
-    var tag_xul = '<hbox><html:pre> ' + field + ': </html:pre><textbox id="' + field_id + '" flex="1" value="' + step[field] + '"/></hbox>';
-    tmp_html += tag_xul;
+
+    var hbox = document.createElement('hbox');
+    var pre = document.createElementNS('http://www.w3.org/1999/xhtml', 'pre');
+    pre.innerHTML = field;
+    hbox.appendChild(pre);
+    var textbox = document.createElement('textbox');
+    textbox.setAttribute('id', field_id);
+    textbox.setAttribute('flex', 1);
+    textbox.setAttribute('value', step[field]);
+
+    selectowl.gui.fieldAttrsHook(step, field, textbox);
+
+    hbox.appendChild(textbox);
+    vbox.appendChild(hbox);
   }
 
-  tmp_html += '</vbox>';
-
-  popup.innerHTML = tmp_html;
+  popup.appendChild(vbox);
   
   $(popup).on('popupshown', function() {
+    console.log('trying to focus: ' + first_id);
     document.getElementById(first_id).focus();
   });
 };
