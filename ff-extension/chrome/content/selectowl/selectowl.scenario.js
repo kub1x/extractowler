@@ -44,28 +44,27 @@ selectowl.scenario.Step.prototype = {
   getOwnFields: function() {
     var ret = [];
     for (var p in this) {
-      if (this.hasOwnProperty(p) && p != 'children' && typeof(this[p]) != 'function') {
+      if (this.hasOwnProperty(p) &&
+          p != 'children' &&
+          p != 'nodeName' &&
+          typeof(this[p]) != 'function') {
         ret.push(p);
       }
     }
     return ret;
   },
 
-  //toJson: function() {
-  //  var ret = "";
-  //  var tmp = "";
-
-  //  for (f in this.getOwnFields()) {
-  //    ret +=
-  //  }
-
-  //  for (i in this.children) {
-  //    tmp += this.children[i].toJson();
-  //  }
-  //  tmp.replace(/^(?=.+)/mg, '\t');
-
-  //  return ret;
-  //}
+  getLabel: function() {
+    var tmp = [ ];
+    var fields = this.getOwnFields();
+    for (i in fields) {
+      var field = fields[i];
+      if(this[field] != '') {
+        tmp.push(field + ': ' + this[field]);
+      }
+    }
+    return this.nodeName.toUpperCase() + ' [' + tmp.join(', ') + ']';
+  },
 
 };
 
@@ -74,11 +73,11 @@ selectowl.scenario.Step.prototype = {
 selectowl.scenario.TemplateStep = function( ) {
   selectowl.scenario.Step.call(this);
   this.nodeName = 'template';
+  this.name = '';
   this.mime = 'text/html';
 };
 
 selectowl.scenario.TemplateStep.prototype = $.extend(new selectowl.scenario.Step(), {
-  getLabel: function() { return 'template '+'['+'name:'+this.name+', '+'mime: '+this.mime+']'; }, 
   allowedChildNodes: ['onto-elem', 'value-of', 'call-template'], 
 });
 
@@ -87,11 +86,11 @@ selectowl.scenario.TemplateStep.prototype = $.extend(new selectowl.scenario.Step
 selectowl.scenario.CallTemplateStep = function( ) {
   selectowl.scenario.Step.call(this);
   this.nodeName = 'call-template';
+  this.name = '';
   this.type = 'http/GET';
 };
 
 selectowl.scenario.CallTemplateStep.prototype = $.extend(new selectowl.scenario.Step(), {
-  getLabel: function() { return 'call-template'+'['+'name:'+this.name+', '+'type: '+this.type+']'; }, 
   allowedChildNodes: ['value-of'], 
 });
 
@@ -108,15 +107,7 @@ selectowl.scenario.ValueOfStep = function( ) {
 };
 
 selectowl.scenario.ValueOfStep.prototype = $.extend(new selectowl.scenario.Step(), {
-  getLabel: function() {
-    return 'value-of [' + 
-      (this.text ? 'text: ' + this.text : '') +
-      (this.select ? 'select: ' + this.select : '') +
-      (this.regexp ? 'regexp: ' + this.regexp : '') +
-      (this.replace ? 'replace: ' + this.replace : '') +
-      (this.property ? 'property: ' + this.property : '') + ']';
-  }, 
-  allowedChildNodes: [], // TODO: function 
+  allowedChildNodes: [],
 });
 
 //--------------------------------------------------------------
@@ -130,12 +121,6 @@ selectowl.scenario.OntoElemStep = function( ) {
 };
 
 selectowl.scenario.OntoElemStep.prototype = $.extend(new selectowl.scenario.Step(), {
-  getLabel: function() {
-    return 'onto-elem [' + 
-      (this.rel ? 'rel: ' + this.rel : '') +
-      (this.type ? 'type: ' + this.type : '') +
-      (this.about ? 'about: ' + this.about : '') + ']';
-  }, 
-  allowedChildNodes: ['value-of', 'call-template'], // TODO: function, call-dom-template
+  allowedChildNodes: ['value-of', 'call-template'],
 });
 
