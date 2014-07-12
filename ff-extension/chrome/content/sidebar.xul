@@ -291,15 +291,16 @@
   <panel id="scenario-edit-panel"
     width="370" level="parent" type="arrow"
     onpopupshowing="selectowl.gui.onScenarioEditPopupShowing(event);"
+    onpopupshown="selectowl.gui.onScenarioEditPopupShown(event);"
     onsubmit="selectowl.gui.onScenarioEditSubmit(event);"
-    onkeydown="selectowl.gui.onScenarioEditPanelKeyDown(event);">
+    onkeydown="selectowl.gui.onScenarioEditPanelKeyDown(event);" >
 
   </panel>
 
   <panel id="scenario-new-panel"
     width="370" level="parent" type="arrow"
     onpopupshowing="selectowl.gui.onScenarioNewPopupShowing(event);"
-    onpopupshown="$(this).find('textbox.first').focus();"
+    onpopupshown="selectowl.gui.onScenarioNewPopupShown(event);"
     onsubmit="selectowl.gui.onScenarioNewPanelSubmit(event);"
     onkeydown="selectowl.gui.onScenarioNewPanelKeyDown(event);">
 

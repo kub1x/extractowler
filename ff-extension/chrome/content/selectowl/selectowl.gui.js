@@ -853,14 +853,14 @@ selectowl.gui.onScenarioNewPopupShowing = function(event) {
 // here we'll catch special cases of nodes
 // TODO implement this hook on specific steps directly or something
 selectowl.gui.fieldAttrsHook = function(step, field, textbox) {
-  if (step.nodeName == 'value-of' && field == 'property') {
-    var data = selectowl.ontology.properties.getShortened();
-    $(textbox).autocomplete({
-      source: data,
-    }); 
-    console.log('hooked autocomplete with data: '+ JSON.stringify(data).slice(0, 100));
-    return;
-  };
+  //if (step.nodeName == 'value-of' && field == 'property') {
+  //  var data = selectowl.ontology.properties.getShortened();
+  //  $(textbox).autocomplete({
+  //    source: data,
+  //  }); 
+  //  console.log('hooked autocomplete with data: '+ JSON.stringify(data).slice(0, 100));
+  //  return;
+  //};
 
 };
 
@@ -872,6 +872,7 @@ selectowl.gui.onScenarioEditPopupShowing = function(event) {
   popup.innerHTML = '';
 
   var vbox = document.createElement('vbox');
+  vbox.setAttribute('flex', 1);
 
   var first_id = null;
   for(f in fields) {
@@ -880,6 +881,7 @@ selectowl.gui.onScenarioEditPopupShowing = function(event) {
     first_id = first_id || field_id;
 
     var hbox = document.createElement('hbox');
+    hbox.setAttribute('flex', 1);
     var pre = document.createElementNS('http://www.w3.org/1999/xhtml', 'pre');
     pre.innerHTML = field;
     hbox.appendChild(pre);
@@ -888,18 +890,13 @@ selectowl.gui.onScenarioEditPopupShowing = function(event) {
     textbox.setAttribute('flex', 1);
     textbox.setAttribute('value', step[field]);
 
-    selectowl.gui.fieldAttrsHook(step, field, textbox);
+    //selectowl.gui.fieldAttrsHook(step, field, textbox);
 
     hbox.appendChild(textbox);
     vbox.appendChild(hbox);
   }
 
   popup.appendChild(vbox);
-  
-  $(popup).on('popupshown', function() {
-    console.log('trying to focus: ' + first_id);
-    document.getElementById(first_id).focus();
-  });
 };
 
 selectowl.gui.onScenarioEditSubmit = function(event) {
@@ -920,6 +917,20 @@ selectowl.gui.onScenarioEditPanelKeyDown = function(event) {
     event.preventDefault();
     event.stopPropagation();
   }
+};
+
+//-------------------------------------------------------
+
+selectowl.gui.focusFirst = function(target, tagName) {
+  target.getElementsByTagName(tagName)[0].focus();
+};
+
+selectowl.gui.onScenarioEditPopupShown = function(event) {
+  this.focusFirst(event.target, 'textbox');
+};
+
+selectowl.gui.onScenarioNewPopupShown = function(event) {
+  this.focusFirst(event.target, 'textbox');
 };
 
 //-------------------------------------------------------
