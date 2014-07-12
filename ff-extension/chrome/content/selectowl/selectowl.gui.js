@@ -838,10 +838,8 @@ selectowl.gui.onScenarioNewPopupShowing = function(event) {
 
   for(i in allowedChildNodes) {
     var ch = allowedChildNodes[i];
-    var hbox = document.createElement('hbox');
-    vbox.appendChild(hbox);
     var button = document.createElement('button');
-    hbox.appendChild(button);
+    vbox.appendChild(button);
     button.setAttribute('label', ch);
     button.setAttribute('flex', 1);
     button.addEventListener('command', function(event) {
@@ -914,7 +912,7 @@ selectowl.gui.onScenarioEditSubmit = function(event) {
   event.target.hidePopup();
 };
 
-selectowl.gui.onScenarioEditPanelKeyDown = function(event) {
+selectowl.gui.onScenarioEditKeyDown = function(event) {
   if (event.ctrlKey && event.keyCode == 13) { // ctrl+enter
     event.currentTarget.dispatchEvent(new CustomEvent("submit", {bubbles:false, cancelable:true}));
     event.preventDefault();
@@ -922,10 +920,39 @@ selectowl.gui.onScenarioEditPanelKeyDown = function(event) {
   }
 };
 
+selectowl.gui.onScenarioNewKeyDown = function(event) {
+  if (event.charCode == 106) { // 'j'
+    var currentButton = document.activeElement;
+    if (!currentButton || !currentButton.nodeName == 'button') {
+      this.focusFirst(event.target, 'button');
+    }
+    if (currentButton.nextSyblink) {
+      currentButton.nextSyblink.focus();
+    }
+  }
+
+  if (event.charCode == 107) { // 'k'
+    var currentButton = document.activeElement;
+    if (!currentButton || !currentButton.nodeName == 'button') {
+      this.focusLast(event.target, 'button');
+    }
+    if (currentButton.previousSyblink) {
+      currentButton.previousSyblink.focus();
+    }
+  }
+};
+
 //-------------------------------------------------------
 
 selectowl.gui.focusFirst = function(target, tagName) {
-  target.getElementsByTagName(tagName)[0].focus();
+  var elements = target.getElementsByTagName(tagName);
+  elements[0].focus();
+};
+
+selectowl.gui.focusLast = function(target, tagName) {
+  var elements = target.getElementsByTagName(tagName);
+  var last = elements.length - 1;
+  elements[last].focus();
 };
 
 selectowl.gui.onScenarioEditPopupShown = function(event) {
