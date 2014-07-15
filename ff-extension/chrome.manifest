@@ -10,3 +10,5 @@ locale  selectowl  en-US chrome/locale/en-US/
 overlay        chrome://browser/content/browser.xul            chrome://selectowl/content/overlay.xul
 overlay        chrome://messenger/content/messenger.xul        chrome://selectowl/content/overlay.xul
 
+component {84E88FA2-09E4-11E4-A9A7-5A551D5D46B0} components/autocomplete.js
+contract @mozilla.org/autocomplete/search;1?name=basic-autocomplete {84E88FA2-09E4-11E4-A9A7-5A551D5D46B0}

@@ -854,14 +854,14 @@ selectowl.gui.onScenarioNewPopupShowing = function(event) {
 // here we'll catch special cases of nodes
 // TODO implement this hook on specific steps directly or something
 selectowl.gui.fieldAttrsHook = function(step, field, textbox) {
-  //if (step.nodeName == 'value-of' && field == 'property') {
-  //  var data = selectowl.ontology.properties.getShortened();
-  //  $(textbox).autocomplete({
-  //    source: data,
-  //  }); 
-  //  console.log('hooked autocomplete with data: '+ JSON.stringify(data).slice(0, 100));
-  //  return;
-  //};
+  if (step.nodeName == 'value-of' && field == 'property') {
+    textbox.setAttribute('type', 'autocomplete');
+    textbox.setAttribute('autocompletesearch', 'basic-autocomplete');
+    textbox.setAttribute('autocompletepopup', 'popup_autocomplete');
+    //<textbox id="text1" type="autocomplete" autocompletesearch="basic-autocomplete"/>
+    console.log('hooked autocomplete on: ' + textbox.getAttribute('id'));
+    return;
+  };
 
 };
 
@@ -891,7 +891,7 @@ selectowl.gui.onScenarioEditPopupShowing = function(event) {
     textbox.setAttribute('flex', 1);
     textbox.setAttribute('value', step[field]);
 
-    //selectowl.gui.fieldAttrsHook(step, field, textbox);
+    selectowl.gui.fieldAttrsHook(step, field, textbox);
 
     hbox.appendChild(textbox);
     vbox.appendChild(hbox);
