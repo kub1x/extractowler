@@ -26,7 +26,8 @@
         <menupopup id="selectowl-scenario-popup">
           <menuitem label="New Scenario" onclick="selectowl.gui.onNewScenarioMenuClick();" />
           <menuitem label="Save"  disabled="true" />
-          <menuitem label="Test"  oncommand="alert(JSON.stringify(selectowl.scenario, null, 2));" />
+          <!--menuitem label="Test"  oncommand="alert(JSON.stringify(selectowl.scenario, null, 2));" /-->
+          <menuitem label="Test"  oncommand="alert(JSON.stringify(selectowl.ontology.properties.getShortened(), null, 2));" />
           <menuitem label="Open from file" disabled="true" />
           <menuitem label="Open from Drive" disabled="true" />
           <menuitem label="Open from DropBox" disabled="true" />
@@ -125,7 +126,9 @@
           </html:div>
           <html:div>
             <html:b>Predefined: </html:b>
-            <html:a onclick="selectowl.load('http://xmlns.com/foaf/spec/index.rdf'); $(this).addClass('loaded');">foaf</html:a>, 
+            <html:a onclick="selectowl.load('http://xmlns.com/foaf/spec/index.rdf'); $(this).addClass('loaded');">foaf.rdf</html:a>, 
+            <html:a onclick="selectowl.load('http://www.heppnetz.de/ontologies/goodrelations/v1.owl'); $(this).addClass('loaded');">goodrelations.owl</html:a>, 
+            <html:a onclick="selectowl.load('http://dublincore.org/2010/10/11/dcterms.rdf'); $(this).addClass('loaded');">dublincore.rdf</html:a>, 
           </html:div>
           <html:div>
             <html:b>Examples: </html:b>

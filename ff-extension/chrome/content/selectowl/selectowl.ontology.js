@@ -25,6 +25,8 @@ selectowl.ontology.feedMee = function () {
     }
   }
 
+  console.log('loaded prefixes #' + this.prefixes._byIdx.length);
+
   // Fill Resources
   for ( r in index ) {
     el = index[r];
@@ -44,6 +46,9 @@ selectowl.ontology.feedMee = function () {
       this.classes.add(my);
     }
   } 
+
+  console.log('loaded classes #' + this.classes._byIdx.length);
+  console.log('loaded properties #' + this.properties._byIdx.length);
 }
 
 selectowl.ontology.getByUri = function( uri ) {
@@ -201,4 +206,10 @@ selectowl.ontology.properties.getShortened = function() {
     res.push(p.prefix + ':' + p.name);
   }
   return res;
+};
+
+selectowl.ontology.properties.getByShortened = function( shortened ) {
+  var ar = shortened.split(':');
+  var baseURI = selectowl.ontology.prefixes.prefix2uri(ar[0]);
+  return this.getByUri(baseURI + ar[1]);
 };

@@ -858,6 +858,7 @@ selectowl.gui.fieldAttrsHook = function(step, field, textbox) {
     textbox.setAttribute('type', 'autocomplete');
     textbox.setAttribute('autocompletesearch', 'basic-autocomplete');
     textbox.setAttribute('autocompletepopup', 'popup_autocomplete');
+    textbox.setAttribute('autocompletesearchparam', JSON.stringify(selectowl.ontology.properties.getShortened())); 
     //<textbox id="text1" type="autocomplete" autocompletesearch="basic-autocomplete"/>
     console.log('hooked autocomplete on: ' + textbox.getAttribute('id'));
     return;

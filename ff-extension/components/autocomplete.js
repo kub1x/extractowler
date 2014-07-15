@@ -166,13 +166,38 @@ ProviderAutoCompleteSearch.prototype = {
    * @param previousResult a previous result to use for faster searchinig
    * @param listener the listener to notify when the search is complete
    */
-  startSearch: function(searchString, searchParam, previousResult, listener) {
-    var results = ['Mary', 'John'];
-    var autocomplete_result = new ProviderAutoCompleteResult(searchString,
-        Ci.nsIAutoCompleteResult.RESULT_SUCCESS, 0, "", results, null);
+  startSearch: function(searchString, searchParam, result, listener) {
+    // This autocomplete source assumes the developer attached a JSON string
+    // to the the "autocompletesearchparam" attribute or "searchParam" property
+    // of the <textbox> element. The JSON is converted into an array and used
+    // as the source of match data. Any values that match the search string
+    // are moved into temporary arrays and passed to the AutoCompleteResult
+    if (searchParam.length > 0) {
+      var searchResults = JSON.parse(searchParam);
 
-    listener.onSearchResult(this, autocomplete_result);
+      var results_first = [];
+      var results_second = [];
+      for (i=0; i<searchResults.length; i++) {
+        if (searchResults[i].indexOf(searchString) == 0) {
+          results_first.push(searchResults[i]);
+        } else if (searchResults[i].indexOf(searchString) != 1) {
+          // it was there, just not at the beginning
+          results_second.push(searchResults[i]);
+        }
+
+      }
+      results = [].concat(results_first, results_second);
+      var newResult = new ProviderAutoCompleteResult(searchString, Ci.nsIAutoCompleteResult.RESULT_SUCCESS, 0, "", results, results);
+      listener.onSearchResult(this, newResult);
+    }
   },
+  //startSearch: function(searchString, searchParam, previousResult, listener) {
+  //  var results = ['Mary', 'John'];
+  //  var autocomplete_result = new ProviderAutoCompleteResult(searchString,
+  //      Ci.nsIAutoCompleteResult.RESULT_SUCCESS, 0, "", results, null);
+
+  //  listener.onSearchResult(this, autocomplete_result);
+  //},
 
   /**
    * Stops an asynchronous search that is in progress
