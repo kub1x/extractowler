@@ -922,32 +922,34 @@ selectowl.gui.onScenarioEditKeyDown = function(event) {
 };
 
 selectowl.gui.onScenarioNewKeyDown = function(event) {
-  if (event.charCode == 106) { // 'j'
-    var currentButton = document.activeElement;
-    if (!currentButton || !currentButton.nodeName == 'button') {
-      this.focusFirst(event.target, 'button');
-    }
-    if (currentButton.nextSyblink) {
-      currentButton.nextSyblink.focus();
-    }
-  }
+  //if (event.charCode == 106) { // 'j'
+  //  var currentButton = document.activeElement;
+  //  if (!currentButton || !currentButton.nodeName == 'button') {
+  //    this.focusFirst(event.target, 'button');
+  //  }
+  //  if (currentButton.nextSyblink) {
+  //    currentButton.nextSyblink.focus();
+  //  }
+  //}
 
-  if (event.charCode == 107) { // 'k'
-    var currentButton = document.activeElement;
-    if (!currentButton || !currentButton.nodeName == 'button') {
-      this.focusLast(event.target, 'button');
-    }
-    if (currentButton.previousSyblink) {
-      currentButton.previousSyblink.focus();
-    }
-  }
+  //if (event.charCode == 107) { // 'k'
+  //  var currentButton = document.activeElement;
+  //  if (!currentButton || !currentButton.nodeName == 'button') {
+  //    this.focusLast(event.target, 'button');
+  //  }
+  //  if (currentButton.previousSyblink) {
+  //    currentButton.previousSyblink.focus();
+  //  }
+  //}
 };
 
 //-------------------------------------------------------
 
 selectowl.gui.focusFirst = function(target, tagName) {
   var elements = target.getElementsByTagName(tagName);
-  elements[0].focus();
+  if (elements.length > 0) {
+    elements[0].focus();
+  }
 };
 
 selectowl.gui.focusLast = function(target, tagName) {
