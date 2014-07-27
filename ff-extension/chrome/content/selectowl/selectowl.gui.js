@@ -817,8 +817,14 @@ selectowl.gui.onNewChild = function(event, elemType) {
     case 'call-template':
       ts = selectowl.scenario.tree.createNewStep('CallTemplateStep', curr);
       break;
+    case 'call-dom-template':
+      ts = selectowl.scenario.tree.createNewStep('CallDomTemplateStep', curr);
+      break;
     case 'template':
       ts = selectowl.scenario.tree.createNewStep('TemplateStep', -1);
+      break;
+    case 'dom-template':
+      ts = selectowl.scenario.tree.createNewStep('DomTemplateStep', -1);
       break;
     default:
       throw 'unknown type: ' + elemType;

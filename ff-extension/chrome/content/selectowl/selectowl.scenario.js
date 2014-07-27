@@ -78,7 +78,7 @@ selectowl.scenario.TemplateStep = function( ) {
 };
 
 selectowl.scenario.TemplateStep.prototype = $.extend(new selectowl.scenario.Step(), {
-  allowedChildNodes: ['onto-elem', 'value-of', 'call-template'], 
+  allowedChildNodes: ['onto-elem', 'value-of', 'call-template', 'call-dom-template'], 
 });
 
 //--------------------------------------------------------------
@@ -121,6 +121,40 @@ selectowl.scenario.OntoElemStep = function( ) {
 };
 
 selectowl.scenario.OntoElemStep.prototype = $.extend(new selectowl.scenario.Step(), {
-  allowedChildNodes: ['value-of', 'call-template'],
+  allowedChildNodes: ['onto-elem', 'value-of', 'call-template', 'call-dom-template'],
 });
+
+//--------------------------------------------------------------
+
+selectowl.scenario.DomTemplateStep = function( ) {
+  selectowl.scenario.Step.call(this);
+  this.nodeName = 'dom-template';
+  this.rel = '';
+  this.type = '';
+  this.about = '';
+};
+
+selectowl.scenario.DomTemplateStep.prototype = $.extend(new selectowl.scenario.Step(), {
+  allowedChildNodes: ['onto-elem', 'value-of', 'call-template', 'call-dom-template'],
+});
+
+//--------------------------------------------------------------
+
+selectowl.scenario.CallDomTemplateStep = function( ) {
+  selectowl.scenario.Step.call(this);
+  this.nodeName = 'call-dom-template';
+  this.rel = '';
+  this.type = '';
+  this.about = '';
+};
+
+selectowl.scenario.CallDomTemplateStep.prototype = $.extend(new selectowl.scenario.Step(), {
+  allowedChildNodes: ['value-of'],
+});
+
+
+
+
+
+
 
