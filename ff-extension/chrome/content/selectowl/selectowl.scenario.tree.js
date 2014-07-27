@@ -195,6 +195,13 @@ selectowl.scenario.tree.deleteCurrent = function() {
   this.deleteWithChildren(idx); 
 };
 
+selectowl.scenario.tree.deleteAll = function(row) {
+  for (var i = this.rowCount - 1; i >= 0; i--) {
+    //TODO CHECK jestli tohle funguje spravne
+    this.deleteWithChildren(i);
+  }
+};
+
 selectowl.scenario.tree.deleteWithChildren = function(row) {
   var n = this.get(row);
 

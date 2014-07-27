@@ -692,6 +692,10 @@ selectowl.gui.onNewScenarioMenuClick = function () {
   var contentWindow = aardvarkUtils.currentBrowser().contentWindow; 
   var url = contentWindow.location.toString();
 
+  // Clear the tree...
+  selectowl.scenario.tree.deleteAll();
+
+  // And populate it with some init stuff
   var sCallTemplate = selectowl.scenario.tree.createNewStep('CallTemplateStep');
   sCallTemplate.step.name = 'init';
   sCallTemplate.step.type = 'html/GET';
