@@ -826,7 +826,7 @@ selectowl.gui.onNewChild = function(event, elemType) {
 
   selectowl.scenario.tree.selectStep(ts);
 
-  selectStep.gui.openPopupForCurrent('edit');
+  selectowl.gui.openPopupForCurrent('edit');
 };
 
 selectowl.gui.onScenarioNewPopupShowing = function(event) {
