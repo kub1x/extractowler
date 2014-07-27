@@ -180,7 +180,7 @@ ProviderAutoCompleteSearch.prototype = {
       for (i=0; i<searchResults.length; i++) {
         if (searchResults[i].indexOf(searchString) == 0) {
           results_first.push(searchResults[i]);
-        } else if (searchResults[i].indexOf(searchString) != 1) {
+        } else if (searchResults[i].indexOf(searchString) != -1) {
           // it was there, just not at the beginning
           results_second.push(searchResults[i]);
         }
