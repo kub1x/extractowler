@@ -175,6 +175,15 @@ selectowl.ontology.classes.getByUri = function( uri ) {
   return this._byUri[uri];
 }
 
+selectowl.ontology.classes.getShortened = function() {
+  var res = [];
+  for (var i in this._byIdx) {
+    var c = this._byIdx[i];
+    res.push(c.prefix + ':' + c.name);
+  }
+  return res;
+};
+
 /************************************************************
  *                                                          *
  ************************************************************/
