@@ -891,6 +891,11 @@ selectowl.gui.fieldAttrsHook = function(step, field, textbox) {
     return;
   }
 
+  if (field == 'select') {
+    //textbox.onfocus = function() { selectowl.aardvark.start(); };
+    //textbox.onblur = function() { selectowl.aardvark.stop(); };
+  }
+
 };
 
 selectowl.gui.onScenarioEditPopupShowing = function(event) {

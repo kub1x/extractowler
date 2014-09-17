@@ -143,9 +143,7 @@ selectowl.scenario.DomTemplateStep.prototype = $.extend(new selectowl.scenario.S
 selectowl.scenario.CallDomTemplateStep = function( ) {
   selectowl.scenario.Step.call(this);
   this.nodeName = 'call-dom-template';
-  this.rel = '';
-  this.type = '';
-  this.about = '';
+  this.select = '';
 };
 
 selectowl.scenario.CallDomTemplateStep.prototype = $.extend(new selectowl.scenario.Step(), {
