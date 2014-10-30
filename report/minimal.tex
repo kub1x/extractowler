@@ -59,7 +59,7 @@ XXX \url{https://en.wikipedia.org/wiki/Google_Knowledge_Graph}
 
 XXX Strigil - \url{http://delivery.acm.org/10.1145/2540000/2539170/p453-starka.pdf}
 
-What are the options for bringing sematic into a web? 
+Mhat are the options for bringing sematic into a web? 
 
 %In future they're going even beyond that and suggest "predictive search"
 %\url{http://www.nytimes.com/2013/07/30/technology/apps-that-know-what-you-want-before-you-do.html}
@@ -151,9 +151,9 @@ automatically rank the relevance of documents. They are solving different task
 where input is several documents and possibly an ontology and output is the
 best matching document. 
 
-In case we're solving  the input is one or more documents and one or more
-ontologies and the result is data obtained from the documents and annotated
-with structure from the ontologies. 
+In case we are trying to solve the input is one or more documents and one or
+more ontologies and the result is data obtained from the documents and
+annotated with resources from the ontologies. 
 
 \sec Advantages and pitfalls of Semantic crawler and linked data
 
@@ -170,7 +170,7 @@ By storing such crawled data into database we obtain persistent database,
 possibly automatically obtained by the script from pervious case. Such data is
 static, but can be queried over and over and possibly re-retrieved when becomes
 obsolete. It's structure is, however, based on programmers imagination an
-needst to be described in order to understand and handle the data properly. 
+needs to be described in order to understand and handle the data properly. 
 
 When using Ontology-based solution, tailor made for crawling and annotating
 data from web, we obtain several benefits "for free". The tool designed
@@ -181,10 +181,11 @@ relations within ontology, that allow reasoning, are usually part of the
 ontology deffinition and as such comes, again, "for free". 
 
 Last for benefits: using ontology from public resource as a schema for our data
-can give us correct structure without need for making it up or building it from
-scratch. Also by using some common ontology, we can join together any
+can give us correct structure without need for XXX making it up or building it
+from scratch. Also by using some common ontology, we can join together any
 accessible data structured according to this ontology and simply query on
-resulting super set. 
+resulting super set. With this approach we can utilize the power of linked data
+cloud (XXX reference). 
 
 ~
 
@@ -192,21 +193,144 @@ Semantic crawling is not a silver bullet. The technology is only finding it's
 place and uses and it's being shaped by the needs of it's users. In current
 it's mostly used on accademic field XXX. 
 
-There is always a threat of inconsystency of an ontology when some data don't
-fit the rules or breaks structure of an ontology. 
+There is always a threat of inconsistency of an ontology when some data don't
+fit the rules or breaks structure of an ontology. (XXX more)
 
 Just like with "hardcoded" crawling technique, the semantic crawling is tightly
-connected with the structure of the web being crawled and selectors used for
-matching data on the web. Any change on a webpage structure can lead to broken
-selectors or links during the crawling process. 
+connected (XXX better) with the structure of the web being crawled and
+selectors (XXX explain term) used for matching data on the web. Any change on a
+webpage structure can lead to broken selectors or links during the crawling
+process (XXX and make the scenario useles, more on self-repairing of
+scenarios?). 
 
 A lot of web pages loads their data dynamically using AJAX queries. Some pages
-simply changes it's content frequently (rt.com, vimeo.com, ...) which would
-require almost constant crawling and growth into an massive ontology. 
+simply changes it's content frequently (XXX typically news pages, forums: rt.com,
+vimeo.com, ...) which would require almost constant crawling and growth into an
+massive ontology (XXX any suggestions on that? =). 
 
 Stating that, the semantic crawling is an usefull way to effectively obtain and
-query otherwise anonymous data from the web, but it still have it's challenges
+query on (otherwise anonymous) data from the web, but it still have it's challenges
 to overtake. 
+
+
+
+
+\sec Research - existující řešení - platforma
+
+
+\secc InfoCram 2000 - Jirka Mašek
+
+\begitems
+  * zalozeny na Aardwark \urlnote{https://addons.mozilla.org/en-US/firefox/addon/aardvark/}
+\enditems
+
+
+\secc iMacros
+
+\begitems
+  * \url{http://wiki.imacros.net/Command_Reference}
+  * \url{http://wiki.imacros.net/iMacros_for_Firefox}
+  * \url{http://wiki.imacros.net/iMacros_for_Chrome}
+\enditems
+
+
+
+%\secc Sahi
+%
+%Yet another web automation and testing tool. \url{http://sourceforge.net/projects/sahi/}
+
+
+
+\secc Selenium IDE
+
+\begitems
+  * IDE - \url{http://www.seleniumhq.org/projects/ide/}
+  * plugins - \url{http://www.seleniumhq.org/projects/ide/plugins.jsp}
+  * current commands - \url{http://release.seleniumhq.org/selenium-core/1.0.1/reference.html}
+  * documentation - \url{http://docs.seleniumhq.org/docs/index.jsp}
+  * extending selenium API (blog, tutorial) - \url{http://adam.goucher.ca/?s=selenium&paged=2}
+  \begitems
+    * randomString example - \url{http://adam.goucher.ca/?p=1348}
+  \enditems
+\enditems
+
+
+
+
+
+
+\sec crOWLer
+
+\secc zavislosti
+
+\begitems \style O
+  * maven - apache project managing tool
+  \begitems \style o
+    * \url{https://maven.apache.org}
+    * \url{https://maven.apache.org/run-maven/index.html}
+    * \url{https://maven.apache.org/guides/mini/guide-ide-eclipse.html}
+  \enditems
+  * sesame
+  \begitems \style o
+    * \url{http://www.openrdf.org/download.jsp} ??
+  \enditems
+  * jena
+  \begitems \style o
+    * \url{https://github.com/ansell/JenaSesame} !!
+    * or \url{https://github.com/afs/JenaSesame} ??
+    * or \url{http://jena.apache.org/} ???
+    * or \url{http://sjadapter.sourceforge.net/} ????
+    * or \url{http://sourceforge.net/projects/jenasesamemodel/}
+    * might help \url{http://www.iandickinson.me.uk/articles/jena-eclipse-helloworld/}
+    * little hint \url{http://spqr.cerch.kcl.ac.uk/?page_id=130}
+    * another hit \url{http://answers.semanticweb.com/questions/20865/how-to-get-the-jena-sesame-adapter}
+    * wiki \url{https://en.wikipedia.org/wiki/Jena_(framework)}
+    * jena vs. sesame flame \url{http://answers.semanticweb.com/questions/1638/jena-vs-sesame-is-there-a-serious-complete-up-to-date-unbiased-well-informed-side-by-side-comparison-between-the-two}
+  \enditems
+\enditems
+
+
+\secc Classes of CrOWLer
+
+\begitems
+  * ImmovableHeritageConfiguration extends MonumnetConfiguration implements ConfigurationFactory 
+  \begitems
+    * implements Configuration, which is parameter for FullCrawler.run() method
+  \enditems
+  * FullCrawler
+  \begitems
+    * implements the whole crawling algorithm
+    * 
+  \enditems
+\enditems
+
+\secc Run configuration 
+
+\begtt
+crowler cz.sio2.crowler.configurations.npu.ImmovableHeritageConfiguration file results
+crowler cz.sio2.crowler.configurations.kub1x.KbxConfiguration file results
+crowler cz.sio2.crowler.configurations.parser.SeleniumConfiguration\
+         file results generated.html
+\endtt
+
+\begitems
+  * Class ImmovableHeritageConfiguration implements Configuration class. 
+  * Folder jena\_con will be created and all the rdf's will be stored in int with names derived from ontology uri
+\enditems
+
+
+
+\sec Strigil!
+
+\secc What problems it solves? (Use cases)
+
+\secc Architecture of Strigil platform
+
+\secc What inspiration it brings for crowler
+
+
+
+
 
 
 \chap Knowledge base, principles and technologies
@@ -274,7 +398,7 @@ jazyky sémantického webu RDF, RDFS a OWL.
 
 
 
-\chap Program design and Implementation
+\chap Program design
 
 
 \sec Use Cases
@@ -285,106 +409,6 @@ jazyky sémantického webu RDF, RDFS a OWL.
   * citybee.cz
 \enditems
 
-
-
-\sec Research - existující řešení - platforma
-
-
-\secc InfoCram 2000 - Jirka Mašek
-
-\begitems
-  * zalozeny na Aardwark \urlnote{https://addons.mozilla.org/en-US/firefox/addon/aardvark/}
-\enditems
-
-
-\secc iMacros
-
-\begitems
-  * \url{http://wiki.imacros.net/Command_Reference}
-  * \url{http://wiki.imacros.net/iMacros_for_Firefox}
-  * \url{http://wiki.imacros.net/iMacros_for_Chrome}
-\enditems
-
-
-%\secc Sahi
-%
-%Yet another web automation and testing tool. \url{http://sourceforge.net/projects/sahi/}
-
-
-\secc Selenium IDE
-
-\begitems
-  * IDE - \url{http://www.seleniumhq.org/projects/ide/}
-  * plugins - \url{http://www.seleniumhq.org/projects/ide/plugins.jsp}
-  * current commands - \url{http://release.seleniumhq.org/selenium-core/1.0.1/reference.html}
-  * documentation - \url{http://docs.seleniumhq.org/docs/index.jsp}
-  * extending selenium API (blog, tutorial) - \url{http://adam.goucher.ca/?s=selenium&paged=2}
-  \begitems
-    * randomString example - \url{http://adam.goucher.ca/?p=1348}
-  \enditems
-\enditems
-
-
-
-
-\sec crOWLer
-
-\secc zavislosti
-
-\begitems \style O
-  * maven - apache project managing tool
-  \begitems \style o
-    * \url{https://maven.apache.org}
-    * \url{https://maven.apache.org/run-maven/index.html}
-    * \url{https://maven.apache.org/guides/mini/guide-ide-eclipse.html}
-  \enditems
-  * sesame
-  \begitems \style o
-    * \url{http://www.openrdf.org/download.jsp} ??
-  \enditems
-  * jena
-  \begitems \style o
-    * \url{https://github.com/ansell/JenaSesame} !!
-    * or \url{https://github.com/afs/JenaSesame} ??
-    * or \url{http://jena.apache.org/} ???
-    * or \url{http://sjadapter.sourceforge.net/} ????
-    * or \url{http://sourceforge.net/projects/jenasesamemodel/}
-    * might help \url{http://www.iandickinson.me.uk/articles/jena-eclipse-helloworld/}
-    * little hint \url{http://spqr.cerch.kcl.ac.uk/?page_id=130}
-    * another hit \url{http://answers.semanticweb.com/questions/20865/how-to-get-the-jena-sesame-adapter}
-    * wiki \url{https://en.wikipedia.org/wiki/Jena_(framework)}
-    * jena vs. sesame flame \url{http://answers.semanticweb.com/questions/1638/jena-vs-sesame-is-there-a-serious-complete-up-to-date-unbiased-well-informed-side-by-side-comparison-between-the-two}
-  \enditems
-\enditems
-
-
-\secc Classes of CrOWLer
-
-\begitems
-  * ImmovableHeritageConfiguration extends MonumnetConfiguration implements ConfigurationFactory 
-  \begitems
-    * implements Configuration, which is parameter for FullCrawler.run() method
-  \enditems
-  * FullCrawler
-  \begitems
-    * implements the whole crawling algorithm
-    * 
-  \enditems
-\enditems
-
-\secc Run configuration 
-
-\begtt
-crowler cz.sio2.crowler.configurations.npu.ImmovableHeritageConfiguration file results
-crowler cz.sio2.crowler.configurations.kub1x.KbxConfiguration file results
-crowler cz.sio2.crowler.configurations.parser.SeleniumConfiguration\
-         file results generated.html
-\endtt
-
-\begitems
-  * Class ImmovableHeritageConfiguration implements Configuration class. 
-  * Folder jena\_con will be created and all the rdf's will be stored in int with names derived from ontology uri
-\enditems
 
 
 
@@ -412,7 +436,7 @@ crowler cz.sio2.crowler.configurations.parser.SeleniumConfiguration\
 
 
 
-
+\chap Program Implementation
 
 
 

@@ -18,35 +18,36 @@
 \Xsec{2.1}{Semantic and non semantic crawlers }{3}
 \Xsec{2.2}{Advantages and pitfalls of Semantic crawler and linked data }{3}
 \Xpage{4}
-\Xpage{5}
-\Xchap{3}{Knowledge base, principles and technologies }{5}
-\Xsec{3.1}{automatická extrakce dat }{5}
-\Xsec{3.2}{RDF and RDFS }{5}
-\Xsec{3.3}{OWL }{5}
-\Xsec{3.4}{Linked Data }{5}
-\Xsec{3.5}{Ontology repositories }{5}
-\Xsec{3.6}{RDFa }{5}
-\Xsec{3.7}{dalsi }{5}
-\Xpage{6}
-\Xchap{4}{Program design and Implementation }{6}
-\Xsec{4.1}{Use Cases }{6}
-\Xsec{4.2}{Research - existující řešení - platforma }{6}
-\Xsecc{4.2.1}{InfoCram 2000 - Jirka Mašek }{6}
+\Xsec{2.3}{Research - existující řešení - platforma }{4}
+\Xsecc{2.3.1}{InfoCram 2000 - Jirka Mašek }{4}
 \Xfnote
-\Xsecc{4.2.2}{iMacros }{6}
-\Xsecc{4.2.3}{Selenium IDE }{6}
-\Xsec{4.3}{crOWLer }{6}
+\Xsecc{2.3.2}{iMacros }{4}
+\Xsecc{2.3.3}{Selenium IDE }{4}
+\Xsec{2.4}{crOWLer }{4}
+\Xpage{5}
+\Xsecc{2.4.1}{zavislosti }{5}
+\Xsecc{2.4.2}{Classes of CrOWLer }{5}
+\Xsecc{2.4.3}{Run configuration }{5}
+\Xpage{6}
+\Xchap{3}{Knowledge base, principles and technologies }{6}
+\Xsec{3.1}{automatická extrakce dat }{6}
+\Xsec{3.2}{RDF and RDFS }{6}
+\Xsec{3.3}{OWL }{6}
+\Xsec{3.4}{Linked Data }{6}
+\Xsec{3.5}{Ontology repositories }{6}
+\Xsec{3.6}{RDFa }{6}
+\Xsec{3.7}{dalsi }{6}
 \Xpage{7}
-\Xsecc{4.3.1}{zavislosti }{7}
-\Xsecc{4.3.2}{Classes of CrOWLer }{7}
-\Xsecc{4.3.3}{Run configuration }{7}
+\Xchap{4}{Program design }{7}
+\Xsec{4.1}{Use Cases }{7}
+\Xsec{4.2}{Model }{7}
+\Xsec{4.3}{Imlementation }{7}
+\Xsec{4.4}{Issues - solved and unsolved }{7}
 \Xpage{8}
-\Xsec{4.4}{Model }{8}
-\Xsec{4.5}{Imlementation }{8}
-\Xsec{4.6}{Issues - solved and unsolved }{8}
+\Xchap{5}{Program Implementation }{8}
 \Xpage{9}
-\Xchap{5}{Results and Tests }{9}
-\Xsec{5.1}{Data }{9}
-\Xsecc{5.1.1}{Pamatky }{9}
+\Xchap{6}{Results and Tests }{9}
+\Xsec{6.1}{Data }{9}
+\Xsecc{6.1.1}{Pamatky }{9}
 \Xpage{10}
-\Xchap{6}{zaver }{10}
+\Xchap{7}{zaver }{10}
