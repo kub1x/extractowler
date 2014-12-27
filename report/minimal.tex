@@ -31,14 +31,15 @@ That's only few examples of some of the biggest recent issues on the web in
 general. We live in an age, where so little can mean so much. The enviroment
 online is dramatically changing, mostly on a wave of some new, useful or
 frightening technology. The Semantic Web technologies have been described,
-standardized and implemented for several year now  (XXX Example with linked
-data, rdf) and their tide is near, though yet to come.
+standardized and implemented for several years now  (XXX Example with linked
+data, rdf) and their tide seems to be near, though yet to come.
 
-Semantic Web itself reates to several principles (and their implementation)
-that allow users to add meaning to their data. This meaning brings not only a
-standardized structure, but also posibility to query and reason on it. Once
-given the structure, similar data can be also joined in a form of a bigger
-cloud. This phenomena is called Linked Data. 
+Semantic Web itself reates to several principles (along with their
+implementation) that allow users to add meaning to their data. This meaning
+brings not only a standardized structure, but also, as a consequence, the
+posibility to query and reason on data from multiple sources. Once given the
+structure, similar data can be joined in a form of a bigger cloud. This
+phenomena is called Linked Data. 
 
 In this work we'd like to bring the Semantic Web technologies closer to users.
 The approach is to propose a methodology for extracting structured data out of
@@ -50,33 +51,42 @@ structure and meaning into it.
 
 \sec Problem Statement and Motivation
 
-Giving meaning, i.e. semantization of web pages gets more popular. The most
-obvious it's probably on the way google serves it's results. Showing menu
-fields parsed directly from HTML5, or visualizing data from their own internal
-ontology
+Giving meaning, i.e. semantization of web pages gets more popular. Probably the most
+obvious example can be seen in the way the Google search engine serves it's
+results. Presenting not only the resulting pages but as well snippets of
+information scraped directly from the page content such as menu fields parsed
+directly from HTML5, contact information or openning hours, or even visualizing
+data from their own internal ontology, the Knowledge Graph. 
 
 XXX \url{https://en.wikipedia.org/wiki/Google_Knowledge_Graph}
 
 XXX Strigil - \url{http://delivery.acm.org/10.1145/2540000/2539170/p453-starka.pdf}
 
-Mhat are the options for bringing sematic into a web? 
+What are the options for bringing sematic into a web? 
 
 %In future they're going even beyond that and suggest "predictive search"
 %\url{http://www.nytimes.com/2013/07/30/technology/apps-that-know-what-you-want-before-you-do.html}
 %technologies, that try to guess the motivation of your search, not only it's
 %meaning. \url{http://www.google.com/landing/now/}
 
-One direction to go is to annotate data on "the server side", i.e. at the time
-it is being created and/or published. The person creating the data have to use
+One direction to go (XXX better) is to annotate data on "the server side", i.e. at the time
+it is being created and/or published. The person or engine creating the data have to use
 the right tool and spend time giving the data the appropriate annotation. There
-is enough technologies for it: HTML5 adding tags for better annotation of the
-page structure (such as nav, article, section, aside, ...), microformats
-\url{http://microformats.org/} using html classes to bring standardized
-patterns for several basic use cases with fixed structure, such as vcard or
-event, or RDFa to annotate data on a webpage with an actual ontology (see in
-separate section XXX).
+are standards covering this use case: HTML5 brings in tags for clearer
+specification of the page structure (such as nav, article, section, aside,
+...). Microformats \url{http://microformats.org/} define specialized values for
+HTML class atribute to bring standardized patterns for several basic use cases
+with fixed structure, such as vCard or Event. The microformat approach is easy
+to implement as it doesn't impose any extra technology into the stuck(XXX
+better). Last but not least, we can use RDFa to annotate data on a webpage with an
+actual ontology. This technology is part of the Semantic Web stack and we'll
+describe it closer in further chapter (see in separate section XXX).
 
-There are tools for extracting and testing structured data 
+Annotating data on the server side enables users to use tools highlight data
+they are specifically interested in, extract them and reason on them. Services
+can use annotated data, combine them and offer results from multiple sources. 
+
+Some examples of utilities for extracting and testing structured data: 
 
 \url{http://www.google.com/webmasters/tools/richsnippets}
 
@@ -86,27 +96,61 @@ To bypass the gap between anonymous data present on the web on one side and
 rich, linked, meaningful ontologies (XXX example) on the other, we can go the
 opposite direction as well. We can take the unannotated data already present on
 the web and retrieve them in a form, that is defined by some ontology
-structure. 
+structure. This process can be performet automatically or manually. 
+
+There've been several (XXX) attempts in the automatic data annotation. In
+principle, the goal of this approach is to automatically analyze a web page,
+find the most appropriate ontology for it and use this ontology to
+automatically annotate data on the page. 
+
+As an example, on a webpage of a music band this would find (XXX
+http://www.musicontology.com/) as the best matching schema, and it would
+annotate band name, genre, albums using classes and  properties from this ontology. 
+
+While on well structured, simple and/or partially annotated pages this process
+can be very successfull and produce usefull results, on pages with unorganized
+data the confidence on results produced by this approach might drop to loterry (XXX). 
+Unfortunately many online webpages and services are poorly strucruted. Pages
+containing many unrealted data, in form of advertisements or other external
+content might confuse such an engine. Old servers present their content in
+poorly structured or even invalid HTML in a form of multiple nested tables that
+serve for structuring only and makes the whole structure of the web unreadable
+(XXX). Social aspect of web brings in almost complete randomness making it
+even harder to automatically reason on page's content if it can't be
+distinguished and potentially left aside. To sum it up, there are many
+potential and real threads that prevent us from automatically annotate all data
+on web with confidence (XXX). 
+
+In some use cases the ontology of the desired data is yet to be created and the
+user is aware of the data strucrutre and capable of manually spot and select
+the data on a web page. Currently there isn't many tools allowing this kind of
+operation. The ideal implementation and the vision here will allow user to
+partially identify the structure fo a webpage while leaving the repeatative
+tedious work on crawler following the same structure on all data on webpage. 
 
 To allow such a proccess we need to create tools that allow users to annotate
-the, previously meaning-free, data with elements of existing ontology. By using
-existing ontologies we not only give the meaning to our data, but also valuable
-connection to any other dataset annotated using the same ontology. 
+the, previously meaning-free, data with elements of existing ontology and/or
+create resources on-the-go. By using existing ontologies we not only give the
+meaning to our data, but also valuable connection to any other dataset
+annotated using the same ontology. 
 
 
 \sec Current solution crOWLer
 
 The suggested base-technology is being developed on our faculty XXX. Crawler
 called crOWLer serves the needs of extracting data from web. In current
-technology, both, the scenario and the ontology structure/schema are hard-coded
-into the crOWLer code. This requires unnecessary load of work for each separate
-use case, whilst in practice all the use cases share the same workflow. 
+implementation, both, the scenario, followed by the crawler, and the ontology
+structure/schema are hard-coded into the crOWLer code. This requires
+unnecessary load of work for each separate use case, whilst in practice all the
+use cases share the same workflow. 
 
 \begitems \style n
   * load the ontology
   * add selectors to specific resources from the ontology
+  * implement the rules to follow another page
   * run the crawling process according the above
 \enditems
+
 
 
 \sec Proposed Solution and Methodology
@@ -133,6 +177,164 @@ crOWLer and obtain the results in a form of a graphical feedback.
 \sec Work structure (XXX)
 
 TBD
+
+
+
+
+
+
+
+
+
+
+
+\chap Knowledge base, principles and technologies
+
+\sec Technology of Semantic Web
+
+Wikipedia defines Semantic Web as a collaborative movement led by international
+standards body the World Wide Web Consortium (W3C).  (XXX
+\url{https://en.wikipedia.org/wiki/Semantic_Web}) W3C itself defines Semantic
+Web as a technology stack to support a "Web of data," as opposed to "Web of
+documents," the web we commonly know and use (XXX
+\url{http://www.w3.org/standards/semanticweb/}). Just like with "Cloud" or "Big
+Data" the propper definition tends to vary, but the notion remains the same.
+It is collaborative movement led by W3C and it does define a technology stack.
+It also includes users and companies using this technology and the data itself. 
+Technologies and languages of Semantic Web such as RDF, RDFa, OWL, SPARQL (XXX)
+are well standardized and will be described in following chapters. 
+
+As a general logical concept of the technology... (XXX) Technology of Semantic
+Web is used to take data and metadata, give them unique identifiers and form
+them into oriented graphs. The metadata part define a schema of types and
+properties that can be assigned to data and also relations between this types
+and properties possibly in a form of ontology. When some data are anotaded by
+resources from such an ontology we gain power to reason on this data, i.e.
+resolve new relations based on known ones, and also to query on our data along
+with any data annotated using the same ontology. 
+
+In RDF(S) the  is defined in a form of triples. Triple consists of subject,
+predicate and object, wich all are simply "resources" listed by their
+identifiers. In this very general form we can express basically any
+relationship between two resources. On a level of classes and properties, we
+can for example assign a type to an individual, or set a class as a domain of
+some property. On a level of ontologies we can specify author and date it was
+released. (XXX DELME) 
+
+\sec RDF and RDFS
+
+RDF is a family of specifications for syntax notations and data serialization
+formats, meta data modeling, and vocabulary used for it. 
+
+XXX \url{https://en.wikipedia.org/wiki/Resource_Description_Framework}
+
+We will look closely on URI, the resource identifier, vocabularies and
+semantics defined by RDF, RDFS, and OWL, and serialization into Turtle and
+RDF/XML formats. 
+
+\secc URI
+
+In order to give each resource an unique identifier a Uniform Resource
+Identifier is used. This is mostly in a form of URL as we commonly know it as
+"web address" (e.g. http://www.example.org/some/place\#something). In some cases
+URI can be a URN as well. URN is a complementary syntax for URL that allow us
+to identify resources without specifying their location. This way we can for
+example use ISBN codes when working with books and records, or UUID identifier
+a Universally Uniqe Identifier widely used to identify technically any data
+instance. 
+
+XXX \url{https://en.wikipedia.org/wiki/Uniform_resource_identifier}
+
+\secc RDF and RDFS vocabulary
+
+In order to work with data properly (XXX) RDF(S) vocabulary defines several basic URIs along with their semantics. 
+
+    rdf:type is a property used to state that a resource is an instance of a class. A commonly accepted qname for this property is "a".[4]
+
+    rdfs:Resource - is the class of everything. All things described by RDF are resources.
+    rdfs:Class    - declares a resource as a class for other resources.
+
+    rdfs:Literal  – literal values such as strings and integers. Property values such as textual strings are examples of RDF literals. Literals may be plain or typed.
+    rdfs:Datatype – the class of datatypes. rdfs:Datatype is both an instance of and a subclass of rdfs:Class. Each instance of rdfs:Datatype is a subclass of rdfs:Literal.
+    rdf:XMLLiteral – the class of XML literal values. rdf:XMLLiteral is an instance of rdfs:Datatype (and thus a subclass of rdfs:Literal).
+
+    rdf:Property – the class of properties.
+    rdfs:domain of an rdf:predicate declares the class of the subject in a triple whose second component is the predicate.
+    rdfs:range of an rdf:predicate declares the class or datatype of the object in a triple whose second component is the predicate.
+
+    rdfs:subClassOf allows to declare hierarchies of classes.
+    rdfs:subPropertyOf is an instance of rdf:Property that is used to state that all resources related by one property are also related by another.
+
+    rdfs:label is an instance of rdf:Property that may be used to provide a human-readable version of a resource's name.
+    rdfs:comment is an instance of rdf:Property that may be used to provide a human-readable description of a resource.
+
+These are the basic building blocks of our future RDF graphs. The semantics
+defined in the specification and slightly described here alow us to specify
+class hierarchy, properties with domain and range as well as use this structure
+on individuals and literals.  
+
+\sec OWL
+
+\begitems
+ * \url{http://www.w3.org/TR/owl2-primer/}
+ * \url{https://en.wikipedia.org/wiki/Web_Ontology_Language}
+ * \url{http://www.w3.org/TR/2012/REC-owl2-quick-reference-20121211/}
+\enditems
+
+
+\sec Linked Data
+
+Wikipedia defines Linked Data as "a term used to describe a recommended best
+practice for exposing, sharing, and connecting pieces of data, information, and
+knowledge on the Semantic Web using URIs and RDF."
+
+\begitems
+ * \url{http://linkeddata.org/guides-and-tutorials}
+ * \url{http://linkeddatabook.com/editions/1.0/}
+ * \url{http://lov.okfn.org/dataset/lov/}
+\enditems
+
+
+\sec Ontology repositories
+
+\begitems
+ * \url{http://www.w3.org/wiki/Ontology_repositories}
+\enditems
+
+
+\sec RDFa
+
+\begitems
+ * \url{https://www.sio2.cz/web/psiotwo/publications}
+ * \url{http://rdfa.info/play/}
+\enditems
+
+
+\sec dalsi
+
+\begitems
+ * \url{https://en.wikipedia.org/wiki/SPARQL}
+ * \url{https://en.wikipedia.org/wiki/Turtle_(syntax)}
+\enditems
+
+
+
+\sec automatická extrakce dat
+
+TODO in next section
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \chap Existing solutions
 
@@ -333,71 +535,6 @@ crowler cz.sio2.crowler.configurations.parser.SeleniumConfiguration\
 
 
 
-\chap Knowledge base, principles and technologies
-
- Linked Data, RDFa, ...
-
-informativni cast, teorie
-
-Seznamte se technologiemi pro automatickou extrakci dat z webových stránek a s
-jazyky sémantického webu RDF, RDFS a OWL.
-
-\sec automatická extrakce dat
-
-~
-
-\sec RDF and RDFS
-
-\begitems
- * \url{https://en.wikipedia.org/wiki/Resource_Description_Framework}
-\enditems
-
-
-\sec OWL
-
-\begitems
- * \url{http://www.w3.org/TR/owl2-primer/}
- * \url{https://en.wikipedia.org/wiki/Web_Ontology_Language}
- * \url{http://www.w3.org/TR/2012/REC-owl2-quick-reference-20121211/}
-\enditems
-
-
-\sec Linked Data
-
-\begitems
- * \url{http://linkeddata.org/guides-and-tutorials}
- * \url{http://linkeddatabook.com/editions/1.0/}
- * \url{http://lov.okfn.org/dataset/lov/}
-\enditems
-
-
-\sec Ontology repositories
-
-\begitems
- * \url{http://www.w3.org/wiki/Ontology_repositories}
-\enditems
-
-
-\sec RDFa
-
-\begitems
- * \url{https://www.sio2.cz/web/psiotwo/publications}
- * \url{http://rdfa.info/play/}
-\enditems
-
-
-\sec dalsi
-
-\begitems
- * \url{https://en.wikipedia.org/wiki/SPARQL}
- * \url{https://en.wikipedia.org/wiki/Turtle_(syntax)}
-\enditems
-
-
-
-
-
-
 \chap Program design
 
 
@@ -405,22 +542,63 @@ jazyky sémantického webu RDF, RDFS a OWL.
 
 \begitems
   * NPU
+  * RLP
   * beerborec.cz
   * citybee.cz
 \enditems
 
 
 
+\sec Workflow
+
+\secc Main line
+
+\begitems
+  * user loads/creates ontology using sowl
+  * user opens webpage with data
+  * user creates scenario using sowl
+  * sowl sends scenario to crowler
+  * crowler crawls the web according to scenario and stores results in repository
+  * ~ + crowler sends data to sowl which embeds them in original web page (XXX)
+\enditems
+
+
+\secc Scenario creation
+
+\begitems
+  * user starts scenario creation in sowl
+  * loop until finished:
+  \begitems
+    * user selects an element on page
+    * user select action on element (perform and record event, i.e. click on link, narrow HTML context, assign element - object or property according to situation, ...)
+    * sowl records the action in scenario
+  \enditems
+\enditems
+
+
+\secc Additional branches to Scenario Creation
+
+\begitems
+  * user can navigate through scenario by clicking scenario steps
+  * user can navigate through scenario by clicking ontological context
+  * user can navigate through scenario by clicking areas on webpage covered by scenario
+  * when user clicks on a hyperlink: 
+  \begitems
+    * existing template can be assigned to the action (no need to actually follow the link)
+    * new tamplete can be created for resulting action (resulting page loaded, new template created, click through shown in breadcrumbs)
+  \enditems
+\enditems
+
 
 
 \sec Model
 
-
+~
 
 
 \sec Imlementation
 
-
+~
 
 
 \sec Issues - solved and unsolved
@@ -437,7 +615,7 @@ jazyky sémantického webu RDF, RDFS a OWL.
 
 
 \chap Program Implementation
-
+~
 
 
 
@@ -450,7 +628,7 @@ jazyky sémantického webu RDF, RDFS a OWL.
 
 
 \sec Data
-
+~
 
 \secc Pamatky
 
