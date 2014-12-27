@@ -1,16 +1,18 @@
+NAME=diplomka
+
 all: compile run
 
 compile:
 	# dvakrat, kvuli referencovani
-	pdfcsplain.exe minimal.tex
-	pdfcsplain.exe minimal.tex
+	pdfcsplain.exe ${NAME}.tex
+	pdfcsplain.exe ${NAME}.tex
 	#pdflatex *.tex
 
 edit:
-	vim minimal.tex
+	vim ${NAME}.tex
 
 run:
-	cygstart minimal.pdf
+	cygstart ${NAME}.pdf
 
 acro_kill:
 	taskkill.exe /IM AcroRd32.exe || true

@@ -1,5 +1,3 @@
-ctustyle-doc.pdf
-A
 *.acn
 *.acr
 *.alg
@@ -26,6 +24,7 @@ A
 *.out
 *.pdfsync
 *.ps
+*.ref
 *.snm
 *.synctex.gz
 *.toc
