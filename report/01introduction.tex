@@ -1,0 +1,166 @@
+\chap Introduction
+
+During past few years the Web went through bigger or smaller revolutions. 
+
+\begitems
+  * WEB 2.0 and tag cloud
+  * HTML5 and semantic tags
+  * Smartphones, Tablets and mobile web everywhere, 
+  * The run out of IPv4 addresses, nonexistent boom of IPv6, 
+  * Cloud technologies and BigData, 
+  * Bitcoin, Tor, anonymous internet, 
+  * WikiLeaks, NSA, Heartbleed and secourity concerns
+  * Google Knowledge Graph, Facebook Open Graph, ...
+\enditems
+
+That's only few examples of some of the biggest recent issues on the web in
+general. We live in an age, where so little can mean so much. The enviroment
+online is dramatically changing, mostly on a wave of some new, useful or
+frightening technology. The Semantic Web technologies have been described,
+standardized and implemented for several years now  (XXX Example with linked
+data, rdf) and their tide seems to be near, though yet to come.
+
+Semantic Web itself reates to several principles (along with their
+implementation) that allow users to add meaning to their data. This meaning
+brings not only a standardized structure, but also, as a consequence, the
+posibility to query and reason on data from multiple sources. Once given the
+structure, similar data can be joined in a form of a bigger cloud. This
+phenomena is called Linked Data. 
+
+In this work we'd like to bring the Semantic Web technologies closer to users.
+The approach is to propose a methodology for extracting structured data out of
+unstructured ones, designing and implementing an appropriate tool, to simplify
+the process of annotating (yet anonymous) data on a webpage, i.e. to bring
+structure and meaning into it. 
+
+
+
+\sec Problem Statement and Motivation
+
+Giving meaning, i.e. semantization of web pages gets more popular. Probably the most
+obvious example can be seen in the way the Google search engine serves it's
+results. Presenting not only the resulting pages but as well snippets of
+information scraped directly from the page content such as menu fields parsed
+directly from HTML5, contact information or openning hours, or even visualizing
+data from their own internal ontology, the Knowledge Graph. 
+
+XXX \url{https://en.wikipedia.org/wiki/Google_Knowledge_Graph}
+
+XXX Strigil - \url{http://delivery.acm.org/10.1145/2540000/2539170/p453-starka.pdf}
+
+What are the options for bringing sematic into a web? 
+
+%In future they're going even beyond that and suggest "predictive search"
+%\url{http://www.nytimes.com/2013/07/30/technology/apps-that-know-what-you-want-before-you-do.html}
+%technologies, that try to guess the motivation of your search, not only it's
+%meaning. \url{http://www.google.com/landing/now/}
+
+One direction to go (XXX better) is to annotate data on "the server side", i.e. at the time
+it is being created and/or published. The person or engine creating the data have to use
+the right tool and spend time giving the data the appropriate annotation. There
+are standards covering this use case: HTML5 brings in tags for clearer
+specification of the page structure (such as nav, article, section, aside,
+...). Microformats \url{http://microformats.org/} define specialized values for
+HTML class atribute to bring standardized patterns for several basic use cases
+with fixed structure, such as vCard or Event. The microformat approach is easy
+to implement as it doesn't impose any extra technology into the stuck(XXX
+better). Last but not least, we can use RDFa to annotate data on a webpage with an
+actual ontology. This technology is part of the Semantic Web stack and we'll
+describe it closer in further chapter (see in separate section XXX).
+
+Annotating data on the server side enables users to use tools highlight data
+they are specifically interested in, extract them and reason on them. Services
+can use annotated data, combine them and offer results from multiple sources. 
+
+Some examples of utilities for extracting and testing structured data: 
+
+\url{http://www.google.com/webmasters/tools/richsnippets}
+
+\url{http://rdfa.info/play/}
+
+To bypass the gap between anonymous data present on the web on one side and
+rich, linked, meaningful ontologies (XXX example) on the other, we can go the
+opposite direction as well. We can take the unannotated data already present on
+the web and retrieve them in a form, that is defined by some ontology
+structure. This process can be performet automatically or manually. 
+
+There've been several (XXX) attempts in the automatic data annotation. In
+principle, the goal of this approach is to automatically analyze a web page,
+find the most appropriate ontology for it and use this ontology to
+automatically annotate data on the page. 
+
+As an example, on a webpage of a music band this would find (XXX
+http://www.musicontology.com/) as the best matching schema, and it would
+annotate band name, genre, albums using classes and  properties from this ontology. 
+
+While on well structured, simple and/or partially annotated pages this process
+can be very successfull and produce usefull results, on pages with unorganized
+data the confidence on results produced by this approach might drop to loterry (XXX). 
+Unfortunately many online webpages and services are poorly strucruted. Pages
+containing many unrealted data, in form of advertisements or other external
+content might confuse such an engine. Old servers present their content in
+poorly structured or even invalid HTML in a form of multiple nested tables that
+serve for structuring only and makes the whole structure of the web unreadable
+(XXX). Social aspect of web brings in almost complete randomness making it
+even harder to automatically reason on page's content if it can't be
+distinguished and potentially left aside. To sum it up, there are many
+potential and real threads that prevent us from automatically annotate all data
+on web with confidence (XXX). 
+
+In some use cases the ontology of the desired data is yet to be created and the
+user is aware of the data strucrutre and capable of manually spot and select
+the data on a web page. Currently there isn't many tools allowing this kind of
+operation. The ideal implementation and the vision here will allow user to
+partially identify the structure fo a webpage while leaving the repeatative
+tedious work on crawler following the same structure on all data on webpage. 
+
+To allow such a proccess we need to create tools that allow users to annotate
+the, previously meaning-free, data with elements of existing ontology and/or
+create resources on-the-go. By using existing ontologies we not only give the
+meaning to our data, but also valuable connection to any other dataset
+annotated using the same ontology. 
+
+
+\sec Current solution crOWLer
+
+The suggested base-technology is being developed on our faculty XXX. Crawler
+called crOWLer serves the needs of extracting data from web. In current
+implementation, both, the scenario, followed by the crawler, and the ontology
+structure/schema are hard-coded into the crOWLer code. This requires
+unnecessary load of work for each separate use case, whilst in practice all the
+use cases share the same workflow. 
+
+\begitems \style n
+  * load the ontology
+  * add selectors to specific resources from the ontology
+  * implement the rules to follow another page
+  * run the crawling process according the above
+\enditems
+
+
+
+\sec Proposed Solution and Methodology
+
+To simplyfy the creation of guidelines, or scenarios for crOWLer, we propose a
+tool that allows user to select all the element directly on the web page being
+crawled, with all the necessary settings, pass the scenario created to the
+crOWLer and obtain the results in a form of a graphical feedback. 
+
+\sec Specific goals of the project
+
+\begitems
+  * design the semantic data creation use-cases
+  * implement extension for a browser
+  * load and visualise ontology
+  * create scenario for crOWLer 
+  * serialize scenario and ontology
+  * parse it by crOWLer creating it's configuration
+  * run crOWLer
+  * visualize the extracted data (feedback)
+\enditems
+
+
+\sec Work structure (XXX)
+
+XXX TBD
+

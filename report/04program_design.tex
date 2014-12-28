@@ -1,0 +1,80 @@
+
+\chap Program design
+
+
+\sec Use Cases
+
+\begitems
+  * NPU
+  * RLP
+  * beerborec.cz
+  * citybee.cz
+\enditems
+
+
+
+\sec Workflow
+
+\secc Main line
+
+\begitems
+  * user loads/creates ontology using sowl
+  * user opens webpage with data
+  * user creates scenario using sowl
+  * sowl sends scenario to crowler
+  * crowler crawls the web according to scenario and stores results in repository
+  * ~ + crowler sends data to sowl which embeds them in original web page (XXX)
+\enditems
+
+
+\secc Scenario creation
+
+\begitems
+  * user starts scenario creation in sowl
+  * loop until finished:
+  \begitems
+    * user selects an element on page
+    * user select action on element (perform and record event, i.e. click on link, narrow HTML context, assign element - object or property according to situation, ...)
+    * sowl records the action in scenario
+  \enditems
+\enditems
+
+
+\secc Additional branches to Scenario Creation
+
+\begitems
+  * user can navigate through scenario by clicking scenario steps
+  * user can navigate through scenario by clicking ontological context
+  * user can navigate through scenario by clicking areas on webpage covered by scenario
+  * when user clicks on a hyperlink: 
+  \begitems
+    * existing template can be assigned to the action (no need to actually follow the link)
+    * new tamplete can be created for resulting action (resulting page loaded, new template created, click through shown in breadcrumbs)
+  \enditems
+\enditems
+
+
+
+\sec Model
+
+~
+
+
+\sec Imlementation
+
+~
+
+
+\sec Issues - solved and unsolved
+
+\begitems
+  * error handling (non existent selector, missing data, ...)
+\enditems
+
+% * diagramy... clas, sequence (komunikace s jOWLem, komunikace s generatorem selectoru, ), 
+% * model
+% * vyresene, nevyresene problemy
+
+
+
+
