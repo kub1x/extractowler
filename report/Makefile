@@ -22,4 +22,4 @@ acro_kill:
 	#cp jakub_podlaha-cv.pdf /cygdrive/c/Users/kub1x/Downloads/
 
 clean: 
-	rm *.aux *.bbl *.blg *.dvi *.log *.out
+	rm *.aux *.blg *.dvi *.log *.out

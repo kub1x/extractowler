@@ -3,8 +3,8 @@
 \sec Technology of Semantic Web
 
 Wikipedia defines Semantic Web as a collaborative movement led by international
-standards body the World Wide Web Consortium (W3C).  (XXX
-\url{https://en.wikipedia.org/wiki/Semantic_Web}) W3C itself defines Semantic
+standards body the World Wide Web Consortium (W3C).
+\cite[wiki_semweb] W3C itself defines Semantic
 Web as a technology stack to support a "Web of data," as opposed to "Web of
 documents," the web we commonly know and use (XXX
 \url{http://www.w3.org/standards/semanticweb/}). Just like with "Cloud" or "Big
@@ -30,6 +30,24 @@ relationship between two resources. On a level of classes and properties, we
 can for example assign a type to an individual, or set a class as a domain of
 some property. On a level of ontologies we can specify author and date it was
 released. (XXX DELME) 
+
+
+\sec Linked Data
+
+Wikipedia defines Linked Data as "a term used to describe a recommended best
+practice for exposing, sharing, and connecting pieces of data, information, and
+knowledge on the Semantic Web using URIs and RDF." Just like Semantic Web it's
+a phenomena, a community, a set of standards created by this comunity, tools
+and programs implementing these standards and people willing to use these
+programs. Linked data strives to solve problem of XXX unreachability of
+majority of data on the web, as they're not accessible in machine readable, by
+defining standards and supporting implementation of those standards. 
+
+\begitems
+ * \url{http://linkeddata.org/guides-and-tutorials}
+ * \url{http://linkeddatabook.com/editions/1.0/}
+ * \url{http://lov.okfn.org/dataset/lov/}
+\enditems
 
 \sec RDF and RDFS
 
@@ -57,33 +75,56 @@ XXX \url{https://en.wikipedia.org/wiki/Uniform_resource_identifier}
 
 \secc RDF and RDFS vocabulary
 
-In order to work with data properly (XXX) RDF(S) vocabulary defines several basic URIs along with their semantics. 
+In order to work with data properly RDF(S) vocabulary defines several basic
+URIs along with their semantics. 
 
-    rdf:type is a property used to state that a resource is an instance of a class. A commonly accepted qname for this property is "a".[4]
+\midinsert \clabel[rdfsvocab]{RDF and RDFS vocabulary}
+\ctable{rl}{
+\hfil resource   & description  \crl \tskip4pt
+  rdf:type       & a property used to state that a resource is an instance of a class \cr
+                 & a commonly accepted qname for this property is "a" \cr
+  rdfs:Resource  & the class of everything; all things described by RDF are resources \cr
+  rdfs:Class     & declares a resource as a class for other resources \cr
+  rdfs:Literal   & literal values such as strings and integers \cr
+                 & property values such as textual strings are examples of RDF literals\cr
+                 & literals may be plain or typed \cr
+  rdfs:Datatype  & the class of datatypes\cr
+                 & rdfs:Datatype is both an instance of and a subclass of rdfs:Clas \cr
+                 & each instance of rdfs:Datatype is a subclass of rdfs:Literal \cr
+  rdf:XMLLiteral & the class of XML literal values; rdf:XMLLiteral is an instance \cr
+                 & of rdfs:Datatype (and thus a subclass of rdfs:Literal) \cr
+  rdf:Property   & the class of properties \cr
+  rdfs:domain    & (of an rdf:predicate) declares the class of the subject in a triple \cr
+                 & whose second component is the predicate \cr
+  rdfs:range     & (of an rdf:predicate) declares the class or datatype of the object in a triple \cr
+                 & whose second component is the predicate \cr
+  rdfs:subClassOf    & allows to declare hierarchies of classes \cr
+  rdfs:subPropertyOf & an instance of rdf:Property that is used to state \cr
+                     & that all resources related by one property are also related by another \cr
+  rdfs:label     & rdf:Property used to provide a human-readable version of a resource's name \cr
+  rdfs:comment   & rdf:Property used to provide a human-readable description of a resource \cr
+}
+\caption/t RDF and RDFS vocabulary
+\endinsert
 
-    rdfs:Resource - is the class of everything. All things described by RDF are resources.
-    rdfs:Class    - declares a resource as a class for other resources.
-
-    rdfs:Literal  – literal values such as strings and integers. Property values such as textual strings are examples of RDF literals. Literals may be plain or typed.
-    rdfs:Datatype – the class of datatypes. rdfs:Datatype is both an instance of and a subclass of rdfs:Class. Each instance of rdfs:Datatype is a subclass of rdfs:Literal.
-    rdf:XMLLiteral – the class of XML literal values. rdf:XMLLiteral is an instance of rdfs:Datatype (and thus a subclass of rdfs:Literal).
-
-    rdf:Property – the class of properties.
-    rdfs:domain of an rdf:predicate declares the class of the subject in a triple whose second component is the predicate.
-    rdfs:range of an rdf:predicate declares the class or datatype of the object in a triple whose second component is the predicate.
-
-    rdfs:subClassOf allows to declare hierarchies of classes.
-    rdfs:subPropertyOf is an instance of rdf:Property that is used to state that all resources related by one property are also related by another.
-
-    rdfs:label is an instance of rdf:Property that may be used to provide a human-readable version of a resource's name.
-    rdfs:comment is an instance of rdf:Property that may be used to provide a human-readable description of a resource.
 
 These are the basic building blocks of our future RDF graphs. The semantics
-defined in the specification and slightly described here alow us to specify
-class hierarchy, properties with domain and range as well as use this structure
-on individuals and literals.  
+defined in the specification and slightly described here \ref[rdfsvocab] alow
+us to specify class hierarchy, properties with domain and range as well as use
+this structure on individuals and literals.  
 
 \sec OWL
+
+Additionally to RDF and RDFS the OWL -- Web Ontology Language, is a family of
+languages for knowledge representation. OWL extends syntax and semantics of RDF
+brings in notion of subclasses and superclasses, distinction between datatype
+properties and object properties, defines transitivity, symetricity and other
+logical capabilities of properties. When queriing, OWL allow us on unions or
+intercections of classes or cardinality of properties. All this capabilities
+comes in with well defined semantics and brings in necessary computational
+complexity when reasoning on OWL ontology. 
+
+XXX
 
 \begitems
  * \url{http://www.w3.org/TR/owl2-primer/}
@@ -92,27 +133,18 @@ on individuals and literals.
 \enditems
 
 
-\sec Linked Data
-
-Wikipedia defines Linked Data as "a term used to describe a recommended best
-practice for exposing, sharing, and connecting pieces of data, information, and
-knowledge on the Semantic Web using URIs and RDF."
-
-\begitems
- * \url{http://linkeddata.org/guides-and-tutorials}
- * \url{http://linkeddatabook.com/editions/1.0/}
- * \url{http://lov.okfn.org/dataset/lov/}
-\enditems
-
-
-\sec Ontology repositories
-
-\begitems
- * \url{http://www.w3.org/wiki/Ontology_repositories}
-\enditems
+%\sec Ontology repositories
+%
+%\begitems
+% * \url{http://www.w3.org/wiki/Ontology_repositories}
+%\enditems
 
 
 \sec RDFa
+
+RDFa technology defines concept of embeding data on the web document in HTML by
+semantics. This is accomplished by adding custom attributes containing the RDF
+related information, such as resources, properties. 
 
 \begitems
  * \url{https://www.sio2.cz/web/psiotwo/publications}

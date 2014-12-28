@@ -20,6 +20,7 @@ In case we are trying to solve the input is one or more documents and one or
 more ontologies and the result is data obtained from the documents and
 annotated with resources from the ontologies. 
 
+
 \sec Advantages and pitfalls of Semantic crawler and linked data
 
 % vyhody sem crowleru, i pro linked data
@@ -76,52 +77,6 @@ massive ontology (XXX any suggestions on that? =).
 Stating that, the semantic crawling is an usefull way to effectively obtain and
 query on (otherwise anonymous) data from the web, but it still have it's challenges
 to overtake. 
-
-
-
-
-\sec Research - existující řešení - platforma
-
-
-\secc InfoCram 2000 - Jirka Mašek
-
-\begitems
-  * zalozeny na Aardwark \urlnote{https://addons.mozilla.org/en-US/firefox/addon/aardvark/}
-\enditems
-
-
-\secc iMacros
-
-\begitems
-  * \url{http://wiki.imacros.net/Command_Reference}
-  * \url{http://wiki.imacros.net/iMacros_for_Firefox}
-  * \url{http://wiki.imacros.net/iMacros_for_Chrome}
-\enditems
-
-
-
-%\secc Sahi
-%
-%Yet another web automation and testing tool. \url{http://sourceforge.net/projects/sahi/}
-
-
-
-\secc Selenium IDE
-
-\begitems
-  * IDE - \url{http://www.seleniumhq.org/projects/ide/}
-  * plugins - \url{http://www.seleniumhq.org/projects/ide/plugins.jsp}
-  * current commands - \url{http://release.seleniumhq.org/selenium-core/1.0.1/reference.html}
-  * documentation - \url{http://docs.seleniumhq.org/docs/index.jsp}
-  * extending selenium API (blog, tutorial) - \url{http://adam.goucher.ca/?s=selenium&paged=2}
-  \begitems
-    * randomString example - \url{http://adam.goucher.ca/?p=1348}
-  \enditems
-\enditems
-
-
-
-
 
 
 \sec crOWLer
@@ -185,13 +140,171 @@ crowler cz.sio2.crowler.configurations.parser.SeleniumConfiguration\
 
 
 
+
+
+\sec Research - existující řešení - platforma
+
+
+\secc InfoCram 2000 - Jirka Mašek
+
+
+
+\begitems
+  * zalozeny na Aardwark \urlnote{https://addons.mozilla.org/en-US/firefox/addon/aardvark/}
+\enditems
+
+
+\secc iMacros
+
+\begitems
+  * \url{http://wiki.imacros.net/Command_Reference}
+  * \url{http://wiki.imacros.net/iMacros_for_Firefox}
+  * \url{http://wiki.imacros.net/iMacros_for_Chrome}
+\enditems
+
+
+
+%\secc Sahi
+%
+%Yet another web automation and testing tool. \url{http://sourceforge.net/projects/sahi/}
+
+
+
+\secc Selenium
+
+Selenium is a collection of tools for automated testing of web pages. This tools include: 
+
+\begitems
+  * Selenium IDE -- a Firefox plugin for creating test scenarios
+  * WebDriver -- a set of libraries for various languages capable of running
+    tests generated from Selenium scenarios
+\enditems
+
+A user of Selenium, typically a web designer, programmer or coder, would create
+a scenario using Selenium IDE, in order to test his web server. From this
+scenarion a unit test can be generated for desired programming language and in
+desired form (e.g. JUnit test case). Such a test can be simply included it in a
+set of tests for the web server project. WebDriver library needed for running
+these tests is available through Maven. There is also a chance to use PhantomJs
+no-gui web browser for running tests without a need for actual browser, for
+cases when tests are being executed automatically in background or on server
+environment without X server or other form of graphical interface. The
+capabilities of WebDriver make it one of the most popular testing platforms for
+web servers nowadays XXX. 
+
+\begitems
+  * IDE - \url{http://www.seleniumhq.org/projects/ide/}
+  * plugins - \url{http://www.seleniumhq.org/projects/ide/plugins.jsp}
+  * current commands - \url{http://release.seleniumhq.org/selenium-core/1.0.1/reference.html}
+  * documentation - \url{http://docs.seleniumhq.org/docs/index.jsp}
+  * extending selenium API (blog, tutorial) - \url{http://adam.goucher.ca/?s=selenium&paged=2}
+  \begitems
+    * randomString example - \url{http://adam.goucher.ca/?p=1348}
+  \enditems
+\enditems
+
+Selenium IDE is a Firefox plugin that allow us to directly record user actions
+on webpage such as following links, storing and comparing values, filling in
+and submiting forms. 
+
+An attempt was made to implement SOWL as a plugin for Selenium IDE. This plugin
+would have two parts: 
+
+\begitems \style n
+  * an extension of graphical interface
+  * a formatter that would generate scenarios for crOWLer in some desired form
+\enditems
+
+Certain limitations were discovered during developement of this plugin.
+Selenium IDE, as being plugin itself, implements it's own plugin system,
+through which it allows other developers to extend it's functionality. The
+Selenium IDE plugin API allows us to use standard Firefox techniques along with
+predefined API, to extend the graphical interface and the functionality of the
+IDE respectively. 
+
+Graphical interface is defined using XUL, the standard Mozilla XML format for
+defining user interface. XUL defines an overlay sysem using which a new layer
+is defined and layed over existing part of application layout while extending
+or modifying it. The overlay sytem itself comes with Mozilla stack and can be
+used on IDE by default.
+
+The functionality of IDE is, however, linked with it's layout and has to be
+taken in account. Selenium IDE internally defines set of commands that can be
+used in scenarios. List of default commands can be seen in dropdown on main
+screen of the IDE. This list can be extended, but the use and structure of
+commands is implemented internally in Selenium IDE. Addition of new commands is
+XXX accomplished  by extending the {\tt Selenium.prototype} object in registered
+plugin. Afther the extension is processed through internal command loader, a
+new set of commands is added for user to use. 
+
+Commands in this system are recognized by their names as they are asigned on
+the prototype object the prefixes used are: 
+
+\begitems
+  * do -- the acction commands -- for perfroming user actions
+  * get and is -- the accessor commands -- for testing and/or waiting for a
+    values on page and potentially storing it
+  * assert -- the assertio commands -- for performing actual tests
+\enditems
+
+When commadn is generated the prefix is being stripped and according to type,
+multiple versions commands can be created. For example do commands have always
+"immediate" and "patient" version and in this principle {\tt
+Selenium.prototype.doClick} will generate the {\tt click} and {\tt
+clickAndWait} command. Accesor commands are even more complex and generate
+eight commands for every single method (positive and negative assertion, store
+method, waitFor, etc.). Implementation of the command method defines, how
+Selenium IDE would behave when "replying" the scenario recorded. Technically it
+is possible to leave the implementation empty in the IDE and use it only as a
+commad for WebDriver unit test. 
+
+None of the original command types corresponds to format of commands for
+handling the semantic annotation, like adding URI to element, recording
+creation of individual, assigning literal to it's property etc. A new set of
+commands was suggested and partially implemented having the prefix "owl". This
+led to changes in core sources of Selenium IDE, which itself is a bad sign as
+it technically creates a new branch of the program. CommandBuilder had to be
+extended directly in the selenimu code as it's impossible to change it's
+behavior through native Selenium IDE API. Unfortunately, even though the new
+command type was implemented, it is not possible to change the more general
+concept of all commands. Every command is stored as {\tt (name, target, value) }
+triple and from this format everything is derived. It is technically impossible
+to create commad for example for literal along with it's language tag as there
+is simply no field for it. For the same reason we cant create a commad to
+create an ontological object of some type as a property of another object.
+These comands relate to each other, but such a behavior is not supported by the
+scenario editor in it's current architecture. There is also no way to alter
+editor GUI for specific command. For instance, we can't offer autocomplete for
+input field when user enters URI of ontological resource. Such a feature would
+be an essential part of SOWL's workflow, and as a consequence these limitations
+are critical and disallow us from proerly implementing SOWL on top of the
+Selenium IDE. 
+
 \sec Strigil!
 
+
 \secc What problems it solves? (Use cases)
+
+Strigils architecture is tailor made for paralel processing of documents. As
+such it can't properly handle temporal changes in documents and thus it is
+designed to manipulate with static documents without use of javascript. (XXX)
 
 \secc Architecture of Strigil platform
 
 \secc What inspiration it brings for crowler
+
+XXX I tried to include Strigil/XML XXX format in SOWL, but it was XXX
+ridiculous. It would bring in an nunnecessary workload on string-based
+serialization from native javascript objects into XML format. The decision was
+made to rather use native JSON serialization as described in XXX chapter
+implementation. This implementation is heavily inspired by the original
+Strigil/XML. Moreover it attends to improve upon readability and compactness
+even though it doesn't reach the richness of Strigil/XML format. 
+
+%\secc Suggestions for improvements
+%
+% default language tag
+% language as an attribute
 
 
 
