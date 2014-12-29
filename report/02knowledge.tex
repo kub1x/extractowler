@@ -1,35 +1,46 @@
 \chap Knowledge base, principles and technologies
 
+In following chapter I'll provide basic information about technologies of
+Semantic Web, and Knowledge Representation. The terminology often used in the
+field will be defined and used to help full understanding before we proceed to
+the design and implementation. 
+
+
 \sec Technology of Semantic Web
 
 Wikipedia defines Semantic Web as a collaborative movement led by international
-standards body the World Wide Web Consortium (W3C).
-\cite[wiki_semweb] W3C itself defines Semantic
-Web as a technology stack to support a "Web of data," as opposed to "Web of
-documents," the web we commonly know and use (XXX
-\url{http://www.w3.org/standards/semanticweb/}). Just like with "Cloud" or "Big
-Data" the propper definition tends to vary, but the notion remains the same.
-It is collaborative movement led by W3C and it does define a technology stack.
-It also includes users and companies using this technology and the data itself. 
-Technologies and languages of Semantic Web such as RDF, RDFa, OWL, SPARQL (XXX)
-are well standardized and will be described in following chapters. 
+standards body the World Wide Web Consortium (W3C)~\cite[wiki:semweb]. W3C
+itself defines Semantic Web as a technology stack to support a "Web of data,"
+as opposed to "Web of documents," the web we commonly know and
+use~\cite[w3c:semweb]. Just like with "Cloud" or "Big Data" the propper
+definition tends to vary, but the notion remains the same. It is collaborative
+movement led by W3C and it does define a technology stack. It also includes
+users and companies using this technology and the data itself. Technologies
+and languages of Semantic Web such as RDF, RDFa, OWL, SPARQL are well
+standardized and will be described in following sections of this chapter. 
 
-As a general logical concept of the technology... (XXX) Technology of Semantic
-Web is used to take data and metadata, give them unique identifiers and form
-them into oriented graphs. The metadata part define a schema of types and
-properties that can be assigned to data and also relations between this types
-and properties possibly in a form of ontology. When some data are anotaded by
-resources from such an ontology we gain power to reason on this data, i.e.
-resolve new relations based on known ones, and also to query on our data along
-with any data annotated using the same ontology. 
+As a general logical concept of the technology, languages of Semantic Web are
+designed to describe data and metadata, give them unique identifiers -- so that
+we can address them -- and form them into oriented graphs. The metadata part
+define a schema of types (or classes) and properties that both can be assigned
+to data and also relations between this types and properties themselves.
+Wrapped together this metainformation is being presented in a form of {\em
+ontology}.  When some data are anotaded by resources from such an ontology we
+gain power to {\em reason} on this data, i.e. resolve new relations based on
+known ones, and also to {\em query} on our data along with any data annotated
+using the same ontology. 
 
-In RDF(S) the  is defined in a form of triples. Triple consists of subject,
-predicate and object, wich all are simply "resources" listed by their
-identifiers. In this very general form we can express basically any
-relationship between two resources. On a level of classes and properties, we
-can for example assign a type to an individual, or set a class as a domain of
-some property. On a level of ontologies we can specify author and date it was
-released. (XXX DELME) 
+On low level of the implementation we deal with simple {\em oriented graph}.
+The graph structure is defined in a form of {\em triples}. Each triple consists
+of three parts: {\em subject}, {\em predicate} and {\em object}, wich all are
+simply {\em resources} listed by their identifiers (URI's). In this very
+general form we can express basically any relationship between two resources.
+On a level of classes and properties, we can define hierarchies,  or set a
+class as a domain of some property. On lower, more concrete level we can assign
+a type to an {\em individual}. On a level of ontologies, in a way a
+"meta--meta" level, we can specify for instance an author, description and date
+it was released. Each of the relations is described using triples and together
+form one complex graph. 
 
 
 \sec Linked Data
@@ -38,10 +49,28 @@ Wikipedia defines Linked Data as "a term used to describe a recommended best
 practice for exposing, sharing, and connecting pieces of data, information, and
 knowledge on the Semantic Web using URIs and RDF." Just like Semantic Web it's
 a phenomena, a community, a set of standards created by this comunity, tools
-and programs implementing these standards and people willing to use these
-programs. Linked data strives to solve problem of XXX unreachability of
-majority of data on the web, as they're not accessible in machine readable, by
-defining standards and supporting implementation of those standards. 
+and programs implementing these standards and people willing to use these tools
+and, of course, the data being presented. Linked data effort strives to solve
+the problem of unreachability of majority of the knowledge present on the web,
+as it is not accessible in machine readable form, doing so by defining
+standards and supporting implementation of those standards. 
+
+To imagine current state of the Linked Data we can take a look on the Linking
+Open Data cloud diagram~\urlnote{http://lod-cloud.net}. The visualisation
+contains a node for each ontology and shows known connections between
+ontologies. The data originate from \url{http://datahub.io}, a popular web
+service for hosting sematic data. Current diagram visualises the state of 
+linked data cloud in April 2014. As we can see in the center, many data
+resources are linked to dbpedia~\urlnote{http://dbpedia.org}, the semantic data
+extracted from Wikipedia. This best describes the notion of Linked data. When
+two datasets relate to the same resource, they can be logically linked together
+through this connection, as this way they state, they relate to the same thing. 
+
+XXX lod.png
+XXX The Linking Open Data cloud diagram
+XXX \url{http://lod-cloud.net/versions/2014-08-30/lod-cloud_colored.svg}
+
+Some additional resources on Linked Data: 
 
 \begitems
  * \url{http://linkeddata.org/guides-and-tutorials}
@@ -49,12 +78,11 @@ defining standards and supporting implementation of those standards.
  * \url{http://lov.okfn.org/dataset/lov/}
 \enditems
 
+
 \sec RDF and RDFS
 
 RDF is a family of specifications for syntax notations and data serialization
-formats, meta data modeling, and vocabulary used for it. 
-
-XXX \url{https://en.wikipedia.org/wiki/Resource_Description_Framework}
+formats, meta data modeling, and vocabulary used for it~\cite[wiki:rdf]. 
 
 We will look closely on URI, the resource identifier, vocabularies and
 semantics defined by RDF, RDFS, and OWL, and serialization into Turtle and
@@ -64,19 +92,27 @@ RDF/XML formats.
 
 In order to give each resource an unique identifier a Uniform Resource
 Identifier is used. This is mostly in a form of URL as we commonly know it as
-"web address" (e.g. http://www.example.org/some/place\#something). In some cases
-URI can be a URN as well. URN is a complementary syntax for URL that allow us
-to identify resources without specifying their location. This way we can for
-example use ISBN codes when working with books and records, or UUID identifier
-a Universally Uniqe Identifier widely used to identify technically any data
-instance. 
+"web address" (e.g. {\tt http://www.example.org/some/place\#something}). This
+literarly specify address of resource and in many cases can be directly
+accessed in order to obtain the related data. In some cases we can use URN as
+well. URN as opposed to URL allow us to identify a resources without specifying
+it's location. This way we can for example use ISBN codes when working with
+books and records, or
+UUID~\urlnote{https://en.wikipedia.org/wiki/Uniform_resource_identifier} a
+Universally Uniqe Identifier widely used to identify data instances of any
+kind. 
 
-XXX \url{https://en.wikipedia.org/wiki/Uniform_resource_identifier}
 
 \secc RDF and RDFS vocabulary
 
 In order to work with data properly RDF(S) vocabulary defines several basic
-URIs along with their semantics. 
+resources along with their semantics.
+
+These are the basic building blocks of our future RDF graphs. The semantics
+defined in the specification and slightly described here \ref[rdfsvocab] alow
+us to specify class hierarchy, properties with domain and range as well as use
+this structure on individuals and literals. This is the most general standard
+that lays under every ontology out there. 
 
 \midinsert \clabel[rdfsvocab]{RDF and RDFS vocabulary}
 \ctable{rl}{
@@ -108,23 +144,19 @@ URIs along with their semantics.
 \endinsert
 
 
-These are the basic building blocks of our future RDF graphs. The semantics
-defined in the specification and slightly described here \ref[rdfsvocab] alow
-us to specify class hierarchy, properties with domain and range as well as use
-this structure on individuals and literals.  
-
 \sec OWL
 
 Additionally to RDF and RDFS the OWL -- Web Ontology Language, is a family of
-languages for knowledge representation. OWL extends syntax and semantics of RDF
+languages for knowledge representation. OWL extends syntax and semantics of RDF, 
 brings in notion of subclasses and superclasses, distinction between datatype
 properties and object properties, defines transitivity, symetricity and other
-logical capabilities of properties. When queriing, OWL allow us on unions or
-intercections of classes or cardinality of properties. All this capabilities
-comes in with well defined semantics and brings in necessary computational
-complexity when reasoning on OWL ontology. 
+logical capabilities of properties. When querying an OWL ontology, it allow us
+to use unions or intercections of classes or cardinality of properties. All this
+capabilities comes in with well defined semantics. Usage of each feature
+brought in by OWL semantics extends requirements on resolver being used for
+reasonging on our ontology and brings in necessary computational complexity. 
 
-XXX
+Including some more readings on OWL: 
 
 \begitems
  * \url{http://www.w3.org/TR/owl2-primer/}
@@ -142,26 +174,49 @@ XXX
 
 \sec RDFa
 
-RDFa technology defines concept of embeding data on the web document in HTML by
-semantics. This is accomplished by adding custom attributes containing the RDF
-related information, such as resources, properties. 
-
-\begitems
- * \url{https://www.sio2.cz/web/psiotwo/publications}
- * \url{http://rdfa.info/play/}
-\enditems
+RDFa technology defines a concept of embeding content of a web document defined
+in HTML with resources from some ontology. Technically we create a invisible
+layer of anotatins over the data that turns our content into machine readable
+record. This is accomplished by embedding the original HTML with custom
+attributes. Tools can be used to visualise this data
+\urlnote{http://rdfa.info/play/}. 
 
 
-\sec dalsi
+\sec SPARQL
 
-\begitems
- * \url{https://en.wikipedia.org/wiki/SPARQL}
- * \url{https://en.wikipedia.org/wiki/Turtle_(syntax)}
-\enditems
+Is a semantic query language for data stored in RDF format \cite[wiki:sparql].
+Using SPARQL syntax we define a pattern of the RDF graph using triples and as a
+result we obtain such a nodes that form a subgraf of the original graph that
+match the given pattern. So called SPARQL endpoints are the main entry points
+through which users can obtain data from openly available
+datasets~\urlnote{http://dbpedia.org/sparql Dbpedia SPARQL
+endpoint}\urlnote{http://linkedgeodata.org/sparql LinkedGeoData SPARQL
+endpoint}. 
+
+Below you can see a simple example of a SPARQL query that returns list of all
+resources from database that have a rdf:Type associated to it. 
+
+\begtt
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?target ?type
+WHERE {
+  ?target rdf:Type ?type;
+}
+\endtt
 
 
+\sec RDF/XML syntax
 
-\sec automatická extrakce dat
+RDF/XML is one of formats into which we can serialize our RDF data~\urlnote{https://en.wikipedia.org/wiki/RDF/XML}. It is a
+regular XML document containing elemens and attributes from the RDF(S)
+vocabulary. RDF/XML is one of the most common formats for RDF data
+serialization. 
 
-TODO in next section
+
+\sec Turtle syntax
+
+Turtle syntax is another popular syntax for expressing
+RDF~\urlnote{https://en.wikipedia.org/wiki/Turtle_(syntax)}. It's syntax suits 
+more naturally to RDF data as it conforms the triple pattern. 
+
 

@@ -1,12 +1,20 @@
 
 \chap Existing solutions
 
-%Semanticke a nesemanticke crowlery (linked media framework, calimachus, ...) je toho proste malo ;-) a proto to delame
+In this chapter we'll describe the research made on existing solutions for
+given task. The performed search was focused on tools directly solving the 
+given problem (annotating data on web and crawling it), as well as libraries
+and technologies that would help to implement new solution or existing open 
+source programs we could build the solution on. 
+
+%Semanticke a nesemanticke crowlery (linked media framework, calimachus, ...)
+%je toho proste malo ;-) a proto to delame
 
 \sec Semantic and non semantic crawlers
 
 By researching existing solutions, there is currently no open source or openly
-available solution to solve this task. Rumor goes there is proprietary tool in IBM.
+available solution that would directly follow the required workflow and
+fullfill the requirements. 
 
 Existing tools named as "Ontology-based Web Crawlers" refer mostly to crawlers
 that "rank" pages being crawled by guess-matching them against some ontology.
@@ -28,7 +36,7 @@ The simplest approach is manual searching for keywords, or even simple browsing
 the web. That might be useful in some cases, but when there is a lot of data,
 it becomes exhausting. 
 
-Crawling data using simple tools like 'wget --mirror' allows us to load data
+Crawling data using simple tools like {\tt wget --mirror} allows us to load data
 and then write a program or script to retrieve a relevant information. This
 approach takes a lot of energy for one time only solution of a given problem. 
 
@@ -37,6 +45,10 @@ possibly automatically obtained by the script from pervious case. Such data is
 static, but can be queried over and over and possibly re-retrieved when becomes
 obsolete. It's structure is, however, based on programmers imagination an
 needs to be described in order to understand and handle the data properly. 
+
+When a triple store is used as the database in previous case we obtain one-time
+solution to our problem. This is technically equal to original state of
+crOWLer. 
 
 When using Ontology-based solution, tailor made for crawling and annotating
 data from web, we obtain several benefits "for free". The tool designed
@@ -47,96 +59,161 @@ relations within ontology, that allow reasoning, are usually part of the
 ontology deffinition and as such comes, again, "for free". 
 
 Last for benefits: using ontology from public resource as a schema for our data
-can give us correct structure without need for XXX making it up or building it
-from scratch. Also by using some common ontology, we can join together any
-accessible data structured according to this ontology and simply query on
-resulting super set. With this approach we can utilize the power of linked data
-cloud (XXX reference). 
+can give us correct structure without need for building it from scratch. Also
+by using some common ontology, we can join together any accessible data
+structured according to this ontology and simply query on resulting super set.
 
 ~
 
 Semantic crawling is not a silver bullet. The technology is only finding it's
-place and uses and it's being shaped by the needs of it's users. In current
-it's mostly used on accademic field XXX. 
+place and uses and it's being shaped by the needs of it's users.
 
-There is always a threat of inconsistency of an ontology when some data don't
-fit the rules or breaks structure of an ontology. (XXX more)
+For instance There is always a threat of inconsistency of an ontology when some
+data don't fit the rules or breaks structure of an ontology. In it's state from
+April 2014 DBpedia states, there is 3.64 million resources, out of which 1.83
+million are clasified in a consistent Ontology \cite[dh:dbpedia]. That is only 
+half of the data being arguably consistent with each other. That doesn't say
+the rest is bad. Only that it might cause a inconsistency and prevent us from
+reasoning if we include wrong subset of the data. 
 
 Just like with "hardcoded" crawling technique, the semantic crawling is tightly
-connected (XXX better) with the structure of the web being crawled and
-selectors (XXX explain term) used for matching data on the web. Any change on a
-webpage structure can lead to broken selectors or links during the crawling
-process (XXX and make the scenario useles, more on self-repairing of
-scenarios?). 
+bound to the structure of the web being crawled. The web is being matched
+against some patterd described by selecors and the matching elemented, when
+found, are accepted for further processing. Any change on a webpage structure
+can lead to broken selectors or links during the crawling process and make
+the scenario invalid. 
 
 A lot of web pages loads their data dynamically using AJAX queries. Some pages
-simply changes it's content frequently (XXX typically news pages, forums: rt.com,
-vimeo.com, ...) which would require almost constant crawling and growth into an
-massive ontology (XXX any suggestions on that? =). 
+simply changes it's content frequently news pages, forums, user content pages
+and social web applications. Crawling content on such servers would require
+almost constant crawling and would cause growth into massive ontology of
+questionable quality. 
 
-Stating that, the semantic crawling is an usefull way to effectively obtain and
-query on (otherwise anonymous) data from the web, but it still have it's challenges
-to overtake. 
-
-
-\sec crOWLer
-
-\secc zavislosti
-
-\begitems \style O
-  * maven - apache project managing tool
-  \begitems \style o
-    * \url{https://maven.apache.org}
-    * \url{https://maven.apache.org/run-maven/index.html}
-    * \url{https://maven.apache.org/guides/mini/guide-ide-eclipse.html}
-  \enditems
-  * sesame
-  \begitems \style o
-    * \url{http://www.openrdf.org/download.jsp} ??
-  \enditems
-  * jena
-  \begitems \style o
-    * \url{https://github.com/ansell/JenaSesame} !!
-    * or \url{https://github.com/afs/JenaSesame} ??
-    * or \url{http://jena.apache.org/} ???
-    * or \url{http://sjadapter.sourceforge.net/} ????
-    * or \url{http://sourceforge.net/projects/jenasesamemodel/}
-    * might help \url{http://www.iandickinson.me.uk/articles/jena-eclipse-helloworld/}
-    * little hint \url{http://spqr.cerch.kcl.ac.uk/?page_id=130}
-    * another hit \url{http://answers.semanticweb.com/questions/20865/how-to-get-the-jena-sesame-adapter}
-    * wiki \url{https://en.wikipedia.org/wiki/Jena_(framework)}
-    * jena vs. sesame flame \url{http://answers.semanticweb.com/questions/1638/jena-vs-sesame-is-there-a-serious-complete-up-to-date-unbiased-well-informed-side-by-side-comparison-between-the-two}
-  \enditems
-\enditems
+The semantic crawling is an usefull way to effectively obtain and query on
+(otherwise anonymous) data from the web, but it still have it's challenges to
+overtake. 
 
 
-\secc Classes of CrOWLer
+\sec Analysis of crOWLer
+
+In this section an analysis of existing impementation of crOWLer is described. 
+
+Original implementation is prototype of console Java aplication. It uses
+JenaSesame library for handling ontological data and JSOUP library for
+accessing webpages and adressing elements. As a scenerio crOWLer accepts java
+{\tt .class} files containing a implementation of {\tt ConfigurationFactory}
+class. This configuration specifies all the information needed for crowling
+process: 
+
+\midinsert
+\picw=10cm \cinspic crowler-orig.png
+\caption/f General architecture of the original crOWLer implementation. 
+\endinsert
 
 \begitems
-  * ImmovableHeritageConfiguration extends MonumnetConfiguration implements ConfigurationFactory 
-  \begitems
-    * implements Configuration, which is parameter for FullCrawler.run() method
-  \enditems
-  * FullCrawler
-  \begitems
-    * implements the whole crawling algorithm
-    * 
-  \enditems
+  * webpage to be crawled
+  * way to address data on that page using JSOUP selectors
+  * definition of ontology resources used to anotate the obtained data
+  * and definition of pagination process that brings us to next page to be crawled
 \enditems
 
-\secc Run configuration 
+Additionaly the pagination and selector implementation are supported by several
+helper classes for chaining selectors or generation of a list of URL addreses
+by incrementing specific argument. 
+
+This reveals the issue being addressed. Java implemented configuration requires
+knowledge of Java programming language along with knowledge of RDF
+technologies. Programmer gets into the position of ontological engineer when
+designing new resources. Knowledge of WEB technologies is needed in order to
+properly target elements on the webpage using JSOUP selectors. This is one of
+the hardest task as the selectors have to be manually extracted using for
+example browser console. 
+
+Following code is an exapmle of actual confuguration code of original crOWLer
+implementation.  It uses {\tt NPU} class as simple static storage for URI's
+used in our ontology. It creates a {\em monumentRecord} object for each talbe
+row as defined by the "initial definition". The second part create {\em
+district} object with it's label (found in third table colum denoted by the
+{\tt td:eq(2)} selector) and assigns it to the record using {\em hasDistrict}
+object property. The {\tt conf} object holds the configuration being passed to
+the actual crawler. 
 
 \begtt
-crowler cz.sio2.crowler.configurations.npu.ImmovableHeritageConfiguration file results
-crowler cz.sio2.crowler.configurations.kub1x.KbxConfiguration file results
-crowler cz.sio2.crowler.configurations.parser.SeleniumConfiguration\
-         file results generated.html
+ClassSpec chObject = Factory.createClassSpec(NPU.monumnetRecord.getURI());
+
+conf.addInitialDefinition(Factory
+      .createInitialDefinition(chObject, Factory
+        .createJSoupSelector("table tbody tr.list")));
+
+ClassSpec sDistrict = Factory.createClassSpec(NPU.district.getURI());
+chObject.addSpec(Factory
+          .createOPSpec(Factory
+            .createJSoupSelector("td:eq(2)"), NPU.hasDistrict.getURI(), sDistrict));
+sDistrict.addSpec(true, Factory.createDPSpec(Vocabulary.RDFS_LABEL));
 \endtt
 
-\begitems
-  * Class ImmovableHeritageConfiguration implements Configuration class. 
-  * Folder jena\_con will be created and all the rdf's will be stored in int with names derived from ontology uri
-\enditems
+Previous example more or less defines requirements on scenario for semantic
+crawler. To fully satisfy the crOWLers current implentation, we would also have
+to cover following hyperlinks on a page, firing javascript and browser events and
+functions of tranforming scraped data using for example regular expressions or
+key--value mapping. 
+
+%\secc zavislosti
+%
+%\begitems \style O
+%  * maven - apache project managing tool
+%  \begitems \style o
+%    * \url{https://maven.apache.org}
+%    * \url{https://maven.apache.org/run-maven/index.html}
+%    * \url{https://maven.apache.org/guides/mini/guide-ide-eclipse.html}
+%  \enditems
+%  * sesame
+%  \begitems \style o
+%    * \url{http://www.openrdf.org/download.jsp} ??
+%  \enditems
+%  * jena
+%  \begitems \style o
+%    * \url{https://github.com/ansell/JenaSesame} !!
+%    * or \url{https://github.com/afs/JenaSesame} ??
+%    * or \url{http://jena.apache.org/} ???
+%    * or \url{http://sjadapter.sourceforge.net/} ????
+%    * or \url{http://sourceforge.net/projects/jenasesamemodel/}
+%    * might help \url{http://www.iandickinson.me.uk/articles/jena-eclipse-helloworld/}
+%    * little hint \url{http://spqr.cerch.kcl.ac.uk/?page_id=130}
+%    * another hit \url{http://answers.semanticweb.com/questions/20865/how-to-get-the-jena-sesame-adapter}
+%    * wiki \url{https://en.wikipedia.org/wiki/Jena_(framework)}
+%    * jena vs. sesame flame \url{http://answers.semanticweb.com/questions/1638/jena-vs-sesame-is-there-a-serious-complete-up-to-date-unbiased-well-informed-side-by-side-comparison-between-the-two}
+%  \enditems
+%\enditems
+
+
+%\secc Classes of CrOWLer
+%
+%\begitems
+%  * ImmovableHeritageConfiguration extends MonumnetConfiguration implements ConfigurationFactory 
+%  \begitems
+%    * implements Configuration, which is parameter for FullCrawler.run() method
+%  \enditems
+%  * FullCrawler
+%  \begitems
+%    * implements the whole crawling algorithm
+%    * 
+%  \enditems
+%\enditems
+%
+%\secc Run configuration 
+%
+%\begtt
+%crowler cz.sio2.crowler.configurations.npu.ImmovableHeritageConfiguration file results
+%crowler cz.sio2.crowler.configurations.kub1x.KbxConfiguration file results
+%crowler cz.sio2.crowler.configurations.parser.SeleniumConfiguration\
+%         file results generated.html
+%\endtt
+%
+%\begitems
+%  * Class ImmovableHeritageConfiguration implements Configuration class. 
+%  * Folder jena\_con will be created and all the rdf's will be stored in int with names derived from ontology uri
+%\enditems
 
 
 

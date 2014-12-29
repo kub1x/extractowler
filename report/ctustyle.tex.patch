@@ -1,0 +1,39 @@
+diff --git a/report/ctustyle.tex b/report/ctustyle.tex
+index 47dd229..9dd2c5e 100644
+--- a/report/ctustyle.tex
++++ b/report/ctustyle.tex
+@@ -157,7 +157,7 @@
+ \mtdef {specifi0}     {Specification}     {Zadani}         {Zadanie}
+ 
+ \mtdef {B} {Bachelor's thesis} {Bakalářská práce}  {Bakalárska práca}
+-\mtdef {M} {Master's thesis}   {Diplomová práce}   {Diplomová práca}
++\mtdef {M} {Diploma thesis}    {Diplomová práce}   {Diplomová práca}
+ \mtdef {D} {Ph.D. thesis}      {Dizertační práce}  {Dizertačná práca}
+ 
+ \def\keepacc#1{\slet{mt:#10:sk}{mt:#1:sk}\slet{mt:#10:\czs}{mt:#1:\czs}}
+@@ -558,9 +558,12 @@
+ 
+ \def\nextheadline{\global\headline={\printheadline}}
+ 
+-\def\printheadline{\locc\tenssi\thefontsize[10]\ifodd\pageno
+-     \hskip-3.7cm\tecky\if&\firstmark&\else\ \fi\locpgcolor\Grey\firstmark\Black
+-   \else\locpgcolor\Grey\headchap\ \tecky\hskip-3.7cm\fi}
++%\def\printheadline{\locc\tenssi\thefontsize[10]\ifodd\pageno
++%     \hskip-3.7cm\tecky\if&\firstmark&\else\ \fi\locpgcolor\Grey\firstmark\Black
++%   \else\locpgcolor\Grey\headchap\ \tecky\hskip-3.7cm\fi}
++\def\printheadline{\locc\tenssi\thefontsize[10]
++   %\locpgcolor\Grey\headchap\ \tecky\hskip-3.7cm
++   \hskip-3.7cm\tecky\if&\firstmark&\else\ \fi\locpgcolor\Grey\firstmark\Black}
+ 
+ \def\onesideprinting{\def\printheadline{\locc\tenssi\thefontsize[10]
+      \locpgcolor\Grey\expandafter\ignoretospace\headchap\ \tecky
+@@ -607,7 +610,8 @@
+   \firstnoindent
+ }
+ 
+-\def\bibchap{\nonum \chap Literatura\par}
++%\def\bibchap{\nonum \chap Literatura\par}
++\def\bibchap{\nonum \chap \mtext{bibliography}\par}
+ 
+ 
+ %%% Captions
