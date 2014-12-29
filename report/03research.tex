@@ -147,6 +147,7 @@ crowler cz.sio2.crowler.configurations.parser.SeleniumConfiguration\
 
 \secc InfoCram 2000 - Jirka Mašek
 
+InfoCram 2000 is part of project ExtBrain XXX
 
 
 \begitems
@@ -228,14 +229,20 @@ is defined and layed over existing part of application layout while extending
 or modifying it. The overlay sytem itself comes with Mozilla stack and can be
 used on IDE by default.
 
-The functionality of IDE is, however, linked with it's layout and has to be
-taken in account. Selenium IDE internally defines set of commands that can be
-used in scenarios. List of default commands can be seen in dropdown on main
-screen of the IDE. This list can be extended, but the use and structure of
-commands is implemented internally in Selenium IDE. Addition of new commands is
-XXX accomplished  by extending the {\tt Selenium.prototype} object in registered
-plugin. Afther the extension is processed through internal command loader, a
-new set of commands is added for user to use. 
+\midinsert \clabel[imgseleniumide]{Image of Selenium IDE}
+\cinspic selenium-ide.png
+\caption/f GUI of Selenium IDE showing the Command, Target and Value fields. 
+\endinsert
+
+The functionality of IDE is, however, linked with it's layout
+\ref[imgseleniumide] and has to be taken in account. Selenium IDE internally
+defines set of commands that can be used in scenarios. List of default commands
+can be seen in dropdown on main screen of the IDE. This list can be extended,
+but the use and structure of commands is implemented internally in Selenium
+IDE. Addition of new commands is XXX accomplished  by extending the {\tt
+Selenium.prototype} object in registered plugin. Afther the extension is
+processed through internal command loader, a new set of commands is added for
+user to use. 
 
 Commands in this system are recognized by their names as they are asigned on
 the prototype object the prefixes used are: 
