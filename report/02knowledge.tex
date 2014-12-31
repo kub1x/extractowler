@@ -10,9 +10,9 @@ the design and implementation.
 
 Wikipedia defines Semantic Web as a collaborative movement led by international
 standards body the World Wide Web Consortium (W3C)~\cite[wiki:semweb]. W3C
-itself defines Semantic Web as a technology stack to support a "Web of data,"
-as opposed to "Web of documents," the web we commonly know and
-use~\cite[w3c:semweb]. Just like with "Cloud" or "Big Data" the propper
+itself defines Semantic Web as a technology stack to support a ``Web of data,''
+as opposed to ``Web of documents,'' the web we commonly know and
+use~\cite[w3c:semweb]. Just like with ``Cloud'' or ``Big Data'' the propper
 definition tends to vary, but the notion remains the same. It is collaborative
 movement led by W3C and it does define a technology stack. It also includes
 users and companies using this technology and the data itself. Technologies
@@ -38,16 +38,16 @@ general form we can express basically any relationship between two resources.
 On a level of classes and properties, we can define hierarchies,  or set a
 class as a domain of some property. On lower, more concrete level we can assign
 a type to an {\em individual}. On a level of ontologies, in a way a
-"meta--meta" level, we can specify for instance an author, description and date
+``meta--meta'' level, we can specify for instance an author, description and date
 it was released. Each of the relations is described using triples and together
 form one complex graph. 
 
 
 \sec Linked Data
 
-Wikipedia defines Linked Data as "a term used to describe a recommended best
+Wikipedia defines Linked Data as ``a term used to describe a recommended best
 practice for exposing, sharing, and connecting pieces of data, information, and
-knowledge on the Semantic Web using URIs and RDF." Just like Semantic Web it's
+knowledge on the Semantic Web using URIs and RDF.'' Just like Semantic Web it's
 a phenomena, a community, a set of standards created by this comunity, tools
 and programs implementing these standards and people willing to use these tools
 and, of course, the data being presented. Linked data effort strives to solve
@@ -66,9 +66,12 @@ extracted from Wikipedia. This best describes the notion of Linked data. When
 two datasets relate to the same resource, they can be logically linked together
 through this connection, as this way they state, they relate to the same thing. 
 
-XXX lod.png
-XXX The Linking Open Data cloud diagram
-XXX \url{http://lod-cloud.net/versions/2014-08-30/lod-cloud_colored.svg}
+
+\midinsert
+\picw=10cm \cinspic lod.png
+\caption/f The Linking Open Data cloud
+diagram~\urlnote{http://lod-cloud.net/versions/2014-08-30/lod-cloud_colored.svg}
+\endinsert
 
 Some additional resources on Linked Data: 
 
@@ -92,7 +95,7 @@ RDF/XML formats.
 
 In order to give each resource an unique identifier a Uniform Resource
 Identifier is used. This is mostly in a form of URL as we commonly know it as
-"web address" (e.g. {\tt http://www.example.org/some/place\#something}). This
+``web address'' (e.g. {\tt http://www.example.org/some/place\#something}). This
 literarly specify address of resource and in many cases can be directly
 accessed in order to obtain the related data. In some cases we can use URN as
 well. URN as opposed to URL allow us to identify a resources without specifying
@@ -118,7 +121,7 @@ that lays under every ontology out there.
 \ctable{rl}{
 \hfil resource   & description  \crl \tskip4pt
   rdf:type       & a property used to state that a resource is an instance of a class \cr
-                 & a commonly accepted qname for this property is "a" \cr
+                 & a commonly accepted qname for this property is {\tt a} \cr
   rdfs:Resource  & the class of everything; all things described by RDF are resources \cr
   rdfs:Class     & declares a resource as a class for other resources \cr
   rdfs:Literal   & literal values such as strings and integers \cr

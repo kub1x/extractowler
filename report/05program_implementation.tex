@@ -185,7 +185,7 @@ the {\tt steps}, the header section is redesigned for the JSON structure. XXX
 
 The original semantics of {\tt onto-elem} and {\tt value-of} was preserved,
 only limited to it's basic use. {\tt value-of} serves solely to assign literal
-properties. 
+properties. XXX not true anymore ;) 
 
 The final scenario for Use Case 1 XXX looks like this: 
 
@@ -251,10 +251,18 @@ The final scenario for Use Case 1 XXX looks like this:
             {
               command: "call-template", 
               name: "detail", 
-              attribute: "href", 
               selector: {
-                value: "detail", 
-                type:  "css", 
+                value: [
+                  {
+                    value: "td.detail a", 
+                    type:  "css", 
+                  }, 
+                  {
+                    value: "@href", 
+                    type: "xpath", 
+                  }, 
+                ], 
+                type: "chained", 
               }, 
             }, 
           ], 
@@ -278,8 +286,190 @@ The final scenario for Use Case 1 XXX looks like this:
 }
 \endtt
 
+\secc Consequences of conversion to JSON format
 
+XXX We don't have "text content" like XML elments can, but Strigil doesn't really use that
 
+XXX We don't have child nodes.. so we have to keep them in an array, like in {\tt steps} 
 
+XXX But hey, we can use any key to store a substep, not only the array, we
+practically use different approach here.. instead of tree structure we have
+tree of hashmaps. 
+
+\sec crOWLer implementation
+
+\secc architecture
+
+\secc Implemented and unimplemented capabilities
+
+\secc Javascript and events support
+
+Special attention have to be paied when dealing with direct interaction with
+DOM elements and script execution. WebDriver supports injection and execution
+of javascript as well as simulation of user interactions like ``click'' on
+element or ``back'' and ``forward'' navigation. Even though it brings great
+power there are considerations and great limitations to be taken in account. 
+
+WebDriver supports execution of javascript directly on webpage loaded in the
+driver. This is done by calling {\tt executeScript} or {\tt executeAsyncScript}
+function on the {\tt driver} object. First argument of these functions is
+string defining content of javascript function we want to execute. Header and
+actual call of this function will be added for us before it get's attached to
+the webpage. We can pass any number of accepted arguments to these functions
+and they will be accessible through standard {\tt arguments} object in on the
+javascript side. Types, corresponding to standard javascript types are
+supported as arguments: number, boolean, String, WebElement or List of any
+combination of the previous~\urlnote{http://goo.gl/Hhwq3l Selenium
+JavascriptExecutor documentatnion}. The second -- asynchronous version returns
+immediately with a {\tt response} object. It provides callback as additional
+argument to the javascript call. This callback is used for synchronization when
+accessing the result on the {\tt response} object from Java.  
+
+XXX TODO better example this one is from
+here~\urlnote{http://docs.seleniumhq.org/docs/03_webdriver.jsp\#using-javascript}
+
+\begtt
+List<WebElement> labels = driver.findElements(By.tagName("label"));
+List<WebElement> inputs = (List<WebElement>) ((JavascriptExecutor)driver).executeScript(
+    "var labels = arguments[0], inputs = []; for (var i=0; i < labels.length; i++){" +
+        "inputs.push(document.getElementById(labels[i].getAttribute('for'))); } return inputs;", labels);
+\endtt
+
+In simple case we can use javascript to extend functionality of crowler. It
+might be used as a complex string formater, parser for nontrivial values etc. 
+In following example it is used to condition on attribute value of an anchor
+tag. 
+
+\begtt
+WebElement el = driver.findElement(By.cssSelector('a.detail'));
+String result = (String) ((JavascriptExecutor)driver).executeScript(
+"var elem = arguments[0];"+
+"var href = elem.getAttribute('href');" +
+"return (href ==='#' ? window.location.href : href);", el);
+\endtt
+
+Previous example is simple, yet if we wanted to cover this use case with our
+scenarion implementation we would bring a lot of problem-specific XXX balast XXX
+into the scenario syntax. We would have to use special syntax for obtaining
+current URL and for conditioning on values. Following code demonstrates how this 
+functionality might look if it was covered only by scenario syntax without usage
+of javascript. The {\tt getCurrentUrl} function is inspired by Strigil. 
+
+\begtt
+{
+  command: "condition", 
+  condition: "eq", 
+  param: "#", 
+  value: {
+    commad: "value-of", 
+    selector: "a.detail", 
+  }
+  onfalse: {
+    command: "function", 
+    value: "getCurrentUrl", 
+  }
+}
+\endtt
+
+We've declared the {\tt conndition} command with implementation of {\em eq}
+operator (and probably several other un/equality operators) and the {\tt
+function} command with implementation of {\em getCurrentUrl} which, again,
+probably isn't the last function to be implemented. All this would require
+update of the scenario parser, the implemtation for commands and all their
+atributes and thus update of the whole backend every time, new functionality is
+needed. The advantage is, that user doesn't have to know javascript and
+understand how it is called in webdriver. It is discutable if 
+
+With use of javascript it might look as follows: 
+
+\begtt
+{
+  command: "value-of", 
+  selector: "a.detail", 
+  exec: "var href = elem.getAttribute('href');" +
+        "return (href ==='#' ? window.location.href : href);"
+}
+\endtt
+
+In this case we embeded only the {\tt value-of} with a single attribute that
+takes javascript. From there we have technically unlimited power for extending
+the functionality of the crOWLer without need of changing the Java implemntation. 
+
+Note that the first line of the original javascript was ommited: 
+
+{\tt var elem = arguments[0];} 
+
+It can be automatically prepended every time, we exec javascript on a single
+DOM element. It is a simple helper and doesn't interfere with anything XXX (as
+we can redefine variable as many times as we want). Similarly we could
+predefine variable {\tt value} when passing a string or number to a javascript
+function. 
+
+But with great power comes a great current squared times
+resistance~\urlnote{http://www.xkcd.com/643/} XXX. With usage of javascript as
+suggested in previous paragraphs we have to take in account two major
+considerations. 
+
+Firstly, javascript function can accept any number of parameters and return an
+arbitrary value. In both cases, the parameters and the return value, we can be
+of any of the allowed types (as javascript isn't strongly typed language). We
+thus have to specify what exact parameters are being passed to a function and
+what result is expected. We also have to implement a robust way of controllig
+and properly define a fallback-on-error behavior. This is especially important
+as we might want to use javascript function not only as a string filter, but also
+for example as a universal selector where we struggle with classical selectors. 
+Any additional use have to be described separately before it can be universally
+used. 
+
+More importantly, there is the second consideration. Any DOM element is
+accessible from the javascript function. When this element is modified or even
+removed, it becomes invalid from the Java context. The same applies for
+operations on the whole page. When a link is followed, the original DOM tree 
+is dropped and all refferences are lost. 
+
+To specify the behavior during this issue, below you can see a simple test.
+When link is clicked, the webdriver follows the link in current window and the
+reference to the original DOM is lost. 
+
+\begtt
+WebDriver wd = new FirefoxDriver();
+wd.navigate().to("http://www.inventati.org/kub1x/t/");
+WebElement a = wd.findElement(By.cssSelector("a"));
+System.out.println(a.getText()); // Prints "detail"
+a.click();
+System.out.println(a.getText());
+// throws org.openqa.selenium.StaleElementReferenceException:
+// { "errorMessage":"Element does not exist in cache", ... }
+\endtt
+
+In crOWLer, we can now distinguish between two ways of ascending to another HTML page: 
+
+\begitems \style n
+  * using {\tt call-template} command
+  * using javascript or user event such as ``click'' or ``back''
+\enditems
+
+The {\tt call-template} is always called on an URL and always creates new web
+context, keeping the original one untouched. It actually behaves like call
+stack, so when we return from the template call, we can follow on the original
+DOM tree. Just to note: ompared to corresponding Strigil command, crOWLer
+persists the ontological context throught this call, and so we can relate to it
+when assigning properties. 
+
+Direct interaction with current window in any way that chnages page location
+will, however, irreversibly invalidate all the elments of current DOM. This
+doesn't have to mean we can't use this functionality all together. Probably the
+best solution would be to only allow DOM modificatig operations on the bottom
+level of templates (i.e. within the {\tt steps} property of the {\tt template}
+command in scenario). At this place we only hold the {\tt body} of current
+document and as such we can simply replace it with the newly loaded content. 
+In the original crOWLer implementation, this would be the spot between two
+``Initial Definitions''. 
+
+Even thought the Javascript is sandboxed in WebDriver, it is still running in a
+browser in your computer and could technically submit some data on a web.
+Secourity issues haven't been considered so far, but might become a point of
+interest when we take in account an option of obtaining and executing scenarios
+from unknown sources. 
 
 

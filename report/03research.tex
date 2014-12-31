@@ -16,8 +16,8 @@ By researching existing solutions, there is currently no open source or openly
 available solution that would directly follow the required workflow and
 fullfill the requirements. 
 
-Existing tools named as "Ontology-based Web Crawlers" refer mostly to crawlers
-that "rank" pages being crawled by guess-matching them against some ontology.
+Existing tools named as ``Ontology-based Web Crawlers'' refer mostly to crawlers
+that ``rank'' pages being crawled by guess-matching them against some ontology.
 In those programs user can't specify data that are being retrieved. Moreover,
 there is no way to get involved in the crawling process. It is solely used to
 automatically rank the relevance of documents. They are solving different task
@@ -51,12 +51,12 @@ solution to our problem. This is technically equal to original state of
 crOWLer. 
 
 When using Ontology-based solution, tailor made for crawling and annotating
-data from web, we obtain several benefits "for free". The tool designed
+data from web, we obtain several benefits ``for free''. The tool designed
 specially for this purpose makes it easy. Once the data is annotated, we can
 not only query on them, but also automatically reason on them and obtain more
 or more specific/narrow results than with general data. The atributes and
 relations within ontology, that allow reasoning, are usually part of the
-ontology deffinition and as such comes, again, "for free". 
+ontology deffinition and as such comes in naturally without any extra effort. 
 
 Last for benefits: using ontology from public resource as a schema for our data
 can give us correct structure without need for building it from scratch. Also
@@ -76,12 +76,12 @@ half of the data being arguably consistent with each other. That doesn't say
 the rest is bad. Only that it might cause a inconsistency and prevent us from
 reasoning if we include wrong subset of the data. 
 
-Just like with "hardcoded" crawling technique, the semantic crawling is tightly
-bound to the structure of the web being crawled. The web is being matched
-against some patterd described by selecors and the matching elemented, when
-found, are accepted for further processing. Any change on a webpage structure
-can lead to broken selectors or links during the crawling process and make
-the scenario invalid. 
+Just like with ``hardcoded'' crawling technique, the semantic crawling is
+tightly bound to the structure of the web being crawled. The web is being
+matched against some patterd described by selecors and the matching elemented,
+when found, are accepted for further processing. Any change on a webpage
+structure can lead to broken selectors or links during the crawling process and
+make the scenario invalid. 
 
 A lot of web pages loads their data dynamically using AJAX queries. Some pages
 simply changes it's content frequently news pages, forums, user content pages
@@ -132,7 +132,7 @@ example browser console.
 Following code is an exapmle of actual confuguration code of original crOWLer
 implementation.  It uses {\tt NPU} class as simple static storage for URI's
 used in our ontology. It creates a {\em monumentRecord} object for each talbe
-row as defined by the "initial definition". The second part create {\em
+row as defined by the ``initial definition''. The second part create {\em
 district} object with it's label (found in third table colum denoted by the
 {\tt td:eq(2)} selector) and assigns it to the record using {\em hasDistrict}
 object property. The {\tt conf} object holds the configuration being passed to
@@ -141,14 +141,17 @@ the actual crawler.
 \begtt
 ClassSpec chObject = Factory.createClassSpec(NPU.monumnetRecord.getURI());
 
-conf.addInitialDefinition(Factory
-      .createInitialDefinition(chObject, Factory
-        .createJSoupSelector("table tbody tr.list")));
+conf.addInitialDefinition(
+       Factory.createInitialDefinition(
+         chObject,
+         Factory.createJSoupSelector("table tbody tr.list")));
 
 ClassSpec sDistrict = Factory.createClassSpec(NPU.district.getURI());
-chObject.addSpec(Factory
-          .createOPSpec(Factory
-            .createJSoupSelector("td:eq(2)"), NPU.hasDistrict.getURI(), sDistrict));
+chObject.addSpec(
+           Factory.createOPSpec(
+             Factory.createJSoupSelector("td:eq(2)"),
+                                         NPU.hasDistrict.getURI(),
+                                         sDistrict));
 sDistrict.addSpec(true, Factory.createDPSpec(Vocabulary.RDFS_LABEL));
 \endtt
 
@@ -219,26 +222,67 @@ key--value mapping.
 
 
 
-\sec Research - existující řešení - platforma
+\sec Finding platform for frontend
+
+In order to develop appropriate tool for generating scenarios, several similar
+tools were inspected for best practices, libraries, and possible extension. 
+
+The resulted implementation is named SOWL (short for SelectOWL) and refers to
+Firefox addon for creating scenarios for crOWLer. In following sections we'll
+refer to SOWL as set of requirements and a envisioned expected result of this
+work. The actual implementation will be covered in following chapters. 
 
 
-\secc InfoCram 2000 - Jirka Mašek
+\secc InfoCram 6000 -- ExtBrain
 
-InfoCram 2000 is part of project ExtBrain XXX
+InfoCram 6000 is part of project ExtBrain \urlnote{http://www.extbrain.net}
+that is developed here on Department of Computer Science. This specific part
+was implemented by Ing. Jiří Mašek and is described as ``prototype of user
+interface for visual definition of extraction rules for ExtBrain Extractor''.
+It's intended usage is very close to the usage of SOWL. It is an Firefox
+extension that generates rules (scenario) for extractor implemented as another
+part of the ExtBrain project. 
+
+The ExtBrain extractor is implemented in javascript as opposed to Java in case
+of crOWLer. It extracts data according to definitions by InfoCram 6000. The
+result is stored in JSON format thus not carying semantic information, but only
+set of raw data in some form. 
+
+\midinsert
+\picw=7cm \cinspic infocram.png
+\caption/f Main window of InfoCram 6000
+\endinsert
+
+Main part of the extension window shows a tree view with rules being edited.
+This view corresponds to required structure of scenario for crOWLer. 
+
+Interesting part it an engine for selection elements of page. It's
+implementation is based on
+Aardvark~\urlnote{https://addons.mozilla.org/en-US/firefox/addon/aardvark/}, a
+Firefox extension that addresses this issue using mouse selection and several
+keyboard commands. 
+
+InfoCram doesn't use simple CSS or XPath selectors, but include Sizzle library
+to handle selectors for it. Sizzle is very popular library for handling
+selectors, which also defines it's own selectors like {\tt :eq()}, or {\tt
+:first}. It's simpler and more expressive than CSS. It's popularity is 
+mainly based on it's involvement in jQuery library. 
+
+Being so close to required structure and workflow of SOWL, InfoCram 6000 served
+as the base implementation for it in the early stages. As can be seen at the end 
+of this chapter, the first implementation named SelectOWL caries similar user
+interface and make use of several modules of the InfoCram implementation. 
 
 
-\begitems
-  * zalozeny na Aardwark \urlnote{https://addons.mozilla.org/en-US/firefox/addon/aardvark/}
-\enditems
-
-
-\secc iMacros
-
-\begitems
-  * \url{http://wiki.imacros.net/Command_Reference}
-  * \url{http://wiki.imacros.net/iMacros_for_Firefox}
-  * \url{http://wiki.imacros.net/iMacros_for_Chrome}
-\enditems
+%\secc iMacros
+%
+%System iMacros has to be mentioned 
+%
+%\begitems
+%  * \url{http://wiki.imacros.net/Command_Reference}
+%  * \url{http://wiki.imacros.net/iMacros_for_Firefox}
+%  * \url{http://wiki.imacros.net/iMacros_for_Chrome}
+%\enditems
 
 
 
@@ -307,7 +351,7 @@ or modifying it. The overlay sytem itself comes with Mozilla stack and can be
 used on IDE by default.
 
 \midinsert \clabel[imgseleniumide]{Image of Selenium IDE}
-\cinspic selenium-ide.png
+\picw=10cm \cinspic selenium-ide.png
 \caption/f GUI of Selenium IDE showing the Command, Target and Value fields. 
 \endinsert
 
@@ -333,38 +377,42 @@ the prototype object the prefixes used are:
 
 When commadn is generated the prefix is being stripped and according to type,
 multiple versions commands can be created. For example do commands have always
-"immediate" and "patient" version and in this principle {\tt
+``immediate'' and ``patient'' version and in this principle {\tt
 Selenium.prototype.doClick} will generate the {\tt click} and {\tt
 clickAndWait} command. Accesor commands are even more complex and generate
 eight commands for every single method (positive and negative assertion, store
 method, waitFor, etc.). Implementation of the command method defines, how
-Selenium IDE would behave when "replying" the scenario recorded. Technically it
+Selenium IDE would behave when ``replying'' the scenario recorded. Technically it
 is possible to leave the implementation empty in the IDE and use it only as a
 commad for WebDriver unit test. 
 
 None of the original command types corresponds to format of commands for
 handling the semantic annotation, like adding URI to element, recording
 creation of individual, assigning literal to it's property etc. A new set of
-commands was suggested and partially implemented having the prefix "owl". This
-led to changes in core sources of Selenium IDE, which itself is a bad sign as
-it technically creates a new branch of the program. CommandBuilder had to be
+commands was suggested and partially implemented having the prefix ``owl''.
+This led to changes in core sources of Selenium IDE, which itself is a bad sign
+as it technically creates a new branch of the program. CommandBuilder had to be
 extended directly in the selenimu code as it's impossible to change it's
 behavior through native Selenium IDE API. Unfortunately, even though the new
 command type was implemented, it is not possible to change the more general
-concept of all commands. Every command is stored as {\tt (name, target, value) }
-triple and from this format everything is derived. It is technically impossible
-to create commad for example for literal along with it's language tag as there
-is simply no field for it. For the same reason we cant create a commad to
-create an ontological object of some type as a property of another object.
-These comands relate to each other, but such a behavior is not supported by the
-scenario editor in it's current architecture. There is also no way to alter
-editor GUI for specific command. For instance, we can't offer autocomplete for
-input field when user enters URI of ontological resource. Such a feature would
-be an essential part of SOWL's workflow, and as a consequence these limitations
-are critical and disallow us from proerly implementing SOWL on top of the
-Selenium IDE. 
+concept of all commands. Every command is stored as {\tt (name, target, value)
+}~\urlnote{https://code.google.com/p/selenium/source/browse/ide/main/src/content/commandBuilders.js
+the CommandBuilder implementation} triple and from this format everything is
+derived. It is technically impossible to create commad for example for literal
+along with it's language tag as there is simply no field for it. For the same
+reason we cant create a commad to create an ontological object of some type as
+a property of another object.  These comands relate to each other, but such a
+behavior is not supported by the scenario editor in it's current architecture.
+There is also no way to alter editor GUI for specific command. For instance, we
+can't offer autocomplete for input field when user enters URI of ontological
+resource. Such a feature would be an essential part of SOWL's workflow, and as
+a consequence these limitations are critical and disallow us from proerly
+implementing SOWL on top of the Selenium IDE. 
 
-\sec Strigil!
+
+\sec Strigil
+
+
 
 
 \secc What problems it solves? (Use cases)
@@ -392,6 +440,13 @@ even though it doesn't reach the richness of Strigil/XML format.
 
 
 
+
+\sec Early implementation
+
+\midinsert
+\picw=7cm \cinspic infocram.png
+\caption/f Main window of InfoCram 6000
+\endinsert
 
 
 
