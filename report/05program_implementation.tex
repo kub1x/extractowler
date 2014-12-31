@@ -296,6 +296,27 @@ XXX But hey, we can use any key to store a substep, not only the array, we
 practically use different approach here.. instead of tree structure we have
 tree of hashmaps. 
 
+The {\tt onto-elem} command benefits exactly from this difference between
+XML and JSON.  In original Strigil/XML the {\tt onto-elem} tag allow us to
+specify URI of the resulting individual (as commonly denoted by te {\em about}
+property), by taking it from from it's ``first child'' which is expected to
+be {\tt value-of} tag. Needles to say, this specification loweres robustness as
+the position in the XML file isn't enforced by the syntax and can be easily
+unintentionally broken by accidental swap of two elements, although it wouldn't
+invalidate the files syntax and thus won't be captured by the script parser. In
+the JSON format we lack the notion of child elments. Even when we simulate it
+as mentioned before, we'd only cause the same indetermination. So instead, we
+simply reserve a property named {\tt about} exactly for the described use. 
+The same technique is used to specify URL for a {\tt call-template} on it's
+{\tt valueof} property. 
+
+XXX TODO might rename these
+
+XXX call-template might need simple steps array property, as it might follow a
+list of URLs, not only one
+
+
+
 \sec crOWLer implementation
 
 \secc architecture
@@ -332,7 +353,7 @@ here~\urlnote{http://docs.seleniumhq.org/docs/03_webdriver.jsp\#using-javascript
 List<WebElement> labels = driver.findElements(By.tagName("label"));
 List<WebElement> inputs = (List<WebElement>) ((JavascriptExecutor)driver).executeScript(
     "var labels = arguments[0], inputs = []; for (var i=0; i < labels.length; i++){" +
-        "inputs.push(document.getElementById(labels[i].getAttribute('for'))); } return inputs;", labels);
+    "inputs.push(document.getElementById(labels[i].getAttribute('for'))); } return inputs;", labels);
 \endtt
 
 In simple case we can use javascript to extend functionality of crowler. It

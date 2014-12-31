@@ -230,7 +230,7 @@ tools were inspected for best practices, libraries, and possible extension.
 The resulted implementation is named SOWL (short for SelectOWL) and refers to
 Firefox addon for creating scenarios for crOWLer. In following sections we'll
 refer to SOWL as set of requirements and a envisioned expected result of this
-work. The actual implementation will be covered in following chapters. 
+work. The actual implementation will be covered in later chapters. 
 
 
 \secc InfoCram 6000 -- ExtBrain
@@ -412,16 +412,45 @@ implementing SOWL on top of the Selenium IDE.
 
 \sec Strigil
 
+Strigil is a ontological scraping system developed at  Faculty of Mathematics
+and Physics of the Charles University in
+Prague~\urlnote{http://xrg.ksi.ms.mff.cuni.cz/software/ld/ldi.html\#strigil}.
+It represents an easily configurable tool that enables one to retrieve data from textual or weak structured documents. \cite[iiwas2013:strigil]
+
+It
+consists of webserver and backend service. The webserver offers frontend for
+configuring the crawling process. The backend ten follows the configuration and
+hnadles downloading, scraping the data and storing results. Strigl strongly
+focusses on the download process. Components of the backend conform in a
+structure of DownloadManager, Downloaders and Proxy servers that help to
+distribute the load of data being trasfered. 
+
+The frontend part serves user interface for handling ontological data on top of
+a web being scraped. It internally creates it's scraping script (will be
+referred to as Strigil/XML) which strongly inspired format for scenario used in
+the actual implementation later in this work and will be closely analyzed in
+next chapter XXX. 
 
 
+\secc What problem does it solve?
 
-\secc What problems it solves? (Use cases)
+Strigils architecture is tailor made for paralel processing of documents.  The
+installation of Strigil requires working Apache2 web server with PHP5, Tomcat,
+PostgreSQL database, OpenMQ service and several other components before the
+actual deployment of Strigil into the environment. The system is designed for
+processing many requests on targeted server, heavy loads of data and long
+running tasks. It's complicated architecture and installation process prevents
+it from being effectively used in occasional simple, yet non trivial, scraping
+tasks. 
 
-Strigils architecture is tailor made for paralel processing of documents. As
-such it can't properly handle temporal changes in documents and thus it is
-designed to manipulate with static documents without use of javascript. (XXX)
+Moreover it's download system fetches only the main HTML data and treats it as
+static document. This way it can't properly handle dynamic content and temporal
+changes in documents performed by javascript. 
+
 
 \secc Architecture of Strigil platform
+
+
 
 \secc What inspiration it brings for crowler
 
@@ -443,9 +472,11 @@ even though it doesn't reach the richness of Strigil/XML format.
 
 \sec Early implementation
 
+
+
 \midinsert
-\picw=7cm \cinspic infocram.png
-\caption/f Main window of InfoCram 6000
+\picw=7cm \cinspic selectowl.png
+\caption/f View at original SelectOWL sidebar implemnetation. 
 \endinsert
 
 

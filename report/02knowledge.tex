@@ -215,11 +215,73 @@ regular XML document containing elemens and attributes from the RDF(S)
 vocabulary. RDF/XML is one of the most common formats for RDF data
 serialization. 
 
+Example of RDF/XML syntax taken directly from the FOAF ontology:  
+
+\begtt
+<rdf:RDF 
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+  xmlns:owl="http://www.w3.org/2002/07/owl#" 
+  xmlns:vs="http://www.w3.org/2003/06/sw-vocab-status/ns#" 
+  xmlns:foaf="http://xmlns.com/foaf/0.1/" 
+  xmlns:wot="http://xmlns.com/wot/0.1/" 
+  xmlns:dc="http://purl.org/dc/elements/1.1/">
+
+  <!-- Here we describe general characteristics
+       of the FOAF vocabulary ('ontology'). -->
+  <owl:Ontology rdf:about="http://xmlns.com/foaf/0.1/"
+                dc:title="Friend of a Friend (FOAF) vocabulary"
+                dc:description="The Friend of a Friend (FOAF) RDF
+                                vocabulary, described using
+                                W3C RDF Schema and OWL the Web
+                                Ontology Language." >
+  </owl:Ontology>
+
+  <rdfs:Class rdf:about="http://xmlns.com/foaf/0.1/Person"
+              rdfs:label="Person"
+              rdfs:comment="A person."
+              vs:term_status="stable">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <owl:equivalentClass
+      rdf:resource="http://schema.org/Person" />
+    <owl:equivalentClass
+      rdf:resource="http://www.w3.org/2000/10/swap/pim/contact#Person"/>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://xmlns.com/foaf/0.1/Agent"/>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Class
+        rdf:about="http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing"
+        rdfs:label="Spatial Thing"/>
+    </rdfs:subClassOf>
+    <rdfs:isDefinedBy
+      rdf:resource="http://xmlns.com/foaf/0.1/"/>
+    <owl:disjointWith
+      rdf:resource="http://xmlns.com/foaf/0.1/Organization"/>
+    <owl:disjointWith
+      rdf:resource="http://xmlns.com/foaf/0.1/Project"/>
+  </rdfs:Class>
+
+  <!-- (...) -->
+
+</rdf:RDF>
+\endtt
 
 \sec Turtle syntax
 
-Turtle syntax is another popular syntax for expressing
-RDF~\urlnote{https://en.wikipedia.org/wiki/Turtle_(syntax)}. It's syntax suits 
-more naturally to RDF data as it conforms the triple pattern. 
+Turtle syntax is another popular syntax for expressing RDF.%~\cite[wiki:turtle].
+It allows an RDF graph to be completely written in a compact and natural text
+form, with abbreviations for common usage patterns and
+datatypes~\cite[w3c:turtle].  It's syntax suits more naturally to RDF data as
+it conforms the triple pattern.  Follows an example about author of this work. 
 
+\begtt
+@base <http://kub1x.org/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+<#me> a foaf:Person;
+      foaf:name "Jakub Podlaha".
+\endtt
 

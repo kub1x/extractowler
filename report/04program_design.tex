@@ -9,6 +9,8 @@ In following part I'd like to describe several use cases that should be solvable
 
 \secc Use Case 1 -- basic example case
 
+\url{http://www.inventati.org/kub1x/t/}
+
 I've created sample general use case on webpage
 \url{http://www.inventati.org/kub1x/t/}. This use case can be seen on picture
 below. It consists of table holding values about people, and link to detail
@@ -22,7 +24,7 @@ page.
 In order to fulfill this usecase SOWL should support following operation: 
 
 \begitems
-  * load the foaf ontology that describe data bout people
+  * load the FOAF ontology that describe data about people
   * create scenario with two templates: init and detail
   * save this scenario to a file
 \enditems
@@ -35,26 +37,127 @@ crOWLer should be able to:
   * store results into rdf files
 \enditems
 
+This scenario is the simplest case that have to be covered by both programs.
+Handling resources, scenario creation an drunning. It helps to define the
+proper behavior of the program as it's written in simple, valid HTML5 code
+without any javascript and all elements can be simply targeted by their
+identifiers or CSS classes. 
 
-\secc Use Case 2 - NPU
+
+\secc Use Case 2 -- National Heritage Institute
+
+\url{http://monumnet.npu.cz/pamfond/hledani.php}
+
+The webpage of National Heritage Institute of Czech Republic gives a public
+access to a table of damages of national monuments. This is of interest for
+project MONDIS~\urlnote{https://mondis.cz} partially developed on our school.
+One of it's goals is documentation and analysis of damages and failures of
+cultural heritage objects.
 
 \midinsert
 \picw=12cm \cinspic screen-npu-list.png
 \caption/f Partial view at data on National Heritage Institute webpage. 
 \endinsert
 
+The data were successfully crawled by the original implementation of crOWLer.
+The goal of following development is to replicate the behavior with new
+implementation using scenario driven crawling process instead of hardcoded. 
+
+The main challenge of this use case lays in javascript. Each row of the data
+table has the {\tt onclick} attribute defined. Unlike the classical ``links''
+(also the anchor or {\tt a} tags) the onclick attribute doesn't contain URL,
+but rather javascript function content, that handles the click event. In this
+case, the function advances to the detail page of the clicked record by
+modifying a value of ahidden {\tt input} tag and by submitting a {\tt form}
+parametrized by the value. 
+
+If possible, we would simply simulate the user ``click'' action to advance to
+the detail page and the ``back'' action (usually performed by the Back button
+of browser or Alt-left shortcut) to get back and follow on next line. This
+approach will be analyzed further in this work.
+
 \midinsert
 \picw=12cm \cinspic screen-npu-detail.png
 \caption/f View on detail page on National Heritage Institute webpage. 
 \endinsert
 
+If the stated approach doesn't give promissing results the original approach
+will be simulated using the scenario driven structure. This means getting the
+content of the {\tt onclick} attribute, parsing it using regular expression and
+combiding it into an URL to be directly called using {\tt call-template}. 
 
-\secc Use Case 3 - RLP
+Additional requirement on SOWL to those in Use Case 1 (XXX ref): 
+\begitems
+  * allow manual ressources creation
+  * record the {\tt click} event 
+  * OR
+  * access the {\tt onclick} attribute
+  * enable string handling using regular expressions
+  * record a {\tt call-template} on the resulting URL 
+\enditems
+
+Additional requirements on crOWLer
+\begitems
+  * simulate the {\tt click} event
+  * OR
+  * handle the attribute according to the string filters
+  * do {\tt call-template} on the result as URL
+\enditems
 
 
-\secc Use Case 4 - NTSB
+\secc Use Case 3 -- Air Accidents Investigation Institute
 
-\urlnote{http://www.ntsb.gov/investigations/AccidentReports/Pages/AccidentReports.aspx}
+\url{http://www.uzpln.cz/cs/ln_incident}
+
+A basic usecase with a table, a detail page and pagination. In this case we
+might consider replacing repeatative values by their corresponing URIs. For
+example the table shows column ``Event type'' (in czech original: ``Druh
+události''). It contains constant values of ``Incident'', ``Flight accident''
+and several more. A resource can be created to denote these types of accidents.
+The resource corresponding to the string scraped from table would than be used
+as a value of object property instead of the original string literal. 
+
+For example we suggest using (in turtle syntax): 
+\begtt
+@prefix rlp: <http://kub1x.org/dip/rlp#>
+<rlp:event-xFuHbjA5> a <rlp:event>; 
+          <rlp:hasEventType> <rlp:flightAccident>. 
+\endtt
+
+Instead of: 
+\begtt
+@prefix rlp: <http://kub1x.org/dip/rlp#>
+<rlp:event-xFuHbjA5> a <rlp:event>; 
+          <rlp:hasEventType> "Letecká nehoda"@cs. 
+\endtt
+
+\midinsert
+\picw=12cm \cinspic screen-uzpln-list.png
+\caption/f View on list page on Air Accidents Investigation Institute. 
+\endinsert
+
+\midinsert
+\picw=12cm \cinspic screen-uzpln-detail.png
+\caption/f View on detail page on Air Accidents Investigation Institute. 
+\endinsert
+
+\begitems
+  * adding language tag to all string values
+  * possible usage of geographical ontology
+  * possible usage of enumeration
+\enditems
+
+
+\secc Use Case 4 -- National Transportation Safety Board
+
+\url{http://www.ntsb.gov/investigations/AccidentReports/Pages/aviation.aspx}
+
+This scenario is technically identical to the previous one and serves to
+demostrate usage of the same ontology vocabulary on two different data sources.
+Additionaly we might fill missing values in this table by default ones. For
+example the country value isn't specified for majority of the event records,
+but we can determine by the ``State'' field, that they happenned in United
+States. 
 
 \midinsert
 \picw=12cm \cinspic screen-ntsb-list.png
@@ -66,17 +169,15 @@ crOWLer should be able to:
 \caption/f View on detail page on National Transportation Safety Board webpage. 
 \endinsert
 
-
-\secc Use Case - others
-
 \begitems
-  * beerborec.cz
-  * citybee.cz
+  * adding default value if no content is found
 \enditems
 
 
-
 \sec Workflow
+
+Derived from previous use case definitions we can derive the general workflow
+for both SOWL and crOWLer part of the implementation. 
 
 \secc Main line
 
@@ -84,9 +185,9 @@ crOWLer should be able to:
   * user loads/creates ontology using sowl
   * user opens webpage with data
   * user creates scenario using sowl
-  * sowl sends scenario to crowler
-  * crowler crawls the web according to scenario and stores results in repository
-  * ~ + crowler sends data to sowl which embeds them in original web page (XXX)
+  * sowl sends scenario to crOWLer
+  * crOWLer crawls the web according to scenario and stores results in a file
+    or repository
 \enditems
 
 
@@ -96,9 +197,11 @@ crOWLer should be able to:
   * user starts scenario creation in sowl
   * loop until finished:
   \begitems
-    * user selects an element on page
-    * user select action on element (perform and record event, i.e. click on link, narrow HTML context, assign element - object or property according to situation, ...)
-    * sowl records the action in scenario
+    * user creates a step in scenarion
+    * user selects an element on page, a selector is generated if applicable,
+      on the step
+    * user selects a resource, resource is updated on the appropriate field of
+      the step, if applicable
   \enditems
 \enditems
 
@@ -111,28 +214,76 @@ crOWLer should be able to:
   * user can navigate through scenario by clicking areas on webpage covered by scenario
   * when user clicks on a hyperlink: 
   \begitems
-    * existing template can be assigned to the action (no need to actually follow the link)
-    * new tamplete can be created for resulting action (resulting page loaded, new template created, click through shown in breadcrumbs)
+    * existing template can be assigned to the action (no need to actually
+      follow the link)
+    * new tamplete can be created for resulting action (resulting page loaded,
+      new template created)
   \enditems
 \enditems
 
+\secc crOWLer scraping
+
+\begitems
+  * user runs crOWLer passing it the created scenario
+  * crOWLer parses the scenario
+  * crOWLer scrapes data from the webpage following the scenario
+  * crOWLer stores the results in file or repository
+\enditems
 
 
 \sec Model
 
-~
+Presenting proposed design of the two programs the SOWL Firefox addon and the
+crOWLer Java application. 
+
+\secc SOWL model
+
+Current recommendation of Mozilla Developer Network suggests developing new
+addons using their native SDK. It allows creation of restartless addons, uses 
+new API and limits usage of older libraries or low level calls by wrapping it 
+in consistent API. 
+
+The SDK based addons have partially predefined structure. The {\em background script}
+runs in it's own scope and uses the SDK API to controll the addon's behavior.
+The {\em content script} is a javascript code that is injected into a webpage
+but runs in it's own sandboxed overlay, while having access to pages DOM and
+javascript content. In SOWL, the scenario editor will be placed into a sidebar.
+Sidebar holds standard HTML window object in which the javascript code is
+running.  All three components communicate via textual messages using {\tt
+port} object offered internally by by Firefox. 
+
+\midinsert
+\picw=12.5cm \cinspic sowl-components.png
+\caption/f A component structure of the SOWL firefox addon. 
+\endinsert
 
 
-\sec Imlementation
+\secc crOWLer model
 
-~
+In the new implementation of the scraping backend the original JSOUP component
+will be replaced by WebDriver. WebDriver, with it's support for javascript,
+will help to handle dynamic content and brings in new possibilities for the
+crOWLer itself. The original configuration component is replaced by parser for
+the SOWL/JSON scenario format (XXX ref).  The core crOWLer is also
+reimplemented according to new set of instructions (i.e. commands in the
+scenario) and the new web interface (i.e. the WebDriver instead of the native
+Java Jsoup library). 
+
+The overall architecture then looks as follows: 
+
+\midinsert
+\picw=7.5cm \cinspic crowler-new.png
+\caption/f A new overall architecture of the crOWLer implementation. 
+\endinsert
 
 
-\sec Issues - solved and unsolved
 
-\begitems
-  * error handling (non existent selector, missing data, ...)
-\enditems
+%TODO
+%\sec Issues - solved and unsolved
+%
+%\begitems
+%  * error handling (non existent selector, missing data, ...)
+%\enditems
 
 % * diagramy... clas, sequence (komunikace s jOWLem, komunikace s generatorem selectoru, ), 
 % * model
