@@ -5,6 +5,8 @@
 
 \secc rdfQuery
 
+\picw=1cm \cinspic rdfquery-logo.png
+
 rdfQuery is a javascript library for RDF-related processing. It supports RDFa,
 RDF, OWL for parsing data, it can dynamically embed HTML webpage with RDFa
 data. rdfQuery is written in similar style as jQuery, popular Javascript
@@ -13,16 +15,28 @@ internal datastore in similar way as DOM object are queried using jQuery.
 Moreover the whole concept is based on SPARQL keywords, taking the best from
 each world XXX. 
 
-\picw=1cm \cinspic rdfquery-logo.png
-
 \url{https://code.google.com/p/rdfquery/}
 
 
 \secc aardvark
 
 Aardvark is a javascript engine for in place modifications of a webpage. It
-allows user to select, delete , or highlight part of HTML page. In its production version a
+allows user to select, delete, or highlight part of HTML page. It's been
+released in two forms: as a bookmarklet and a Firefox extension. The later was
+used in a modified form in the InfoCram 6000 and later in one of SOWL
+(SelectOWL) prototypes. The InfoCram specific functionality was carefully 
+removed and replaced with procedures following the SOWL's workflow. 
 
+In current Implementation of SOWL we create different type of Firofox extension
+using new SDK. Moreover the aardvark code is injected directly into the webpage
+using the Content Script feature of Firefox SDK. According to these differences
+the bookmarklet version better fitts the needs and is used. The code was included
+in the addon and extended with features necessary for SOWL. 
+
+The added/modified features are namely: the selector creation feature, the
+drag/drop event handling, the messaging, and modification of user commands. 
+
+XXX describe each feature here or later in this chapter...
 
 \sec Scenario format
 
@@ -189,6 +203,8 @@ properties. XXX not true anymore ;)
 
 The final scenario for Use Case 1 XXX looks like this: 
 
+XXX move this into Attachement
+
 \begtt
 {
   type: "scenario", 
@@ -315,13 +331,16 @@ XXX TODO might rename these
 XXX call-template might need simple steps array property, as it might follow a
 list of URLs, not only one
 
+\sec SOWL implementation
 
+XXX 
 
 \sec crOWLer implementation
 
 \secc architecture
 
-\secc Implemented and unimplemented capabilities
+XXX include class diagram..?
+
 
 \secc Javascript and events support
 
@@ -493,4 +512,8 @@ Secourity issues haven't been considered so far, but might become a point of
 interest when we take in account an option of obtaining and executing scenarios
 from unknown sources. 
 
+
+\secc Implemented and unimplemented capabilities
+
+XXX
 

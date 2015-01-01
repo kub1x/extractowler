@@ -1,20 +1,22 @@
-
 \chap Program design
 
+This chapter defines the overall behavior of the program derived from
+requiroments as well as the proposed design. 
 
 \sec Use Cases
 
-In following part I'd like to describe several use cases that should be solvable by implementation this work XXX
+In following part I'd like to describe several use cases that shall be
+solvable by implementation this work XXX
 
 
 \secc Use Case 1 -- basic example case
 
 \url{http://www.inventati.org/kub1x/t/}
 
-I've created sample general use case on webpage
-\url{http://www.inventati.org/kub1x/t/}. This use case can be seen on picture
-below. It consists of table holding values about people, and link to detail
-page.
+The first Use Case is the simplest task that will be covered by the extension.
+This use case can be seen on picture XXX. It consists of table holding values
+about people, and link to a detail page for one of them. On the detail page
+there is a field with ``nickname''. 
 
 \midinsert
 \picw=12cm \cinspic screen-kub1x.png
@@ -228,6 +230,35 @@ for both SOWL and crOWLer part of the implementation.
   * crOWLer parses the scenario
   * crOWLer scrapes data from the webpage following the scenario
   * crOWLer stores the results in file or repository
+\enditems
+
+
+\sec User Interface
+
+Here the required stucture of user interface is described. 
+
+\secc SOWL user interface
+
+The user interface of SOWL shall be presented in a form of sidebar. The sidebar
+shall have two parts: a scenario editor and resources list. Scenario editor
+shall contain a tree shaped structure of steps of the scenario being created
+along with panel for editing the general settings of the scenario. The
+resources list shall accept dropping of ontology files which would load it into
+current dataset. Addition of resources manually shall be possible using a
+button. The list shall show all currently loaded resources and allow textual
+filtering. 
+
+SOWL shall enable tag selection on the webpage being processed by clicking or
+other user action. 
+
+
+\secc crOWLer user interface
+
+crOWLer is a console application. It shall accept scenario as one of it's parameters. 
+Following settings shall be enabled using parameters as well:
+\begitems
+  * setting of target directory for RDF files
+  * setting of sesame repository for the result storage
 \enditems
 
 
