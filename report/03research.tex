@@ -103,17 +103,22 @@ A thorough analysis of the current program shall precede creation of the final
 design. We will focus on architecture, dependencies and components that will
 have to be reimplemented. 
 
-Original implementation is a prototype of console Java application. It uses
-Jena Sesame library\cite[jena] for handling ontological data and JSOUP library for
-accessing webpages and addressing elements. As a scenario crOWLer accepts Java
-{\tt .class} files containing a implementation of {\tt ConfigurationFactory}
-class. This configuration specifies all the information needed for crawling
-process: 
-
-\midinsert
+\midinsert \clabel[pic:crowler-orig]{General architecture of the original crOWLer implementation}
 \picw=10cm \cinspic crowler-orig.png
 \caption/f General architecture of the original crOWLer implementation
 \endinsert
+
+Original implementation is a prototype of console Java application. It uses
+Apache Jena library\cite[jena] for handling ontological data and JSOUP
+library\cite[jsoup] for accessing webpages and addressing elements. As a
+scenario crOWLer accepts Java {\tt .class} files containing a implementation of
+{\tt ConfigurationFactory} class.  In
+appendix~\ref[app:crowler-old-configuration-class] you can see definition of
+the configuration components of crOWLer. The class diagram in
+appendix~\ref[app:crowler-old-selector-class] describes the {\tt
+InitialDefinition} and the {\tt Selector} classes along with their connection
+and usage of crOWLer. Configuration defined using this tructurew specifies all
+the information needed for crawling process: 
 
 \begitems
   * webpage to be crawled
@@ -121,6 +126,17 @@ process:
   * definition of ontology resources used to annotate the obtained data
   * and definition of pagination process that brings us to next page to be crawled
 \enditems
+
+XXX XXX XXX
+XXX XXX XXX
+XXX XXX XXX
+
+
+\midinsert \clabel[pic:crowler-old-core-class]{Core classes of original crOWLer implementation} 
+\picw=10cm \cinspic crowler-old-core-class.png
+\caption/f Core classes of original crOWLer implementation
+\endinsert
+
 
 Additionally the pagination and selector implementation are supported by several
 helper classes for chaining selectors or generation of a list of URL addresses
@@ -263,6 +279,30 @@ changes in documents performed by JavaScript.
 
 \secc Architecture of Strigil platform
 
+~
+
+\midinsert \clabel[pic:strigil-overall]{Overall Architecture of Strigil}
+\picw=10cm \cinspic strigil-overall.png
+\caption/f Overall Architecture of Strigil
+\endinsert
+
+\midinsert \clabel[pic:strigil-data_application]{Components of Data Application part of Strigil}
+\picw=10cm \cinspic strigil-data_application.png
+\caption/f Components of Data Application part of Strigil 
+\endinsert
+
+\midinsert \clabel[pic:strigil-download_system]{Components of Download System part of Strigil}
+\picw=10cm \cinspic strigil-download_system.png
+\caption/f Components of Download System part of Strigil 
+\endinsert
+
+\midinsert \clabel[pic:strigil-deployment]{Example deployment structure of Strigil}
+\picw=10cm \cinspic strigil-deployment.png
+\caption/f Example deployment structure of Strigil 
+\endinsert
+
+
+
 
 
 \secc What inspiration it brings for crOWLer
@@ -293,6 +333,7 @@ refer to SOWL as set of requirements and a envisioned expected result of this
 work. The actual implementation will be covered in later chapters. 
 
 
+\label[sec:infocram]
 \secc InfoCram 6000 -- ExtBrain
 
 InfoCram 6000 is part of project ExtBrain \urlnote{http://www.extbrain.net}
@@ -452,13 +493,89 @@ a consequence these limitations are critical and disallow us from properly
 implementing SOWL on top of the Selenium IDE. 
 
 
+\sec Libraries for crOWLer
+
+\secc WebDriver
+
+~
+TODO
+
+\secc Apache Jena
+
+~
+TODO
+
+\sec Libraries for SOWL
+
+\secc jQuery
+
+jQuery\cite[jquery] is widely used JavaScript library that simplifies general
+tasks like DOM manipulation or event handling. A simplified selectors can be
+used to target DOM elements as jQuery internally uses Sizzle\cite[sizzle]
+library for selector handling. Compared to Vanilla JavaScript\cite[vanillajs], jQuery
+produces more compact and coherent code. 
+
+Developers can extend the jQuery library with their own plugins. This is the
+case for two most promising JavaScript libraries handling RDF and OWL data, and
+so jQuery will be necessary if we decide to use either jOWL\ref[sec:jowl] or
+rdfQuery\ref[sec:rdfquery]. 
+
+
+\label[sec:jowl]
+\secc jOWL
+
+The jOWL library is a jQuery plugin for navigating and visualising OWL-RDFS
+documents\cite[jowl]. It can parse and handle RDF files, store them in its internal
+storage and query on them using subset of QUERY-DL language\cite[querydl]. 
+The library was last updated in
+2008~\urlnote{https://code.google.com/p/jowl-plugin/}. 
+
+
+\label[sec:rdfquery]
+\secc rdfQuery
+
+\picw=1cm \cinspic rdfquery-logo.png
+
+rdfQuery\cite[rdfquery] is a JavaScript library for RDF-related processing. It
+supports parsing RDFa, RDF, OWL formats for loading data. It can dynamically
+embed HTML webpage with RDFa data. rdfQuery is written as a jQuery plugin. The
+intended use of the rdfQuery library is to write queries over data stored in
+rdfQuery internal datastore in similar way as DOM objects are queried using
+jQuery. Moreover the whole concept is based on SPARQL and design in a manner
+that make the resulting JavaScript code look familiar when compared to native
+SPARQL query. 
+
+TODO example
+
+
+\secc aardvark
+
+Aardvark is a JavaScript engine for in-place modifications of a webpage. It
+allows user to select, delete, or highlight part of HTML page. It has been
+released in two forms: as a bookmarklet and a Firefox extension. The later was
+used in a modified form in the InfoCram 6000\ref[sec:infocram] and later in one
+of SOWL (SelectOWL) prototypes\ref[sec:selectowl].
+
+
+
+\label[sec:selectowl]
 \sec Early implementation
 
-
+TODO
 
 \midinsert
 \picw=7cm \cinspic selectowl.png
 \caption/f View at original SelectOWL sidebar implementation. 
 \endinsert
 
+
+TODO Aardvark and Infocram
+
+The InfoCram specific functionality was carefully removed and replaced with
+procedures following the SOWL's workflow. 
+
+The added/modified features are namely: the selector creation feature, the
+drag/drop event handling, the messaging, and modification of user commands. 
+
+XXX describe each feature here or later in this chapter...
 

@@ -3,36 +3,21 @@
 
 This chapter describes the implemented prototype.
 
+TODO
+
 \midinsert \clabel[pic:sowl-crowler-stack]{Overview of the whole stack and files exchanged}
-\picw=7.5cm \cinspic sowl-crowler-stack.png
+\picw=12cm \cinspic sowl-crowler-stack.png
 \caption/f Overview of the whole stack and files exchanged
 \endinsert
 
-\sec Libraries XXX
+\sec Parsing Ontologies in JavaScript
 
-\secc rdfQuery
-
-\picw=1cm \cinspic rdfquery-logo.png
-
-RdfQuery is a JavaScript library for RDF-related processing. It supports RDFa,
-RDF, OWL for parsing data, it can dynamically embed HTML webpage with RDFa
-data. RdfQuery is written in similar style as jQuery, popular JavaScript
-library. The intended use is to write queries over data stored in rdfQuery
-internal datastore in similar way as DOM object are queried using jQuery.
-Moreover the whole concept is based on SPARQL keywords, taking the best from
-each XXX. 
-
-\url{https://code.google.com/p/rdfquery/}
+TODO jOWL vs rdfQuery
 
 
-\secc aardvark
+TODO aardvark
 
-Aardvark is a JavaScript engine for in place modifications of a webpage. It
-allows user to select, delete, or highlight part of HTML page. It's been
-released in two forms: as a bookmarklet and a Firefox extension. The later was
-used in a modified form in the InfoCram 6000 and later in one of SOWL
-(SelectOWL) prototypes. The InfoCram specific functionality was carefully 
-removed and replaced with procedures following the SOWL's workflow. 
+TODO TODO TODO
 
 In current Implementation of SOWL we create different type of Firofox extension
 using new SDK. Moreover the aardvark code is injected directly into the webpage
@@ -40,10 +25,9 @@ using the Content Script feature of Firefox SDK. According to these differences
 the bookmarklet version better fits the needs and is used. The code was included
 in the addon and extended with features necessary for SOWL. 
 
-The added/modified features are namely: the selector creation feature, the
-drag/drop event handling, the messaging, and modification of user commands. 
+TODO TODO TODO
 
-XXX describe each feature here or later in this chapter...
+
 
 \sec Scenario format
 
