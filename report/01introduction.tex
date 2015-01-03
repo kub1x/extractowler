@@ -1,40 +1,46 @@
+\label[chap:intro]
 \chap Introduction
 
-During past few years the Web has undergone serveral bigger or smaller
+During past few years the Web has undergone several bigger or smaller
 revolutions. 
 
 \begitems
   * WEB 2.0 and tag cloud
   * HTML5 and semantic tags
-  * Smartphones, tablets, responsivity and mobile web everywhere
+  * Smart-phones, tablets, responsivity and mobile web everywhere
   * The run out of IPv4 addresses, nonexistent boom of IPv6
   * Cloud technologies and BigData
   * Bitcoin, Tor, anonymous internet 
-  * WikiLeaks, NSA, Heartbleed and secourity concerns
+  * WikiLeaks, NSA, Heartbleed and security concerns
   * Google Knowledge Graph, Facebook Open Graph, ...
 \enditems
 
-That's only few examples of some of the biggest recent technology booms and
-issues on the global network. So little can mean so much in such a global
-environment. The enviroment online is constanlty changing, usualy on a wave
-of some new, useful or frightening technology or with popularization of a new
-phenomena. The Semantic Web technologies have been described, standardized and
-implemented for several years now~\fnote{ One of the most recent standards --
-OWL2 -- was released in 2008 \cite[wiki:owl]} and their tide seems to be near,
-though yet to come.
+That is only several examples of some of the biggest recent technology booms
+and issues on the global network. So little can mean so much in such a global
+environment. The environment online is constantly changing, usually on a wave
+of some new, useful or, sometimes, terrifying technology or with popularization
+of a new phenomena. The Semantic Web technologies have been described,
+standardized and implemented for several years now~\fnote{ One of the most
+recent standards -- OWL2 -- was released in 2008 \cite[wiki:owl]} and their
+tide seems to be near, though yet to come.
 
-Semantic Web itself reates to several principles (along with their
+Semantic Web itself relates to several principles (along with their
 implementation) that allow users to add meaning to their data. This meaning
 brings not only a standardized structure, but also, as a consequence, the
-posibility to query and reason on data originating from multiple sources. Once
+possibility to query and reason on data originating from multiple sources. Once
 given the structure, similar data can be joined in a form of a bigger bulk.
-Presenting this data publicaly creates a virtual cloud. This phenomena is
+Presenting this data publicly creates a virtual cloud. This phenomena is
 called Linked Data. 
 
-In this work we'd like to bring the Semantic Web technologies closer to users.
-We will propose a methodology for extracting and annotating data out of
-unstructured web content, along with design and implementation of a tool, to
-simplify the process. Results will be confronted with real life use cases. 
+% The goal of this work is to make the creation of semantic data more effective!
+% STATE THE GOAL HERE! VERY EXPLICITLY.
+
+The intention of this work is to bring the Semantic Web technologies closer to
+users. Specifically it focuses on the process of creation of semantic data. We
+will propose a methodology for extracting and annotating data out of
+unstructured web content, along with a design of a tool, to simplify the
+process. The design will be supported by implementation of a prototype of the
+tool. Results will be confronted with real life use cases. 
 
 
 \sec Problem Statement and Motivation
@@ -42,60 +48,87 @@ simplify the process. Results will be confronted with real life use cases.
 % TODO chceme oanotovat konkretni stranku konkretni ontologii
 % TODO v dusledku chceme obecne zjednodusit pridavani vyznamu datum na webu
 
-Giving meaning, i.e. semantization of web pages gets more popular. Probably the
+Giving meaning, i.e. semantization of web pages, gets more popular. Probably the
 most obvious example can be seen in the way the Google search engine serves
-it's results. Presenting not only the resulting pages but as well snippets of
+its results. Presenting not only the resulting pages but as well snippets of
 information scraped directly from the page content such as menu fields parsed
-directly from CSS annotation or HTML5 tags, contact information or openning
-hours, or even visualizing data from their own internal ontology, the Knowledge
-Graph~\urlnote{https://en.wikipedia.org/wiki/Google_Knowledge_Graph}. 
+from CSS annotation or HTML5 tags, contact information or opening hours, or
+even visualizing data from their own internal ontology, the Knowledge
+Graph\cite[wiki:gkg]. 
 
-XXX Strigil - \url{http://delivery.acm.org/10.1145/2540000/2539170/p453-starka.pdf}
-
-What options do we have to bring sematic into a webpage? 
+~
 
 %In future they're going even beyond that and suggest ``predictive search''
 %\url{http://www.nytimes.com/2013/07/30/technology/apps-that-know-what-you-want-before-you-do.html}
-%technologies, that try to guess the motivation of your search, not only it's
+%technologies, that try to guess the motivation of your search, not only its
 %meaning. \url{http://www.google.com/landing/now/}
 
-One direction to go is to annotate data on ``the server side'', i.e. at the time
-it is being created and/or published. The person or engine creating the data
-have to use the right tool and put some time and effort giving the data the
-appropriate annotation. There are standards covering this use case. HTML5
-brings in tags for clearer specification of the page structure (such as {\tt
-nav}, {\tt article}, {\tt section}, {\tt aside}, and others). Microformats
-\url{http://microformats.org/} define specialized values for HTML {\tt class}
-atribute to bring standardized patterns for several basic use cases with fixed
+
+What options are there to bring real semantic into a webpage? One direction to
+go is to annotate data on ``the server side'', i.e. at the time it is being
+created and/or published. When we are in position of owner of the data or
+server, we can help not only Google or DuckDuckGo\fnote{An anonymous search
+alternative to Google \url{http://duckduckgo.com}} to ``understand'' our
+website. To avoid confusion, this part is not focused on SEO -- the search
+engine optimization\cite[wiki:seo], even though the topic overlaps in many
+ways. SEO primarily focuses on increasing the ranking of a webpage in the eyes % XXX
+of a search engine whereas pure semantization focuses on best describing the
+meaning of the pages content no matter how good or bad it appeals to anyone as
+long as it is valid according to standards of Semantic Web\cite[wiki:semweb]
+and Linked Data\cite[linkeddata]. 
+
+In order to perform semantization on the server side, the person or engine
+creating the data have to use the right tool and put some time and effort
+giving the data the appropriate annotation. There are standards covering this
+use case.
+
+In the simplest form the HTML5\cite[wiki:html5] brings in tags for
+clearer specification of the page structure (such as {\tt nav}, {\tt article},
+{\tt section}, {\tt aside}, and others). 
+
+Microformats\cite[microformats] define specialized values for HTML {\tt class}
+attribute to bring standardized patterns for several basic use cases with fixed
 structure, such as {\em vCard} or {\em Event}. The microformat approach is easy
 to implement as it doesn't impose any extra syntax an can simply embed an
-existing page source. Last but not least, we can use RDFa to annotate data on a
-webpage with an actual ontology. This technology is part of the Semantic Web
-stack and we'll describe it closer in further chapter (TODO link).
+existing page source. As the community around microformats states
+``(Microformats are) designed for humans first and machines second.''
+
+Last but not least, we can use joined power of HTML and RDFa~\cite[w3c:rdfa] to
+annotate data on a webpage with an actual ontology. This technology is part of
+the Semantic Web stack and we will describe it closer in next
+chapter~\ref[chap:knowledge].
 
 Annotating data on the server side enables users to use tools to highlight data
 they are specifically interested in, extract them and reason on them. Services
-can use annotated data, combine them and offer results from multiple sources. 
-
-Some examples of utilities for extracting and testing or scraping structured data: 
+can use annotated data, combine them and offer new results based on merged
+knowledge obtained from multiple sources. Providing data in such a form makes
+server a part of Linked Data cloud. For completeness let us mention some
+examples of utilities for extracting and testing or scraping structured data: 
 
 \begitems
-  * \url{http://www.google.com/webmasters/tools/richsnippets}
-  * \url{http://rdfa.info/play/}
-  * \url{https://code.google.com/p/ldspider/}
-  * \url{http://ldodds.com/projects/slug/}
+  * Google Structured Data Testing Tool (i.e. rich snippets)~\cite[google:richsnippets]
+  * RDFa Play -- tool for visualisation and extraction of RDFa content \cite[rdfa:play]
+  * LDSpider -- a semantic data crawler~\cite[ldspider]
+%  \urlnote{https://code.google.com/p/ldspider/}
+%  * Slug - the (other) semantic crawler \url{http://ldodds.com/projects/slug/}
 \enditems
 
-To bypass the gap between unstructured data present on the web on one side and
-rich, linked, meaningful ontologies on the other, we can go the opposite
-direction as well. We can take the unannotated data already present on the web
-and retrieve them in a form, that is defined by some ontology structure. This
-process can be performed either automatically or manually. 
+Unfortunately, it is not always possible or desired by the web owner to embed
+semantics into their data and support it. Vast majority of the web holds plain
+text data without any machine readable meaning given to it, leaving it on human
+readers to understand it. 
 
-When comming to the automated crawling, we're mostly interested in improving
-ranking of search results. Ontology is used to help crawler to find relevant
-pages to a keyword or to finetune the ranking
-metrics~\urlnote{http://www.researchgate.net/publication/220830610_An_Ontology-Based_Crawler_for_the_Semantic_Web}. 
+To bypass the gap between unstructured data present on the web on one side and
+rich, linked, meaningful ontologies on the other, we can take the opposite
+direction to the one described so far. We can take the unannotated data already
+present on the web and retrieve them in a form, that is defined by some
+ontology structure.
+%This process can be performed either automatically or manually. 
+
+%When coming to the automated crawling, we're mostly interested in improving
+%ranking of search results. Ontology is used to help crawler to find relevant
+%pages to a keyword or to fine-tune the ranking
+%metrics~\urlnote{http://www.researchgate.net/publication/220830610_An_Ontology-Based_Crawler_for_the_Semantic_Web}. 
 
 %There've been several attempts in the automatic data annotation. In
 %principle, the goal of this approach is to automatically analyze a web page,
@@ -106,33 +139,314 @@ metrics~\urlnote{http://www.researchgate.net/publication/220830610_An_Ontology-B
 %http://www.musicontology.com/) as the best matching schema, and it would
 %annotate band name, genre, albums using classes and  properties from this ontology. 
 
-While on well structured, simple and/or partially annotated pages this process
-can be very successfull and produce usefull results, on pages with unorganized
-data the confidence on results produced by this approach might drop to minimum. 
-Unfortunately many online webpages and services are poorly strucruted. Pages
-containing many unrealted data, in form of advertisements or other external
-content might confuse such an engine. Old servers present their content in
-poorly structured or even invalid HTML usually in a form of multiple nested
-tables that serve for structuring only and makes the whole structure of the web
-unreadable. Social aspect of web brings in almost complete randomness
-making it even harder to automatically reason on page's content if it can't be
-distinguished and potentially left aside. We've mentioned few, both potential
-and real threads that prevent us from automatically annotate all data on web
-with confidence. 
+%While on well structured, simple and/or partially annotated pages this process
+%can be very successful and produce useful results, on pages with unorganized
+%data the confidence on results produced by this approach might drop to minimum. 
+%Unfortunately many online webpages and services are poorly structured. Pages
+%containing many unrelated data, in form of advertisements or other external
+%content might confuse such an engine. Old servers present their content in
+%poorly structured or even invalid HTML usually in a form of multiple nested
+%tables that serve for structuring only and makes the whole structure of the web
+%unreadable. Social aspect of web brings in almost complete randomness
+%making it even harder to automatically reason on page's content if it can't be
+%distinguished and potentially left aside. We've mentioned few, both potential
+%and real threads that prevent us from automatically annotate all data on web
+%with confidence. 
 
 In some use cases the ontology of the desired data is yet to be created and the
-user is aware of the data strucrutre and capable of manually spot and select
-the data on a web page. Currently there isn't many tools allowing this kind of
-operation. The ideal implementation and the vision here will allow user to
-partially identify the structure of a webpage while leaving the repeatative
-tedious work on crawler following the same procedure repeatedly on all data of
-the page. 
+user is aware of the data structure and capable to manually spot and select the
+data on a web page. Currently there are not many tools allowing this kind of
+operation. The ideal implementation and the vision of result of this thesis
+will allow user to partially identify the structure of a webpage while leaving
+the repetitive tedious work on crawler following the same procedure repeatedly
+on all data of the page. 
 
-For such a proccess we need to create tools that allow users to address
+For such a process we need to create tools that allow users to address
 previously unstructured content, link it to resources of existing ontology
 and/or create these resources on-the-go. By using existing ontologies we would
 not only give the meaning to our data, but also create valuable connection to
 any other dataset annotated using the same ontology. 
+
+
+\label[sec:usecases]
+\sec Use Cases
+
+In a general case our goal is to ``obtain data from a webpage in a semantic
+form.'' We have a webpage and optionally an ontology as an input and annotated
+set of data as an output. 
+
+For start, we will focus on data having a structure defined in HTML. The data
+might be structured as a table or set of paragraphs or any other set of HTML
+tags, and we will handle it on the level of these tags. Some text handling
+might be performed using regular expressions but usually we will simply select
+a HTML tag and use its content along with some annotation. 
+
+In the ``friendliest'' cases the data we want to scrape are formed in some 
+repetitive form, most often a table. This is the best case as we can simply
+define structure on one row of the table and repeat the same pattern over and
+over.  Sometimes the table spreads over several pages, so we need to define a
+way of advancing to the next page and start over. 
+
+Following sections contain description of several use cases that shall be
+solvable using design proposed in this thesis. 
+
+
+\label[sec:intro:uc1]
+\secc Use Case 1 -- basic example case
+
+\url{http://www.inventati.org/kub1x/t/}
+
+The first use case is the simplest task that will be covered by the implemented
+prototype. As you can see on the picture \ref[screen:kub1x] it consists of
+table holding values about people, and link to a detail page for one of them.
+On the detail page there is a field with ``nickname''. 
+
+\midinsert
+\clabel[screen:kub1x]{A screenshot of an example main and detail page for the
+basic use case}
+\picw=12cm \cinspic screen-kub1x.png
+\caption/f The example main page and detail page for the basic use case. 
+\endinsert
+
+In order to fulfill this use case SOWL shall support following operation: 
+
+\begitems
+  * Load the FOAF ontology that contains resources to describe data about
+    people. 
+  * Create scenario with two templates: init and detail. 
+  * Save this scenario to a file. 
+\enditems
+
+CrOWLer shall be able to to perform following tasks. 
+
+\begitems 
+  * Accept and parse scenario created by SOWL. 
+  * Follow this scenario while scraping data from the page. 
+  * Store results into RDF files. 
+\enditems
+
+\midinsert
+\clabel[general_workflow]{An activity diagram of the general workflow of the stack}
+\picw=12cm \cinspic general-workflow.png
+\caption/f Diagram of general workflow as derived from presented use case
+\endinsert
+
+This use case defines the simplest functionality that have to be implemented by
+both programs. It covers resources handling, scenario creation and running and
+finally storage of the results. It helps to define the proper behavior of the
+program as it's written in simple, valid HTML5 code without any JavaScript and
+all elements can be simply targeted by CSS or XPath selectors. 
+
+\label[sec:intro:uc2]
+\secc Use Case 2 -- National Heritage Institute
+
+\url{http://monumnet.npu.cz/pamfond/hledani.php}
+
+The webpage of National Heritage Institute of Czech
+Republic~\ref[screen:npu-list] gives a public access to a table of damages of
+national monuments. This is of interest for project
+MONDIS~\urlnote{https://mondis.cz} partially developed on our school. Its main
+purpose is a documentation and analysis of damages and failures of cultural
+heritage objects.
+
+\midinsert
+\clabel[screen:npu-list]{Partial view at data on National Heritage Institute webpage}
+\picw=12cm \cinspic screen-npu-list.png
+\caption/f Partial view at data on National Heritage Institute webpage
+\endinsert
+
+The data were successfully crawled by the original implementation of crOWLer.
+The goal of following development is to replicate the behavior with new
+implementation using scenario driven crawling process instead of process driven
+by hardcoded configuration. 
+
+The main challenge of this use case lays in JavaScript. Each row of the data
+table has the {\tt onclick} attribute defined. Unlike the classical ``link''
+(also known as the anchor or {\tt a} tag) the onclick attribute doesn't
+contain URL, but rather a JavaScript function content, that handles the click
+event.
+After closer investigation \ref[screen:npu-html] we can observe, that in this case, the function
+advances to the detail page of the clicked record by modifying a value of a
+hidden {\tt input} tag and by submitting a {\tt form} parametrized by the
+value. 
+
+\midinsert
+\clabel[screen:npu-html]{Preview of HTML analysis on National Heritage Institute webpage}
+\picw=12cm \cinspic npu-html.png
+\caption/f A preview of HTML source analysis on National Heritage Institute webpage
+\endinsert
+
+If possible, we would simply simulate the user ``click'' action to advance to
+the detail page and the ``back'' action (usually performed by the Back button
+of browser or Alt+left keyboard shortcut) to get back and follow on next line.
+This approach will be analyzed further in this work.
+
+\midinsert
+\clabel[screen:npu-detail]{Partial view at data on National Heritage Institute webpage}
+\picw=12cm \cinspic screen-npu-detail.png
+\caption/f View on detail page on National Heritage Institute webpage. 
+\endinsert
+
+If the stated approach can't be implemented to give the expected results the
+original approach will be simulated  by the new scenario driven structure. This
+means crOWLer will be getting the content of the {\tt onclick} attribute,
+parsing it using regular expression and combining it with a predefined pattern
+into an URL to be directly called using {\tt call-template}. 
+
+Additionally this use case hides one more pitfall that, this time, challenges
+the selector creation. The web page uses JavaScript to colorize table rows when
+user hovers them with mouse cursor. Using a deeper analysis, we can figure out,
+that table lines are given additional CSS on certain mouse events. This is
+often a sign of poor web practices as the same behavior can be achieved by {\tt
+:hover} CSS selector without a need of additional class, but it is an example
+of a challenge that our tool need to overcome. In this very case, we probably
+won't be able to generate selectors using CSS classes and will rely only on tag
+names, positions and other identifiers, if applicable. 
+
+Additional requirement on SOWL to those in Use Case 1 \ref[sec:intro:uc1]: 
+\begitems
+  * allow manual ressources creation
+  * record the {\tt click} event 
+  * OR
+  * access the {\tt onclick} attribute
+  * enable string handling using regular expressions
+  * record a {\tt call-template} on the resulting URL 
+\enditems
+
+Additional requirements on crOWLer
+\begitems
+  * simulate the {\tt click} event
+  * OR
+  * handle the attribute according to the string filters
+  * do {\tt call-template} on the result as URL
+\enditems
+
+The outcome of this use case and its analysis brings an important message. In
+many cases we will have to dive into the implementation of the processed
+webpage to find out how it behaves. In a vast majority of these cases it will
+require a web developer or coder to correctly and exhaustively define the
+scraping scenario. 
+
+\label[sec:intro:uc3]
+\secc Use Case 3 -- Air Accidents Investigation Institute
+
+\url{http://www.uzpln.cz/cs/ln_incident}
+
+This is basic use case with a table, a detail page and a pagination.
+Everything is present in a clear HTML form without any interruption by
+JavaScript.
+
+In this case we might consider replacing repetitive values by an object instance
+carrying the information. For example the table shows column ``Event type'' (in Czech
+original: ``Druh události''). It contains constant values of ``Incident'',
+``Flight accident'' and several more. A resource can be created to denote these
+types of accidents. The resource corresponding to the string scraped from
+table would than be used as a value of object property instead of the original
+string literal. The original literal is assigned to this resource as a ``label''. 
+
+For example we can use (in turtle syntax \ref[sec:turtle]): 
+\begtt
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+@prefix rlp:  <http://kub1x.org/dip/rlp#>
+<rlp:event-xFuHbjA5> a <rlp:event>; 
+          <rlp:hasEventType> <rlp:flightAccident>. 
+
+<rlp:flightAccident> <rdfs:label> "Letecká nehoda"@cs. 
+\endtt
+
+Instead of: 
+\begtt
+@prefix rlp: <http://kub1x.org/dip/rlp#>
+<rlp:event-xFuHbjA5> a <rlp:event>; 
+          <rlp:hasEventType> "Letecká nehoda"@cs. 
+\endtt
+
+Motivation for the previous instantiation lays in the following use case. As it
+uses the same domain -- flight accidents -- it might use some of the resources
+previously defined here. For the {\em event type} it would probably use exactly
+the same instances, and would only add the English label to them. 
+
+This should not be much of a problem as long as we can specify an URI
+identifier when creating an instance of an ongological object. In the example
+above the identifier is: {\tt <rlp:flightAccident>}. Another identifier in the 
+example is the URI of the event: {\tt <rlp:event-xFuHbjA5>}. This one was chosen from 
+an URL of a PDF file on the page. 
+
+From previous paragraph, we define another useful functionality: conditioning
+on string literals and specifying URIs of instances directly in the scenario
+either as a constant string or obtained by combining other string values
+probably in a form of a pattern.
+
+\midinsert
+\picw=12cm \cinspic screen-uzpln-list.png
+\caption/f View on list page on Air Accidents Investigation Institute. 
+\endinsert
+
+\midinsert
+\picw=12cm \cinspic screen-uzpln-detail.png
+\caption/f View on detail page on Air Accidents Investigation Institute. 
+\endinsert
+
+\begitems
+  * specifying a pattern for creation of URI of each instance
+  * adding language tag to all string values
+  * possible usage of geographical ontology
+  * possible usage of enumeration
+\enditems
+
+
+\label[sec:intro:uc4]
+\secc Use Case 4 -- National Transportation Safety Board
+
+\url{http://www.ntsb.gov/investigations/AccidentReports/Pages/aviation.aspx}
+
+This use case serves mainly to demonstrate usage of the same ontology
+vocabulary on two different data sources.  Additionally we might fill default
+values in place of missing ones in this table. For example the country value
+isn't specified for majority of the event records, but we can determine by the
+``State'' field, that they happened in United States. 
+
+We will have to deal with JavaScript again. As we can see from the URL of the
+site (having the ``.aspx'' suffix), we are dealing with Active Server Pages,
+created by ASP.NET server. The whole table with all its sorting functionality
+and pagination is generated by the server and defined by the framework used on
+the server side. The pagination is of our consideration as it loads data into 
+the table using AJAX call. This means data are loaded dynamically and we don't 
+have easy access to the low level network communication happening in behind. 
+
+The options we have are analogical to those in second use
+case~\ref[sec:intro:uc2]. We can either simulate the user action of ``clicking
+on the next page button'' or deeply analyze the JavaScript behind the
+pagination and perform the AJAX call manually. 
+
+The situation here is slightly different from the one in
+UC2~\ref[sec:intro:uc2]  though. If we successfully emulate the user action for
+both use cases, in UC2 we will have to perform it for each line in the table
+(thus ``during'' creation of consistent ontological object and within iterating
+the table) whereas in this use case, we only perform the ``click'' when we need
+to load completely new set of data. The difference might not seem so essential
+at a first glance but the devil is in the detail: user action modifies or
+replaces current DOM object and the original information is lost. This does not
+apply to regular trasnfer to a new page using URL because we can use completely
+separate REST call. Technically it is identical to clicking a ling versus
+openning it in a new tab in your browser, only in crOWLer these operations are
+performed internally on lower level. 
+
+
+
+\midinsert
+\picw=12cm \cinspic screen-ntsb-list.png
+\caption/f View on list page on National Transportation Safety Board webpage. 
+\endinsert
+
+\midinsert
+\picw=12cm \cinspic screen-ntsb-detail.png
+\caption/f View on detail page on National Transportation Safety Board webpage. 
+\endinsert
+
+\begitems
+  * adding default value if no content is found
+\enditems
 
 
 \sec Current solution crOWLer
@@ -144,7 +458,7 @@ user-defined set of ontological resources.
 
 In previous implementation, both, the scenario, followed by the crawler, and
 the ontology structure/schema are hard-coded into the crOWLer code. This
-requires unnecessary load of work for each separate use case, whilst in
+equires unnecessary load of work for each separate use case, whilst in
 practice all the use cases share the same workflow. 
 
 \begitems \style n
@@ -154,7 +468,7 @@ practice all the use cases share the same workflow.
   * run the crawling process according the above
 \enditems
 
-In the initial crOWLer implementation it is necessary to fullfill the first
+In the initial crOWLer implementation it is necessary to fulfill the first
 three steps with an actual programming. In order to perform this task, we need
 to have a programmer with knowledge of Java programming language, and several
 technologies used on the web, along with knowledge of the domain of data being
@@ -166,10 +480,11 @@ generic solution is evident.
 
 \sec Proposed Solution and Methodology
 
-To simplyfy the creation of guidelines, or scenarios for crOWLer, we propose a
+To simplify the creation of guidelines, or scenarios for crOWLer, we propose a
 tool that allows user to select all the element directly on the web page being
 crawled, with all the necessary settings, pass the scenario created to the
 crOWLer and obtain the results in a form of RDF graph. 
+
 
 \sec Specific goals of the project
 
@@ -180,7 +495,7 @@ crOWLer and obtain the results in a form of RDF graph.
   * this extension shall
   \begitems
     * load and visualise ontology 
-    * join page structure and ontology resources in a form of scenarion
+    * join page structure and ontology resources in a form of scenario
     * serialize scenario and necessary ontological data
   \enditems
   * parse the scenario by crOWLer
@@ -191,10 +506,17 @@ crOWLer and obtain the results in a form of RDF graph.
 
 \sec Work structure
 
-Next part of this work will cover tools and technologies related to the work.
-Chapter XXX will describe research on existing solutions and how they
-influenced results of this work. XXX program design. XXX program
-implementation. At the end we'll evaluate results of this work against proposed
-use cases. 
+Next part of this work~\ref[chap:knowledge] will cover tools and technologies (and the related 
+lingo) used in this work and in the field.
 
+Chapter \ref[chap:research]  will describe research on existing solutions and how they
+influenced results of this work.
+
+Chapter \ref[chap:design] is the main part and describes the proposed design. 
+
+Chapter \ref[chap:implementation] gives details about the prototype implemented 
+according to proposed design. 
+
+Both, design and implementation, will then be confronted against the real life
+use cases\ref[sec:usecases]. 
 

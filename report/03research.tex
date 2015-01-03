@@ -1,5 +1,5 @@
-
-\chap Existing solutions
+\label[chap:research]
+\chap Existing solutions % and Research
 
 In this chapter we'll describe the research made on existing solutions for
 given task. The performed search was focused on tools directly solving the 
@@ -99,7 +99,7 @@ overtake.
 In this section an analysis of existing impementation of crOWLer is described. 
 
 Original implementation is prototype of console Java aplication. It uses
-JenaSesame library for handling ontological data and JSOUP library for
+JenaSesame library\cite[jena] for handling ontological data and JSOUP library for
 accessing webpages and adressing elements. As a scenerio crOWLer accepts java
 {\tt .class} files containing a implementation of {\tt ConfigurationFactory}
 class. This configuration specifies all the information needed for crowling
@@ -107,7 +107,7 @@ process:
 
 \midinsert
 \picw=10cm \cinspic crowler-orig.png
-\caption/f General architecture of the original crOWLer implementation. 
+\caption/f General architecture of the original crOWLer implementation
 \endinsert
 
 \begitems
@@ -217,9 +217,6 @@ key--value mapping.
 %  * Class ImmovableHeritageConfiguration implements Configuration class. 
 %  * Folder jena\_con will be created and all the rdf's will be stored in int with names derived from ontology uri
 %\enditems
-
-
-
 
 
 \sec Finding platform for frontend
@@ -468,8 +465,6 @@ even though it doesn't reach the richness of Strigil/XML format.
 % language as an attribute
 
 
-
-
 \sec Early implementation
 
 
@@ -478,6 +473,5 @@ even though it doesn't reach the richness of Strigil/XML format.
 \picw=7cm \cinspic selectowl.png
 \caption/f View at original SelectOWL sidebar implemnetation. 
 \endinsert
-
 
 

@@ -1,180 +1,8 @@
+\label[chap:design]
 \chap Program design
 
 This chapter defines the overall behavior of the program derived from
 requiroments as well as the proposed design. 
-
-\sec Use Cases
-
-In following part I'd like to describe several use cases that shall be
-solvable by implementation this work XXX
-
-
-\secc Use Case 1 -- basic example case
-
-\url{http://www.inventati.org/kub1x/t/}
-
-The first Use Case is the simplest task that will be covered by the extension.
-This use case can be seen on picture XXX. It consists of table holding values
-about people, and link to a detail page for one of them. On the detail page
-there is a field with ``nickname''. 
-
-\midinsert
-\picw=12cm \cinspic screen-kub1x.png
-\caption/f Example main page and detail page for the basic Use Case. 
-\endinsert
-
-In order to fulfill this usecase SOWL should support following operation: 
-
-\begitems
-  * load the FOAF ontology that describe data about people
-  * create scenario with two templates: init and detail
-  * save this scenario to a file
-\enditems
-
-crOWLer should be able to: 
-
-\begitems
-  * accept and parse scenario created by SOWL
-  * follow this scenario while scraping data from the page
-  * store results into rdf files
-\enditems
-
-This scenario is the simplest case that have to be covered by both programs.
-Handling resources, scenario creation an drunning. It helps to define the
-proper behavior of the program as it's written in simple, valid HTML5 code
-without any javascript and all elements can be simply targeted by their
-identifiers or CSS classes. 
-
-
-\secc Use Case 2 -- National Heritage Institute
-
-\url{http://monumnet.npu.cz/pamfond/hledani.php}
-
-The webpage of National Heritage Institute of Czech Republic gives a public
-access to a table of damages of national monuments. This is of interest for
-project MONDIS~\urlnote{https://mondis.cz} partially developed on our school.
-One of it's goals is documentation and analysis of damages and failures of
-cultural heritage objects.
-
-\midinsert
-\picw=12cm \cinspic screen-npu-list.png
-\caption/f Partial view at data on National Heritage Institute webpage. 
-\endinsert
-
-The data were successfully crawled by the original implementation of crOWLer.
-The goal of following development is to replicate the behavior with new
-implementation using scenario driven crawling process instead of hardcoded. 
-
-The main challenge of this use case lays in javascript. Each row of the data
-table has the {\tt onclick} attribute defined. Unlike the classical ``links''
-(also the anchor or {\tt a} tags) the onclick attribute doesn't contain URL,
-but rather javascript function content, that handles the click event. In this
-case, the function advances to the detail page of the clicked record by
-modifying a value of ahidden {\tt input} tag and by submitting a {\tt form}
-parametrized by the value. 
-
-If possible, we would simply simulate the user ``click'' action to advance to
-the detail page and the ``back'' action (usually performed by the Back button
-of browser or Alt-left shortcut) to get back and follow on next line. This
-approach will be analyzed further in this work.
-
-\midinsert
-\picw=12cm \cinspic screen-npu-detail.png
-\caption/f View on detail page on National Heritage Institute webpage. 
-\endinsert
-
-If the stated approach doesn't give promissing results the original approach
-will be simulated using the scenario driven structure. This means getting the
-content of the {\tt onclick} attribute, parsing it using regular expression and
-combiding it into an URL to be directly called using {\tt call-template}. 
-
-Additional requirement on SOWL to those in Use Case 1 (XXX ref): 
-\begitems
-  * allow manual ressources creation
-  * record the {\tt click} event 
-  * OR
-  * access the {\tt onclick} attribute
-  * enable string handling using regular expressions
-  * record a {\tt call-template} on the resulting URL 
-\enditems
-
-Additional requirements on crOWLer
-\begitems
-  * simulate the {\tt click} event
-  * OR
-  * handle the attribute according to the string filters
-  * do {\tt call-template} on the result as URL
-\enditems
-
-
-\secc Use Case 3 -- Air Accidents Investigation Institute
-
-\url{http://www.uzpln.cz/cs/ln_incident}
-
-A basic usecase with a table, a detail page and pagination. In this case we
-might consider replacing repeatative values by their corresponing URIs. For
-example the table shows column ``Event type'' (in czech original: ``Druh
-události''). It contains constant values of ``Incident'', ``Flight accident''
-and several more. A resource can be created to denote these types of accidents.
-The resource corresponding to the string scraped from table would than be used
-as a value of object property instead of the original string literal. 
-
-For example we suggest using (in turtle syntax): 
-\begtt
-@prefix rlp: <http://kub1x.org/dip/rlp#>
-<rlp:event-xFuHbjA5> a <rlp:event>; 
-          <rlp:hasEventType> <rlp:flightAccident>. 
-\endtt
-
-Instead of: 
-\begtt
-@prefix rlp: <http://kub1x.org/dip/rlp#>
-<rlp:event-xFuHbjA5> a <rlp:event>; 
-          <rlp:hasEventType> "Letecká nehoda"@cs. 
-\endtt
-
-\midinsert
-\picw=12cm \cinspic screen-uzpln-list.png
-\caption/f View on list page on Air Accidents Investigation Institute. 
-\endinsert
-
-\midinsert
-\picw=12cm \cinspic screen-uzpln-detail.png
-\caption/f View on detail page on Air Accidents Investigation Institute. 
-\endinsert
-
-\begitems
-  * adding language tag to all string values
-  * possible usage of geographical ontology
-  * possible usage of enumeration
-\enditems
-
-
-\secc Use Case 4 -- National Transportation Safety Board
-
-\url{http://www.ntsb.gov/investigations/AccidentReports/Pages/aviation.aspx}
-
-This scenario is technically identical to the previous one and serves to
-demostrate usage of the same ontology vocabulary on two different data sources.
-Additionaly we might fill missing values in this table by default ones. For
-example the country value isn't specified for majority of the event records,
-but we can determine by the ``State'' field, that they happenned in United
-States. 
-
-\midinsert
-\picw=12cm \cinspic screen-ntsb-list.png
-\caption/f View on list page on National Transportation Safety Board webpage. 
-\endinsert
-
-\midinsert
-\picw=12cm \cinspic screen-ntsb-detail.png
-\caption/f View on detail page on National Transportation Safety Board webpage. 
-\endinsert
-
-\begitems
-  * adding default value if no content is found
-\enditems
-
 
 \sec Workflow
 
@@ -187,6 +15,10 @@ for both SOWL and crOWLer part of the implementation.
   * user loads/creates ontology using sowl
   * user opens webpage with data
   * user creates scenario using sowl
+  \begitems
+    * user adds selectors to scenario steps
+    * user adds resources to scenario steps
+  \enditems
   * sowl sends scenario to crOWLer
   * crOWLer crawls the web according to scenario and stores results in a file
     or repository
