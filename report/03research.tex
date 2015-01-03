@@ -2,10 +2,10 @@
 \chap Existing solutions % and Research
 
 In this chapter we'll describe the research made on existing solutions for
-given task. The performed search was focused on tools directly solving the 
-given problem (annotating data on web and crawling it), as well as libraries
-and technologies that would help to implement new solution or existing open 
-source programs we could build the solution on. 
+given task (scraping and annotating data from a web). The performed search was
+focused on tools directly targeting the problem, as well as libraries and
+technologies that could be included in the solution or existing open source
+programs we could build the solution on. 
 
 %Semanticke a nesemanticke crowlery (linked media framework, calimachus, ...)
 %je toho proste malo ;-) a proto to delame
@@ -14,24 +14,28 @@ source programs we could build the solution on.
 
 By researching existing solutions, there is currently no open source or openly
 available solution that would directly follow the required workflow and
-fullfill the requirements. 
+fulfill the requirements. 
 
 Existing tools named as ``Ontology-based Web Crawlers'' refer mostly to crawlers
 that ``rank'' pages being crawled by guess-matching them against some ontology.
 In those programs user can't specify data that are being retrieved. Moreover,
-there is no way to get involved in the crawling process. It is solely used to
-automatically rank the relevance of documents. They are solving different task
-where input is several documents and possibly an ontology and output is the
-best matching document. 
+there is no way to get involved in the crawling process. The tool is solely
+used to automatically rank the relevance of documents. They are solving
+different task where input is several documents and possibly an ontology and
+output is the best matching document. 
 
 In case we are trying to solve the input is one or more documents and one or
-more ontologies and the result is data obtained from the documents and
+more ontologies and the result is data retrieved from the documents and
 annotated with resources from the ontologies. 
 
 
-\sec Advantages and pitfalls of Semantic crawler and linked data
+\secc Advantages and pitfalls of Semantic crawlers
 
-% vyhody sem crowleru, i pro linked data
+To properly target the benefits the semantification of the scraped data brings
+to the user, let us quickly follow an evolution from the most primitive
+technologies for scraping data to the advanced ones. The ultimate goal is to
+effectively search in data and maximally utilize the knowledge it carries. 
+
 The simplest approach is manual searching for keywords, or even simple browsing
 the web. That might be useful in some cases, but when there is a lot of data,
 it becomes exhausting. 
@@ -41,7 +45,7 @@ and then write a program or script to retrieve a relevant information. This
 approach takes a lot of energy for one time only solution of a given problem. 
 
 By storing such crawled data into database we obtain persistent database,
-possibly automatically obtained by the script from pervious case. Such data is
+possibly automatically obtained by the script from previous case. Such data is
 static, but can be queried over and over and possibly re-retrieved when becomes
 obsolete. It's structure is, however, based on programmers imagination an
 needs to be described in order to understand and handle the data properly. 
@@ -54,9 +58,9 @@ When using Ontology-based solution, tailor made for crawling and annotating
 data from web, we obtain several benefits ``for free''. The tool designed
 specially for this purpose makes it easy. Once the data is annotated, we can
 not only query on them, but also automatically reason on them and obtain more
-or more specific/narrow results than with general data. The atributes and
+or more specific/narrow results than with general data. The attributes and
 relations within ontology, that allow reasoning, are usually part of the
-ontology deffinition and as such comes in naturally without any extra effort. 
+ontology definition and as such comes in naturally without any extra effort. 
 
 Last for benefits: using ontology from public resource as a schema for our data
 can give us correct structure without need for building it from scratch. Also
@@ -68,41 +72,42 @@ structured according to this ontology and simply query on resulting super set.
 Semantic crawling is not a silver bullet. The technology is only finding it's
 place and uses and it's being shaped by the needs of it's users.
 
-For instance There is always a threat of inconsistency of an ontology when some
-data don't fit the rules or breaks structure of an ontology. In it's state from
+For instance there is always a threat of inconsistency of an ontology when some
+data don't fit the rules or break structure of an ontology. In its state from
 April 2014 DBpedia states, there is 3.64 million resources, out of which 1.83
-million are clasified in a consistent Ontology \cite[dh:dbpedia]. That is only 
-half of the data being arguably consistent with each other. That doesn't say
+million are classified in a consistent Ontology \cite[dh:dbpedia]. That is only 
+half of the data being arguably consistent with each other. That does not say
 the rest is bad. Only that it might cause a inconsistency and prevent us from
-reasoning if we include wrong subset of the data. 
+reasoning if we include a wrong subset of the data. 
 
 Just like with ``hardcoded'' crawling technique, the semantic crawling is
-tightly bound to the structure of the web being crawled. The web is being
-matched against some patterd described by selecors and the matching elemented,
-when found, are accepted for further processing. Any change on a webpage
-structure can lead to broken selectors or links during the crawling process and
-make the scenario invalid. 
+tightly bound to the structure of the crawled web. The web is being matched
+against some pattern described by selectors and the matching element, when
+found, is accepted for further processing. Any change on a webpage structure
+can lead to broken selectors or links during the crawling process and make the
+scenario partially or completely invalid. 
 
-A lot of web pages loads their data dynamically using AJAX queries. Some pages
-simply changes it's content frequently news pages, forums, user content pages
-and social web applications. Crawling content on such servers would require
-almost constant crawling and would cause growth into massive ontology of
-questionable quality. 
+Many web pages load their data dynamically using AJAX queries. Some pages
+simply changes it's content frequently (e.g. news pages, forums, user content
+pages, like video or music servers and social web applications). Crawling
+content on such servers would require almost constant crawling and would cause
+growth into massive ontology of, oftentimes, questionable quality. 
 
-The semantic crawling is an usefull way to effectively obtain and query on
-(otherwise anonymous) data from the web, but it still have it's challenges to
-overtake. 
+The semantic crawling is an useful way to effectively obtain and query on
+data from the web, but it still have it's challenges to overtake. 
 
 
 \sec Analysis of crOWLer
 
-In this section an analysis of existing impementation of crOWLer is described. 
+A thorough analysis of the current program shall precede creation of the final
+design. We will focus on architecture, dependencies and components that will
+have to be reimplemented. 
 
-Original implementation is prototype of console Java aplication. It uses
-JenaSesame library\cite[jena] for handling ontological data and JSOUP library for
-accessing webpages and adressing elements. As a scenerio crOWLer accepts java
+Original implementation is a prototype of console Java application. It uses
+Jena Sesame library\cite[jena] for handling ontological data and JSOUP library for
+accessing webpages and addressing elements. As a scenario crOWLer accepts Java
 {\tt .class} files containing a implementation of {\tt ConfigurationFactory}
-class. This configuration specifies all the information needed for crowling
+class. This configuration specifies all the information needed for crawling
 process: 
 
 \midinsert
@@ -113,12 +118,12 @@ process:
 \begitems
   * webpage to be crawled
   * way to address data on that page using JSOUP selectors
-  * definition of ontology resources used to anotate the obtained data
+  * definition of ontology resources used to annotate the obtained data
   * and definition of pagination process that brings us to next page to be crawled
 \enditems
 
-Additionaly the pagination and selector implementation are supported by several
-helper classes for chaining selectors or generation of a list of URL addreses
+Additionally the pagination and selector implementation are supported by several
+helper classes for chaining selectors or generation of a list of URL addresses
 by incrementing specific argument. 
 
 This reveals the issue being addressed. Java implemented configuration requires
@@ -129,11 +134,11 @@ properly target elements on the webpage using JSOUP selectors. This is one of
 the hardest task as the selectors have to be manually extracted using for
 example browser console. 
 
-Following code is an exapmle of actual confuguration code of original crOWLer
+Following code is an example of actual configuration code of original crOWLer
 implementation.  It uses {\tt NPU} class as simple static storage for URI's
-used in our ontology. It creates a {\em monumentRecord} object for each talbe
+used in our ontology. It creates a {\em monumentRecord} object for each table
 row as defined by the ``initial definition''. The second part create {\em
-district} object with it's label (found in third table colum denoted by the
+district} object with it's label (found in third table column denoted by the
 {\tt td:eq(2)} selector) and assigns it to the record using {\em hasDistrict}
 object property. The {\tt conf} object holds the configuration being passed to
 the actual crawler. 
@@ -156,10 +161,10 @@ sDistrict.addSpec(true, Factory.createDPSpec(Vocabulary.RDFS_LABEL));
 \endtt
 
 Previous example more or less defines requirements on scenario for semantic
-crawler. To fully satisfy the crOWLers current implentation, we would also have
-to cover following hyperlinks on a page, firing javascript and browser events and
-functions of tranforming scraped data using for example regular expressions or
-key--value mapping. 
+crawler. To fully satisfy the current implementation of crOWLer, we would also
+have to cover following hyperlinks on a page, firing JavaScript and browser
+events and functions of transforming scraped data using for example regular
+expressions or key--value mapping. 
 
 %\secc zavislosti
 %
@@ -218,6 +223,64 @@ key--value mapping.
 %  * Folder jena\_con will be created and all the rdf's will be stored in int with names derived from ontology uri
 %\enditems
 
+\sec Strigil
+
+Strigil is a ontological scraping system developed at  Faculty of Mathematics
+and Physics of the Charles University in
+Prague~\urlnote{http://xrg.ksi.ms.mff.cuni.cz/software/ld/ldi.html\#strigil}.
+It represents an easily configurable tool that enables one to retrieve data from textual or weak structured documents. \cite[iiwas2013:strigil]
+
+It
+consists of webserver and backend service. The webserver offers frontend for
+configuring the crawling process. The backend ten follows the configuration and
+handles downloading, scraping the data and storing results. Strigil strongly
+focusses on the download process. Components of the backend conform in a
+structure of DownloadManager, Downloaders and Proxy servers that help to
+distribute the load of data being transfered. 
+
+The frontend part serves user interface for handling ontological data on top of
+a web being scraped. It internally creates it's scraping script (will be
+referred to as Strigil/XML) which strongly inspired format for scenario used in
+the actual implementation later in this work and will be closely analyzed in
+next chapter \ref[chap:design]. 
+
+
+\secc What problem does it solve?
+
+The architecture of Strigil is tailor made for parallel processing of
+documents. The installation of Strigil requires working Apache2 web server with
+PHP5, Tomcat, PostgreSQL database, OpenMQ service and several other components
+before the actual deployment of Strigil into the environment. The system is
+designed for processing many requests on targeted server, heavy loads of data
+and long running tasks. It's complicated architecture and installation process
+prevents it from being effectively used in occasional simple, yet non trivial,
+scraping tasks. 
+
+Moreover it's download system fetches only the main HTML data and treats it as
+static document. This way it can't properly handle dynamic content and temporal
+changes in documents performed by JavaScript. 
+
+
+\secc Architecture of Strigil platform
+
+
+
+\secc What inspiration it brings for crOWLer
+
+XXX I tried to include Strigil/XML XXX format in SOWL, but it was XXX
+ridiculous. It would bring in an unnecessary workload on string-based
+serialization from native JavaScript objects into XML format. The decision was
+made to rather use native JSON serialization as described in XXX chapter
+implementation. This implementation is heavily inspired by the original
+Strigil/XML. Moreover it attends to improve upon readability and compactness
+even though it doesn't reach the richness of Strigil/XML format. 
+
+%\secc Suggestions for improvements
+%
+% default language tag
+% language as an attribute
+
+
 
 \sec Finding platform for frontend
 
@@ -234,16 +297,16 @@ work. The actual implementation will be covered in later chapters.
 
 InfoCram 6000 is part of project ExtBrain \urlnote{http://www.extbrain.net}
 that is developed here on Department of Computer Science. This specific part
-was implemented by Ing. Jiří Mašek and is described as ``prototype of user
+was implemented by Jiří Mašek and is described as ``prototype of user
 interface for visual definition of extraction rules for ExtBrain Extractor''.
 It's intended usage is very close to the usage of SOWL. It is an Firefox
 extension that generates rules (scenario) for extractor implemented as another
 part of the ExtBrain project. 
 
-The ExtBrain extractor is implemented in javascript as opposed to Java in case
+The ExtBrain extractor is implemented in JavaScript as opposed to Java in case
 of crOWLer. It extracts data according to definitions by InfoCram 6000. The
-result is stored in JSON format thus not carying semantic information, but only
-set of raw data in some form. 
+result is stored in JSON format thus not carrying semantic information, but
+only set of raw data in some form. 
 
 \midinsert
 \picw=7cm \cinspic infocram.png
@@ -271,24 +334,6 @@ of this chapter, the first implementation named SelectOWL caries similar user
 interface and make use of several modules of the InfoCram implementation. 
 
 
-%\secc iMacros
-%
-%System iMacros has to be mentioned 
-%
-%\begitems
-%  * \url{http://wiki.imacros.net/Command_Reference}
-%  * \url{http://wiki.imacros.net/iMacros_for_Firefox}
-%  * \url{http://wiki.imacros.net/iMacros_for_Chrome}
-%\enditems
-
-
-
-%\secc Sahi
-%
-%Yet another web automation and testing tool. \url{http://sourceforge.net/projects/sahi/}
-
-
-
 \secc Selenium
 
 Selenium is a collection of tools for automated testing of web pages. This tools include: 
@@ -301,7 +346,7 @@ Selenium is a collection of tools for automated testing of web pages. This tools
 
 A user of Selenium, typically a web designer, programmer or coder, would create
 a scenario using Selenium IDE, in order to test his web server. From this
-scenarion a unit test can be generated for desired programming language and in
+scenario a unit test can be generated for desired programming language and in
 desired form (e.g. JUnit test case). Such a test can be simply included it in a
 set of tests for the web server project. WebDriver library needed for running
 these tests is available through Maven. There is also a chance to use PhantomJs
@@ -324,7 +369,7 @@ web servers nowadays XXX.
 
 Selenium IDE is a Firefox plugin that allow us to directly record user actions
 on webpage such as following links, storing and comparing values, filling in
-and submiting forms. 
+and submitting forms. 
 
 An attempt was made to implement SOWL as a plugin for Selenium IDE. This plugin
 would have two parts: 
@@ -334,7 +379,7 @@ would have two parts:
   * a formatter that would generate scenarios for crOWLer in some desired form
 \enditems
 
-Certain limitations were discovered during developement of this plugin.
+Certain limitations were discovered during development of this plugin.
 Selenium IDE, as being plugin itself, implements it's own plugin system,
 through which it allows other developers to extend it's functionality. The
 Selenium IDE plugin API allows us to use standard Firefox techniques along with
@@ -342,9 +387,9 @@ predefined API, to extend the graphical interface and the functionality of the
 IDE respectively. 
 
 Graphical interface is defined using XUL, the standard Mozilla XML format for
-defining user interface. XUL defines an overlay sysem using which a new layer
-is defined and layed over existing part of application layout while extending
-or modifying it. The overlay sytem itself comes with Mozilla stack and can be
+defining user interface. XUL defines an overlay system using which a new layer
+is defined and layered over existing part of application layout while extending
+or modifying it. The overlay system itself comes with Mozilla stack and can be
 used on IDE by default.
 
 \midinsert \clabel[imgseleniumide]{Image of Selenium IDE}
@@ -358,30 +403,30 @@ defines set of commands that can be used in scenarios. List of default commands
 can be seen in dropdown on main screen of the IDE. This list can be extended,
 but the use and structure of commands is implemented internally in Selenium
 IDE. Addition of new commands is XXX accomplished  by extending the {\tt
-Selenium.prototype} object in registered plugin. Afther the extension is
+Selenium.prototype} object in registered plugin. After the extension is
 processed through internal command loader, a new set of commands is added for
 user to use. 
 
-Commands in this system are recognized by their names as they are asigned on
+Commands in this system are recognized by their names as they are assigned on
 the prototype object the prefixes used are: 
 
 \begitems
-  * do -- the acction commands -- for perfroming user actions
+  * do -- the action commands -- for performing user actions
   * get and is -- the accessor commands -- for testing and/or waiting for a
     values on page and potentially storing it
-  * assert -- the assertio commands -- for performing actual tests
+  * assert -- the assertion commands -- for performing actual tests
 \enditems
 
-When commadn is generated the prefix is being stripped and according to type,
+When command is generated the prefix is being stripped and according to type,
 multiple versions commands can be created. For example do commands have always
 ``immediate'' and ``patient'' version and in this principle {\tt
 Selenium.prototype.doClick} will generate the {\tt click} and {\tt
-clickAndWait} command. Accesor commands are even more complex and generate
+clickAndWait} command. Accessor commands are even more complex and generate
 eight commands for every single method (positive and negative assertion, store
 method, waitFor, etc.). Implementation of the command method defines, how
 Selenium IDE would behave when ``replying'' the scenario recorded. Technically it
 is possible to leave the implementation empty in the IDE and use it only as a
-commad for WebDriver unit test. 
+command for WebDriver unit test. 
 
 None of the original command types corresponds to format of commands for
 handling the semantic annotation, like adding URI to element, recording
@@ -389,80 +434,22 @@ creation of individual, assigning literal to it's property etc. A new set of
 commands was suggested and partially implemented having the prefix ``owl''.
 This led to changes in core sources of Selenium IDE, which itself is a bad sign
 as it technically creates a new branch of the program. CommandBuilder had to be
-extended directly in the selenimu code as it's impossible to change it's
+extended directly in the Selenium code as it's impossible to change it's
 behavior through native Selenium IDE API. Unfortunately, even though the new
 command type was implemented, it is not possible to change the more general
 concept of all commands. Every command is stored as {\tt (name, target, value)
 }~\urlnote{https://code.google.com/p/selenium/source/browse/ide/main/src/content/commandBuilders.js
 the CommandBuilder implementation} triple and from this format everything is
-derived. It is technically impossible to create commad for example for literal
+derived. It is technically impossible to create command for example for literal
 along with it's language tag as there is simply no field for it. For the same
-reason we cant create a commad to create an ontological object of some type as
-a property of another object.  These comands relate to each other, but such a
+reason we cant create a command to create an ontological object of some type as
+a property of another object.  These commands relate to each other, but such a
 behavior is not supported by the scenario editor in it's current architecture.
 There is also no way to alter editor GUI for specific command. For instance, we
 can't offer autocomplete for input field when user enters URI of ontological
 resource. Such a feature would be an essential part of SOWL's workflow, and as
-a consequence these limitations are critical and disallow us from proerly
+a consequence these limitations are critical and disallow us from properly
 implementing SOWL on top of the Selenium IDE. 
-
-
-\sec Strigil
-
-Strigil is a ontological scraping system developed at  Faculty of Mathematics
-and Physics of the Charles University in
-Prague~\urlnote{http://xrg.ksi.ms.mff.cuni.cz/software/ld/ldi.html\#strigil}.
-It represents an easily configurable tool that enables one to retrieve data from textual or weak structured documents. \cite[iiwas2013:strigil]
-
-It
-consists of webserver and backend service. The webserver offers frontend for
-configuring the crawling process. The backend ten follows the configuration and
-hnadles downloading, scraping the data and storing results. Strigl strongly
-focusses on the download process. Components of the backend conform in a
-structure of DownloadManager, Downloaders and Proxy servers that help to
-distribute the load of data being trasfered. 
-
-The frontend part serves user interface for handling ontological data on top of
-a web being scraped. It internally creates it's scraping script (will be
-referred to as Strigil/XML) which strongly inspired format for scenario used in
-the actual implementation later in this work and will be closely analyzed in
-next chapter XXX. 
-
-
-\secc What problem does it solve?
-
-Strigils architecture is tailor made for paralel processing of documents.  The
-installation of Strigil requires working Apache2 web server with PHP5, Tomcat,
-PostgreSQL database, OpenMQ service and several other components before the
-actual deployment of Strigil into the environment. The system is designed for
-processing many requests on targeted server, heavy loads of data and long
-running tasks. It's complicated architecture and installation process prevents
-it from being effectively used in occasional simple, yet non trivial, scraping
-tasks. 
-
-Moreover it's download system fetches only the main HTML data and treats it as
-static document. This way it can't properly handle dynamic content and temporal
-changes in documents performed by javascript. 
-
-
-\secc Architecture of Strigil platform
-
-
-
-\secc What inspiration it brings for crowler
-
-XXX I tried to include Strigil/XML XXX format in SOWL, but it was XXX
-ridiculous. It would bring in an nunnecessary workload on string-based
-serialization from native javascript objects into XML format. The decision was
-made to rather use native JSON serialization as described in XXX chapter
-implementation. This implementation is heavily inspired by the original
-Strigil/XML. Moreover it attends to improve upon readability and compactness
-even though it doesn't reach the richness of Strigil/XML format. 
-
-%\secc Suggestions for improvements
-%
-% default language tag
-% language as an attribute
 
 
 \sec Early implementation
@@ -471,7 +458,7 @@ even though it doesn't reach the richness of Strigil/XML format.
 
 \midinsert
 \picw=7cm \cinspic selectowl.png
-\caption/f View at original SelectOWL sidebar implemnetation. 
+\caption/f View at original SelectOWL sidebar implementation. 
 \endinsert
 
 

@@ -7,6 +7,15 @@
 
 
 
+\app Assignment 
+
+\picw=15cm\cinspic zadani.png
+
+
+
+
+
+
 \label[abbreviations]
 \app Abbreviations %and symbols
 
@@ -20,6 +29,212 @@
 \abbrv[OWL] Web Ontology Language
 \abbrv[SPARQL] SPARQL Protocol and RDF Query Language - query language for semantic databases/triplestores
 \abbrv[foaf] friend of a friend - a popular ontology for describing personal information and relationships
+
+
+
+
+
+
+\label[app:rdfsvocab]
+\app RDF and RDFS vocabulary
+
+\midinsert \clabel[rdfsvocab]{RDF and RDFS vocabulary}
+\ctable{rl}{
+\hfil resource   & description  \crl \tskip4pt
+  rdf:type       & a property used to state that a resource is an instance of a class \cr
+                 & a commonly accepted qname for this property is {\tt a} \cr
+  rdfs:Resource  & the class of everything; all things described by RDF are resources \cr
+  rdfs:Class     & declares a resource as a class for other resources \cr
+  rdfs:Literal   & literal values such as strings and integers \cr
+                 & property values such as textual strings are examples of RDF literals\cr
+                 & literals may be plain or typed \cr
+  rdfs:Datatype  & the class of datatypes\cr
+                 & rdfs:Datatype is both an instance of and a subclass of rdfs:Clas \cr
+                 & each instance of rdfs:Datatype is a subclass of rdfs:Literal \cr
+  rdf:XMLLiteral & the class of XML literal values; rdf:XMLLiteral is an instance \cr
+                 & of rdfs:Datatype (and thus a subclass of rdfs:Literal) \cr
+  rdf:Property   & the class of properties \cr
+  rdfs:domain    & (of an rdf:predicate) declares the class of the subject in a triple \cr
+                 & whose second component is the predicate \cr
+  rdfs:range     & (of an rdf:predicate) declares the class or datatype of the object in a triple \cr
+                 & whose second component is the predicate \cr
+  rdfs:subClassOf    & allows to declare hierarchies of classes \cr
+  rdfs:subPropertyOf & an instance of rdf:Property that is used to state \cr
+                     & that all resources related by one property are also related by another \cr
+  rdfs:label     & rdf:Property used to provide a human-readable version of a resource's name \cr
+  rdfs:comment   & rdf:Property used to provide a human-readable description of a resource \cr
+}
+\caption/t RDF and RDFS vocabulary
+\endinsert
+
+
+
+
+
+\label[app:rdfxml]
+\app Example of RDF/XML syntax
+
+% Taken directly from the FOAF ontology
+
+\begtt
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+         xmlns:owl="http://www.w3.org/2002/07/owl#" 
+         xmlns:vs="http://www.w3.org/2003/06/sw-vocab-status/ns#" 
+         xmlns:foaf="http://xmlns.com/foaf/0.1/" 
+         xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <!-- Here we describe general characteristics
+       of the FOAF vocabulary ('ontology'). -->
+  <owl:Ontology rdf:about="http://xmlns.com/foaf/0.1/"
+                dc:title="Friend of a Friend (FOAF) vocabulary"
+                dc:description="The Friend of a Friend (FOAF) RDF
+                                vocabulary, described using
+                                W3C RDF Schema and OWL the Web
+                                Ontology Language." >
+  </owl:Ontology>
+  <rdfs:Class rdf:about="http://xmlns.com/foaf/0.1/Person"
+              rdfs:label="Person"
+              rdfs:comment="A person."
+              vs:term_status="stable">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <owl:equivalentClass
+      rdf:resource="http://schema.org/Person" />
+    <owl:equivalentClass
+      rdf:resource="http://www.w3.org/2000/10/swap/pim/contact#Person"/>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://xmlns.com/foaf/0.1/Agent"/>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Class
+        rdf:about="http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing"
+        rdfs:label="Spatial Thing"/>
+    </rdfs:subClassOf>
+    <rdfs:isDefinedBy
+      rdf:resource="http://xmlns.com/foaf/0.1/"/>
+    <owl:disjointWith
+      rdf:resource="http://xmlns.com/foaf/0.1/Organization"/>
+    <owl:disjointWith
+      rdf:resource="http://xmlns.com/foaf/0.1/Project"/>
+  </rdfs:Class>
+  <!-- (...) -->
+</rdf:RDF>
+\endtt
+
+
+
+
+
+\label[app:crowler-new-component]
+\app crOWLer architecture
+
+~ 
+
+\picw=12cm\cinspic crowler-new-component.png
+
+
+
+
+
+\label[app:sowljson]
+\app SOWL/JSON scenario solving Use Case 1
+
+\begtt
+{
+  type: "scenario", 
+  name: "manual", 
+  ontology: {
+    base: "http://kub1x.org/onto/dip/t/", 
+    imports : [
+      {
+        prefix: "foaf", 
+        uri: "http://xmlns.com/foaf/0.1/", 
+      }, 
+      {
+        prefix: "kbx", 
+        uri: "http://kub1x.org/onto/dip/t/", 
+      }, 
+    ], 
+  }, 
+  creation-date: "2014-11-30 12:40", 
+  call-template: {
+    command: "call-template", 
+    name: "init", 
+    url: "http://www.inventati.org/kub1x/t/", 
+  }, 
+  templates: [
+    {
+      name: "init", 
+      steps: [
+        {
+          command: "onto-elem", 
+          typeof: "http://xmlns.com/foaf/0.1/Person", 
+          selector: {
+            value: "tr", 
+            type: "css", 
+          }, 
+          steps: [
+            {
+              command: "value-of", 
+              property: "http://xmlns.com/foaf/0.1/firstName", 
+              selector: {
+                value: "td:nth-child(1)", 
+                type: "css", 
+              }, 
+            }, 
+            {
+              command: "value-of", 
+              property: "http://xmlns.com/foaf/0.1/lastName", 
+              selector: {
+                value: "td:nth-child(2)", 
+                type:  "css", 
+              }, 
+            }, 
+            {
+              command: "value-of", 
+              property: "http://xmlns.com/foaf/0.1/phone", 
+              selector: {
+                value: "td:nth-child(3)", 
+                type:  "css", 
+              }, 
+            },
+            {
+              command: "call-template", 
+              name: "detail", 
+              selector: {
+                value: [
+                  {
+                    value: "td.detail a", 
+                    type:  "css", 
+                  }, 
+                  {
+                    value: "@href", 
+                    type: "xpath", 
+                  }, 
+                ], 
+                type: "chained", 
+              }, 
+            }, 
+          ], 
+        }, 
+      ], 
+    }, 
+    {
+      name: "detail", 
+      steps: [
+        {
+          command: "value-of", 
+          property: "http://xmlns.com/foaf/0.1/nickname", 
+          selector: {
+            value: ".nick", 
+            type:  "css", 
+          }, 
+        },
+      ], 
+    }, 
+  ], 
+}
+\endtt
+
 
 
 

@@ -1,26 +1,33 @@
 \label[chap:implementation] 
 \chap Program Implementation
 
+This chapter describes the implemented prototype.
+
+\midinsert \clabel[pic:sowl-crowler-stack]{Overview of the whole stack and files exchanged}
+\picw=7.5cm \cinspic sowl-crowler-stack.png
+\caption/f Overview of the whole stack and files exchanged
+\endinsert
+
 \sec Libraries XXX
 
 \secc rdfQuery
 
 \picw=1cm \cinspic rdfquery-logo.png
 
-rdfQuery is a javascript library for RDF-related processing. It supports RDFa,
+RdfQuery is a JavaScript library for RDF-related processing. It supports RDFa,
 RDF, OWL for parsing data, it can dynamically embed HTML webpage with RDFa
-data. rdfQuery is written in similar style as jQuery, popular Javascript
+data. RdfQuery is written in similar style as jQuery, popular JavaScript
 library. The intended use is to write queries over data stored in rdfQuery
 internal datastore in similar way as DOM object are queried using jQuery.
 Moreover the whole concept is based on SPARQL keywords, taking the best from
-each world XXX. 
+each XXX. 
 
 \url{https://code.google.com/p/rdfquery/}
 
 
 \secc aardvark
 
-Aardvark is a javascript engine for in place modifications of a webpage. It
+Aardvark is a JavaScript engine for in place modifications of a webpage. It
 allows user to select, delete, or highlight part of HTML page. It's been
 released in two forms: as a bookmarklet and a Firefox extension. The later was
 used in a modified form in the InfoCram 6000 and later in one of SOWL
@@ -30,7 +37,7 @@ removed and replaced with procedures following the SOWL's workflow.
 In current Implementation of SOWL we create different type of Firofox extension
 using new SDK. Moreover the aardvark code is injected directly into the webpage
 using the Content Script feature of Firefox SDK. According to these differences
-the bookmarklet version better fitts the needs and is used. The code was included
+the bookmarklet version better fits the needs and is used. The code was included
 in the addon and extended with features necessary for SOWL. 
 
 The added/modified features are namely: the selector creation feature, the
@@ -56,7 +63,7 @@ each context separately and/or both at the same time.
 
 \secc Strigil/XML
 
-Scrigil, the scraping platform in order to solve similar problem as crOWLer
+Strigil, the scraping platform in order to solve similar problem as crOWLer
 introduces it's own XML based Scraping Script format. It's documentation can be
 found here XXX
 \urlnote{https://drive.google.com/file/d/0B4On-lGb38CgWlAyZDhGbDV2TFk/edit
@@ -65,8 +72,8 @@ Scraping script documentation}.
 Basis of the whole script is system of {\em templates}. Each template has a name
 and mime-type declaring type of document the template is designed for. This
 information is needed as Strigil supports HTML and also Excel spreadsheet
-files. Templates call each other using {\tt call-template} commad anywhere in
-the script. This command accepts URL as an argument from it's nested commands.
+files. Templates call each other using {\tt call-template} command anywhere in
+the script. This command accepts URL as an argument from its nested commands.
 Each template is called only with new URL, thus on new document. Of course URL
 of current document can be passed as an argument, but due to nature of Strigil,
 this would create completely separate context. 
@@ -80,15 +87,15 @@ timeouts, there is no guaranteed order in which documents will be scraped.
 Each of Strigil templates create it's own context when called. If we want to
 link data obtained from different template calls we have to use some additional
 techniques. For example we can assign some properly defined, non-random, unique
-identifiers to an object. This identifier have to be quaranteed to be the same
-for the same object through different template calls and potentionally on
+identifiers to an object. This identifier have to be guaranteed to be the same
+for the same object through different template calls and potentially on
 different pages. 
 
 To handle ontological data manipulation the commands {\tt onto-elem} and {\tt
 value-of} are used. First one creates an individual of given type and, if
 nested into different {\tt onto-elem} relates this new individual to it's
 parent with some property. Literals are assigned to properties of parent object
-using {\tt value-of} commad with property name specified. This command is very
+using {\tt value-of} command with property name specified. This command is very
 powerful with usage regular expressions, selectors or nested calls of itself it
 can create arbitrary values from constants and data obtained from web page
 being processed. 
@@ -116,7 +123,7 @@ format and several others. Some functions, like the last one mentioned, cover
 task-specific issues and Strigil doesn't define a way to extend the list of
 functions. 
 
-In early stages of SOWL developement an attempt was made to use original
+In early stages of SOWL development an attempt was made to use original
 Strigil/XML as a format of choice. An appropriate, consistent subset was chosen
 that would cover required use cases. Implementation of simple use cases
 revealed some pitfalls of this decision and revealed several suggestions for
@@ -128,13 +135,13 @@ improvements on the approach and the format itself.
 Strigil creates it's scraping script internally hidden under GUI and leaves
 user unaware of it's actual content. It might still serve well, at least for
 developers, to keep the script compact and easily readable. Addition of
-language tag as seen in previous chapter, is widely used patter that polutes
-the resulting stcript with unnecessary overload. Suggested improvemend would
+language tag as seen in previous chapter, is widely used pattern that polutes
+the resulting script with unnecessary overload. Suggested improvement would
 separate this functionality into an extra attribute of the {\tt value-of} tag
 named {\tt lang}.
 
 The same suggestion can be applied to the data-type specification. Moreover
-{\em implicit parsing} of known datatypes would not only simplify the scraping
+{\em implicit parsing} of known data types would not only simplify the scraping
 script, but also help to clean and clear the resulting data. 
 
 Let's imagine hypothetical scenario of two similar tables on one page
@@ -142,8 +149,8 @@ containing two sets of data in the same format. For such a case we would need
 to define a template on subset of DOM and call it twice with different root
 node. Creation of {\tt dom-template} and {\tt call-dom-template} tags would
 solve this issue and would allow scenario creator to narrow down his focus to a
-subpart of the scraped webpage. This would be particullarly usefull on
-compicated pages with a lot of nested HTML. {\tt dom-template} and {\tt
+subpart of the scraped webpage. This would be particularly useful on
+complicated pages with a lot of nested HTML. {\tt dom-template} and {\tt
 call-dom-template} would be defined within a single {\tt template} tag and
 unlike {\tt call-template}, they would {\em keep} the ontological context co
 call of {\tt value-of} within {\tt dom-template} would assign a property to
@@ -161,17 +168,17 @@ being processed. In crOWLer we opted to switch from JSOUP to WebDriver library
 and use PhantomJs, a no-GUI web browser. This technology allow us to handle
 webpages the same way as user sees them. 
 
-Usage of actual full-stack web browser with javascript engine long with
-WebDriver allows us to inject and execute arbitrary javascript code into the
+Usage of actual full-stack web browser with JavaScript engine long with
+WebDriver allows us to inject and execute arbitrary JavaScript code into the
 processed webpage. In order to make full use of this feature we can define {\tt
-function-def} tag which would define javascript function with name and params
-and contain it's code. To execute this function we would call {\tt
+function-def} tag which would define JavaScript function with name and
+parameters and contain it's code. To execute this function we would call {\tt
 function-call} and identify it by it's name. Return value of this function can
 be then used the same way as the one from {\tt value-of} tag. 
 
-From the experience with developement on Strigil/XML we can derive, that it is
+From the experience with development on Strigil/XML we can derive, that it is
 tied with it's intended use for distributed downloader and it lacks some
-functionality. In SOWL we would almost necesarily modify it's formal definition
+functionality. In SOWL we would almost necessarily modify it's formal definition
 and thus it is of consideration if we can't make use of more appropriate
 format. 
 
@@ -179,7 +186,7 @@ format.
 
 \secc SOWL/JSON
 
-As all Firefox extensions, SOWL is written entirely using javascript with
+As all Firefox extensions, SOWL is written entirely using JavaScript with
 additional HTML defining the graphical layout. Early stages of implementation
 generated XML based on Strigi/XML format using hardcoded XML snippets and
 string formating -- approach often used on webpages with dynamically loaded
@@ -191,7 +198,7 @@ complexity it looses elegance, readability and can even cause performance
 issues. 
 
 Original data of the scenario created by SOWL are stored naturally in
-javascript object. Using sntadard javascript method {\tt JSON.stringify()} we
+JavaScript object. Using standard JavaScript method {\tt JSON.stringify()} we
 can immediately generate JSON serialization of such object. This way we have
 structure similar to the original defined by Strigil/XML, but in flexible
 structure. Obviously some adaptations are necessary. Nesting is recorded using
@@ -203,124 +210,29 @@ properties. XXX not true anymore ;)
 
 The final scenario for Use Case 1 XXX looks like this: 
 
-XXX move this into Attachement
+\ref[app:sowljson]
 
-\begtt
-{
-  type: "scenario", 
-  name: "manual", 
-  ontology: {
-    base: "http://kub1x.org/onto/dip/t/", 
-    imports : [
-      {
-        prefix: "foaf", 
-        uri: "http://xmlns.com/foaf/0.1/", 
-      }, 
-      {
-        prefix: "kbx", 
-        uri: "http://kub1x.org/onto/dip/t/", 
-      }, 
-    ], 
-  }, 
-  creation-date: "2014-11-30 12:40", 
-  call-template: {
-    command: "call-template", 
-    name: "init", 
-    url: "http://www.inventati.org/kub1x/t/", 
-  }, 
-  templates: [
-    {
-      name: "init", 
-      steps: [
-        {
-          command: "onto-elem", 
-          typeof: "http://xmlns.com/foaf/0.1/Person", 
-          selector: {
-            value: "tr", 
-            type: "css", 
-          }, 
-          steps: [
-            {
-              command: "value-of", 
-              property: "http://xmlns.com/foaf/0.1/firstName", 
-              selector: {
-                value: "td:nth-child(1)", 
-                type: "css", 
-              }, 
-            }, 
-            {
-              command: "value-of", 
-              property: "http://xmlns.com/foaf/0.1/lastName", 
-              selector: {
-                value: "td:nth-child(2)", 
-                type:  "css", 
-              }, 
-            }, 
-            {
-              command: "value-of", 
-              property: "http://xmlns.com/foaf/0.1/phone", 
-              selector: {
-                value: "td:nth-child(3)", 
-                type:  "css", 
-              }, 
-            },
-            {
-              command: "call-template", 
-              name: "detail", 
-              selector: {
-                value: [
-                  {
-                    value: "td.detail a", 
-                    type:  "css", 
-                  }, 
-                  {
-                    value: "@href", 
-                    type: "xpath", 
-                  }, 
-                ], 
-                type: "chained", 
-              }, 
-            }, 
-          ], 
-        }, 
-      ], 
-    }, 
-    {
-      name: "detail", 
-      steps: [
-        {
-          command: "value-of", 
-          property: "http://xmlns.com/foaf/0.1/nickname", 
-          selector: {
-            value: ".nick", 
-            type:  "css", 
-          }, 
-        },
-      ], 
-    }, 
-  ], 
-}
-\endtt
+
 
 \secc Consequences of conversion to JSON format
 
-XXX We don't have "text content" like XML elments can, but Strigil doesn't really use that
+XXX We don't have "text content" like XML elements can, but Strigil doesn't really use that
 
 XXX We don't have child nodes.. so we have to keep them in an array, like in {\tt steps} 
 
 XXX But hey, we can use any key to store a substep, not only the array, we
 practically use different approach here.. instead of tree structure we have
-tree of hashmaps. 
+tree of hash maps. 
 
 The {\tt onto-elem} command benefits exactly from this difference between
 XML and JSON.  In original Strigil/XML the {\tt onto-elem} tag allow us to
-specify URI of the resulting individual (as commonly denoted by te {\em about}
+specify URI of the resulting individual (as commonly denoted by the {\em about}
 property), by taking it from from it's ``first child'' which is expected to
-be {\tt value-of} tag. Needles to say, this specification loweres robustness as
+be {\tt value-of} tag. Needles to say, this specification lowers robustness as
 the position in the XML file isn't enforced by the syntax and can be easily
 unintentionally broken by accidental swap of two elements, although it wouldn't
 invalidate the files syntax and thus won't be captured by the script parser. In
-the JSON format we lack the notion of child elments. Even when we simulate it
+the JSON format we lack the notion of child elements. Even when we simulate it
 as mentioned before, we'd only cause the same indetermination. So instead, we
 simply reserve a property named {\tt about} exactly for the described use. 
 The same technique is used to specify URL for a {\tt call-template} on it's
@@ -342,58 +254,58 @@ XXX
 XXX include class diagram..?
 
 
-\secc Javascript and events support
+\secc JavaScript and events support
 
-Special attention have to be paied when dealing with direct interaction with
+Special attention have to be payed when dealing with direct interaction with
 DOM elements and script execution. WebDriver supports injection and execution
-of javascript as well as simulation of user interactions like ``click'' on
+of JavaScript as well as simulation of user interactions like ``click'' on
 element or ``back'' and ``forward'' navigation. Even though it brings great
 power there are considerations and great limitations to be taken in account. 
 
-WebDriver supports execution of javascript directly on webpage loaded in the
+WebDriver supports execution of JavaScript directly on webpage loaded in the
 driver. This is done by calling {\tt executeScript} or {\tt executeAsyncScript}
 function on the {\tt driver} object. First argument of these functions is
-string defining content of javascript function we want to execute. Header and
-actual call of this function will be added for us before it get's attached to
+string defining content of JavaScript function we want to execute. Header and
+actual call of this function will be added for us before it gets attached to
 the webpage. We can pass any number of accepted arguments to these functions
 and they will be accessible through standard {\tt arguments} object in on the
-javascript side. Types, corresponding to standard javascript types are
+JavaScript side. Types, corresponding to standard JavaScript types are
 supported as arguments: number, boolean, String, WebElement or List of any
 combination of the previous~\urlnote{http://goo.gl/Hhwq3l Selenium
-JavascriptExecutor documentatnion}. The second -- asynchronous version returns
+JavaScriptExecutor documentation}. The second -- asynchronous version returns
 immediately with a {\tt response} object. It provides callback as additional
-argument to the javascript call. This callback is used for synchronization when
+argument to the JavaScript call. This callback is used for synchronization when
 accessing the result on the {\tt response} object from Java.  
 
 XXX TODO better example this one is from
-here~\urlnote{http://docs.seleniumhq.org/docs/03_webdriver.jsp\#using-javascript}
+here~\urlnote{http://docs.seleniumhq.org/docs/03_webdriver.jsp\#using-JavaScript}
 
 \begtt
 List<WebElement> labels = driver.findElements(By.tagName("label"));
-List<WebElement> inputs = (List<WebElement>) ((JavascriptExecutor)driver).executeScript(
+List<WebElement> inputs = (List<WebElement>) ((JavaScriptExecutor)driver).executeScript(
     "var labels = arguments[0], inputs = []; for (var i=0; i < labels.length; i++){" +
     "inputs.push(document.getElementById(labels[i].getAttribute('for'))); } return inputs;", labels);
 \endtt
 
-In simple case we can use javascript to extend functionality of crowler. It
-might be used as a complex string formater, parser for nontrivial values etc. 
+In simple case we can use JavaScript to extend functionality of crOWLer. It
+might be used as a complex string formatter, parser for nontrivial values etc. 
 In following example it is used to condition on attribute value of an anchor
 tag. 
 
 \begtt
 WebElement el = driver.findElement(By.cssSelector('a.detail'));
-String result = (String) ((JavascriptExecutor)driver).executeScript(
+String result = (String) ((JavaScriptExecutor)driver).executeScript(
 "var elem = arguments[0];"+
 "var href = elem.getAttribute('href');" +
 "return (href ==='#' ? window.location.href : href);", el);
 \endtt
 
 Previous example is simple, yet if we wanted to cover this use case with our
-scenarion implementation we would bring a lot of problem-specific XXX balast XXX
+scenario implementation we would bring a lot of problem-specific XXX balast XXX
 into the scenario syntax. We would have to use special syntax for obtaining
 current URL and for conditioning on values. Following code demonstrates how this 
 functionality might look if it was covered only by scenario syntax without usage
-of javascript. The {\tt getCurrentUrl} function is inspired by Strigil. 
+of JavaScript. The {\tt getCurrentUrl} function is inspired by Strigil. 
 
 \begtt
 {
@@ -411,16 +323,16 @@ of javascript. The {\tt getCurrentUrl} function is inspired by Strigil.
 }
 \endtt
 
-We've declared the {\tt conndition} command with implementation of {\em eq}
+We've declared the {\tt condition} command with implementation of {\em eq}
 operator (and probably several other un/equality operators) and the {\tt
 function} command with implementation of {\em getCurrentUrl} which, again,
 probably isn't the last function to be implemented. All this would require
-update of the scenario parser, the implemtation for commands and all their
-atributes and thus update of the whole backend every time, new functionality is
-needed. The advantage is, that user doesn't have to know javascript and
-understand how it is called in webdriver. It is discutable if 
+update of the scenario parser, the implementation for commands and all their
+attributes and thus update of the whole backend every time, new functionality is
+needed. The advantage is, that user doesn't have to know JavaScript and
+understand how it is called in WebDriver. It is discutable if XXX
 
-With use of javascript it might look as follows: 
+With use of JavaScript it might look as follows: 
 
 \begtt
 {
@@ -431,41 +343,42 @@ With use of javascript it might look as follows:
 }
 \endtt
 
-In this case we embeded only the {\tt value-of} with a single attribute that
-takes javascript. From there we have technically unlimited power for extending
-the functionality of the crOWLer without need of changing the Java implemntation. 
+In this case we embedded only the {\tt value-of} with a single attribute that
+takes JavaScript. From there we have technically unlimited power for extending
+the functionality of the crOWLer without need of changing the Java
+implementation. 
 
-Note that the first line of the original javascript was ommited: 
+Note that the first line of the original JavaScript was omitted: 
 
 {\tt var elem = arguments[0];} 
 
-It can be automatically prepended every time, we exec javascript on a single
+It can be automatically prepended every time, we exec JavaScript on a single
 DOM element. It is a simple helper and doesn't interfere with anything XXX (as
 we can redefine variable as many times as we want). Similarly we could
-predefine variable {\tt value} when passing a string or number to a javascript
+predefine variable {\tt value} when passing a string or number to a JavaScript
 function. 
 
 But with great power comes a great current squared times
-resistance~\urlnote{http://www.xkcd.com/643/} XXX. With usage of javascript as
+resistance~\urlnote{http://www.xkcd.com/643/} XXX. With usage of JavaScript as
 suggested in previous paragraphs we have to take in account two major
 considerations. 
 
-Firstly, javascript function can accept any number of parameters and return an
+Firstly, JavaScript function can accept any number of parameters and return an
 arbitrary value. In both cases, the parameters and the return value, we can be
-of any of the allowed types (as javascript isn't strongly typed language). We
+of any of the allowed types (as JavaScript isn't strongly typed language). We
 thus have to specify what exact parameters are being passed to a function and
-what result is expected. We also have to implement a robust way of controllig
+what result is expected. We also have to implement a robust way of controlling
 and properly define a fallback-on-error behavior. This is especially important
-as we might want to use javascript function not only as a string filter, but also
+as we might want to use JavaScript function not only as a string filter, but also
 for example as a universal selector where we struggle with classical selectors. 
 Any additional use have to be described separately before it can be universally
 used. 
 
 More importantly, there is the second consideration. Any DOM element is
-accessible from the javascript function. When this element is modified or even
+accessible from the JavaScript function. When this element is modified or even
 removed, it becomes invalid from the Java context. The same applies for
 operations on the whole page. When a link is followed, the original DOM tree 
-is dropped and all refferences are lost. 
+is dropped and all references are lost. 
 
 To specify the behavior during this issue, below you can see a simple test.
 When link is clicked, the webdriver follows the link in current window and the
@@ -486,29 +399,29 @@ In crOWLer, we can now distinguish between two ways of ascending to another HTML
 
 \begitems \style n
   * using {\tt call-template} command
-  * using javascript or user event such as ``click'' or ``back''
+  * using JavaScript or user event such as ``click'' or ``back''
 \enditems
 
 The {\tt call-template} is always called on an URL and always creates new web
 context, keeping the original one untouched. It actually behaves like call
 stack, so when we return from the template call, we can follow on the original
-DOM tree. Just to note: ompared to corresponding Strigil command, crOWLer
-persists the ontological context throught this call, and so we can relate to it
+DOM tree. Just to note: compared to corresponding Strigil command, crOWLer
+persists the ontological context throughout this call, and so we can relate to it
 when assigning properties. 
 
-Direct interaction with current window in any way that chnages page location
-will, however, irreversibly invalidate all the elments of current DOM. This
+Direct interaction with current window in any way that changes page location
+will, however, irreversibly invalidate all the elements of current DOM. This
 doesn't have to mean we can't use this functionality all together. Probably the
-best solution would be to only allow DOM modificatig operations on the bottom
+best solution would be to only allow DOM modifying operations on the bottom
 level of templates (i.e. within the {\tt steps} property of the {\tt template}
 command in scenario). At this place we only hold the {\tt body} of current
 document and as such we can simply replace it with the newly loaded content. 
 In the original crOWLer implementation, this would be the spot between two
 ``Initial Definitions''. 
 
-Even thought the Javascript is sandboxed in WebDriver, it is still running in a
+Even thought the JavaScript is sandboxed in WebDriver, it is still running in a
 browser in your computer and could technically submit some data on a web.
-Secourity issues haven't been considered so far, but might become a point of
+Security issues haven't been considered so far, but might become a point of
 interest when we take in account an option of obtaining and executing scenarios
 from unknown sources. 
 

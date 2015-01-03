@@ -2,7 +2,7 @@
 \chap Program design
 
 This chapter defines the overall behavior of the program derived from
-requiroments as well as the proposed design. 
+requirements as well as the proposed design. 
 
 \sec Workflow
 
@@ -12,14 +12,14 @@ for both SOWL and crOWLer part of the implementation.
 \secc Main line
 
 \begitems
-  * user loads/creates ontology using sowl
+  * user loads/creates ontology using SOWL
   * user opens webpage with data
-  * user creates scenario using sowl
+  * user creates scenario using SOWL
   \begitems
     * user adds selectors to scenario steps
     * user adds resources to scenario steps
   \enditems
-  * sowl sends scenario to crOWLer
+  * SOWL sends scenario to crOWLer
   * crOWLer crawls the web according to scenario and stores results in a file
     or repository
 \enditems
@@ -28,10 +28,10 @@ for both SOWL and crOWLer part of the implementation.
 \secc Scenario creation
 
 \begitems
-  * user starts scenario creation in sowl
+  * user starts scenario creation in SOWL
   * loop until finished:
   \begitems
-    * user creates a step in scenarion
+    * user creates a step in scenario
     * user selects an element on page, a selector is generated if applicable,
       on the step
     * user selects a resource, resource is updated on the appropriate field of
@@ -50,7 +50,7 @@ for both SOWL and crOWLer part of the implementation.
   \begitems
     * existing template can be assigned to the action (no need to actually
       follow the link)
-    * new tamplete can be created for resulting action (resulting page loaded,
+    * new template can be created for resulting action (resulting page loaded,
       new template created)
   \enditems
 \enditems
@@ -67,7 +67,7 @@ for both SOWL and crOWLer part of the implementation.
 
 \sec User Interface
 
-Here the required stucture of user interface is described. 
+Here the required structure of user interface is described. 
 
 \secc SOWL user interface
 
@@ -86,7 +86,7 @@ other user action.
 
 \secc crOWLer user interface
 
-crOWLer is a console application. It shall accept scenario as one of it's parameters. 
+CrOWLer is a console application. It shall accept scenario as one of it's parameters. 
 Following settings shall be enabled using parameters as well:
 \begitems
   * setting of target directory for RDF files
@@ -107,24 +107,24 @@ new API and limits usage of older libraries or low level calls by wrapping it
 in consistent API. 
 
 The SDK based addons have partially predefined structure. The {\em background script}
-runs in it's own scope and uses the SDK API to controll the addon's behavior.
-The {\em content script} is a javascript code that is injected into a webpage
+runs in it's own scope and uses the SDK API to control the addon's behavior.
+The {\em content script} is a JavaScript code that is injected into a webpage
 but runs in it's own sandboxed overlay, while having access to pages DOM and
-javascript content. In SOWL, the scenario editor will be placed into a sidebar.
-Sidebar holds standard HTML window object in which the javascript code is
+JavaScript content. In SOWL, the scenario editor will be placed into a sidebar.
+Sidebar holds standard HTML window object in which the JavaScript code is
 running.  All three components communicate via textual messages using {\tt
 port} object offered internally by by Firefox. 
 
 \midinsert
-\picw=12.5cm \cinspic sowl-components.png
-\caption/f A component structure of the SOWL firefox addon. 
+\picw=12cm \cinspic sowl-components.png
+\caption/f A component structure of the SOWL Firefox addon. 
 \endinsert
 
 
 \secc crOWLer model
 
 In the new implementation of the scraping backend the original JSOUP component
-will be replaced by WebDriver. WebDriver, with it's support for javascript,
+will be replaced by WebDriver. WebDriver, with it's support for JavaScript,
 will help to handle dynamic content and brings in new possibilities for the
 crOWLer itself. The original configuration component is replaced by parser for
 the SOWL/JSON scenario format (XXX ref).  The core crOWLer is also

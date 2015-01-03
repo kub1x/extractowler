@@ -305,7 +305,7 @@ names, positions and other identifiers, if applicable.
 
 Additional requirement on SOWL to those in Use Case 1 \ref[sec:intro:uc1]: 
 \begitems
-  * allow manual ressources creation
+  * allow manual resources creation
   * record the {\tt click} event 
   * OR
   * access the {\tt onclick} attribute
@@ -427,9 +427,9 @@ the table) whereas in this use case, we only perform the ``click'' when we need
 to load completely new set of data. The difference might not seem so essential
 at a first glance but the devil is in the detail: user action modifies or
 replaces current DOM object and the original information is lost. This does not
-apply to regular trasnfer to a new page using URL because we can use completely
+apply to regular transfer to a new page using URL because we can use completely
 separate REST call. Technically it is identical to clicking a ling versus
-openning it in a new tab in your browser, only in crOWLer these operations are
+opening it in a new tab in your browser, only in crOWLer these operations are
 performed internally on lower level. 
 
 
@@ -458,7 +458,7 @@ user-defined set of ontological resources.
 
 In previous implementation, both, the scenario, followed by the crawler, and
 the ontology structure/schema are hard-coded into the crOWLer code. This
-equires unnecessary load of work for each separate use case, whilst in
+requires unnecessary load of work for each particular use case, whilst in
 practice all the use cases share the same workflow. 
 
 \begitems \style n
@@ -468,22 +468,22 @@ practice all the use cases share the same workflow.
   * run the crawling process according the above
 \enditems
 
-In the initial crOWLer implementation it is necessary to fulfill the first
-three steps with an actual programming. In order to perform this task, we need
+In the original crOWLer implementation it was necessary to fulfill the first
+three steps with an actual programming. In order to perform this task, we needed
 to have a programmer with knowledge of Java programming language, and several
-technologies used on the web, along with knowledge of the domain of data being
-scraped in order to correctly choose appropriate resources for annotation.
-There is also a huge overload in preparation of development environment and
-learning time of the crOWLer implementation. The need of more elegant and
-generic solution is evident. 
+technologies used on the web. Moreover a knowledge of the domain of data being
+scraped is needed in order to correctly choose appropriate resources for
+annotation. There is also a huge overload in preparation of development
+environment and learning time of the crOWLer implementation. The need of more
+elegant and generic solution is evident. 
 
 
 \sec Proposed Solution and Methodology
 
-To simplify the creation of guidelines, or scenarios for crOWLer, we propose a
-tool that allows user to select all the element directly on the web page being
-crawled, with all the necessary settings, pass the scenario created to the
-crOWLer and obtain the results in a form of RDF graph. 
+To simplify the creation of guidelines -- scenarios -- for crOWLer, we will propose a
+tool that allows user to select elements directly on the crawled web page, with
+all the necessary settings, pass the scenario created to the crOWLer and obtain
+the results in a form of RDF graph. 
 
 
 \sec Specific goals of the project
