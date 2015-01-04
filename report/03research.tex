@@ -1,7 +1,7 @@
 \label[chap:research]
 \chap Existing solutions % and Research
 
-In this chapter we will describe the research made on existing solutions for
+In this chapter we will describe the research on existing solutions for
 given task (scraping and annotating data from a web). The performed search was
 focused on tools directly targeting the problem, as well as libraries and
 technologies that could be included in the solution or existing open source
@@ -17,15 +17,14 @@ available solution that would directly follow the required workflow and
 fulfill the requirements. 
 
 Existing tools named as ``Ontology-based Web Crawlers'' refer mostly to crawlers
-that ``rank'' pages being crawled by guess-matching them against some ontology.
+that rank pages being crawled by guess-matching them against some ontology.
 In those programs user can not specify data that are being retrieved. Moreover,
 there is no way to get involved in the crawling process. The tool is solely
-used to automatically rank the relevance of documents. They are solving
-different task where input is several documents and possibly an ontology and
-output is the best matching document. 
+used to automatically rank the relevance of documents which solves different
+set of problems. 
 
-In case we are trying to solve the input is one or more documents and one or
-more ontologies and the result is data retrieved from the documents and
+In the case we are trying to solve, the input is one or more documents and one
+or more ontologies. The result is data retrieved from the documents and
 annotated with resources from the ontologies. 
 
 
@@ -46,8 +45,8 @@ approach takes a lot of energy for one time only solution of a given problem.
 
 By storing such crawled data into database we obtain persistent database,
 possibly automatically obtained by the script from previous case. Such data is
-static, but can be queried over and over and possibly re-retrieved when becomes
-obsolete. Its structure is, however, based on programmers imagination an
+static, but can be queried over and over and possibly re-retrieved when it becomes
+obsolete. Its structure is, however, based on programmer's imagination and
 needs to be described in order to understand and handle the data properly. 
 
 When a triple store is used as the database in previous case we obtain one-time
@@ -59,7 +58,7 @@ data from web, we obtain several benefits ``for free''. The tool designed
 specially for this purpose makes it easy. Once the data is annotated, we can
 not only query on them, but also automatically reason on them and obtain more
 or more specific/narrow results than with general data. The attributes and
-relations within ontology, that allow reasoning, are usually part of the
+relations within ontology that allow reasoning, are usually part of the
 ontology definition and as such comes in naturally without any extra effort. 
 
 Last for benefits: using ontology from public resource as a schema for our data
@@ -69,18 +68,21 @@ structured according to this ontology and simply query on resulting super set.
 
 ~
 
-Semantic crawling is not a silver bullet. The technology is only finding its
-place and uses and it is being shaped by the needs of its users.
+%Semantic crawling is not a silver bullet. The technology is only finding its
+%place and uses and it is being shaped by the needs of its users.
+
+However, semantic crawling is not a silver bullet yet. This technology is still
+finding its place and uses and is constantly shaped by the needs of the users.
 
 For instance there is always a threat of inconsistency of an ontology when some
 data do not fit the rules or break structure of an ontology. In its state from
 April 2014 DBpedia states, there is 3.64 million resources, out of which 1.83
 million are classified in a consistent Ontology \cite[dh:dbpedia]. That is only 
-half of the data being arguably consistent with each other. That does not say
-the rest is bad. Only that it might cause a inconsistency and prevent us from
-reasoning if we include a wrong subset of the data. 
+half of the data being arguably consistent with each other. This does not mean 
+that the rest of the data is bad; however it might cause a inconsistency and
+prevent us from reasoning on the data if we include a wrong subset of the data. 
 
-Just like with ``hardcoded'' crawling technique, the semantic crawling is
+Just like with hardcoded crawling technique, the semantic crawling is
 tightly bound to the structure of the crawled web. The web is being matched
 against some pattern described by selectors and the matching element, when
 found, is accepted for further processing. Any change on a webpage structure
@@ -88,13 +90,13 @@ can lead to broken selectors or links during the crawling process and make the
 scenario partially or completely invalid. 
 
 Many web pages load their data dynamically using AJAX queries. Some pages
-simply change its content frequently (e.g. news pages, forums, user content
+simply change their content frequently (e.g. news pages, forums, user content
 pages, like video or music servers and social web applications). Crawling
 content on such servers would require almost constant crawling and would cause
 growth into massive ontology of, oftentimes, questionable quality. 
 
 The semantic crawling is an useful way to effectively obtain and query on
-data from the web, but it still have its challenges to overtake. 
+data from the web, but it still have its challenges to overcome. 
 
 
 \label[sec:crowler]
@@ -164,8 +166,8 @@ different pages for example.
 
 \secc Issues of crOWLer configuration
 
-From deeper analysis of the original crOWLer source we can observe, that the
-whole scraping process rely on the configuration defining it -- a set of Java
+From deeper analysis of the original crOWLer source we can observe that the
+whole scraping process relies on the configuration defining it -- a set of Java
 classes, implementing the predefined interfaces and using the API provided.
 
 This reveals the issue being addressed. Writing a crOWLer configuration
@@ -200,7 +202,7 @@ simplified snipped of actual configuration building code of original crOWLer
 implementation. It uses {\tt NPU} class as simple static storage for URIs used
 in our ontology. According to this configuration a {\em monumnetRecord} object
 is created for each table row as defined by the {\tt initialDefinition}. The
-second part create {\em district} object with its label (found in third table
+second part creates {\em district} object with its label (found in third table
 column denoted by the {\tt td:eq(2)} JSOUP selector) and assigns it to the
 record using {\em hasDistrict} object property. The {\tt conf} object holds the
 configuration being passed to the actual crawler. 
@@ -367,7 +369,7 @@ functionality implemented so far, we would have to cover the:
 \label[sec:strigil]
 \sec Strigil
 
-Strigil is a ontological scraping system developed at  Faculty of Mathematics
+Strigil is an ontological scraping system developed at  Faculty of Mathematics
 and Physics of the Charles University in
 Prague~\urlnote{http://xrg.ksi.ms.mff.cuni.cz/software/ld/ldi.html\#strigil}.
 It represents an easily configurable tool that enables users to retrieve data
@@ -380,9 +382,9 @@ from textual or weak structured documents. \cite[iiwas2013:strigil]
 
 It consists of {\em Data Application} in a form of webserver and backend
 service providing {\em Download System} for the application. The webserver
-offers frontend for configuring the crawling process. The application ten
+offers frontend for configuring the crawling process. The application then
 follows the configuration scraping the data and storing results while using the
-backend handle downloading. Strigil strongly focusses on the download process.
+backend handle downloading. Strigil strongly focuses on the download process.
 Components of the backend conform in a structure of {\em DownloadManager}, {\em
 Downloader}s and {\em Proxy} servers that help to distribute the load of data
 being transfered. 
@@ -391,7 +393,7 @@ The frontend part serves user interface for handling ontological data on top of
 a web being scraped. It internally creates a scraping script (will be
 referred to as Strigil Scraping Script or Strigil/XML) which strongly inspired
 format for scenario used in the actual implementation later in this work and
-will be closely analyzed in next chapter \ref[chap:design]. 
+will be closely analyzed in chapter \ref[chap:design]. 
 
 
 \secc What problem does it solve?
@@ -477,7 +479,7 @@ work. The actual implementation will be covered in later chapters.
 \secc InfoCram 6000 -- ExtBrain
 
 InfoCram 6000 is part of project ExtBrain \urlnote{http://www.extbrain.net}
-that is developed here on Department of Computer Science. This specific part
+that is developed on Department of Computer Science. This specific part
 was implemented by Jiří Mašek and is described as ``prototype of user
 interface for visual definition of extraction rules for ExtBrain Extractor''.
 Its intended usage is very close to the usage of SOWL. It is an Firefox
@@ -535,18 +537,20 @@ no-gui web browser for running tests without a need for actual browser, for
 cases when tests are being executed automatically in background or on server
 environment without X server or other form of graphical interface. The
 capabilities of WebDriver make it one of the most popular testing platforms for
-web servers nowadays XXX. 
+web servers nowadays. 
 
-\begitems
-  * IDE - \url{http://www.seleniumhq.org/projects/ide/}
-  * plugins - \url{http://www.seleniumhq.org/projects/ide/plugins.jsp}
-  * current commands - \url{http://release.seleniumhq.org/selenium-core/1.0.1/reference.html}
-  * documentation - \url{http://docs.seleniumhq.org/docs/index.jsp}
-  * extending selenium API (blog, tutorial) - \url{http://adam.goucher.ca/?s=selenium&paged=2}
-  \begitems
-    * randomString example - \url{http://adam.goucher.ca/?p=1348}
-  \enditems
-\enditems
+%TODO resources??
+%
+%\begitems
+%  * IDE - \url{http://www.seleniumhq.org/projects/ide/}
+%  * plugins - \url{http://www.seleniumhq.org/projects/ide/plugins.jsp}
+%  * current commands - \url{http://release.seleniumhq.org/selenium-core/1.0.1/reference.html}
+%  * documentation - \url{http://docs.seleniumhq.org/docs/index.jsp}
+%  * extending selenium API (blog, tutorial) - \url{http://adam.goucher.ca/?s=selenium&paged=2}
+%  \begitems
+%    * randomString example - \url{http://adam.goucher.ca/?p=1348}
+%  \enditems
+%\enditems
 
 Selenium IDE is a Firefox plugin that allow us to directly record user actions
 on webpage such as following links, storing and comparing values, filling in
@@ -578,12 +582,12 @@ used on IDE by default.
 \caption/f GUI of Selenium IDE showing the Command, Target and Value fields. 
 \endinsert
 
-The functionality of IDE is, however, linked with its layout
+The functionality of IDE is, however, linked to its layout
 \ref[imgseleniumide] and has to be taken in account. Selenium IDE internally
 defines set of commands that can be used in scenarios. List of default commands
 can be seen in dropdown on main screen of the IDE. This list can be extended,
 but the use and structure of commands is implemented internally in Selenium
-IDE. Addition of new commands is XXX accomplished  by extending the {\tt
+IDE. Addition of new commands is accomplished  by extending the {\tt
 Selenium.prototype} object in registered plugin. After the extension is
 processed through internal command loader, a new set of commands is added for
 user to use. 
@@ -604,7 +608,7 @@ multiple versions commands can be created. For example do commands have always
 Selenium.prototype.doClick} will generate the {\tt click} and {\tt
 clickAndWait} command. Accessor commands are even more complex and generate
 eight commands for every single method (positive and negative assertion, store
-method, waitFor, etc.). Implementation of the command method defines, how
+method, waitFor, etc.). Implementation of the command method defines how
 Selenium IDE would behave when ``replying'' the scenario recorded. Technically it
 is possible to leave the implementation empty in the IDE and use it only as a
 command for WebDriver unit test. 
@@ -613,7 +617,7 @@ None of the original command types corresponds to format of commands for
 handling the semantic annotation, like adding URI to element, recording
 creation of individual, assigning literal to its property etc. A new set of
 commands was suggested and partially implemented having the prefix ``owl''.
-This led to changes in core sources of Selenium IDE, which itself is a bad sign
+This led to changes in core sources of Selenium IDE, which by itself is not a good practice
 as it technically creates a new branch of the program. CommandBuilder had to be
 extended directly in the Selenium code as it is impossible to change its
 behavior through native Selenium IDE API. Unfortunately, even though the new
@@ -621,8 +625,9 @@ command type was implemented, it is not possible to change the more general
 concept of all commands. Every command is stored as {\tt (name, target, value)
 }~\urlnote{https://code.google.com/p/selenium/source/browse/ide/main/src/content/commandBuilders.js
 the CommandBuilder implementation} triple and from this format everything is
-derived. It is technically impossible to create command for example for literal
-along with its language tag as there is simply no field for it. For the same
+derived. It is technically impossible to create command for example for a
+creation of an ontological literal 
+along with its language tag assignment as there is simply no field for it. For the same
 reason we cant create a command to create an ontological object of some type as
 a property of another object.  These commands relate to each other, but such a
 behavior is not supported by the scenario editor in its current architecture.
@@ -656,7 +661,7 @@ loaded RDF resources.
 
 \secc jQuery
 
-jQuery\cite[jquery] is widely used JavaScript library that simplifies general
+jQuery\cite[jquery] is a widely used JavaScript library that simplifies general
 tasks like DOM manipulation or event handling. A simplified selectors can be
 used to target DOM elements as jQuery internally uses Sizzle\cite[sizzle]
 library for selector handling. Compared to Vanilla JavaScript\cite[vanillajs], jQuery
