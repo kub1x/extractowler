@@ -8,8 +8,17 @@ TODO use cases analysis here?  XXX XXX XXX
 
 \sec Workflow
 
-Derived from previous use case definitions we can derive the general workflow
-for both SOWL and crOWLer part of the implementation. 
+From the use cases defined and from analysis performed on existing solution we
+can derive the general workflow for both SOWL and crOWLer part of the
+implementation. 
+
+\midinsert
+%\clabel[general_workflow]{An activity diagram of the general workflow of the stack}
+\picw=14cm \cinspic general-workflow.png
+%\caption/f Diagram of general workflow as derived from presented use case
+\endinsert
+
+~
 
 \secc Main line
 
@@ -226,30 +235,41 @@ JavaScript object. Using standard JavaScript method {\tt JSON.stringify()} we
 can immediately generate JSON serialization of such object. This way we have
 structure similar to the original defined by Strigil/XML, but in flexible
 structure. Obviously some adaptations are necessary. Nesting is recorded using
-the {\tt steps}, the header section is redesigned for the JSON structure. XXX
+the {\tt steps}, the header section is redesigned for the JSON structure. For
+example instead of listing prefixes in a single string of XML attribute, we
+define object ontology with a map of prefix--URI pairs. 
 
 The original semantics of {\tt onto-elem} and {\tt value-of} was preserved,
-only limited to its basic use. {\tt value-of} serves solely to assign literal
-properties. XXX not true anymore ;) 
+only limited to its basic use. {\tt value-of} serves to assign literal
+properties or to retrieve textual values for its parent scenario step. 
 
-The final scenario for Use Case 1 XXX looks like this: 
-
-\ref[app:sowljson]
-
+An example of the scraping script can be found in appendix~\ref[app:sowljson]. 
 
 
 \secc Consequences of conversion to JSON format
 
-XXX We don not have "text content" like XML elements can, but Strigil does not really use that
+According to difference in syntax between XML and JSON do not have "text
+content" of elements like XML elements can. In JSON we simply reserve a
+property for a value that would be otherwise specified this way in
+corresponding XML. Strigil, however, does not explicitly use the textual values
+and everything is specified using attributes. Some elements return textual
+values to their parents to handle, and in these cases it might be suitable to
+enable textual values as constants instead of the required element. 
 
-XXX We don not have child nodes.. so we have to keep them in an array, like in {\tt steps} 
+Another syntactical distinction is that JSON does not explicitly define child
+nodes. Everything is property in JSON object, so we, again, assign a property
+to store the child nodes. Child nodes are held in ordered list which in
+JavaScript corresponds to an array. As we build a structure of scenario steps,
+the reserved property will be simply called {\tt steps} for every element that
+allows child nodes (e.g. {\tt onto-elem} or {\tt template}). 
 
-XXX But hey, we can use any key to store a substep, not only the array, we
-practically use different approach here.. instead of tree structure we have
-tree of hash maps. 
+Technically each JSON object quacks like a hash
+map~\urlnote{https://en.wikipedia.org/wiki/Duck_typing} with a string keys and
+value of any JavaScript type. We can benefit from this loose structure. For
+example we can use any key to store a substep, not only the {\tt steps} array. 
 
 The {\tt onto-elem} command benefits exactly from this difference between
-XML and JSON.  In original Strigil/XML the {\tt onto-elem} tag allow us to
+XML and JSON. In original Strigil/XML the {\tt onto-elem} tag allow us to
 specify URI of the resulting individual (as commonly denoted by the {\em about}
 property), by taking it from from its {\em first child} which is expected to
 be {\tt value-of} tag. Needles to say, this specification lowers robustness as
@@ -259,14 +279,7 @@ not invalidate the files syntax and thus would not be captured by the script
 parser as an error. In the JSON format we lack the notion of child elements.
 Even when we simulate it as mentioned before, we would only cause the same
 indetermination. So instead, we simply reserve a property named {\tt about}
-exactly for the described use.  The same technique is used to specify URL for a
-{\tt call-template} on its {\tt valueof} property. 
-
-XXX TODO might rename these
-
-XXX call-template might need simple steps array property, as it might follow a
-list of URLs, not only one
-
+exactly for the described use.
 
 
 \label[sec:javascript]
@@ -293,40 +306,47 @@ immediately with a {\tt response} object. It provides callback as additional
 argument to the JavaScript call. This callback is used for synchronization when
 accessing the result on the {\tt response} object from Java.  
 
-XXX TODO better example this one is from
-here~\urlnote{http://docs.seleniumhq.org/docs/03_webdriver.jsp\#using-JavaScript}
+%XXX TODO better example this one is from
+%here~\urlnote{http://docs.seleniumhq.org/docs/03_webdriver.jsp\#using-JavaScript}
 
 \begtt
+JavaScriptExecutor exec = (JavaScriptExecutor)driver;
 List<WebElement> labels = driver.findElements(By.tagName("label"));
-List<WebElement> inputs = (List<WebElement>) ((JavaScriptExecutor)driver).executeScript(
-    "var labels = arguments[0], inputs = []; for (var i=0; i < labels.length; i++){" +
-    "inputs.push(document.getElementById(labels[i].getAttribute('for'))); } return inputs;", labels);
+List<WebElement> inputs = (List<WebElement>) exec.executeScript(
+    "var labels = arguments[0]," +
+    "    inputs = [];" +
+    "for (var i = 0; i < labels.length; i++) {" +
+    "  var name = labels[i].getAttribute('for');" +
+    "  inputs.push(document.getElementById(name));" +
+    "} return inputs;", labels);
 \endtt
 
-In simple case we can use JavaScript to extend functionality of crOWLer. It
+In simple cases we can use JavaScript to extend functionality of crOWLer. It
 might be used as a complex string formatter, parser for nontrivial values etc. 
 In following example it is used to condition on attribute value of an anchor
-tag. 
+tag. A document location if the href tag contains a hash symbol "#" (often 
+used when the link is handled by JavaScript function. 
 
 \begtt
+JavaScriptExecutor exec = (JavaScriptExecutor)driver;
 WebElement el = driver.findElement(By.cssSelector('a.detail'));
-String result = (String) ((JavaScriptExecutor)driver).executeScript(
+String result = (String) exec.executeScript(
 "var elem = arguments[0];"+
 "var href = elem.getAttribute('href');" +
 "return (href ==='#' ? window.location.href : href);", el);
 \endtt
 
-Previous example is simple, yet if we wanted to cover this use case with our
-scenario implementation we would bring a lot of problem-specific XXX balast XXX
-into the scenario syntax. We would have to use special syntax for obtaining
-current URL and for conditioning on values. Following code demonstrates how this 
-functionality might look if it was covered only by scenario syntax without usage
-of JavaScript. The {\tt getCurrentUrl} function is inspired by Strigil. 
+Previous example is simple, yet if we wanted to cover it with our scenario
+implementation we would bring a lot of single-problem-specific syntax into the
+scenario. We would have to use special notation for obtaining current URL and for
+conditioning on values. Following code demonstrates how this functionality
+might look like if it was covered only by scenario syntax without usage of
+JavaScript. The {\tt getCurrentUrl} function is inspired by Strigil. 
 
 \begtt
 {
   command: "condition", 
-  condition: "eq", 
+  condition: "ne", 
   param: "#", 
   value: {
     commad: "value-of", 
@@ -339,16 +359,28 @@ of JavaScript. The {\tt getCurrentUrl} function is inspired by Strigil.
 }
 \endtt
 
-We have declared the {\tt condition} command with implementation of {\em eq}
-operator (and probably several other un/equality operators) and the {\tt
-function} command with implementation of {\em getCurrentUrl} which, again,
-probably is not the last function to be implemented. All this would require
-update of the scenario parser, the implementation for commands and all their
-attributes and thus update of the whole backend every time, new functionality is
-needed. The advantage is, that user does not have to know JavaScript and
-understand how it is called in WebDriver. It is discutable if XXX
+We have declared the {\tt condition} command with implementation of {\em ne}
+the ``not equal'' operator (and for completeness we would implement all the 
+other un/equality operators) and the {\tt function} command with implementation
+of {\em getCurrentUrl} which, again, probably is not the last function to be
+implemented. All this would require update of the scenario parser, the
+implementation for commands and all their attributes and thus update of the
+whole backend every single time, new functionality is needed. The advantage of
+this approach is that user does not have to know JavaScript and understand how
+it is called in WebDriver in order to use advanced conditioning and/or value
+formating.
 
-With use of JavaScript it might look as follows: 
+It is disputable if a set of extra commands in scenario syntax and hence extra
+controls in scenario editor would be more understandable than a single field
+for JavaScript function. Technically by adding conditioning and function
+commands, we are inclining towards building a new programming language. To
+offer the best for the user, implementing both is the option: basic
+conditioning to easily direct the scenario flow along with a set of functions
+to format and modify string and other values as well as enabling JavaScript
+execution for complex problems. 
+
+With use of JavaScript the same scenario step as in previous example would look
+as follows: 
 
 \begtt
 {
@@ -360,19 +392,20 @@ With use of JavaScript it might look as follows:
 \endtt
 
 In this case we embedded only the {\tt value-of} with a single attribute that
-takes JavaScript. From there we have technically unlimited power for extending
-the functionality of the crOWLer without need of changing the Java
-implementation. 
+takes JavaScript function body. From there we have technically unlimited power
+for extending the functionality of the crOWLer without need of changing the
+Java implementation. 
 
-Note that the first line of the original JavaScript was omitted: 
+Note that compared to example in Java the first line of the original JavaScript
+was omitted: 
 
 {\tt var elem = arguments[0];} 
 
-It can be automatically prepended every time, we exec JavaScript on a single
-DOM element. It is a simple helper and does not interfere with anything XXX (as
-we can redefine variable as many times as we want). Similarly we could
-predefine variable {\tt value} when passing a string or number to a JavaScript
-function. 
+It will be automatically prepended every time, we exec JavaScript on a single
+DOM element. It is a simple helper and does not invalidate any users input (as
+in JavaScript we can redefine variable as many times as we want). Similarly we
+will predefine variable {\tt elems} when a list of elements is passed, {\tt
+value} when passing a string or number to a JavaScript function. 
 
 But with great power comes a great current squared times
 resistance~\urlnote{http://www.xkcd.com/643/} XXX. With usage of JavaScript as
@@ -380,25 +413,27 @@ suggested in previous paragraphs we have to take in account two major
 considerations. 
 
 Firstly, JavaScript function can accept any number of parameters and return an
-arbitrary value. In both cases, the parameters and the return value, we can be
+arbitrary value. In both cases, the parameters and the return value can be
 of any of the allowed types (as JavaScript is not strongly typed language). We
 thus have to specify what exact parameters are being passed to a function and
-what result is expected. We also have to implement a robust way of controlling
-and properly define a fallback-on-error behavior. This is especially important
-as we might want to use JavaScript function not only as a string filter, but also
-for example as a universal selector where we struggle with classical selectors. 
-Any additional use have to be described separately before it can be universally
-used. 
+what result of what type is expected. We also have to implement a robust way of
+controlling this specification and properly define a fallback-on-error
+behavior. This is especially important as we might want to use JavaScript
+function not only as a string filter, but also for example as a universal
+selector where we struggle with classical selectors. Any additional use have
+to be described separately before it can be universally used. 
 
 More importantly, there is the second consideration. Any DOM element is
-accessible from the JavaScript function. When this element is modified or even
-removed, it becomes invalid from the Java context. The same applies for
-operations on the whole page. When a link is followed, the original DOM tree 
-is dropped and all references are lost. 
+accessible from any JavaScript function using for example the {\tt
+document.getElementByTagName} method. When an element is replaced or even
+removed, it becomes invalid from the Java context. Modification to an element
+can cause unexpected behavior of its reference in Java too. The same applies
+for operations on the whole page. When a link is followed, the original DOM
+tree is dropped and all references are lost. 
 
-To specify the behavior during this issue, below you can see a simple test.
-When link is clicked, the webdriver follows the link in current window and the
-reference to the original DOM is lost. 
+To better describe the underlying behavior during this issue, below you can see
+a simple test.  When link is clicked, the WebDriver follows the link in current
+window and the reference to the original DOM is lost. 
 
 \begtt
 WebDriver wd = new FirefoxDriver();
@@ -410,6 +445,27 @@ System.out.println(a.getText());
 // throws org.openqa.selenium.StaleElementReferenceException:
 // { "errorMessage":"Element does not exist in cache", ... }
 \endtt
+
+The previous can be partially solved by sandboxing the code in a closure. By
+doing so we can hide some essential object in global scope like {\tt window} or
+{\tt document} and make it harder to do inappropriate operations on the DOM.
+In following example we create the described partial sandbox: 
+
+\begtt
+JavaScriptExecutor exec = (JavaScriptExecutor)driver;
+WebElement elem = driver.findElement(By.css("div.wewant"));
+exec.executeScript(
+"return (function(elem, window, document) {" +
+funStr +
+"})(arguments[0])", elem);
+\endtt
+
+This technique is not completely secure (for example the element passed as an
+argument does have reference to its parent which is already leak of intended
+sandbox). Proper sandboxing would require implementing whole JavaScript engine
+in JavaScript \cite[jsjs] which is probably too much for our intentions. 
+
+~
 
 In crOWLer, we can now distinguish between two ways of ascending to another HTML page: 
 
@@ -504,10 +560,10 @@ In the new implementation of the scraping backend the original JSOUP component
 will be replaced by WebDriver. WebDriver, with its support for JavaScript,
 will help to handle dynamic content and brings in new possibilities for the
 crOWLer itself. The original configuration component is replaced by parser for
-the SOWL/JSON scenario format (XXX ref).  The core crOWLer is also
-reimplemented according to new set of instructions (i.e. commands in the
-scenario) and the new web interface (i.e. the WebDriver instead of the native
-Java Jsoup library). 
+the SOWL/JSON scenario format. The core crOWLer is also reimplemented
+according to new set of instructions (i.e. commands in the scenario) and the
+new web interface (i.e. the WebDriver instead of the native Java Jsoup
+library). 
 
 The overall architecture then looks as follows: 
 
@@ -515,7 +571,6 @@ The overall architecture then looks as follows:
 \picw=7.5cm \cinspic crowler-new.png
 \caption/f A new overall architecture of the crOWLer implementation. 
 \endinsert
-
 
 
 %TODO
@@ -528,7 +583,4 @@ The overall architecture then looks as follows:
 % * diagramy... clas, sequence (komunikace s jOWLem, komunikace s generatorem selectoru, ), 
 % * model
 % * vyresene, nevyresene problemy
-
-
-
 

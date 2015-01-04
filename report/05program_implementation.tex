@@ -1,12 +1,11 @@
 \label[chap:implementation] 
 \chap Program Implementation
 
-This chapter describes the implemented prototype.
-
-TODO
+This chapter describes the implemented prototype of SOWL--crOWLer tool stack. 
+The relation between tools can be seen on diagram \ref[pic:sowl-crowler-stack]. 
 
 \midinsert \clabel[pic:sowl-crowler-stack]{Overview of the whole stack and files exchanged}
-\picw=12cm \cinspic sowl-crowler-stack.png
+\picw=14cm \cinspic sowl-crowler-stack.png
 \caption/f Overview of the whole stack and files exchanged
 \endinsert
 
@@ -79,10 +78,33 @@ element on its label to simplify this task.
 
 \sec crOWLer implementation
 
-Scenario based on Strigil/XML syntax (or its JSON alternative) is not directly 
-translatable into the original crOWLer configuration. 
+The current implementation of crOWLer forms the architecture on picture
+\ref[pic:crowler-new-overall]. Even though the overall architecture holds
+visually the similar structure as the original implementation, the result is 
+technically brand new program. Change from configuration system to scenario
+changed the input handling and influenced structure of the core algorithm 
+from loop-based to template-based. The main library for web communication 
+was changed from JSOUP to WebDriver which combined with scenario led to 
+complete reimplementation of the core. The only part derived from original
+crOWLer are the Jena and JenaSesame libraries for handling the ontological
+models and storage of RDF data. The complete architecture can be better seen on
+the component model in appendix \label[app:crowler-new-component]. 
 
-XXX example of Strigil XML that can not be parsed into crOWLer configuration
+\midinsert \clabel[pic:crowler-new-overall]{The overall architecture of new crOWLer implementation}
+\picw=14cm \cinspic crowler-new.png
+\caption/f The overall architecture of new crOWLer implementation
+\endinsert
+
+XXX XXX XXX 
+
+XXX XXX XXX 
+
+XXX XXX XXX 
+
+%Scenario based on Strigil/XML syntax (or its JSON alternative) is not directly 
+%translatable into the original crOWLer configuration. 
+%
+%XXX example of Strigil XML that can not be parsed into crOWLer configuration
 
 A new structure was implemented holding a Scenario object with its steps.  In
 this form the Scenario is passed to main loop. Instead of {\tt FullCrawler}
@@ -97,4 +119,5 @@ XXX include class diagram..?
 %\secc Implemented and unimplemented capabilities
 %
 %XXX
+
 

@@ -97,6 +97,7 @@ The semantic crawling is an useful way to effectively obtain and query on
 data from the web, but it still have its challenges to overtake. 
 
 
+\label[sec:crowler]
 \sec Analysis of crOWLer
 
 A thorough analysis of the current program shall precede creation of the final
@@ -395,57 +396,64 @@ will be closely analyzed in next chapter \ref[chap:design].
 
 \secc What problem does it solve?
 
-The architecture of Strigil is tailor made for parallel processing of
-documents. The installation of Strigil requires working Apache2 web server with
-PHP5, Tomcat, PostgreSQL database, OpenMQ service and several other components
-before the actual deployment of Strigil into the environment. The system is
-designed for processing many requests on targeted server, heavy loads of data
-and long running tasks. Its complicated architecture and installation process
-prevents it from being effectively used in occasional simple, yet non trivial,
-scraping tasks. 
+The architecture of Strigil (more in \ref[app:strigil-architecture]) is tailor
+made for parallel processing of documents. The installation of Strigil requires
+working Apache2 web server with PHP5, Tomcat, PostgreSQL database, OpenMQ
+service and several other components before the actual deployment of Strigil
+into the environment. The system is designed for processing many requests on
+targeted server, heavy loads of data and long running tasks. Its complicated
+architecture and installation process prevents it from being effectively used
+in occasional simple, yet non trivial, scraping tasks. 
 
-Moreover its download system fetches only the raw HTML data (XXX like the
-original crowler implementation) and treats it as static document. This way it
+Moreover its download system fetches only the raw HTML data (just like the
+original crOWLer implementation) and treats it as static document. This way it
 can not properly handle dynamic content and temporal changes in documents
-performed by JavaScript. 
+performed by JavaScript for the exact same reasons that applied for crOWLer. 
 
 
-\secc Detailed architecture of Strigil platform
+\secc Strigil vs crOWLer
 
-\midinsert \clabel[pic:strigil-data_application]{Components of Data Application part of Strigil}
-\picw=10cm \cinspic strigil-data_application.png
-\caption/f Components of Data Application part of Strigil 
-\endinsert
+Because of the difference in complexity of Strigil and crOWLer, we can't
+correctly compare them one to one. But we might find a common subset of
+functionality. Strigil is a server, with frontend, scraping unit and download
+system. crOWLer is a tool without user interface and with download system
+reduced to simple REST calls. The common part then is the scraping unit. 
 
-\midinsert \clabel[pic:strigil-download_system]{Components of Download System part of Strigil}
-\picw=10cm \cinspic strigil-download_system.png
-\caption/f Components of Download System part of Strigil 
-\endinsert
+The scraping algorithm of crOWLer has been described previously in
+section~\ref[sec:crowler]. It consist of outer loop over documents, inner loop
+over initial definitions and tree of recursive calls forming the ontological
+structure while scraping data from elements on the page. 
 
-\midinsert \clabel[pic:strigil-deployment]{Example deployment structure of Strigil}
-\picw=10cm \cinspic strigil-deployment.png
-\caption/f Example deployment structure of Strigil 
-\endinsert
+Strigil has a slightly different approach. Instead of configuration it is
+guided by a scraping script. The script will be closely analyzed in the
+following chapter, but in general it defines a set of templates where one
+template is called at the beginning and each template can call any other
+template on some URL (i.e. on document located by the URL). Unlike in crOWLer
+the processing of each template is performed independently in Strigil. Each
+template call puts a request into the download system first. The actual
+execution of each template is fired asynchronously, when download of the
+targeted document is finished as notified by message from the Download System. 
+
+The inner part of a template conforms with structure inside crOWLer
+configurations. It defines tree structure of ontological classes and
+properties along with selectors specifying the position of targeted data. 
+Resulting from different document resolving system, there are no {\tt
+NewDocumentSelector}s in Strigil. In place of this selector, we would
+simply call another template on the new document. This approach is clearer than
+using chained selector, especially if we handle two or more nested documents.
+It is required though, to carry the ontological context from one template to
+another. This behavior is unfortunately neither mentioned in Strigil
+documentation, nor in examples examined. 
 
 
 \secc Confronting Strigil with use cases
 
-TODO TODO TODO
-
-TODO TODO TODO
-
-TODO TODO TODO
+TODO
 
 
 \secc What inspiration it brings for crOWLer
 
-XXX I tried to include Strigil/XML XXX format in SOWL, but it was XXX
-ridiculous. It would bring in an unnecessary workload on string-based
-serialization from native JavaScript objects into XML format. The decision was
-made to rather use native JSON serialization as described in XXX chapter
-implementation. This implementation is heavily inspired by the original
-Strigil/XML. Moreover it attends to improve upon readability and compactness
-even though it does not reach the richness of Strigil/XML format. 
+
 
 %\secc Suggestions for improvements
 %
@@ -639,6 +647,13 @@ implementing SOWL on top of the Selenium IDE.
 
 \sec Libraries for SOWL
 
+Research on existing JavaScript libraries that handle RDF data resulted in two
+promising libraries: jOWL and rdfquery. Both are based on the jQuery library 
+and both claim to be capable to parse RDF files, which is the main requirement
+for us. Additionally the library might be used in SOWL as a storage for the 
+loaded RDF resources. 
+
+
 \secc jQuery
 
 jQuery\cite[jquery] is widely used JavaScript library that simplifies general
@@ -666,7 +681,7 @@ The library was last updated in
 \label[sec:rdfquery]
 \secc rdfQuery
 
-\picw=1cm \cinspic rdfquery-logo.png
+%\picw=1cm \cinspic rdfquery-logo.png
 
 rdfQuery\cite[rdfquery] is a JavaScript library for RDF-related processing. It
 supports parsing RDFa, RDF, OWL formats for loading data. It can dynamically
@@ -677,7 +692,7 @@ jQuery. Moreover the whole concept is based on SPARQL and design in a manner
 that make the resulting JavaScript code look familiar when compared to native
 SPARQL query. 
 
-TODO example
+%TODO example
 
 
 \secc aardvark
@@ -686,28 +701,30 @@ Aardvark is a JavaScript engine for in-place modifications of a webpage. It
 allows user to select, delete, or highlight part of HTML page. It has been
 released in two forms: as a bookmarklet and a Firefox extension. The later was
 used in a modified form in the InfoCram 6000\ref[sec:infocram] and later in one
-of SOWL (SelectOWL) prototypes\ref[sec:selectowl].
+of SOWL (SelectOWL) prototypes\ref[sec:selectowl]. This library help to
+implement the selection and serves as a framework for the selector generating
+algorithm. 
 
 
 
-\label[sec:selectowl]
-\sec Early implementation
-
-TODO
-
-\midinsert
-\picw=7cm \cinspic selectowl.png
-\caption/f View at original SelectOWL sidebar implementation. 
-\endinsert
-
-
-TODO Aardvark and Infocram
-
-The InfoCram specific functionality was carefully removed and replaced with
-procedures following the SOWLs workflow. 
-
-The added/modified features are namely: the selector creation feature, the
-drag/drop event handling, the messaging, and modification of user commands. 
-
-XXX describe each feature here or later in this chapter...
+%\label[sec:selectowl]
+%\sec Early implementation
+%
+%TODO
+%
+%\midinsert
+%\picw=7cm \cinspic selectowl.png
+%\caption/f View at original SelectOWL sidebar implementation. 
+%\endinsert
+%
+%
+%TODO Aardvark and Infocram
+%
+%The InfoCram specific functionality was carefully removed and replaced with
+%procedures following the SOWLs workflow. 
+%
+%The added/modified features are namely: the selector creation feature, the
+%drag/drop event handling, the messaging, and modification of user commands. 
+%
+%XXX describe each feature here or later in this chapter...
 
