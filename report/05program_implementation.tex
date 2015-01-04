@@ -64,7 +64,7 @@ selector creation algorithm was added.
 The selector creation was implemented as specified in XXX design->selector
 creation XXX.  Even though it was rewritten it behaves almost identically as in
 InfoCram. We simply bubble up the DOM tree until we meet our context. On each
-element we try to generate unique selector according to the element's parent
+element we try to generate unique selector according to the elements parent
 element. The last method to try is the {\tt :nth-child()} selector which always
 exists and targets the correct element, but is also most prone to failures due
 tu structure changes. If possible ID or class attributes are used to target the

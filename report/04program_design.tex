@@ -77,7 +77,7 @@ for the crawling process: what operation to do (create ontological object,
 assign property to such an object, perform task with webpage). 
 
 This task is closely related to implementation peculiarity of semantic crawler:
-we're dealing with two separate contexts at the same time, the ontological and
+we are dealing with two separate contexts at the same time, the ontological and
 the web context. Ontological context holds current object (individual) to which
 we assign properties, web context hold current webpage along with currently
 selected element on that webpage. Scenario have to support operations to change
@@ -88,7 +88,7 @@ each context separately and/or both at the same time.
 \secc Strigil/XML
 
 Strigil, the scraping platform in order to solve similar problem as crOWLer
-introduces it's own XML based Scraping Script format. It's documentation can be
+introduces its own XML based Scraping Script format. Its documentation can be
 found here XXX
 \urlnote{https://drive.google.com/file/d/0B4On-lGb38CgWlAyZDhGbDV2TFk/edit
 Scraping script documentation}. 
@@ -108,7 +108,7 @@ download queue processing and layer of proxy servers that can be used to spread
 the traffic and scale the download process horizontally. As the downloads are
 performed asynchronously and can be even delayed due to network lags and
 timeouts, there is no guaranteed order in which documents will be scraped.
-Each of Strigil templates create it's own context when called. If we want to
+Each of Strigil templates create its own context when called. If we want to
 link data obtained from different template calls we have to use some additional
 techniques. For example we can assign some properly defined, non-random, unique
 identifiers to an object. This identifier have to be guaranteed to be the same
@@ -117,7 +117,7 @@ different pages.
 
 To handle ontological data manipulation the commands {\tt onto-elem} and {\tt
 value-of} are used. First one creates an individual of given type and, if
-nested into different {\tt onto-elem} relates this new individual to it's
+nested into different {\tt onto-elem} relates this new individual to its
 parent with some property. Literals are assigned to properties of parent object
 using {\tt value-of} command with property name specified. This command is very
 powerful with usage regular expressions, selectors or nested calls of itself it
@@ -156,8 +156,8 @@ improvements on the approach and the format itself.
 
 \secc Adaptation of Strigil/XML format
 
-Strigil creates it's scraping script internally hidden under GUI and leaves
-user unaware of it's actual content. It might still serve well, at least for
+Strigil creates its scraping script internally hidden under GUI and leaves
+user unaware of its actual content. It might still serve well, at least for
 developers, to keep the script compact and easily readable. Addition of
 language tag as seen in previous chapter, is widely used pattern that polutes
 the resulting script with unnecessary overload. Suggested improvement would
@@ -168,7 +168,7 @@ The same suggestion can be applied to the data-type specification. Moreover
 {\em implicit parsing} of known data types would not only simplify the scraping
 script, but also help to clean and clear the resulting data. 
 
-Let's imagine hypothetical scenario of two similar tables on one page
+Let us imagine hypothetical scenario of two similar tables on one page
 containing two sets of data in the same format. For such a case we would need
 to define a template on subset of DOM and call it twice with different root
 node. Creation of {\tt dom-template} and {\tt call-dom-template} tags would
@@ -196,14 +196,14 @@ Usage of actual full-stack web browser with JavaScript engine long with
 WebDriver allows us to inject and execute arbitrary JavaScript code into the
 processed webpage. In order to make full use of this feature we can define {\tt
 function-def} tag which would define JavaScript function with name and
-parameters and contain it's code. To execute this function we would call {\tt
-function-call} and identify it by it's name. Return value of this function can
+parameters and contain its code. To execute this function we would call {\tt
+function-call} and identify it by its name. Return value of this function can
 be then used the same way as the one from {\tt value-of} tag. 
 
 From the experience with development on Strigil/XML we can derive, that it is
-tied with it's intended use for distributed downloader and it lacks some
-functionality. In SOWL we would almost necessarily modify it's formal definition
-and thus it is of consideration if we can't make use of more appropriate
+tied with its intended use for distributed downloader and it lacks some
+functionality. In SOWL we would almost necessarily modify its formal definition
+and thus it is of consideration if we can not make use of more appropriate
 format. 
 
 % Strigil wiki on sf \url{http://sourceforge.net/p/strigil/home/Home}
@@ -229,7 +229,7 @@ structure. Obviously some adaptations are necessary. Nesting is recorded using
 the {\tt steps}, the header section is redesigned for the JSON structure. XXX
 
 The original semantics of {\tt onto-elem} and {\tt value-of} was preserved,
-only limited to it's basic use. {\tt value-of} serves solely to assign literal
+only limited to its basic use. {\tt value-of} serves solely to assign literal
 properties. XXX not true anymore ;) 
 
 The final scenario for Use Case 1 XXX looks like this: 
@@ -240,9 +240,9 @@ The final scenario for Use Case 1 XXX looks like this:
 
 \secc Consequences of conversion to JSON format
 
-XXX We don't have "text content" like XML elements can, but Strigil does not really use that
+XXX We don not have "text content" like XML elements can, but Strigil does not really use that
 
-XXX We don't have child nodes.. so we have to keep them in an array, like in {\tt steps} 
+XXX We don not have child nodes.. so we have to keep them in an array, like in {\tt steps} 
 
 XXX But hey, we can use any key to store a substep, not only the array, we
 practically use different approach here.. instead of tree structure we have
@@ -251,16 +251,16 @@ tree of hash maps.
 The {\tt onto-elem} command benefits exactly from this difference between
 XML and JSON.  In original Strigil/XML the {\tt onto-elem} tag allow us to
 specify URI of the resulting individual (as commonly denoted by the {\em about}
-property), by taking it from from it's ``first child'' which is expected to
+property), by taking it from from its {\em first child} which is expected to
 be {\tt value-of} tag. Needles to say, this specification lowers robustness as
 the position in the XML file is not enforced by the syntax and can be easily
-unintentionally broken by accidental swap of two elements, although it wouldn't
-invalidate the files syntax and thus won't be captured by the script parser. In
-the JSON format we lack the notion of child elements. Even when we simulate it
-as mentioned before, we'd only cause the same indetermination. So instead, we
-simply reserve a property named {\tt about} exactly for the described use. 
-The same technique is used to specify URL for a {\tt call-template} on it's
-{\tt valueof} property. 
+unintentionally broken by accidental swap of two elements, although it would
+not invalidate the files syntax and thus would not be captured by the script
+parser as an error. In the JSON format we lack the notion of child elements.
+Even when we simulate it as mentioned before, we would only cause the same
+indetermination. So instead, we simply reserve a property named {\tt about}
+exactly for the described use.  The same technique is used to specify URL for a
+{\tt call-template} on its {\tt valueof} property. 
 
 XXX TODO might rename these
 
@@ -269,13 +269,13 @@ list of URLs, not only one
 
 
 
-
+\label[sec:javascript]
 \sec JavaScript and events support
 
 Special attention have to be payed when dealing with direct interaction with
 DOM elements and script execution. WebDriver supports injection and execution
-of JavaScript as well as simulation of user interactions like ``click'' on
-element or ``back'' and ``forward'' navigation. Even though it brings great
+of JavaScript as well as simulation of user interactions like {\em click} on
+element or {\em back} and {\em forward} navigation. Even though it brings great
 power there are considerations and great limitations to be taken in account. 
 
 WebDriver supports execution of JavaScript directly on webpage loaded in the
@@ -339,7 +339,7 @@ of JavaScript. The {\tt getCurrentUrl} function is inspired by Strigil.
 }
 \endtt
 
-We've declared the {\tt condition} command with implementation of {\em eq}
+We have declared the {\tt condition} command with implementation of {\em eq}
 operator (and probably several other un/equality operators) and the {\tt
 function} command with implementation of {\em getCurrentUrl} which, again,
 probably is not the last function to be implemented. All this would require
@@ -427,7 +427,7 @@ when assigning properties.
 
 Direct interaction with current window in any way that changes page location
 will, however, irreversibly invalidate all the elements of current DOM. This
-does not have to mean we can't use this functionality all together. Probably the
+does not have to mean we can not use this functionality all together. Probably the
 best solution would be to only allow DOM modifying operations on the bottom
 level of templates (i.e. within the {\tt steps} property of the {\tt template}
 command in scenario). At this place we only hold the {\tt body} of current
@@ -437,7 +437,7 @@ In the original crOWLer implementation, this would be the spot between two
 
 Even thought the JavaScript is sandboxed in WebDriver, it is still running in a
 browser in your computer and could technically submit some data on a web.
-Security issues haven't been considered so far, but might become a point of
+Security issues have not been considered so far, but might become a point of
 interest when we take in account an option of obtaining and executing scenarios
 from unknown sources. 
 
@@ -463,7 +463,7 @@ other user action.
 
 \secc crOWLer user interface
 
-CrOWLer is a console application. It shall accept scenario as one of it's parameters. 
+CrOWLer is a console application. It shall accept scenario as one of its parameters. 
 Following settings shall be enabled using parameters as well:
 \begitems
   * setting of target directory for RDF files
@@ -484,9 +484,9 @@ new API and limits usage of older libraries or low level calls by wrapping it
 in consistent API. 
 
 The SDK based addons have partially predefined structure. The {\em background script}
-runs in it's own scope and uses the SDK API to control the addon's behavior.
+runs in its own scope and uses the SDK API to control the addons behavior.
 The {\em content script} is a JavaScript code that is injected into a webpage
-but runs in it's own sandboxed overlay, while having access to pages DOM and
+but runs in its own sandboxed overlay, while having access to pages DOM and
 JavaScript content. In SOWL, the scenario editor will be placed into a sidebar.
 Sidebar holds standard HTML window object in which the JavaScript code is
 running.  All three components communicate via textual messages using {\tt
@@ -501,7 +501,7 @@ port} object offered internally by by Firefox.
 \secc crOWLer model
 
 In the new implementation of the scraping backend the original JSOUP component
-will be replaced by WebDriver. WebDriver, with it's support for JavaScript,
+will be replaced by WebDriver. WebDriver, with its support for JavaScript,
 will help to handle dynamic content and brings in new possibilities for the
 crOWLer itself. The original configuration component is replaced by parser for
 the SOWL/JSON scenario format (XXX ref).  The core crOWLer is also

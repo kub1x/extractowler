@@ -1,7 +1,7 @@
 \label[chap:research]
 \chap Existing solutions % and Research
 
-In this chapter we'll describe the research made on existing solutions for
+In this chapter we will describe the research made on existing solutions for
 given task (scraping and annotating data from a web). The performed search was
 focused on tools directly targeting the problem, as well as libraries and
 technologies that could be included in the solution or existing open source
@@ -18,7 +18,7 @@ fulfill the requirements.
 
 Existing tools named as ``Ontology-based Web Crawlers'' refer mostly to crawlers
 that ``rank'' pages being crawled by guess-matching them against some ontology.
-In those programs user can't specify data that are being retrieved. Moreover,
+In those programs user can not specify data that are being retrieved. Moreover,
 there is no way to get involved in the crawling process. The tool is solely
 used to automatically rank the relevance of documents. They are solving
 different task where input is several documents and possibly an ontology and
@@ -47,7 +47,7 @@ approach takes a lot of energy for one time only solution of a given problem.
 By storing such crawled data into database we obtain persistent database,
 possibly automatically obtained by the script from previous case. Such data is
 static, but can be queried over and over and possibly re-retrieved when becomes
-obsolete. It's structure is, however, based on programmers imagination an
+obsolete. Its structure is, however, based on programmers imagination an
 needs to be described in order to understand and handle the data properly. 
 
 When a triple store is used as the database in previous case we obtain one-time
@@ -69,11 +69,11 @@ structured according to this ontology and simply query on resulting super set.
 
 ~
 
-Semantic crawling is not a silver bullet. The technology is only finding it's
-place and uses and it's being shaped by the needs of it's users.
+Semantic crawling is not a silver bullet. The technology is only finding its
+place and uses and it is being shaped by the needs of its users.
 
 For instance there is always a threat of inconsistency of an ontology when some
-data don't fit the rules or break structure of an ontology. In its state from
+data do not fit the rules or break structure of an ontology. In its state from
 April 2014 DBpedia states, there is 3.64 million resources, out of which 1.83
 million are classified in a consistent Ontology \cite[dh:dbpedia]. That is only 
 half of the data being arguably consistent with each other. That does not say
@@ -88,13 +88,13 @@ can lead to broken selectors or links during the crawling process and make the
 scenario partially or completely invalid. 
 
 Many web pages load their data dynamically using AJAX queries. Some pages
-simply changes it's content frequently (e.g. news pages, forums, user content
+simply change its content frequently (e.g. news pages, forums, user content
 pages, like video or music servers and social web applications). Crawling
 content on such servers would require almost constant crawling and would cause
 growth into massive ontology of, oftentimes, questionable quality. 
 
 The semantic crawling is an useful way to effectively obtain and query on
-data from the web, but it still have it's challenges to overtake. 
+data from the web, but it still have its challenges to overtake. 
 
 
 \sec Analysis of crOWLer
@@ -108,23 +108,24 @@ have to be reimplemented.
 \caption/f General architecture of the original crOWLer implementation
 \endinsert
 
-Original implementation is a prototype of console Java application. It uses
-Apache Jena library~\cite[jena] for handling ontological data and JSOUP
-library~\cite[jsoup] for accessing webpages and addressing elements. Instead of  
+In original implementation crOWLer is a prototype of console Java application.
+It uses Apache Jena library~\cite[jena] for handling ontological data and JSOUP
+library~\cite[jsoup] for accessing webpages and addressing elements. Instead of
 scenario file, crOWLer accepts Java {\tt .class} files containing an
-implementation of {\tt ConfigurationFactory} class.  In
+implementation of {\tt ConfigurationFactory} class. This factory class builds a
+{\tt Configuration} object. In
 appendix~\ref[app:crowler-old-configuration-class] you can see definition of
-the configuration components of crOWLer. The class diagram in
+classes defining the configuration component of crOWLer. The class diagram in
 appendix~\ref[app:crowler-old-selector-class] describes the {\tt
-InitialDefinition} and the {\tt Selector} classes along with their connection
-and usage of crOWLer. Configuration defined using this structure specifies all
-the information needed for crawling process: 
+InitialDefinition} and the {\tt Selector} classes that are main building blocks
+of configuration. Configuration defined using this structure specifies all the
+information needed for crawling process: 
 
 \begitems
-  * webpage to be crawled
-  * way to address data on that page using JSOUP selectors
+  * webpages to be crawled in a form of list or pagination description
+  * way to address data on each page using JSOUP selectors
   * definition of ontology resources used to annotate the obtained data
-  * and definition of pagination process that brings us to next page to be crawled
+  * setting of how URI will be created for each individual
 \enditems
 
 \midinsert \clabel[pic:crowler-old-core-class]{Core classes of original crOWLer implementation} 
@@ -133,17 +134,19 @@ the information needed for crawling process:
 \endinsert
 
 The main program flow of crOWLer lays upon few core classes. The pair {\tt
-FullCrawler}, {\tt Crowler} form the crawling process loop. In this loop {\tt
-FullCrawler} fetches the source web pages and passes them one by one to the
-{\tt Crowler}. The {\tt NextPageResolver}, which defines list of pages to be
-crawled is structure implemented within the configuration and thus is specific
-for given problem instance. Results are stored in the outer loop after each
-scraped page. 
+FullCrawler}, {\tt Crowler} (diagram \ref[pic:crowler-old-core-class]) form the
+crawling process loop. In this loop {\tt FullCrawler} fetches the source web
+pages and passes them one by one to the {\tt Crowler}. The {\tt
+NextPageResolver}, which defines list of pages to be crawled is structure
+implemented within the configuration and thus is specific for given problem
+instance. Results are stored in the outer loop after each scraped page. According
+to input parameters data are uploaded into Sesame repository using {\tt JenaSesame} 
+library, or locally in an RDF file. 
 
 The inner loop performed by {\tt Crowler} finds a set of HTML elements as
-defined by the {\tt InitialDefinition} class, which also comes with the
-configuration. Each of these elements serve as a root for a tree of ontological
-individuals linked by their properties. The tree is in configuration defined
+defined by the {\tt InitialDefinition} class. Each of these
+elements serve as a root for a tree of ontological individuals linked by their
+properties. The tree is in configuration defined
 using {\tt ClassSpec} and {\tt PropertySpec} classes that hold definition of
 type of the individual and the assigned property respectively. The spec-classes
 also carry information about selector, used to find the corresponding HTML element. 
@@ -164,26 +167,45 @@ From deeper analysis of the original crOWLer source we can observe, that the
 whole scraping process rely on the configuration defining it -- a set of Java
 classes, implementing the predefined interfaces and using the API provided.
 
-This reveals the issue being addressed. Writing of Java implemented
-configuration requires knowledge of Java programming language along with
-knowledge of RDF technologies. Programmer gets into the position of ontological
-engineer when designing new resources. Knowledge of WEB technologies is needed
-in order to properly target elements on the webpage using JSOUP selectors. This
-is one of the hardest task as the selectors have to be manually extracted using
-for example browser console. 
+This reveals the issue being addressed. Writing a crOWLer configuration
+requires knowledge of Java programming language along with knowledge of RDF
+technologies. Programmer also gets into the position of ontological engineer
+when designing ontological resources used in the configuration. Knowledge of
+WEB technologies is needed in order to properly target elements on the webpage
+using JSOUP selectors. This is one of the hardest task as the selectors have to
+be manually extracted using for example browser console. 
 
-Following code is an example of actual configuration code of original crOWLer
-implementation. It uses {\tt NPU} class as simple static storage for URI's
-used in our ontology. It creates a {\em monumnetRecord} object for each table
-row as defined by the ``initial definition''. The second part create {\em
-district} object with it's label (found in third table column denoted by the
-{\tt td:eq(2)} JSOUP selector) and assigns it to the record using {\em
-hasDistrict} object property. The {\tt conf} object holds the configuration
-being passed to the actual crawler. 
+The scenario based approach, focused in this thesis, will enable user to
+bypass the Java programming and focus only on matching web structure with an
+ontology. 
+
+
+\secc Confrontation with use cases -- technical issues
+
+In this section the capabilities of the original crOWLer implementation will be
+confronted with use cases specified for this work \ref[sec:usecases]. 
+
+For all use cases a separate configuration would have to be created. We will 
+mainly focus on problems specific for each case. 
+
+~ 
+
+The first configuration of crOWLer was created for the {\em Monumnet} webpage
+of the National Heritage Institute, the UC2~\ref[sec:intro:uc2]. Stating that
+the UC2 can be and was solved using the hardcoded configuration. 
+
+First we will focus on the structure of configuration. Following code is a
+simplified snipped of actual configuration building code of original crOWLer
+implementation. It uses {\tt NPU} class as simple static storage for URIs used
+in our ontology. According to this configuration a {\em monumnetRecord} object
+is created for each table row as defined by the {\tt initialDefinition}. The
+second part create {\em district} object with its label (found in third table
+column denoted by the {\tt td:eq(2)} JSOUP selector) and assigns it to the
+record using {\em hasDistrict} object property. The {\tt conf} object holds the
+configuration being passed to the actual crawler. 
 
 \begtt
 ClassSpec chObject = Factory.createClassSpec(NPU.monumnetRecord.getURI());
-
 conf.addInitialDefinition(
        Factory.createInitialDefinition(
          chObject,
@@ -193,48 +215,182 @@ ClassSpec sDistrict = Factory.createClassSpec(NPU.district.getURI());
 chObject.addSpec(
            Factory.createOPSpec(
              Factory.createJSoupSelector("td:eq(2)"),
-                                         NPU.hasDistrict.getURI(),
-                                         sDistrict));
+             NPU.hasDistrict.getURI(),
+             sDistrict));
 sDistrict.addSpec(true, Factory.createDPSpec(Vocabulary.RDFS_LABEL));
 \endtt
 
-XXX Diret GET (POST) calls no javascript -> WebDriver
+This pattern is, with some variation, repeated for all data properties and
+object properties. The interesting part is how crOWLer handles the detail page
+link. Just to remind a situation in UC2~\ref[sec:intro:uc2], each table row of
+the page uses unique {\tt onclick} attribute in following form: 
 
-XXX Reference to uc4  -- javascript pagination (ajax) wouldn't work at all in original
+\begtt
+document.listpf.IdReg.value='131164'; document.listpf.submit();
+\endtt
 
-XXX fix following paragraph after previous is written 
+The numerical value {\tt IdReg} corresponds to last column of the row and holds
+the identification number of the national monument in the MonumNet system. 
+As crOWLer handles every page as a static HTML document, there is no way to 
+execute this code as a JavaScript handler. Instead it is being parsed by a
+regular expression and the result is used to fill in a format-string creating a
+URL. This URL locates the detail page for each table record. 
 
-Previous example more or less defines requirements on scenario for semantic
-crawler. To fully satisfy the current implementation of crOWLer, we would also
-have to cover following hyperlinks on a page, firing JavaScript and browser
-events and functions of transforming scraped data using for example regular
-expressions or key--value mapping. 
+\begtt
+Factory.createNewDocumentSelector(
+  conf.getEncoding(),
+  Factory.createAttributePatternMatchingURLCreator(
+    "onclick", 
+    ".*([0-9]+).*", 
+    MONUMNET\_URL+"pamfond/list.php?IdReg=" + "{0}"));
+\endtt
+
+Technically this is a form of a workaround, rather than systematic solution 
+of the given problem. We can not securely rely on JavaScript code within the
+attribute as a part of data. It is important to realize, that the technique
+used on the webpage is rather non-standard and can not be effectively covered
+with general purpose tool without a need of problem specific solution. 
+
+~
+
+Understanding the configuration implementation we will now briefly analyze the
+rest of use cases. crOWLer would solve the UC1 \ref[sec:intro:uc1] with quite
+basic configuration. Here we present a short example: 
+
+\begtt
+ClassSpec chObject = Factory.createClassSpec("foaf:Person");
+
+conf.addInitialDefinition(
+       Factory.createInitialDefinition(
+         chObject,
+         Factory.createJSoupSelector("tr")));
+
+// First name
+chObject.addSpec(
+           Factory.createDPSpec(
+             Factory.createJSoupSelector("td:eq(0)"),
+             "foaf:firstName"));
+
+// Analogically for the rest of properties
+
+// Link to detail page
+chObject.addSpec(
+  Factory.createDPSpec(
+    Factory.createChainedFirstElementSelector(
+      Factory.createNewDocumentSelector(
+        conf.getEncoding(),
+        Factory.createAttributePatternMatchingURLCreator(
+          "href", ".*", KUB1X\_URL + "{0}")),
+      Factory.createJSoupSelector(".nick")), 
+      "foaf:nickname"));
+\endtt
+
+This example is using only classes from the original crOWLer. Note at the
+bottom How we define following a link to the detail page. In proper
+implementation we would probably simplify the new document selector creation by
+wrapping it in a single factory method {\tt createLinkTargetSelector}, which
+would internally create selector for the address targeted by {\tt href}
+attribute of the link tag either absolute or relative to current document (so
+that we could avoid the explicit specification of URL using {\tt KUB1X\_URL}
+constant. 
+
+If we wanted to get more properties from the resulting page, we would reuse 
+the {\tt NewDocumentSelector} in combination with selector targeting value of
+each property. crOWLer always relates selectors to the document currently
+referenced by the outer loop in the {\tt FullCrawler}. Whenever a selector
+containing {\tt NewDocumentSelector} is applied during the crawling process, a
+REST call is performed to fetch the targeted document. On a MonumNet webpage
+this means hundreds of thousands of calls for each run of the crOWLer (over
+40~000 records each with 16 properties on detail page). Caching system can be 
+implemented to reduce this amount to the necessary minimum. We are still bound by
+the double loop architecture though. 
+
+~
+
+The UC3 \ref[sec:intro:uc3] is equal to UC1 according to configuration complexity. 
+All links are implicitly specified in a form of hyperlinks without any interruption 
+or dynamic content change. Moreover in crOWLer configuration we can specify
+what properties will, combined together, form URI of ontological object we are
+building. This is exactly the additional functionality required by UC3. 
+
+~ 
+
+The specificity of fourth use case \ref[sec:intro:uc4], as described, lays in
+AJAX driven pagination. Every ``page change'' event dynamically updates the 
+content of the webpage. In this specific case we do not need to be alarmed
+as the pagination component is created using jQuery DataTables
+plugin~\cite[datatables]. Using this plugin the pagination is built on top of
+the data table after it has been completely loaded. In case of crOWLer, the 
+plugin is never executed and the table remains complete and unchanged over the
+whole scraping process. 
+
+This is not always the case, though. Even the DataTables plugin itself supports
+loading data through AJAX so the alertness is more than appropriate. In the
+hypothetical situation when AJAX is used for data loading crOWLer would not be
+able to handle the pagination and would only access the first page.  The
+additional data would have to be loaded using workaround similar to the one in
+UC2.  And even if we successfully load the data we still might be unable to
+handle them by crOWLer. The AJAX call typically serves only the new chunk of
+data to be inserted into the page either in HTML or in JSON format. When in
+HTML, we would have to extend the configuration to correctly target elements in
+the reduced form of AJAX update. In case of JSON a completely new selector
+system would have to be added to crOWLer. 
+
+The situation dramatically changes if we use full stack web environment with
+JavaScript engine. In that case we would be able to ignore the background 
+functionality of pagination and simply simulate click on the ``Next'' button. 
+Enabling JavaScript has huge consequences and will be analyzed in a separate
+section \ref[sec:javascript]. 
+
+\secc Result form crOWLer analysis
+
+The original implementation of crOWLer can solve tasks defined by specified use
+cases~\ref[sec:usecases]. The requirements on users of crOWLer are too high and
+the usability is very limited. The options of extending the configuration
+component will be examined during the design part\ref[chap:design]. The
+configuration can be either generated using scenario or completely replaced, if
+the scenario defines different crawling procedure (other than current double
+loop). The option of incorporating JavaScript will get an extra attention. 
+
+Previous section roughly define requirements on scenario for semantic crawler.
+To fully satisfy all considered use cases in all settings, in addition to the
+functionality implemented so far, we would have to cover the: 
+
+\begitems
+  * following hyperlinks on a page, 
+  * firing JavaScript and browser events, 
+  * functions of transforming scraped data using regular expressions or key--value mapping. 
+\enditems
 
 
+\label[sec:strigil]
 \sec Strigil
 
 Strigil is a ontological scraping system developed at  Faculty of Mathematics
 and Physics of the Charles University in
 Prague~\urlnote{http://xrg.ksi.ms.mff.cuni.cz/software/ld/ldi.html\#strigil}.
-It represents an easily configurable tool that enables one to retrieve data from textual or weak structured documents. \cite[iiwas2013:strigil]
+It represents an easily configurable tool that enables users to retrieve data
+from textual or weak structured documents. \cite[iiwas2013:strigil]
 
 \midinsert \clabel[pic:strigil-overall]{Overall Architecture of Strigil}
 \picw=10cm \cinspic strigil-overall.png
 \caption/f Overall Architecture of Strigil
 \endinsert
 
-It consists of webserver and backend service. The webserver offers frontend for
-configuring the crawling process. The backend ten follows the configuration and
-handles downloading, scraping the data and storing results. Strigil strongly
-focusses on the download process. Components of the backend conform in a
-structure of DownloadManager, Downloaders and Proxy servers that help to
-distribute the load of data being transfered. 
+It consists of {\em Data Application} in a form of webserver and backend
+service providing {\em Download System} for the application. The webserver
+offers frontend for configuring the crawling process. The application ten
+follows the configuration scraping the data and storing results while using the
+backend handle downloading. Strigil strongly focusses on the download process.
+Components of the backend conform in a structure of {\em DownloadManager}, {\em
+Downloader}s and {\em Proxy} servers that help to distribute the load of data
+being transfered. 
 
 The frontend part serves user interface for handling ontological data on top of
-a web being scraped. It internally creates it's scraping script (will be
-referred to as Strigil/XML) which strongly inspired format for scenario used in
-the actual implementation later in this work and will be closely analyzed in
-next chapter \ref[chap:design]. 
+a web being scraped. It internally creates a scraping script (will be
+referred to as Strigil Scraping Script or Strigil/XML) which strongly inspired
+format for scenario used in the actual implementation later in this work and
+will be closely analyzed in next chapter \ref[chap:design]. 
 
 
 \secc What problem does it solve?
@@ -244,13 +400,13 @@ documents. The installation of Strigil requires working Apache2 web server with
 PHP5, Tomcat, PostgreSQL database, OpenMQ service and several other components
 before the actual deployment of Strigil into the environment. The system is
 designed for processing many requests on targeted server, heavy loads of data
-and long running tasks. It's complicated architecture and installation process
+and long running tasks. Its complicated architecture and installation process
 prevents it from being effectively used in occasional simple, yet non trivial,
 scraping tasks. 
 
-Moreover it's download system fetches only the main HTML data (XXX like the
+Moreover its download system fetches only the raw HTML data (XXX like the
 original crowler implementation) and treats it as static document. This way it
-can't properly handle dynamic content and temporal changes in documents
+can not properly handle dynamic content and temporal changes in documents
 performed by JavaScript. 
 
 
@@ -270,6 +426,15 @@ performed by JavaScript.
 \picw=10cm \cinspic strigil-deployment.png
 \caption/f Example deployment structure of Strigil 
 \endinsert
+
+
+\secc Confronting Strigil with use cases
+
+TODO TODO TODO
+
+TODO TODO TODO
+
+TODO TODO TODO
 
 
 \secc What inspiration it brings for crOWLer
@@ -295,7 +460,7 @@ In order to develop appropriate tool for generating scenarios, several similar
 tools were inspected for best practices, libraries, and possible extension. 
 
 The resulted implementation is named SOWL (short for SelectOWL) and refers to
-Firefox addon for creating scenarios for crOWLer. In following sections we'll
+Firefox addon for creating scenarios for crOWLer. In following sections we will
 refer to SOWL as set of requirements and a envisioned expected result of this
 work. The actual implementation will be covered in later chapters. 
 
@@ -307,7 +472,7 @@ InfoCram 6000 is part of project ExtBrain \urlnote{http://www.extbrain.net}
 that is developed here on Department of Computer Science. This specific part
 was implemented by Jiří Mašek and is described as ``prototype of user
 interface for visual definition of extraction rules for ExtBrain Extractor''.
-It's intended usage is very close to the usage of SOWL. It is an Firefox
+Its intended usage is very close to the usage of SOWL. It is an Firefox
 extension that generates rules (scenario) for extractor implemented as another
 part of the ExtBrain project. 
 
@@ -324,7 +489,7 @@ only set of raw data in some form.
 Main part of the extension window shows a tree view with rules being edited.
 This view corresponds to required structure of scenario for crOWLer. 
 
-Interesting part it an engine for selection elements of page. It's
+Interesting part it an engine for selection elements of page. Its
 implementation is based on
 Aardvark~\urlnote{https://addons.mozilla.org/en-US/firefox/addon/aardvark/}, a
 Firefox extension that addresses this issue using mouse selection and several
@@ -332,9 +497,9 @@ keyboard commands.
 
 InfoCram does not use simple CSS or XPath selectors, but include Sizzle library
 to handle selectors for it. Sizzle is very popular library for handling
-selectors, which also defines it's own selectors like {\tt :eq()}, or {\tt
-:first}. It's simpler and more expressive than CSS. It's popularity is 
-mainly based on it's involvement in jQuery library. 
+selectors, which also defines its own selectors like {\tt :eq()}, or {\tt
+:first}. It is simpler and more expressive than CSS. Its popularity is 
+mainly based on its involvement in jQuery library. 
 
 Being so close to required structure and workflow of SOWL, InfoCram 6000 served
 as the base implementation for it in the early stages. As can be seen at the end 
@@ -388,8 +553,8 @@ would have two parts:
 \enditems
 
 Certain limitations were discovered during development of this plugin.
-Selenium IDE, as being plugin itself, implements it's own plugin system,
-through which it allows other developers to extend it's functionality. The
+Selenium IDE, as being plugin itself, implements its own plugin system,
+through which it allows other developers to extend its functionality. The
 Selenium IDE plugin API allows us to use standard Firefox techniques along with
 predefined API, to extend the graphical interface and the functionality of the
 IDE respectively. 
@@ -405,7 +570,7 @@ used on IDE by default.
 \caption/f GUI of Selenium IDE showing the Command, Target and Value fields. 
 \endinsert
 
-The functionality of IDE is, however, linked with it's layout
+The functionality of IDE is, however, linked with its layout
 \ref[imgseleniumide] and has to be taken in account. Selenium IDE internally
 defines set of commands that can be used in scenarios. List of default commands
 can be seen in dropdown on main screen of the IDE. This list can be extended,
@@ -438,24 +603,24 @@ command for WebDriver unit test.
 
 None of the original command types corresponds to format of commands for
 handling the semantic annotation, like adding URI to element, recording
-creation of individual, assigning literal to it's property etc. A new set of
+creation of individual, assigning literal to its property etc. A new set of
 commands was suggested and partially implemented having the prefix ``owl''.
 This led to changes in core sources of Selenium IDE, which itself is a bad sign
 as it technically creates a new branch of the program. CommandBuilder had to be
-extended directly in the Selenium code as it's impossible to change it's
+extended directly in the Selenium code as it is impossible to change its
 behavior through native Selenium IDE API. Unfortunately, even though the new
 command type was implemented, it is not possible to change the more general
 concept of all commands. Every command is stored as {\tt (name, target, value)
 }~\urlnote{https://code.google.com/p/selenium/source/browse/ide/main/src/content/commandBuilders.js
 the CommandBuilder implementation} triple and from this format everything is
 derived. It is technically impossible to create command for example for literal
-along with it's language tag as there is simply no field for it. For the same
+along with its language tag as there is simply no field for it. For the same
 reason we cant create a command to create an ontological object of some type as
 a property of another object.  These commands relate to each other, but such a
-behavior is not supported by the scenario editor in it's current architecture.
+behavior is not supported by the scenario editor in its current architecture.
 There is also no way to alter editor GUI for specific command. For instance, we
-can't offer autocomplete for input field when user enters URI of ontological
-resource. Such a feature would be an essential part of SOWL's workflow, and as
+can not offer autocomplete for input field when user enters URI of ontological
+resource. Such a feature would be an essential part of SOWLs workflow, and as
 a consequence these limitations are critical and disallow us from properly
 implementing SOWL on top of the Selenium IDE. 
 
@@ -539,7 +704,7 @@ TODO
 TODO Aardvark and Infocram
 
 The InfoCram specific functionality was carefully removed and replaced with
-procedures following the SOWL's workflow. 
+procedures following the SOWLs workflow. 
 
 The added/modified features are namely: the selector creation feature, the
 drag/drop event handling, the messaging, and modification of user commands. 
