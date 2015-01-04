@@ -104,7 +104,7 @@ Similarly we can use function {\tt addDataTypeInfo} to add datatype flag,
 function {\tt generateUUID} to obtain unique identifier or function {\tt
 convertDate} to convert Czech and English dates into a common {\tt xsd:date}
 format and several others. Some functions, like the last one mentioned, cover
-task-specific issues and Strigil doesn't define a way to extend the list of
+task-specific issues and Strigil does not define a way to extend the list of
 functions. 
 
 In early stages of SOWL development an attempt was made to use original
@@ -145,7 +145,7 @@ The architecture of Strigil (distributed downloader) suggests that it uses
 simple raw HTML pages as they were downloaded and uses JSOUP to extract data
 from it as JSOUP is the selector system of choice. Many webpages, or even web
 applications, make use of dynamic AJAX calls to fetch additional data after the
-presentation layer of the web is shown to the user. Strigil doesn't handle
+presentation layer of the web is shown to the user. Strigil does not handle
 these cases by default. The internal AJAX code could be analyzed and simulated
 using {\tt call-template} call, but this requires deep knowledge of the webpage
 being processed. In crOWLer we opted to switch from JSOUP to WebDriver library
@@ -177,7 +177,7 @@ string formating -- approach often used on webpages with dynamically loaded
 content. A string holds a snippet of HTML or XML structure with placeholder.
 This placeholder is replaced by either a value or by another already processed
 snippet. This way piece by piece the whole scenario is generated. This solution
-isn't hard to implement, but brings in poor maintainability and with additional
+is not hard to implement, but brings in poor maintainability and with additional
 complexity it looses elegance, readability and can even cause performance
 issues. 
 
@@ -200,7 +200,7 @@ The final scenario for Use Case 1 XXX looks like this:
 
 \secc Consequences of conversion to JSON format
 
-XXX We don't have "text content" like XML elements can, but Strigil doesn't really use that
+XXX We don't have "text content" like XML elements can, but Strigil does not really use that
 
 XXX We don't have child nodes.. so we have to keep them in an array, like in {\tt steps} 
 
@@ -213,7 +213,7 @@ XML and JSON.  In original Strigil/XML the {\tt onto-elem} tag allow us to
 specify URI of the resulting individual (as commonly denoted by the {\em about}
 property), by taking it from from it's ``first child'' which is expected to
 be {\tt value-of} tag. Needles to say, this specification lowers robustness as
-the position in the XML file isn't enforced by the syntax and can be easily
+the position in the XML file is not enforced by the syntax and can be easily
 unintentionally broken by accidental swap of two elements, although it wouldn't
 invalidate the files syntax and thus won't be captured by the script parser. In
 the JSON format we lack the notion of child elements. Even when we simulate it
@@ -310,10 +310,10 @@ of JavaScript. The {\tt getCurrentUrl} function is inspired by Strigil.
 We've declared the {\tt condition} command with implementation of {\em eq}
 operator (and probably several other un/equality operators) and the {\tt
 function} command with implementation of {\em getCurrentUrl} which, again,
-probably isn't the last function to be implemented. All this would require
+probably is not the last function to be implemented. All this would require
 update of the scenario parser, the implementation for commands and all their
 attributes and thus update of the whole backend every time, new functionality is
-needed. The advantage is, that user doesn't have to know JavaScript and
+needed. The advantage is, that user does not have to know JavaScript and
 understand how it is called in WebDriver. It is discutable if XXX
 
 With use of JavaScript it might look as follows: 
@@ -337,7 +337,7 @@ Note that the first line of the original JavaScript was omitted:
 {\tt var elem = arguments[0];} 
 
 It can be automatically prepended every time, we exec JavaScript on a single
-DOM element. It is a simple helper and doesn't interfere with anything XXX (as
+DOM element. It is a simple helper and does not interfere with anything XXX (as
 we can redefine variable as many times as we want). Similarly we could
 predefine variable {\tt value} when passing a string or number to a JavaScript
 function. 
@@ -349,7 +349,7 @@ considerations.
 
 Firstly, JavaScript function can accept any number of parameters and return an
 arbitrary value. In both cases, the parameters and the return value, we can be
-of any of the allowed types (as JavaScript isn't strongly typed language). We
+of any of the allowed types (as JavaScript is not strongly typed language). We
 thus have to specify what exact parameters are being passed to a function and
 what result is expected. We also have to implement a robust way of controlling
 and properly define a fallback-on-error behavior. This is especially important
@@ -395,7 +395,7 @@ when assigning properties.
 
 Direct interaction with current window in any way that changes page location
 will, however, irreversibly invalidate all the elements of current DOM. This
-doesn't have to mean we can't use this functionality all together. Probably the
+does not have to mean we can't use this functionality all together. Probably the
 best solution would be to only allow DOM modifying operations on the bottom
 level of templates (i.e. within the {\tt steps} property of the {\tt template}
 command in scenario). At this place we only hold the {\tt body} of current

@@ -29,8 +29,8 @@ implementation) that allow users to add meaning to their data. This meaning
 brings not only a standardized structure, but also, as a consequence, the
 possibility to query and reason on data originating from multiple sources. Once
 given the structure, similar data can be joined in a form of a bigger bulk.
-Presenting this data publicly creates a virtual cloud. This phenomena is
-called Linked Data. 
+Presenting this data publicly creates a virtual cloud. When put together this
+practices are called the Linked Data. 
 
 % The goal of this work is to make the creation of semantic data more effective!
 % STATE THE GOAL HERE! VERY EXPLICITLY.
@@ -49,11 +49,12 @@ tool. Results will be confronted with real life use cases.
 % TODO v dusledku chceme obecne zjednodusit pridavani vyznamu datum na webu
 
 Giving meaning, i.e. semantization of web pages, gets more popular. Probably the
-most obvious example can be seen in the way the Google search engine serves
-its results. Presenting not only the resulting pages but as well snippets of
-information scraped directly from the page content such as menu fields parsed
-from CSS annotation or HTML5 tags, contact information or opening hours, or
-even visualizing data from their own internal ontology, the Knowledge
+most obvious example can be seen in the way the Google search engine serves its
+results. When possible, Google presents not only the list of pages
+corresponding to the searched term but also snippets of information scraped
+directly from the content of the pages such as menu fields parsed from CSS
+annotation or HTML5 tags, contact information or opening hours. When applicable
+Google also adds data from their own internal ontology, the Knowledge
 Graph\cite[wiki:gkg]. 
 
 ~
@@ -68,7 +69,7 @@ What options are there to bring real semantic into a webpage? One direction to
 go is to annotate data on ``the server side'', i.e. at the time it is being
 created and/or published. When we are in position of owner of the data or
 server, we can help not only Google or DuckDuckGo\fnote{An anonymous search
-alternative to Google \url{http://duckduckgo.com}} to ``understand'' our
+alternative to Google \url{http://duckduckgo.com}} to understand our
 website. To avoid confusion, this part is not focused on SEO -- the search
 engine optimization\cite[wiki:seo], even though the topic overlaps in many
 ways. SEO primarily focuses on increasing the ranking of a webpage in the eyes % XXX
@@ -89,7 +90,7 @@ clearer specification of the page structure (such as {\tt nav}, {\tt article},
 Microformats\cite[microformats] define specialized values for HTML {\tt class}
 attribute to bring standardized patterns for several basic use cases with fixed
 structure, such as {\em vCard} or {\em Event}. The microformat approach is easy
-to implement as it doesn't impose any extra syntax an can simply embed an
+to implement as it does not impose any extra syntax an can simply embed an
 existing page source. As the community around microformats states
 ``(Microformats are) designed for humans first and machines second.''
 
@@ -121,8 +122,8 @@ readers to understand it.
 To bypass the gap between unstructured data present on the web on one side and
 rich, linked, meaningful ontologies on the other, we can take the opposite
 direction to the one described so far. We can take the unannotated data already
-present on the web and retrieve them in a form, that is defined by some
-ontology structure.
+present on the web and retrieve them in a form, defined by some ontology
+structure.
 %This process can be performed either automatically or manually. 
 
 %When coming to the automated crawling, we're mostly interested in improving
@@ -262,13 +263,13 @@ by hardcoded configuration.
 
 The main challenge of this use case lays in JavaScript. Each row of the data
 table has the {\tt onclick} attribute defined. Unlike the classical ``link''
-(also known as the anchor or {\tt a} tag) the onclick attribute doesn't
+(also known as the anchor or {\tt a} tag) the onclick attribute does not
 contain URL, but rather a JavaScript function content, that handles the click
 event.
-After closer investigation \ref[screen:npu-html] we can observe, that in this case, the function
-advances to the detail page of the clicked record by modifying a value of a
-hidden {\tt input} tag and by submitting a {\tt form} parametrized by the
-value. 
+After closer investigation \ref[screen:npu-html] we can observe that in this
+case, the function advances to the detail page of the clicked record by
+modifying a value of a hidden {\tt input} tag and by submitting a {\tt form}
+parametrized by the value. 
 
 \midinsert
 \clabel[screen:npu-html]{Preview of HTML analysis on National Heritage Institute webpage}
@@ -483,10 +484,10 @@ elegant and generic solution is evident.
 To simplify the creation of guidelines -- scenarios -- for crOWLer, we will propose a
 tool that allows user to select elements directly on the crawled web page, with
 all the necessary settings, pass the scenario created to the crOWLer and obtain
-the results in a form of RDF graph. 
+the results in a form of an RDF graph. 
 
 
-\sec Specific goals of the project
+\sec Specific goals of the thesis
 
 \begitems
   * define use-cases for the semantic data creation 
