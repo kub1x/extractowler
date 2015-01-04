@@ -165,7 +165,7 @@
 \begtt
 {
   type: "scenario", 
-  name: "manual", 
+  name: "scenario", 
   ontology: {
     base: "http://kub1x.org/onto/dip/t/", 
     imports : [
@@ -259,3 +259,141 @@
 }
 \endtt
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label[app:uc1-result]
+\app Result of crOWLer run on UC1
+
+URIs in attributes were prefixified for compactness. 
+
+\begtt
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:kbx="http://kub1x.org/onto/dip/t/"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:foaf="http://xmlns.com/foaf/0.1/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#" > 
+  <rdf:Description rdf:about="kbx:scenario-201412060213045124">
+    <rdf:type rdf:resource="owl:Ontology"/>
+    <owl:imports rdf:resource="kbx:"/>
+    <owl:imports rdf:resource="foaf:"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="kbx:scenario-201412060213045124/indiv-201412060213050157">
+    <rdf:type rdf:resource="foaf:Person"/>
+    <foaf:firstName rdf:datatype="xsd:string">Jack</foaf:firstName>
+    <foaf:lastName rdf:datatype="xsd:string">Black</foaf:lastName>
+    <foaf:phone rdf:datatype="xsd:string">603123123</foaf:phone>
+    <foaf:nickname rdf:datatype="xsd:string">Jackie</foaf:nickname>
+  </rdf:Description>
+  <rdf:Description rdf:about="foaf:firstName">
+    <rdf:type rdf:resource="owl:DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="foaf:Person">
+    <rdf:type rdf:resource="owl:Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="foaf:nickname">
+    <rdf:type rdf:resource="owl:DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="kbx:scenario-201412060213045124/indiv-201412060213058113">
+    <rdf:type rdf:resource="foaf:Person"/>
+    <foaf:firstName rdf:datatype="xsd:string">Foo</foaf:firstName>
+    <foaf:lastName rdf:datatype="xsd:string">Bar</foaf:lastName>
+    <foaf:phone rdf:datatype="xsd:string">0x1AF49C70</foaf:phone>
+  </rdf:Description>
+  <rdf:Description rdf:about="kbx:scenario-201412060213045124/indiv-201412060213057696">
+    <rdf:type rdf:resource="foaf:Person"/>
+    <foaf:firstName rdf:datatype="xsd:string">John</foaf:firstName>
+    <foaf:lastName rdf:datatype="xsd:string">Doe</foaf:lastName>
+    <foaf:phone rdf:datatype="xsd:string">0x1AF49B01</foaf:phone>
+  </rdf:Description>
+  <rdf:Description rdf:about="foaf:phone">
+    <rdf:type rdf:resource="owl:DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="foaf:lastName">
+    <rdf:type rdf:resource="owl:DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="kbx:scenario-201412060213045124/indiv-201412060213057200">
+    <rdf:type rdf:resource="foaf:Person"/>
+    <foaf:firstName rdf:datatype="xsd:string">Meg</foaf:firstName>
+    <foaf:lastName rdf:datatype="xsd:string">White</foaf:lastName>
+    <foaf:phone rdf:datatype="xsd:string">603123321</foaf:phone>
+  </rdf:Description>
+</rdf:RDF>
+\endtt
+
+
+\label[app:rdfquery-dump]
+\app Example of JSON dump of rdfquery datastore
+
+\begtt
+{
+  "http://xmlns.com/foaf/0.1/Person": {
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": [
+      {
+        "type": "uri",
+        "value": "http://www.w3.org/2000/01/rdf-schema#Class"
+      },
+      {
+        "type": "uri",
+        "value": "http://www.w3.org/2002/07/owl#Class"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "type": "literal",
+        "value": "Person"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "type": "literal",
+        "value": "A person."
+      }
+    ],
+    "http://www.w3.org/2003/06/sw-vocab-status/ns#term_status": [
+      {
+        "type": "literal",
+        "value": "stable"
+      }
+    ],
+    "http://www.w3.org/2002/07/owl#equivalentClass": [
+      {
+        "type": "uri",
+        "value": "http://schema.org/Person"
+      },
+      {
+        "type": "uri",
+        "value": "http://www.w3.org/2000/10/swap/pim/contact#Person"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "type": "uri",
+        "value": "http://xmlns.com/foaf/0.1/Agent"
+      },
+      {
+        "type": "uri",
+        "value": "http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
+      {
+        "type": "uri",
+        "value": "http://xmlns.com/foaf/0.1/"
+      }
+    ],
+    "http://www.w3.org/2002/07/owl#disjointWith": [
+      {
+        "type": "uri",
+        "value": "http://xmlns.com/foaf/0.1/Organization"
+      },
+      {
+        "type": "uri",
+        "value": "http://xmlns.com/foaf/0.1/Project"
+      }
+    ]
+  }
+}
+\endtt

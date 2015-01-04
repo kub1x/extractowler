@@ -1,5 +1,5 @@
 \label[chap:implementation] 
-\chap Program Implementation
+\chap Program Implementation and Results
 
 This chapter describes the implemented prototype of SOWL--crOWLer tool stack. 
 The relation between tools can be seen on diagram \ref[pic:sowl-crowler-stack]. 
@@ -45,6 +45,11 @@ consider utilizing its reasoning capabilities in future development.
 
 \secc Targeting elements on webpage and generating selectors
 
+\midinsert \clabel[pic:selector-creation]{Diagram of selector creation algorithm}
+\picw=7cm \cinspic selector-creation.png
+\caption/f Diagram of selector creation algorithm 
+\endinsert
+
 Inspired by the InfoCram project we decided to use Aardvark code in order to 
 target elements on webpage and obtain their selectors. 
 
@@ -60,8 +65,7 @@ aardvark code is included in the addon files extended with features necessary
 for SOWL. Namely the event handling was extended by drag/drop events and 
 selector creation algorithm was added. 
 
-The selector creation was implemented as specified in XXX design->selector
-creation XXX.  Even though it was rewritten it behaves almost identically as in
+Even though it was rewritten it behaves almost identically as in
 InfoCram. We simply bubble up the DOM tree until we meet our context. On each
 element we try to generate unique selector according to the elements parent
 element. The last method to try is the {\tt :nth-child()} selector which always
@@ -69,7 +73,7 @@ exists and targets the correct element, but is also most prone to failures due
 tu structure changes. If possible ID or class attributes are used to target the
 element. 
 
-As use case 2 XXX shown we can not always rely on class selectors as they are 
+As use case 2 \ref[sec:intro:uc2] shown we can not always rely on class selectors as they are 
 often dynamically modified by pages JavaScript. For this reason the class
 selector are disabled by default, but they are supported by crOWLer and can be
 manually specified in the selector field. Aardvark shows the class of a hovered
@@ -91,7 +95,7 @@ models and storage of RDF data. The complete architecture can be better seen on
 the component model in appendix \label[app:crowler-new-component]. 
 
 \midinsert \clabel[pic:crowler-new-overall]{The overall architecture of new crOWLer implementation}
-\picw=14cm \cinspic crowler-new.png
+\picw=12cm \cinspic crowler-new.png
 \caption/f The overall architecture of new crOWLer implementation
 \endinsert
 
@@ -119,5 +123,8 @@ XXX include class diagram..?
 %\secc Implemented and unimplemented capabilities
 %
 %XXX
+
+
+\sec Results
 
 

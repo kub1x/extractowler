@@ -4,7 +4,7 @@
 This chapter defines the overall behavior of the program stack derived from
 presented use cases.
 
-TODO use cases analysis here?  XXX XXX XXX 
+TODO use cases analysis here?
 
 \sec Workflow
 
@@ -97,10 +97,7 @@ each context separately and/or both at the same time.
 \secc Strigil/XML
 
 Strigil, the scraping platform in order to solve similar problem as crOWLer
-introduces its own XML based Scraping Script format. Its documentation can be
-found here XXX
-\urlnote{https://drive.google.com/file/d/0B4On-lGb38CgWlAyZDhGbDV2TFk/edit
-Scraping script documentation}. 
+introduces its own XML based Scraping Script format \cite[strigilxml]. 
 
 Basis of the whole script is system of {\em templates}. Each template has a name
 and mime-type declaring type of document the template is designed for. This
@@ -306,9 +303,6 @@ immediately with a {\tt response} object. It provides callback as additional
 argument to the JavaScript call. This callback is used for synchronization when
 accessing the result on the {\tt response} object from Java.  
 
-%XXX TODO better example this one is from
-%here~\urlnote{http://docs.seleniumhq.org/docs/03_webdriver.jsp\#using-JavaScript}
-
 \begtt
 JavaScriptExecutor exec = (JavaScriptExecutor)driver;
 List<WebElement> labels = driver.findElements(By.tagName("label"));
@@ -408,7 +402,7 @@ will predefine variable {\tt elems} when a list of elements is passed, {\tt
 value} when passing a string or number to a JavaScript function. 
 
 But with great power comes a great current squared times
-resistance~\urlnote{http://www.xkcd.com/643/} XXX. With usage of JavaScript as
+resistance~\urlnote{http://www.xkcd.com/643/ XXX}. With usage of JavaScript as
 suggested in previous paragraphs we have to take in account two major
 considerations. 
 
