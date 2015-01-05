@@ -1,4 +1,4 @@
-NAME=diplomka
+NAME=diploma_thesis-podlajak
 
 all: compile run
 
@@ -16,10 +16,6 @@ run:
 
 acro_kill:
 	taskkill.exe /IM AcroRd32.exe || true
-	#taskkill.exe /PID `ps -W | grep "AcroRd32.exe" | cut -s -d' ' -f4 | tail -1`
-
-#deploy: 
-	#cp jakub_podlaha-cv.pdf /cygdrive/c/Users/kub1x/Downloads/
 
 clean: 
-	rm *.aux *.blg *.dvi *.log *.out *.ref
+	rm *.aux *.blg *.dvi *.log *.out *.ref *.lbr
