@@ -74,7 +74,7 @@ extracted from Wikipedia. This best describes the notion of Linked data. When
 two datasets relate to the same resource, they can be logically linked together
 through this connection, as this way they state, they relate to the same thing. 
 
-\midinsert
+\midinsert \clabel[pic:lod]{Linking Open Data cloud diagram}
 \picw=10cm \cinspic lod.png
 \caption/f The Linking Open Data cloud diagram
 \endinsert
@@ -136,13 +136,13 @@ capabilities come in with well defined semantics. Usage of each feature
 brought in by OWL semantics extends requirements on resolver being used for
 reasoning on our ontology and brings in necessary computational complexity. 
 
-Including some more readings on OWL: 
-
-\begitems
- * \url{http://www.w3.org/TR/owl2-primer/}
- * \url{https://en.wikipedia.org/wiki/Web_Ontology_Language}
- * \url{http://www.w3.org/TR/2012/REC-owl2-quick-reference-20121211/}
-\enditems
+%Including some more readings on OWL: 
+%
+%\begitems
+% * \url{http://www.w3.org/TR/owl2-primer/}
+% * \url{https://en.wikipedia.org/wiki/Web_Ontology_Language}
+% * \url{http://www.w3.org/TR/2012/REC-owl2-quick-reference-20121211/}
+%\enditems
 
 
 %\sec Ontology repositories
@@ -162,6 +162,7 @@ attributes. Tools can be used to visualise this data
 \urlnote{http://rdfa.info/play/}. 
 
 
+\label[sec:sparql]
 \sec SPARQL
 
 SPARQL is a semantic query language for data stored in RDF format \cite[wiki:sparql].
@@ -178,9 +179,11 @@ resources from database that have a rdf:type associated to it.
 
 \begtt
 PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-SELECT ?target ?type
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+SELECT ?target ?name
 WHERE {
-  ?target rdf:type ?type;
+  ?target rdf:type foaf:Person;
+  OPTIONAL { ?target foaf:name ?name }
 }
 \endtt
 

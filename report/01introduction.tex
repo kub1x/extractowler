@@ -221,8 +221,7 @@ In order to fulfill this use case SOWL shall support following operation:
 CrOWLer shall be able to to perform following tasks. 
 
 \begitems 
-  * Accept and parse scenario created by SOWL. 
-  * Follow this scenario while scraping data from the page. 
+  * Parse scenario created by SOWL and follow it while scraping data from the page. 
   * Store results into RDF files. 
 \enditems
 
@@ -345,7 +344,10 @@ types of accidents. The resource corresponding to the string scraped from
 table would than be used as a value of object property instead of the original
 string literal. The original literal is assigned to this resource as a ``label''. 
 
+~
+
 For example we can use (in turtle syntax \ref[sec:turtle]): 
+
 \begtt
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 @prefix rlp:  <http://kub1x.org/dip/rlp#>
@@ -379,13 +381,15 @@ either as a constant string or obtained by combining other string values
 probably in a form of a pattern.
 
 \midinsert
+\clabel[screen:uzpln-list]{View on list page on Air Accidents Investigation Institute}
 \picw=12cm \cinspic screen-uzpln-list.png
-\caption/f View on list page on Air Accidents Investigation Institute. 
+\caption/f View on list page on Air Accidents Investigation Institute
 \endinsert
 
 \midinsert
+\clabel[screen:uzpln-detail]{View on detail page on Air Accidents Investigation Institute}
 \picw=12cm \cinspic screen-uzpln-detail.png
-\caption/f View on detail page on Air Accidents Investigation Institute. 
+\caption/f View on detail page on Air Accidents Investigation Institute
 \endinsert
 
 \begitems

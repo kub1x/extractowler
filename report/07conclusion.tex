@@ -1,22 +1,67 @@
 \label[chap:conclusion]
 \chap Conclusion
 
-TBD
+This diploma thesis investigates current situation in the field of Semantic
+Web. It specifically focuses on automated semantic data extraction.
+
+At first available tools were researched. Deeper analysis
+revealed useful patterns and techniques as well as weaknesses in some of the
+examined tools and platforms. Especially an implementation of prototype of
+lightweight semantic crawler crOWLer was examined and documented. The research
+was focused on improvement of configuration of scraping process. 
+
+By examining Strigil, the scraping system, a new template-based approach in
+scraping of the semantical data was revealed. The functionality of Strigil and
+crOWLer was compared on real life use cases. The Strigil/XML syntax for
+scraping scripts was examined and  several possibilities for improvements were
+described. According to original XML syntax a new JSON based syntax was derived
+and documented. 
+
+Open source Firefox addons InfoCram 6000 and Selenium IDE were chosen as
+potential bases for future frontend implementation. Neither of them showed to
+be suitable for the intended use, but each brought a new knowledge. Algorithm
+for selector generation and aardvark, the element selection engine, later used
+in SOWL originate in the InfoCram 6000. Selenium IDE relates to WebDriver
+engine which was later included in the final crOWLer prototype. 
+
+Options to use JavaScript as a language for extending the scraping script
+functionality were thoroughly researched. Several useful patterns for
+JavaScript usage were revealed and the results documented together with
+examples of JavaScript and Java code. 
+
+A prototype Firefox addon named SOWL was created as a tool for generating
+scenarios in the proposed JSON syntax. Subset of the syntax necessary to cover
+example use case was involved in the implementation. 
+
+The crOWLer tool was newly implemented. Support of the new scenario syntax was
+added and replaced the original hardcoded configuration. A subset of the scenario
+commands was fully implemented and tested using sample use case. The template
+based approach was implemented instead of loop based. The JSOUP library was
+replaced by WebDriver and PhantomJs in order to enable JavaScript.
+
+The prototype of the semantic crawler was successfully created as a pair of tools
+SOWL -- crOWLer. The rdfquery library used in SOWL enables it to bring in power to
+handle semantical structures before we start crOWLer or after, in a form of visual
+feedback using RDFa. The new architecture of crOWLer along with WebDriver opens
+possibilities for future extension and utilisation of JavaScript. 
+
+But mainly, a tool was created that simplifies the process of description of
+semantical content of web for users. 
 
 It is suitable to notice, that in many cases the intentions and activities of
 semantic web community focus on government data~\cite[opengovernmentdata].
 The common goal leads us to turn the web into an open, accessible source of
 knowledge and data of all kinds, linking the data together where possible.
-Naturally the governmental data and statistics get the most attention.
-Government handles, collects and is ofthen obliged to publish in some form a
+Naturally, the governmental data and statistics get the most attention.
+Government handles, collects and is often obliged to publish in some form a
 lot of data and statistics. Not always this form complies with standards of
 semantic web. Sometimes it might even be the case of intentional presenting of
 malformed data or obfuscation. In the big picture, misinformation of people
 seems to be the major thread to democracy as we usually envision it. By
 supporting the creation of semantic data we are naturally taking part in this
 movement. The hope is to bring government data closer to people to help
-overcome the information gap that prevents each one of us from being adequately
-informed about how our resources are being spent an how our countries are truly
+overcome the information gap that prevents each of us from being adequately
+informed about how our resources are being spent and how our countries are truly
 led and offices driven. I hope this and any follow-up work will serve to
 support this common vision. 
 

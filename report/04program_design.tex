@@ -1,10 +1,9 @@
 \label[chap:design]
-\chap Program stack design
+\chap Program design
 
 This chapter defines the overall behavior of the program stack derived from
 presented use cases.
 
-TODO use cases analysis here?
 
 \sec Workflow
 
@@ -13,9 +12,9 @@ can derive the general workflow for both SOWL and crOWLer part of the
 implementation. 
 
 \midinsert
-%\clabel[general_workflow]{An activity diagram of the general workflow of the stack}
-\picw=14cm \cinspic general-workflow.png
-%\caption/f Diagram of general workflow as derived from presented use case
+\clabel[general-workflow]{Diagram of the general workflow of the stack}
+\picw=12cm \cinspic general-workflow.png
+\caption/f Diagram of the general workflow of the stack
 \endinsert
 
 ~
@@ -344,12 +343,10 @@ JavaScript. The {\tt getCurrentUrl} function is inspired by Strigil.
   param: "#", 
   value: {
     commad: "value-of", 
-    selector: "a.detail", 
-  }
+    selector: "a.detail", }
   onfalse: {
     command: "function", 
-    value: "getCurrentUrl", 
-  }
+    value: "getCurrentUrl", }
 }
 \endtt
 
@@ -402,7 +399,7 @@ will predefine variable {\tt elems} when a list of elements is passed, {\tt
 value} when passing a string or number to a JavaScript function. 
 
 But with great power comes a great current squared times
-resistance~\urlnote{http://www.xkcd.com/643/ XXX}. With usage of JavaScript as
+resistance~\urlnote{http://www.xkcd.com/643/}. With usage of JavaScript as
 suggested in previous paragraphs we have to take in account two major
 considerations. 
 
@@ -543,8 +540,9 @@ running.  All three components communicate via textual messages using {\tt
 port} object offered internally by by Firefox. 
 
 \midinsert
+\clabel[pic:sowl-components]{Components structure of the SOWL Firefox addon}
 \picw=12cm \cinspic sowl-components.png
-\caption/f A component structure of the SOWL Firefox addon. 
+\caption/f Components structure of the SOWL Firefox addon
 \endinsert
 
 
@@ -562,19 +560,8 @@ library).
 The overall architecture then looks as follows: 
 
 \midinsert
+\clabel[pic:crowler-new]{A new overall architecture of the crOWLer implementation}
 \picw=7.5cm \cinspic crowler-new.png
-\caption/f A new overall architecture of the crOWLer implementation. 
+\caption/f A new overall architecture of the crOWLer implementation 
 \endinsert
-
-
-%TODO
-%\sec Issues - solved and unsolved
-%
-%\begitems
-%  * error handling (non existent selector, missing data, ...)
-%\enditems
-
-% * diagramy... clas, sequence (komunikace s jOWLem, komunikace s generatorem selectoru, ), 
-% * model
-% * vyresene, nevyresene problemy
 

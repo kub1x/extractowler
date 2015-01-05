@@ -308,15 +308,11 @@ this means hundreds of thousands of calls for each run of the crOWLer (over
 implemented to reduce this amount to the necessary minimum. We are still bound by
 the double loop architecture though. 
 
-~
-
 The UC3 \ref[sec:intro:uc3] is equal to UC1 according to configuration complexity. 
 All links are implicitly specified in a form of hyperlinks without any interruption 
 or dynamic content change. Moreover in crOWLer configuration we can specify
 what properties will, combined together, form URI of ontological object we are
 building. This is exactly the additional functionality required by UC3. 
-
-~ 
 
 The specificity of fourth use case \ref[sec:intro:uc4], as described, lays in
 AJAX driven pagination. Every ``page change'' event dynamically updates the 
@@ -358,7 +354,6 @@ loop). The option of incorporating JavaScript will get an extra attention.
 Previous section roughly define requirements on scenario for semantic crawler.
 To fully satisfy all considered use cases in all settings, in addition to the
 functionality implemented so far, we would have to cover the: 
-
 \begitems
   * following hyperlinks on a page, 
   * firing JavaScript and browser events, 
@@ -450,18 +445,123 @@ documentation, nor in examples examined.
 
 \secc Confronting Strigil with use cases
 
-TODO
+As a basic example UC1\ref[sec:intro:uc1] can be solved by Strigil. We are
+presuming here that strigil carries the ontological context through template
+calls. Notice in the following example that the {\tt value-of} tag in the
+template named ``detail'' does not have any {\tt onto-elem} defined above it.
+By carrying the ontological context we denote that every property specified by
+the children nodes of the {\tt template} will be assigned to individual created
+by {\tt onto-elem} containing the invoked {\tt call-template}, i.e. the
+property assignment will bubble through the template call until it finds an
+{\tt onto-elem} node.  Unfortunately Strigil documentation does not state this
+clearly and the examples provided do not contain the ontological context
+carrying structure. 
 
+\begtt
+<scr:template name="init">
+  <scr:onto-elem typeof="foaf:Person"
+                 selector="tr">
+    <scr:call-template name="detail">
+      <scr:value-of selector=".detail @href" />
+    </scr:call-template>
+  </scr:onto-elem>
+</scr:template>
+
+<scr:template name="detail">
+  <scr:value-of property="foaf:nickname"
+                selector=".nick" />
+</scr:template>
+\endtt
+
+Also it is important to note, that strigil uses JSOUP selector system 
+extended by the attribute selector. In the example we target a value of
+a {\tt href} attribute of elements with class {\tt detail}. The "@" tag 
+is probably taken from XPath\cite[w3c:xpath]. This kind of extension 
+is rather unfortunate as it combines two different syntaxes. As we 
+primarily use JSOUP, the space in the selector sting denotes {\em any 
+descendant}. In that case we would read the example selector as ``any href
+attribute of any descendant of elements with class detail'' which probably is
+not the intended meaning. We would suggest adding attribute named {\tt
+attribute} to the {\tt value-of} element rather then extending the JSOUP
+syntax. 
+
+Strigil Scraping Script also does not allow the {\tt selector} attribute on the
+{\tt onto-elem} element. There seems to be no other option, even for repetitive
+patters on webpage such as table row, but to define the script on each one of
+them. By allowing the {\tt selector} attribute we would bring in an intuitive
+structure meaning ``create individual for each matching element''. 
+
+For simplification we suggest implementation of these suggestions in following
+analysis. 
+
+~ 
+
+Second use case \ref[sec:intro:uc2] would be solved in similar manner as in 
+the hardcoded crOWLer solution, i.e. by extracting a value from onclick
+attribute and manually building the target URL. 
+
+\begtt
+<scr:template name="init">
+  <scr:onto-elem typeof="npu:MonumnetRecord"
+                 selector="tr">
+    <scr:call-template name="detail">
+      <scr:function name="conc">
+        <scr:with-param>
+          <scr:value-of text="http://monumnet.npu.cz/?idReg=" />
+        </scr:with-param>
+        <scr:with-param>
+          <scr:value-of selector="."
+                        attribute="onclick"
+                        regexp=".*(d+).*"
+                        replace="{0}" />
+        </scr:with-param>
+      </scr:function>
+    </scr:call-template>
+  </scr:onto-elem>
+</scr:template>
+
+<scr:template name="init">
+  (...)
+</scr:template>
+\endtt
+
+~
+
+In case of UC3 and UC4 the situation is practically identical for Strigil and
+for crOWLer.
+
+Just like crOWLer, Strigil natively supports setting of values used to create
+identifier for an individual. In Strigil an URI of individual crated by {\tt
+onto-elem} is specified by the first {\tt value-of} child node that returns a
+value (i.e. does not have the {\tt property} attribute specified). In crOWLer
+we can only specify what data properties will be part of the generated identifier
+in Strigil we can create arbitrary URI using {\tt value-of} elements and
+functions provided. 
+
+Strigil does not handle AJAX calls and a workaroud would have to be implemented
+for UC4. Just like crOWLer, Strigil downloads the raw HTML page and thus does
+not even encounter the pagination widget present on the page. 
+
+~
 
 \secc What inspiration it brings for crOWLer
 
+\begitems
+  * The scraping script specifies the template system. Compared to loops in crOWLer
+it appeals more natural and well structured. It also brings extra flexibility by
+calling templates from within each other.
 
+  * The XML format is, however rather verbose. Other, less verbose syntax might
+serve better while persisting most of the semantic. 
 
-%\secc Suggestions for improvements
-%
-% default language tag
-% language as an attribute
+  * The system of functions provided, gives a good set of tools for string
+manipulation. Sometimes we encounter a problem-specific notion (e.g. function
+for conversion of Czech and English date formats, rather than general use date
+parser).
 
+  * If the Strigil Scraping Script gets implemented in the crOWLer in some form,
+the suggested improvements will be incorporated in the implementation as well. 
+\enditems
 
 
 \sec Finding platform for frontend
@@ -491,7 +591,7 @@ of crOWLer. It extracts data according to definitions by InfoCram 6000. The
 result is stored in JSON format thus not carrying semantic information, but
 only set of raw data in some form. 
 
-\midinsert
+\midinsert \clabel[pic:infocram]{Main Window of InfoCram 6000}
 \picw=7cm \cinspic infocram.png
 \caption/f Main window of InfoCram 6000
 \endinsert
@@ -638,18 +738,6 @@ a consequence these limitations are critical and disallow us from properly
 implementing SOWL on top of the Selenium IDE. 
 
 
-%\sec Libraries for crOWLer
-%
-%\secc WebDriver
-%
-%~
-%TODO
-%
-%\secc Apache Jena
-%
-%~
-%TODO
-
 \sec Libraries for SOWL
 
 Research on existing JavaScript libraries that handle RDF data resulted in two
@@ -697,7 +785,22 @@ jQuery. Moreover the whole concept is based on SPARQL and design in a manner
 that make the resulting JavaScript code look familiar when compared to native
 SPARQL query. 
 
-%TODO example
+To better show the similarity, we are presenting a rdfquery code equivalent to
+this SPARQL query \ref[sec:sparql] along with printing of its output. 
+
+\begtt
+\$.rdf()
+  .prefix('foaf', 'http://xmlns.com/foaf/0.1/')
+  .where('?person a foaf:Person')
+  .optional('?person foaf:name ?name')
+  .each(function () {
+    var person = this.person.value,
+        name = this.name === undefined
+                 ? 'Anonymous'
+                 : this.name.value;
+    console.log(person + " has name: " + name);
+  });
+\endtt
 
 
 \secc aardvark

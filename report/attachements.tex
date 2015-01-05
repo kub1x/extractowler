@@ -122,7 +122,7 @@
 \label[app:crowler-old-selector-class]
 \app Selector component of original crOWLer
 
-\picw=12cm\cinspic crowler-old-selector-class.png
+\picw=14cm\cinspic crowler-old-selector-class.png
 
 ~ 
 
@@ -141,17 +141,17 @@
 \app Detailed architecture of Strigil platform
 
 \midinsert \clabel[pic:strigil-data_application]{Components of Data Application part of Strigil}
-\picw=10cm \cinspic strigil-data_application.png
+\picw=14cm \cinspic strigil-data_application.png
 \caption/f Components of Data Application part of Strigil 
 \endinsert
 
 \midinsert \clabel[pic:strigil-download_system]{Components of Download System part of Strigil}
-\picw=10cm \cinspic strigil-download_system.png
+\picw=14cm \cinspic strigil-download_system.png
 \caption/f Components of Download System part of Strigil 
 \endinsert
 
 \midinsert \clabel[pic:strigil-deployment]{Example deployment structure of Strigil}
-\picw=10cm \cinspic strigil-deployment.png
+\picw=14cm \cinspic strigil-deployment.png
 \caption/f Example deployment structure of Strigil 
 \endinsert
 
@@ -397,3 +397,73 @@ URIs in attributes were prefixified for compactness.
   }
 }
 \endtt
+
+
+\app User manual for SOWL and crOWLer
+
+\sec SOWL 
+
+\begitems \style n
+  * SOWL is installed from XPI file as a regular Firefox extension. After
+  installation an icon will show next to the addressbar which opens sidebar
+  with SOWL. 
+
+  * The user interface divides into two parts: the scenario editor (top half) and the
+  resources list (bottom half). 
+
+  * Keyboar shortcuts and mouse controls are used to navigate through the scenario editor. 
+  \begitems
+    * arrows or h,j,k,l -- navigate parent, down, up, child 
+    * Ctrl + Enter -- toggle editing
+    * A  -- append step as a child
+    * a  -- append step as a sibling
+    * I  -- prepend step as a parent
+    * i  -- prepend step as a sibling
+  \enditems
+
+  * To load an ontology from file, simply drop the file onto the resources list. 
+
+  * To assign a selector to a step, drag the element from webpage and drop it
+  onto the step (selection have to be started as denoted by red border around the
+  hovered element). 
+  \begitems
+    * press n,w to narrow or wider the selected element (webpage have to be
+      focused). 
+  \enditems
+
+  * To assign a resource to a step, drag it from resources list and drop it
+  onto the step. 
+\enditems
+
+
+\sec crOWLer
+
+
+\begitems \style n
+
+  * crOWLer depends on an instance of PhantomJS \urlnote{http://phantomjs.org}
+  running in the background. 
+
+  * crOWLer is distributed in a form of jarball. A run.sh script can be used to run it. 
+
+  * crOWLer accepts several command line attributes
+  
+  \begitems
+    * "--scenario <file>" -- the scenario file (required)
+    * "--rdfDir <path>" -- the path to directory for storing RDF files
+    * "--phantom <path>" -- the path to phantomjs.exe
+    * "--sesameUrl <url>" -- an addres of sesame server (when specified, rdfDir will be ignored)
+    * "--repositoryId <repo>" -- an identifier of the sesame repository
+  \enditems
+\enditems
+
+
+
+
+
+
+
+
+
+
+

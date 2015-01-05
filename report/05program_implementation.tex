@@ -1,5 +1,5 @@
 \label[chap:implementation] 
-\chap Program Implementation and Results
+\chap Program Implementation and Specifications
 
 This chapter describes the implemented prototype of SOWL--crOWLer tool stack. 
 The relation between tools can be seen on diagram \ref[pic:sowl-crowler-stack]. 
@@ -99,12 +99,6 @@ the component model in appendix \label[app:crowler-new-component].
 \caption/f The overall architecture of new crOWLer implementation
 \endinsert
 
-XXX XXX XXX 
-
-XXX XXX XXX 
-
-XXX XXX XXX 
-
 %Scenario based on Strigil/XML syntax (or its JSON alternative) is not directly 
 %translatable into the original crOWLer configuration. 
 %
@@ -115,16 +109,89 @@ this form the Scenario is passed to main loop. Instead of {\tt FullCrawler}
 based on JSOUP we created WebDriver based solution, the {\tt WebDriverCrawler}. 
 
 
-\secc architecture
+\sec SOWL/JSON syntax
 
-XXX include class diagram..?
-
-
-%\secc Implemented and unimplemented capabilities
-%
-%XXX
+Following is the final list of commands proposed for crOWLer implementation.
+Only a subset is implemented in the prototype. Each command is described and
+its attributes are listed (also with description). 
 
 
-\sec Results
+\secc template %%%
+
+Command defining a list of steps to be performed on document passed to it. 
+\begitems
+  * name -- name identifying the template (referenced by call-template command)
+  * steps -- list of steps of the template
+\enditems
+
+
+\secc call-template %%%
+
+Command used to call a template. If no URL is specified template shall be
+called on current context. 
+\begitems
+  * name -- name identifying the template to be called
+  * values -- defines list of commands; every command returns an URL;
+    the targeted template will be called on each URL
+  * value -- same as previous, only contains a single command
+  * selector -- URL will be taken from text of elements matched by this selector
+  * attribute -- URL will be taken from this attribute of elements matched by previous selector
+  * url -- default URL if one of the previous returns a value 
+\enditems
+
+
+\secc onto-elem
+
+Creates an ontological individual. 
+\begitems
+  * about -- contains a command returning URI identifying the newly created individual
+  * typeof -- contains the rdf:type of the individual
+  * rel -- contains an URI of Object Property; the individual is assigned to this property of his parent
+  * selector -- the individual is created for each element matching this selector
+  * steps -- list of subcommands; they will be executed in context of this individual
+            and the selected HTML element
+\enditems
+
+
+\secc value-of
+
+Returns a string value or assigns it to a data property. 
+\begitems
+  * selector -- returns a value of text content of the first element specified by this attribute
+  * attribute -- if specified a value of this attribute of the selected element is specified
+  * text -- a constant string; is returned if none of the previous targets a non-null value
+  * property -- the resulting value is assigned to this property of parent
+  individual, rather than returned; in combination with selector the values of all
+  targeted elements are assigned
+  * lang -- a language tag appended to the string before assigned as a property
+  * type -- a datatype appended to the string  before assigned as a property
+  * exec -- a JavaScript function applied to the string before it is returned
+\enditems
+
+
+\secc narrow
+
+This tag only narrows the HTML context to simplify selectors in child steps. 
+\begitems
+  * steps -- set of steps to be called on narrowed context
+  * select -- inner steps will be called on each of these elements
+  * exec -- call JavaScript function on a set of elements to filter them
+\enditems
+
+\secc function
+
+Calls a predefined function
+\begitems
+  * name -- name of the called function one of following: 
+  \begitems
+    * conc -- concatenate all strings into one
+    * join -- similar to previous; inserts the first string between all the other ones when connecting
+    * parseDate -- takes date format string as a first parameter and date to be parsed as second; 
+              it returns the parsed date in xsd:Date or null
+    * uuid -- takes no parameters, returns a new UUID
+    * currentUrl -- takes no parameters, returns a URL of current document
+  \enditems
+  * params -- an array of commands returning values used as parameters for the function call
+\enditems
 
 
