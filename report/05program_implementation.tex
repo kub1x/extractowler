@@ -99,11 +99,6 @@ the component model in appendix \label[app:crowler-new-component].
 \caption/f The overall architecture of new crOWLer implementation
 \endinsert
 
-%Scenario based on Strigil/XML syntax (or its JSON alternative) is not directly 
-%translatable into the original crOWLer configuration. 
-%
-%XXX example of Strigil XML that can not be parsed into crOWLer configuration
-
 A new structure was implemented holding a Scenario object with its steps.  In
 this form the Scenario is passed to main loop. Instead of {\tt FullCrawler}
 based on JSOUP we created WebDriver based solution, the {\tt WebDriverCrawler}. 
@@ -193,5 +188,4 @@ Calls a predefined function
   \enditems
   * params -- an array of commands returning values used as parameters for the function call
 \enditems
-
 

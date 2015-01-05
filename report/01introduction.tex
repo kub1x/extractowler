@@ -32,9 +32,6 @@ given the structure, similar data can be joined in a form of a bigger bulk.
 Presenting this data publicly creates a virtual cloud. When put together this
 practices are called the Linked Data. 
 
-% The goal of this work is to make the creation of semantic data more effective!
-% STATE THE GOAL HERE! VERY EXPLICITLY.
-
 The intention of this work is to bring the Semantic Web technologies closer to
 users. Specifically it focuses on the process of creation of semantic data. We
 will propose a methodology for extracting and annotating data out of
@@ -44,9 +41,6 @@ tool. Results will be confronted with real life use cases.
 
 
 \sec Problem Statement and Motivation
-
-% TODO chceme oanotovat konkretni stranku konkretni ontologii
-% TODO v dusledku chceme obecne zjednodusit pridavani vyznamu datum na webu
 
 Giving meaning, i.e. semantization of web pages, gets more popular. Probably the
 most obvious example can be seen in the way the Google search engine serves its
@@ -58,12 +52,6 @@ Google also adds data from their own internal ontology, the Knowledge
 Graph\cite[wiki:gkg]. 
 
 ~
-
-%In future they are going even beyond that and suggest ``predictive search''
-%\url{http://www.nytimes.com/2013/07/30/technology/apps-that-know-what-you-want-before-you-do.html}
-%technologies, that try to guess the motivation of your search, not only its
-%meaning. \url{http://www.google.com/landing/now/}
-
 
 What options are there to bring real semantic into a webpage? One direction to
 go is to annotate data on ``the server side'', i.e. at the time it is being
@@ -110,8 +98,6 @@ examples of utilities for extracting and testing or scraping structured data:
   * Google Structured Data Testing Tool (i.e. rich snippets)~\cite[google:richsnippets]
   * RDFa Play -- tool for visualisation and extraction of RDFa content \cite[rdfa:play]
   * LDSpider -- a semantic data crawler~\cite[ldspider]
-%  \urlnote{https://code.google.com/p/ldspider/}
-%  * Slug - the (other) semantic crawler \url{http://ldodds.com/projects/slug/}
 \enditems
 
 Unfortunately, it is not always possible or desired by the web owner to embed
@@ -124,35 +110,6 @@ rich, linked, meaningful ontologies on the other, we can take the opposite
 direction to the one described so far. We can take the unannotated data already
 present on the web and retrieve them in a form, defined by some ontology
 structure.
-%This process can be performed either automatically or manually. 
-
-%When coming to the automated crawling, we are mostly interested in improving
-%ranking of search results. Ontology is used to help crawler to find relevant
-%pages to a keyword or to fine-tune the ranking
-%metrics~\urlnote{http://www.researchgate.net/publication/220830610_An_Ontology-Based_Crawler_for_the_Semantic_Web}. 
-
-%There have been several attempts in the automatic data annotation. In
-%principle, the goal of this approach is to automatically analyze a web page,
-%find the most appropriate ontology for it and use this ontology to
-%automatically annotate data on the page. 
-
-%As an example, on a webpage of a music band this would find \urlnote{
-%http://www.musicontology.com/} as the best matching schema, and it would
-%annotate band name, genre, albums using classes and  properties from this ontology. 
-
-%While on well structured, simple and/or partially annotated pages this process
-%can be very successful and produce useful results, on pages with unorganized
-%data the confidence on results produced by this approach might drop to minimum. 
-%Unfortunately many online webpages and services are poorly structured. Pages
-%containing many unrelated data, in form of advertisements or other external
-%content might confuse such an engine. Old servers present their content in
-%poorly structured or even invalid HTML usually in a form of multiple nested
-%tables that serve for structuring only and makes the whole structure of the web
-%unreadable. Social aspect of web brings in almost complete randomness
-%making it even harder to automatically reason on pages content if it can not be
-%distinguished and potentially left aside. We have mentioned few, both potential
-%and real threads that prevent us from automatically annotate all data on web
-%with confidence. 
 
 In some use cases the ontology of the desired data is yet to be created and the
 user is aware of the data structure and capable to manually spot and select the
